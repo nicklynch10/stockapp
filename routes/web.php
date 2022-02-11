@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Livewire\Stocks;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +23,12 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('overview',function(){
+   return view('overview'); })->name('overview');
+
+Route::get('portfolio',function(){
+   return view('portfolio'); })->name('portfolio');
+
+Route::get('stock', Stocks::class,)->name('stock');
+

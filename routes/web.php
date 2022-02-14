@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Stocks;
+use App\Http\Livewire\Portfolio;
+use App\Http\Livewire\Overview;
 
 
 /*
@@ -24,11 +26,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('overview',function(){
-   return view('overview'); })->name('overview');
-
-Route::get('portfolio',function(){
-   return view('portfolio'); })->name('portfolio');
-
 Route::get('stock', Stocks::class,)->name('stock');
+Route::get('portfolio', Portfolio::class,)->name('portfolio');
+Route::get('overview', Overview::class,)->name('overview');
 

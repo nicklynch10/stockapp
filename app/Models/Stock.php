@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Transaction;
 
 class Stock extends Model
 {
@@ -13,4 +14,5 @@ class Stock extends Model
     protected $fillable = [
         'stock_ticker', 'company_name','description','sector','market_cap','current_share_price','ave_cost','share_number','date_of_purchase'
     ];
+
 }

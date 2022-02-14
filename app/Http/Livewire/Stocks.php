@@ -23,13 +23,13 @@ class Stocks extends Component
     public $current_price,$price;
     public $symbol;
     public $lastInsertedID,$insertid;
-    public $type,$stock,$share_price,$date_of_transaction;
+    public $type,$stock,$share_price,$share_sold,$date_of_transaction;
     public $current_stock,$final_stock,$record;
     public $deletestock=false;
 
     public function render()
     {
-        if($this->stock_ticker!=Null)
+        if($this->stock_ticker!=Null && $this->date_of_purchase==Null)
         {
             $this->getdata($this->stock_ticker);
         }
@@ -76,6 +76,7 @@ class Stocks extends Component
     }
 
     private function resetInputFields(){
+        $this->stock_id = '';
         $this->stock_ticker = '';
         $this->company_name = '';
         $this->description = '';
@@ -91,9 +92,6 @@ class Stocks extends Component
     {
         $this->validate([
             'stock_ticker' => 'required',
-            'company_name' => 'required',
-            'market_cap' => 'required',
-            'current_share_price' => 'required',
             'average_cost' => 'required',
             'share_number' => 'required',
         ]);
@@ -141,37 +139,27 @@ class Stocks extends Component
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
-        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('d-M-Y');
+        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-M-d');
         $this->openModal();
     }
 
     public function delete($id)
     {
-        $this->deleteid=$id;
-        $this->openDeleteModal();
+        Stock::find($id)->delete();
+        session()->flash('message', 'Stock Deleted Successfully.');
+        $this->closedeletestock();
+        $this->closeModal();
     }
 
-//    public function deletestock($id)
-//    {
-//        Stock::find($id)->delete();
-//        session()->flash('message', 'Stock Deleted Successfully.');
-//        $this->closeDeleteModal();
-//        $this->closeModal();
-//    }
-
-    public function deletestock()
+    public function deletestock($id)
     {
+        $this->deleteid=$id;
         $this->deletestock=true;
     }
 
-    public function openDeleteModal()
+    public function closedeletestock()
     {
-        $this->isdeleteOpen = true;
-    }
-
-    public function closeDeleteModal()
-    {
-        $this->isdeleteOpen = false;
+        $this->deletestock=false;
     }
 
 //   Sell Stock Functions
@@ -188,6 +176,7 @@ class Stocks extends Component
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
+        $this->share_sold = '';
         $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('d-M-Y');
         $this->openSellModal();
     }
@@ -196,12 +185,12 @@ class Stocks extends Component
     {
         $this->validate([
            'share_price'=>'required',
+            'share_sold'=>'required',
         ]);
-
         Transaction::create([
                 's_id'=>$this->stock_id,
                 'type'=>1,
-                'stock'=>$this->share_number,
+                'stock'=>$this->share_sold,
                 'share_price'=>$this->share_price,
                 'date_of_transaction'=>Carbon::parse($this->date_of_purchase)->format('d-M-Y'),
             ]);
@@ -209,12 +198,12 @@ class Stocks extends Component
         if($this->stock_id)
         {
             $current_stock=Stock::select('share_number')->where('id',$this->stock_id)->first();
-            $final_stock=$current_stock->share_number-$this->share_number;
+            $final_stock=$current_stock->share_number-$this->share_sold;
             $record = Stock::find($this->stock_id);
             $record->update([
                 'share_number'=>$final_stock,
             ]);
-            session()->flash('message', 'Stock Ticker : <b>'.$this->stock_ticker. '</b> Total Sale : <b>'. $this->share_number.'</b> Shares');
+            session()->flash('message', 'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares');
             $this->closeSellModal();
         }
     }

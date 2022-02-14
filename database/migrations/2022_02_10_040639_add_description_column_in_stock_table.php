@@ -16,8 +16,8 @@ class AddDescriptionColumnInStockTable extends Migration
         Schema::table('stock', function (Blueprint $table) {
             $table->text('description')->after('company_name')->nullable();
             $table->string('sector')->after('description')->nullable();
-            $table->string('market_cap')->after('sector');
-            $table->string('current_share_price')->after('market_cap');
+            $table->string('market_cap')->after('sector')->nullable();
+            $table->string('current_share_price')->after('market_cap')->nullable();
         });
     }
 

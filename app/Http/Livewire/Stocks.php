@@ -41,8 +41,8 @@ class Stocks extends Component
     {
         if($ticker!=Null)
         {
-            $token = env('IEX_CLOUD_KEY');
-            $endpoint = env('IEX_CLOUD_ENDPOINT');
+            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+            $endpoint = 'https://cloud.iexapis.com/';
             $symbol = Http::get($endpoint . 'stable/stock/' . $ticker . '/company?token=' . $token);
             $company = $symbol->json();
             $this->company_name = $company ? $company['companyName'] : '';
@@ -108,16 +108,14 @@ class Stocks extends Component
         ]);
         $lastInsertedID = $insertid->id;
 
-        if(!$this->stock_id)
-        {
-            Transaction::Create([
+            Transaction::updateOrCreate(['s_id'=>$this->stock_id],[
                 's_id' => $lastInsertedID,
                 'type'=>0,
                 'stock'=>$this->share_number,
                 'share_price'=>$this->average_cost,
                 'date_of_transaction'=>Carbon::parse($this->date_of_purchase)->format('d-M-Y'),
             ]);
-        }
+
 
         session()->flash('message',
             $this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares');

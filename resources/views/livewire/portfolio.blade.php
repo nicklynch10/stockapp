@@ -2,7 +2,7 @@
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{__('portfolio')}}
-        <x-jet-button class="float-right"><a href="{{ route('stock') }}" >{{__('Add Transaction')}}</a></x-jet-button>
+        <a href="{{ route('stock') }}"> <x-jet-button class="float-right">{{__('Add Transaction')}}</x-jet-button></a>
     </h2>
 </x-slot>
 
@@ -107,9 +107,9 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $i++ }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $trad->type==0?'Buy':'Sell' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $trad->type==0?'Bought '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.$trad->date_of_transaction.' for $'.number_format($trad->share_price).' per share':'Sold '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.$trad->date_of_transaction.' for $'.number_format($trad->share_price).' per share' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $trad->type==0?'Bought '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F dS, Y').' for $'.number_format($trad->share_price).' per share':'Sold '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F dS, Y').' for $'.number_format($trad->share_price).' per share' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $trad->stock_ticker }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $trad->date_of_transaction }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F dS, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center {{$trad->type==0?'text-red-600':'text-green-600'}}">{{ $trad->type==0?'($'.number_format($trad->stock*$trad->share_price).')':'($'.number_format($trad->stock*$trad->share_price).')' }}</td>
                                 </tr>
                             @endforeach

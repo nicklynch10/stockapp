@@ -27,9 +27,10 @@ class Stocks extends Component
     public $current_stock,$final_stock,$record;
     public $deletestock=false;
 
+
     public function render()
     {
-        if($this->stock_ticker!=Null && $this->date_of_purchase==Null)
+        if($this->stock_ticker!=Null && $this->stock_id==Null)
         {
             $this->getdata($this->stock_ticker);
         }
@@ -85,7 +86,7 @@ class Stocks extends Component
         $this->current_share_price = '';
         $this->average_cost = '';
         $this->share_number = '';
-        $this->date_of_purchase = '';
+        $this->date_of_purchase=Carbon::now()->format('Y-m-d');
     }
 
     public function store()
@@ -95,6 +96,7 @@ class Stocks extends Component
             'average_cost' => 'required',
             'share_number' => 'required',
         ]);
+
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
             'stock_ticker' => $this->stock_ticker,
             'company_name' => $this->company_name,
@@ -104,23 +106,22 @@ class Stocks extends Component
             'current_share_price' => $this->current_share_price,
             'ave_cost' => $this->average_cost,
             'share_number' => $this->share_number,
-            'date_of_purchase' => Carbon::parse($this->date_of_purchase)->format('d-M-Y'),
+            'date_of_purchase' => $this->date_of_purchase,
         ]);
         $lastInsertedID = $insertid->id;
 
-            Transaction::updateOrCreate(['s_id'=>$this->stock_id],[
-                's_id' => $lastInsertedID,
-                'type'=>0,
-                'stock'=>$this->share_number,
-                'share_price'=>$this->average_cost,
-                'date_of_transaction'=>Carbon::parse($this->date_of_purchase)->format('d-M-Y'),
-            ]);
-
+        Transaction::updateOrCreate(['s_id'=>$this->stock_id],[
+            's_id' => $lastInsertedID,
+            'type'=>0,
+            'stock'=>$this->share_number,
+            'share_price'=>$this->average_cost,
+            'date_of_transaction'=>$this->date_of_purchase,
+        ]);
 
         session()->flash('message',
             $this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares');
 
-        $this->closeModal();
+        $this->openModal();
         $this->resetInputFields();
     }
 
@@ -137,7 +138,7 @@ class Stocks extends Component
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
-        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-M-d');
+        $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->openModal();
     }
 
@@ -175,7 +176,7 @@ class Stocks extends Component
         $this->share_number = $stock->share_number;
         $this->share_price = '';
         $this->share_sold = '';
-        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('d-M-Y');
+        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->openSellModal();
     }
 
@@ -190,7 +191,7 @@ class Stocks extends Component
                 'type'=>1,
                 'stock'=>$this->share_sold,
                 'share_price'=>$this->share_price,
-                'date_of_transaction'=>Carbon::parse($this->date_of_purchase)->format('d-M-Y'),
+                'date_of_transaction'=>$this->date_of_purchase,
             ]);
 
         if($this->stock_id)
@@ -231,7 +232,7 @@ class Stocks extends Component
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
-        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('d-M-Y');
+        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->openBuyModal();
     }
 
@@ -246,7 +247,7 @@ class Stocks extends Component
             'type'=>0,
             'stock'=>$this->share_number,
             'share_price'=>$this->average_cost,
-            'date_of_transaction'=>Carbon::parse($this->date_of_purchase)->format('d-M-Y'),
+            'date_of_transaction'=>$this->date_of_purchase,
         ]);
 
         if($this->stock_id)
@@ -258,7 +259,7 @@ class Stocks extends Component
                 'share_number'=>$final_stock,
             ]);
             session()->flash('message', 'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares');
-            $this->closeBuyModal();
+            $this->buy($this->stock_id);
         }
     }
 

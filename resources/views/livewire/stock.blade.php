@@ -93,29 +93,28 @@
                 @if($this->company_name!='')
                     <div class="mb-4">
                         <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name :</b></label>
-                        <label>{{$this->company_name}}</label>
-                        <input type="text" hidden id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Company Name" wire:model="company_name">
+                        <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">
+                        @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 text-sm font-bold mb-2"><b>Description :</b></label>
-                        <label>{{$this->description}}</label>
-                        <textarea id="description" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Description" wire:model="description"></textarea>
+                        <textarea id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Description" wire:model="description" rows="5"></textarea>
+                        @error('description') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="sector" class="block text-gray-700 text-sm font-bold mb-2"><b>Sector :</b></label>
-                        <label>{{$this->sector}}</label>
-                        <input type="text" hidden id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Sector" wire:model="sector">
+                        <input type="text" id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Sector" wire:model="sector">
+                        @error('sector') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="market_cap" class="block text-gray-700 text-sm font-bold mb-2"><b>Market Cap :</b></label>
-                        <label>{{$this->market_cap}}</label>
-                        <input type="text" hidden id="market_cap" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Market Cap" wire:model="market_cap">
+                        <input type="text" id="market_cap" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Market Cap" wire:model="market_cap">
+                        @error('market_cap') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
                         <label for="current_share_price" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Share Price :</b></label>
-                        <label>{{$this->current_share_price}}</label>
-                        <input type="text" hidden id="current_share_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Current Share Price" wire:model="current_share_price">
+                        <input type="text" id="current_share_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="current_share_price">
+                        @error('current_share_price') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                 @endif
                 <div class="mb-4">

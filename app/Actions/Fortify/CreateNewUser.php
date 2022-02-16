@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Models\Account;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -28,12 +29,24 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
-        return User::create([
+        $insert= User::create([
             'name' => $input['first_name']." ".$input['last_name'],
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+        $lastInsertedID = $insert->id;
+
+        Account::create([
+            'user_id'=>$lastInsertedID,
+            'account_type'=> 'Individual Brokerage Account',
+            'account_name'=>'Taxable Account',
+            'account_brokerage'=>'Not assigned',
+            'commission'=>0,
+        ]);
+
+        return $insert;
+
     }
 }

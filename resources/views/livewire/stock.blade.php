@@ -19,28 +19,28 @@
                             </div>
                         </div>
                     @endif
-                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3">{{__('Add New Stock') }}</x-jet-button>
+                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Add New Stock') }}</x-jet-button>
                     <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                         <table>
                             <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-6 py-4 w-20">No.</th>
-                                <th class="px-6 py-4">Ticker</th>
-                                <th class="px-6 py-4">Company Name</th>
-                                <th class="px-6 py-4">Average Purchase Cost</th>
-                                <th class="px-6 py-4">Number of Shares</th>
-                                <th class="px-6 py-4">Date</th>
-                                <th class="px-6 py-4"></th>
-                            </tr>
+                                <tr>
+                                    <th class="px-6 py-4 w-20">No.</th>
+                                    <th class="px-6 py-4">Ticker</th>
+                                    <th class="px-6 py-4">Company Name</th>
+                                    <th class="px-6 py-4">Cost Basis </th>
+                                    <th class="px-6 py-4">Number of Shares</th>
+                                    <th class="px-6 py-4">Date</th>
+                                    <th class="px-6 py-4"></th>
+                                </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->id }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->stock_ticker }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->company_name }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ number_format($stock->ave_cost) }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->id }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->company_name }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ $stock->ave_cost }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->share_number }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('F dS, Y')}}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
@@ -76,9 +76,10 @@
             <div class="col-span-6 lg:col-span-4">
                 <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 text-sm font-bold mb-2"><b>Stock Ticker :</b></label>
-                    <input type="text" id="stockticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
+                    <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
                     @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
+
                 <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2 w-40 h-40">
                     <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
                         <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -90,7 +91,7 @@
                         </svg>
                     </div>
                 </div>
-                @if($this->company_name!='')
+                @if($this->stock_ticker!='')
                     <div class="mb-4">
                         <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name :</b></label>
                         <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">
@@ -308,6 +309,7 @@
         </x-slot>
     </x-jet-confirmation-modal>
     {{-- End Delete Stock --}}
+
 </main>
 
 

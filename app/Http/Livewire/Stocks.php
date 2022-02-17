@@ -30,7 +30,7 @@ class Stocks extends Component
 
     public function render()
     {
-        if($this->stock_ticker!=Null && $this->stock_id==Null)
+        if($this->stock_ticker!=Null && $this->average_cost==Null)
         {
             $this->getdata($this->stock_ticker);
         }
@@ -117,9 +117,11 @@ class Stocks extends Component
             'share_price'=>$this->average_cost,
             'date_of_transaction'=>$this->date_of_purchase,
         ]);
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>$this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares'
+        ]);
 
-        session()->flash('message',
-            $this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares');
 
         $this->openModal();
         $this->resetInputFields();
@@ -145,7 +147,10 @@ class Stocks extends Component
     public function delete($id)
     {
         Stock::find($id)->delete();
-        session()->flash('message', 'Stock Deleted Successfully.');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'error',
+            'message'=>'Stock Deleted Successfully.'
+        ]);
         $this->closedeletestock();
         $this->closeModal();
     }
@@ -202,7 +207,10 @@ class Stocks extends Component
             $record->update([
                 'share_number'=>$final_stock,
             ]);
-            session()->flash('message', 'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares');
+            $this->dispatchBrowserEvent('alert',[
+                'type'=>'success',
+                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares'
+            ]);
             $this->closeSellModal();
         }
     }
@@ -258,7 +266,10 @@ class Stocks extends Component
             $record->update([
                 'share_number'=>$final_stock,
             ]);
-            session()->flash('message', 'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares');
+            $this->dispatchBrowserEvent('alert',[
+                'type'=>'success',
+                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares'
+            ]);
             $this->buy($this->stock_id);
         }
     }

@@ -52,7 +52,7 @@
                                     @endif
                                 @empty
                                     <tr>
-                                        <td class="border px-4 py-2" colspan="7"><b>No Stock Found</b></td>
+                                        <td class="border px-4 py-2 text-center" colspan="7"><b>No Stock Found</b></td>
                                     </tr>
                                 @endforelse
                             </tbody>

@@ -27,7 +27,6 @@ class Stocks extends Component
     public $current_stock,$final_stock,$record;
     public $deletestock=false;
 
-
     public function render()
     {
         if($this->stock_ticker!=Null && $this->average_cost==Null)
@@ -110,18 +109,20 @@ class Stocks extends Component
         ]);
         $lastInsertedID = $insertid->id;
 
-        Transaction::updateOrCreate(['s_id'=>$this->stock_id],[
-            's_id' => $lastInsertedID,
-            'type'=>0,
-            'stock'=>$this->share_number,
-            'share_price'=>$this->average_cost,
-            'date_of_transaction'=>$this->date_of_purchase,
-        ]);
+        if($this->stock_id==Null)
+        {
+            Transaction::Create([
+                's_id' => $lastInsertedID,
+                'type'=>0,
+                'stock'=>$this->share_number,
+                'share_price'=>$this->average_cost,
+                'date_of_transaction'=>$this->date_of_purchase,
+            ]);
+        }
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
             'message'=>$this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares'
         ]);
-
 
         $this->openModal();
         $this->resetInputFields();

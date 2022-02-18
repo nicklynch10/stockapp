@@ -35,21 +35,46 @@
                                 $i=1;
                             @endphp
                             @forelse($this->stocks as $stock)
+                                @php
+                                    $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+                                    $endpoint = 'https://cloud.iexapis.com/';
+                                    $current = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+                                    $price_current = $current->json();
+                                    $buy=0;
+                                    $sell=0;
+                                    $totalshare=0;
+                                    foreach($this->transaction as $tra)
+                                    {
+                                          if($tra->s_id==$stock->id)
+                                          {
+                                                if($tra->type==0)
+                                                {
+                                                    $buy+=$tra->share_price;
+                                                }
+                                                elseif ($tra->type==1)
+                                                {
+                                                    $sell+=$tra->share_price;
+                                                }
+                                                $current_total_value=$price_current['latestPrice']*($buy-$sell);
+                                                $total_cost=$stock->ave_cost*$price_current['latestPrice'];
+                                          }
+                                    }
+                                @endphp
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$stock->stock_ticker}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$total_cost}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$stock->ave_cost*$stock->current_share_price}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{($current_total_value/$total_cost)-1}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value-$total_cost}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td>No Data Found</td>
+                                    <th class="text-center px-6 py-4" colspan="10">No Stock Found</th>
                                 </tr>
                             @endforelse
                             </tbody>
@@ -79,17 +104,21 @@
     </div>
     <script>
         var xValues = [@foreach($this->stocks as $st)
+            @if($st->share_number!=0)
             "{{$st->stock_ticker}}",
+            @endif
             @endforeach];
         var yValues = [
             @foreach($this->stocks as $st)
-                @php
-                    $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-                    $endpoint = 'https://cloud.iexapis.com/';
-                    $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
-                    $price = $current_price->json();
-                @endphp
-                {{ $st->share_number*$price['latestPrice']}},
+                @if($st->share_number!=0)
+                    @php
+                        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+                        $endpoint = 'https://cloud.iexapis.com/';
+                        $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
+                        $price = $current_price->json();
+                    @endphp
+                    {{ $st->share_number*$price['latestPrice']}},
+                @endif
             @endforeach];
         var barColors = ["#10B981", "#FECACA", "#BFDBFE",
             "#D97706", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#F87171", "#4338CA", "#EFF6FF", "#FDF2F8", "#ECFDF5", "#FEF3C7", "#F3F4F6", "#EDE9FE", "#F9A8D4", "#BFDBFE", "#FECACA", "#F87171",

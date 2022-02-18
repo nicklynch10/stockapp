@@ -12,7 +12,7 @@
                     @endif
         </span></th>
             <th wire:click="sort('company_name')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem] text-left font-medium text-gray-500  tracking-wider font-bold">Stock<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem] text-left font-medium text-gray-500  tracking-wider font-bold w-20">Stock<span>
             @if($sortColumn === 'company_name')
                         <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                     @else
@@ -65,13 +65,13 @@
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $curr->share_number }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">${{ $curr->ave_cost }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">${{ $price['latestPrice'] }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-900">(${{ round(($price['latestPrice']-$curr->ave_cost)*$curr->share_number,2) }})</td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-900">({{ round(($price['latestPrice']/$curr->ave_cost-1),2) }}%)</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">(${{ abs(round(($price['latestPrice']-$curr->ave_cost)*$curr->share_number,2)) }})</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">({{ abs(round(($price['latestPrice']/$curr->ave_cost-1),2)) }}%)</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{$diff->format("%a")>366?"Long":"Short"}}</td>
             </tr>
         @empty
             <tr>
-                <td>No More Stock Found</td>
+                <th class="text-center px-6 py-4" colspan="9">No Stock Found</th>
             </tr>
         @endforelse
         </tbody>

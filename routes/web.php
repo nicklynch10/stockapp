@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Stocks;
 use App\Http\Livewire\Portfolio;
 use App\Http\Livewire\Overview;
+use App\Http\Livewire\Account;
 
 
 /*
@@ -29,4 +30,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('stock', Stocks::class,)->name('stock');
 Route::get('portfolio', Portfolio::class,)->name('portfolio');
 Route::get('overview', Overview::class,)->name('overview');
+Route::get('account', Account::class,)->name('account');
 

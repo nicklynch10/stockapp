@@ -43,6 +43,8 @@
                                     $buy=0;
                                     $sell=0;
                                     $totalshare=0;
+                                    $sharebuy=0;
+                                    $sharesell=0;
                                     foreach($this->transaction as $tra)
                                     {
                                           if($tra->s_id==$stock->id)
@@ -50,24 +52,27 @@
                                                 if($tra->type==0)
                                                 {
                                                     $buy+=$tra->share_price;
+                                                    $sharebuy+=$tra->stock;
                                                 }
                                                 elseif ($tra->type==1)
                                                 {
                                                     $sell+=$tra->share_price;
+                                                    $sharesell+=$tra->stock;
                                                 }
-                                                $current_total_value=$price_current['latestPrice']*($buy-$sell);
-                                                $total_cost=$stock->ave_cost*$price_current['latestPrice'];
                                           }
+                                    $current_total_value=$price_current['latestPrice']*($buy-$sell);
+                                    $total_cost=$tra->share_price*$price_current['latestPrice'];
                                     }
+
                                 @endphp
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$stock->stock_ticker}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$total_cost}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{($current_total_value/$total_cost)-1}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value-$total_cost}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$sharebuy-$sharesell}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2)).")":abs(number_format(($current_total_value/$total_cost)-1,2))}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 {{$current_total_value-$total_cost<0?"text-red-600":"text-green-600"}}">{{$current_total_value-$total_cost<0?"(".number_format(abs($current_total_value-$total_cost),2).")":number_format(abs($current_total_value-$total_cost),2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>

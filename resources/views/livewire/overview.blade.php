@@ -25,8 +25,7 @@
                                 <th class="px-6 py-4">Number of unique stocks</th>
                                 <th class="px-6 py-4">Total  % Change</th>
                                 <th class="px-6 py-4">Total  $ Change</th>
-                                <th class="px-6 py-4">Total  $ Losses</th>
-                                <th class="px-6 py-4">Total  $ Gains</th>
+                                <th class="px-6 py-4">Total $ Gains/Losses</th>
                                 <th class="px-6 py-4">Total  $ Long Term Gains</th>
                             </tr>
                             </thead>
@@ -38,7 +37,7 @@
                                 @php
                                     $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
                                     $endpoint = 'https://cloud.iexapis.com/';
-                                    $current = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+                                    $current = Http::get($endpoint . 'stable/stock/VOE/quote?token=' . $token);
                                     $price_current = $current->json();
                                     $buy=0;
                                     $sell=0;
@@ -51,30 +50,29 @@
                                           {
                                                 if($tra->type==0)
                                                 {
-                                                    $buy+=$tra->share_price;
+                                                    $buy=$tra->share_price;
                                                     $sharebuy+=$tra->stock;
                                                 }
                                                 elseif ($tra->type==1)
                                                 {
-                                                    $sell+=$tra->share_price;
+                                                    $sell=$tra->share_price;
                                                     $sharesell+=$tra->stock;
                                                 }
                                           }
-                                    $current_total_value=$price_current['latestPrice']*($buy-$sell);
-                                    $total_cost=$tra->share_price*$price_current['latestPrice'];
                                     }
-
+                                    $current_total_value=($price_current['latestPrice']*($buy-$sell));
+                                    $total_cost=($stock->ave_cost*($buy-$sell)); //
+                                    $gain=($sharesell)*($sell-$buy);
                                 @endphp
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$stock->stock_ticker}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$total_cost}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{round($current_total_value,2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{round($total_cost,2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$sharebuy-$sharesell}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2)).")":abs(number_format(($current_total_value/$total_cost)-1,2))}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 {{$current_total_value-$total_cost<0?"text-red-600":"text-green-600"}}">{{$current_total_value-$total_cost<0?"(".number_format(abs($current_total_value-$total_cost),2).")":number_format(abs($current_total_value-$total_cost),2)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2)).")":abs(number_format(($current_total_value/$total_cost)-1,2))}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value-$total_cost<0?"text-red-600":"text-green-600"}}">{{$current_total_value-$total_cost<0?"(".number_format(abs($current_total_value-$total_cost),2).")":number_format(abs($current_total_value-$total_cost),2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$gain<0?"text-red-600":"text-green-600"}}">{{$gain<0?"(".abs($gain).")":abs($gain)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
                                 </tr>
                             @empty
@@ -117,12 +115,20 @@
             @foreach($this->stocks as $st)
                 @if($st->share_number!=0)
                     @php
-                        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-                        $endpoint = 'https://cloud.iexapis.com/';
-                        $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
-                        $price = $current_price->json();
+                        $totalshare=0;
+                       foreach($this->transaction as $tran)
+                       {
+                           if($st->id==$tran->s_id)
+                           {
+                               $totalshare+=$tran->stock;
+                           }
+                       }
+                       $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+                       $endpoint = 'https://cloud.iexapis.com/';
+                       $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
+                       $price = $current_price->json();
                     @endphp
-                    {{ $st->share_number*$price['latestPrice']}},
+                    {{ $totalshare*$price['latestPrice']}},
                 @endif
             @endforeach];
         var barColors = ["#10B981", "#FECACA", "#BFDBFE",

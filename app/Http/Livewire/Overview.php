@@ -8,7 +8,7 @@ use App\Models\Stock;
 
 class Overview extends Component
 {
-    public $stocks;
+    public $stocks,$data;
 
     public function render()
     {

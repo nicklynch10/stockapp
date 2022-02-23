@@ -37,7 +37,7 @@
                                 @php
                                     $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
                                     $endpoint = 'https://cloud.iexapis.com/';
-                                    $current = Http::get($endpoint . 'stable/stock/VOE/quote?token=' . $token);
+                                    $current = Http::get($endpoint . 'stable/stock/'.$stock->stock_ticker.'/quote?token=' . $token);
                                     $price_current = $current->json();
                                     $buy=0;
                                     $sell=0;
@@ -61,8 +61,10 @@
                                           }
                                     }
                                     $current_total_value=($price_current['latestPrice']*($buy-$sell));
-                                    $total_cost=($stock->ave_cost*($buy-$sell)); //
+                                    $total_cost=($stock->ave_cost*($buy-$sell));
                                     $gain=($sharesell)*($sell-$buy);
+                                    $longtermgain=($price_current['latestPrice']-$stock->ave_cost)*$stock->share_number;
+                                    $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
                                 @endphp
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
@@ -70,10 +72,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{round($current_total_value,2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{round($total_cost,2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$sharebuy-$sharesell}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2)).")":abs(number_format(($current_total_value/$total_cost)-1,2))}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value-$total_cost<0?"text-red-600":"text-green-600"}}">{{$current_total_value-$total_cost<0?"(".number_format(abs($current_total_value-$total_cost),2).")":number_format(abs($current_total_value-$total_cost),2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2))."%)":abs(number_format(($current_total_value/$total_cost)-1,2))."%"}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value-$total_cost<0?"text-red-600":"text-green-600"}}">{{$current_total_value-$total_cost<0?"($".number_format(abs($current_total_value-$total_cost),2).")":"$".number_format(abs($current_total_value-$total_cost),2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center {{$gain<0?"text-red-600":"text-green-600"}}">{{$gain<0?"(".abs($gain).")":abs($gain)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">-</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">({{$longtermgain}}) {{$diff->format("%a")>366?"Long":"Short"}}</td>
                                 </tr>
                             @empty
                                 <tr>

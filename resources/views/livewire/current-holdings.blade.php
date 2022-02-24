@@ -28,7 +28,7 @@
                     @endif
         </span></th>
             <th wire:click="sort('ave_cost')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem] text-left font-medium text-gray-500 tracking-wider font-bold">Cost basis<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem] text-left font-medium text-gray-500 tracking-wider font-bold">Cost Basis<span>
             @if($sortColumn === 'ave_cost')
                         <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                     @else
@@ -51,7 +51,6 @@
         <tbody class="bg-white divide-y divide-gray-200">
         @php $i=1; @endphp
         @forelse($currentholding as $curr)
-
             @php
                 $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
                 $endpoint = 'https://cloud.iexapis.com/';
@@ -67,10 +66,10 @@
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $curr->stock_ticker }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $price['companyName'] }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $curr->share_number }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-900">${{ $curr->ave_cost }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-900">${{ $price['latestPrice'] }}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{$dchange<0?"($".abs(round($dchange,2)).")":"$".abs(round($dchange,2))}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{$pchange<0?"(".abs(round($pchange,2))."%)":abs(round($pchange,2))."%"}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">${{ number_format($curr->ave_cost,2) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">${{ number_format($price['latestPrice'],2) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{$dchange<0?"($".number_format(abs($dchange),2).")":"$".number_format(abs($dchange),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{$pchange<0?"(".number_format(abs($pchange),2)."%)":number_format(abs($pchange),2)."%"}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{$diff->format("%a")>366?"Long":"Short"}}</td>
             </tr>
         @empty

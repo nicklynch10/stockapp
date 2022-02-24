@@ -230,14 +230,18 @@ class Stocks extends Component
     //  Add Buy Stock Functions
     public function buy($id)
     {
+        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+        $endpoint = 'https://cloud.iexapis.com/';
         $stock = Stock::findOrFail($id);
+        $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+        $price = $current_price->json();
+        $this->current_share_price = $price ? $price['latestPrice'] : '';
         $this->stock_id = $id;
         $this->stock_ticker = $stock->stock_ticker;
         $this->company_name = $stock->company_name;
         $this->description = $stock->description;
         $this->sector = $stock->sector;
         $this->market_cap = $stock->market_cap;
-        $this->current_share_price = $stock->current_share_price;
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
@@ -273,6 +277,7 @@ class Stocks extends Component
             ]);
             $this->buy($this->stock_id);
         }
+        $this->closeBuyModal();
     }
 
     public function openBuyModal()

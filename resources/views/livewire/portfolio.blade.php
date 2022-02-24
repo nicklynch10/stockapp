@@ -1,7 +1,7 @@
 
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{__('portfolio')}}
+        {{__('Portfolio')}}
         <a href="{{ route('stock') }}"> <x-jet-button class="float-right">{{__('Add Transaction')}}</x-jet-button></a>
     </h2>
 </x-slot>

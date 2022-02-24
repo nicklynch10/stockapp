@@ -25,11 +25,11 @@
                             <thead class="bg-gray-100">
                             <tr>
                                 <th class="px-6 py-4 w-20">No.</th>
-                                <th class="px-6 py-4">Account Type</th>
                                 <th class="px-6 py-4">Account Name</th>
+                                <th class="px-6 py-4">Account Type</th>
                                 <th class="px-6 py-4">Account Brokerage</th>
-                                <th class="px-6 py-4">Commission</th>
-                                <th class="px-6 py-4">Date</th>
+                                <th class="px-6 py-4">Commission Rate per Share</th>
+                                <th class="px-6 py-4">Date Created</th>
                                 <th class="px-6 py-4"></th>
                             </tr>
                             </thead>
@@ -40,13 +40,13 @@
                                 @forelse($this->account as $acc)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_type}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_name}}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_type}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_brokerage}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{$acc->commission}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F dS, Y') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
-                                            <x-jet-button wire:click="edit({{ $acc->id }})" class="py-2 px-4">{{__('Edit')}}</x-jet-button>
+                                            <span class="tooltip" title="Edit Account"><x-jet-button wire:click="edit({{ $acc->id }})" class="py-2 px-4"><i class="fa fa-pencil"></i></x-jet-button></span>
                                         </td>
                                     </tr>
                                 @empty
@@ -100,7 +100,7 @@
                     @error('account_brokerage') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
                 <div class="mb-4">
-                    <label for="commission" class="block text-gray-700 text-sm font-bold mb-2"><b>Commission :</b></label>
+                    <label for="commission" class="block text-gray-700 text-sm font-bold mb-2"><b>Commission  :</b></label>
                     <input type="text" id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Commission" wire:model="commission">
                     @error('commission') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
@@ -112,15 +112,40 @@
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 
-
             <x-jet-button class="ml-2" wire:click="store()" wire:loading.attr="disabled">
                 {{ __('Save') }}
             </x-jet-button>
 
+            @if($this->account_id)
+                <x-jet-button class="ml-2 bg-red-600 hover:bg-red-500" wire:click="deleteaccount({{$this->account_id}})" wire:loading.attr="disabled">
+                    {{ __('Delete') }}
+                </x-jet-button>
+            @endif
+
         </x-slot>
     </x-jet-dialog-modal>
 
+    {{-- Delete Account --}}
+    <x-jet-confirmation-modal wire:model="deleteaccount">
+        <x-slot name="title">
+            {{ __('Delete Account') }}
+        </x-slot>
 
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete Account?') }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="closedeleteaccount()">
+                {{ __('Cancel') }}
+            </x-jet-secondary-button>
+
+            <x-jet-danger-button class="ml-2" wire:click="delete({{$this->account_id}})" wire:loading.attr="disabled">
+                {{ __('Delete') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
+    {{-- End Delete Account --}}
 </main>
 
 

@@ -11,7 +11,8 @@ use App\Models\Account As Accounts;
 class Account extends Component
 {
     public $isOpen = 0;
-    public $user_id,$account_type,$account_name,$account_brokerage,$commission,$account_id;
+    public $user_id,$account_type,$account_name,$account_brokerage,$commission,$account_id,$deleteid;
+    public $deleteaccount=0;
     public function render()
     {
         $this->account=Accounts::where('user_id',Auth::user()->id)->get();
@@ -73,5 +74,28 @@ class Account extends Component
         $this->account_brokerage = $stock->account_brokerage;
         $this->commission = $stock->commission;
         $this->openModal();
+    }
+
+
+    public function delete($id)
+    {
+        Accounts::find($id)->delete();
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'error',
+            'message'=>'Account Deleted Successfully.'
+        ]);
+        $this->closedeleteaccount();
+        $this->closeModal();
+    }
+
+    public function deleteaccount($id)
+    {
+        $this->deleteid=$id;
+        $this->deleteaccount=true;
+    }
+
+    public function closedeleteaccount()
+    {
+        $this->deleteaccount=false;
     }
 }

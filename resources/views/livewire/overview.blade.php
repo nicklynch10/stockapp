@@ -20,9 +20,9 @@
                             <tr>
                                 <th class="px-6 py-4 w-20">No.</th>
                                 <th class="px-6 py-4">Stock Ticker</th>
-                                <th class="px-6 py-4">Current total value</th>
-                                <th class="px-6 py-4">Total cost</th>
-                                <th class="px-6 py-4">Number of unique stocks</th>
+                                <th class="px-6 py-4">Current Total Value</th>
+                                <th class="px-6 py-4">Total Cost</th>
+                                <th class="px-6 py-4">Number of Shares</th>
                                 <th class="px-6 py-4">Total  % Change</th>
                                 <th class="px-6 py-4">Total  $ Change</th>
                                 <th class="px-6 py-4">Total $ Gains/Losses</th>
@@ -69,13 +69,13 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$stock->stock_ticker}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{round($current_total_value,2)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{round($total_cost,2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value<0?"($".number_format(abs($current_total_value),2).")":"$".number_format(abs($current_total_value),2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$total_cost<0?"($".number_format(abs($total_cost),2).")":"$".number_format(abs($total_cost),2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$sharebuy-$sharesell}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2))."%)":abs(number_format(($current_total_value/$total_cost)-1,2))."%"}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value-$total_cost<0?"text-red-600":"text-green-600"}}">{{$current_total_value-$total_cost<0?"($".number_format(abs($current_total_value-$total_cost),2).")":"$".number_format(abs($current_total_value-$total_cost),2)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$gain<0?"text-red-600":"text-green-600"}}">{{$gain<0?"(".abs($gain).")":abs($gain)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">({{$longtermgain}}) {{$diff->format("%a")>366?"Long":"Short"}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center {{$gain<0?"text-red-600":"text-green-600"}}">{{$gain<0?"($".number_format(abs($gain),2).")":"$".number_format(abs($gain),2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$longtermgain<0?"($".number_format(abs($longtermgain),2).")":"$".number_format(abs($longtermgain),2)}} {{$diff->format("%a")>366?"Long":"Short"}}</td>
                                 </tr>
                             @empty
                                 <tr>

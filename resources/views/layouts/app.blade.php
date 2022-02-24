@@ -13,6 +13,8 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">
+        <link rel="stylesheet" type="text/css" href="/css/tooltipster.bundle.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/tooltipster-sideTip-borderless.min.css" />
 
         @livewireStyles
 
@@ -20,6 +22,16 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+        <script type="text/javascript" src="/js/tooltipster.bundle.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('.tooltip').tooltipster({
+                    theme: 'tooltipster-borderless',
+                    delay: 100,
+                    trigger: ('ontouchstart' in window) ? 'click' : 'hover',
+                });
+            });
+        </script>
         <script src={{asset('css/notification.css') }}></script>
         <script>
             const Toast = Swal.mixin({

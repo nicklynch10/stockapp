@@ -28,7 +28,7 @@
             </tr>
         @empty
             <tr>
-                <th class="text-center px-6 py-4" colspan="6">No Stock Found</th>
+                <th class="text-center px-6 py-4" colspan="7">No Stock Found</th>
             </tr>
         @endforelse
         </tbody>

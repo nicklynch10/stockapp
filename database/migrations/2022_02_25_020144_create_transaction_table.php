@@ -15,10 +15,13 @@ class CreateTransactionTable extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('s_id')->index()->nullable();
+            $table->unsignedBigInteger('stock_id')->nullable();
             $table->integer('type')->comment('0-Buy,1-Sell');
-            $table->string('stock');
+            $table->string('stock')->nullable();
+            $table->string('share_price')->nullable();
+            $table->string('date_of_transaction')->nullable();
             $table->timestamps();
+            $table->foreign('stock_id')->references('id')->on('stock')->onDelete('cascade');
         });
     }
 

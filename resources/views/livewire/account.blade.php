@@ -46,7 +46,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{$acc->commission}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F dS, Y') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
-                                            <span class="tooltip" title="Edit Account"><x-jet-button wire:click="edit({{ $acc->id }})" class="py-2 px-4"><i class="fa fa-pencil"></i></x-jet-button></span>
+                                            <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-pencil cursor-pointer"></i></a>
                                         </td>
                                     </tr>
                                 @empty

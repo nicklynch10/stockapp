@@ -12,6 +12,6 @@ class Transaction extends Model
     protected $table="transaction";
 
     protected $fillable = [
-        's_id', 'type','stock','share_price','date_of_transaction'
+        'stock_id', 'type','stock','share_price','date_of_transaction'
     ];
 }

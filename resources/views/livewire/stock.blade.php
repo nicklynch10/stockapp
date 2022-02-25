@@ -1,7 +1,7 @@
 
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Stock Purchase
+        {{__('Portfolio')}}
     </h2>
 </x-slot>
 
@@ -46,7 +46,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
                                                 <x-jet-button wire:click="sell({{ $stock->id }})" class="py-2 px-4">{{__('Sell')}}</x-jet-button>
                                                 <x-jet-button wire:click="buy({{ $stock->id }})" class="py-2 px-4">{{__('Buy')}}</x-jet-button>
-                                                <span class="tooltip" title="Edit Stock"><x-jet-button wire:click="edit({{ $stock->id }})" class="py-2 px-4"><i class="fa fa-pencil"></i></x-jet-button></span>
+                                                <a class="tooltip py-2 px-4" title="Edit Stock" wire:click="edit({{ $stock->id }})"><i class="fa fa-pencil cursor-pointer"></i></a>
                                             </td>
                                         </tr>
                                     @endif
@@ -57,6 +57,20 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 py-10 md:py-12">
+            <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="w-full mb-5">
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                                {{ __('Historical Trades') }}
+                            </h2>
+                        </div>
+                        @livewire('historical-trades')
                     </div>
                 </div>
             </div>
@@ -132,6 +146,11 @@
                     <label for="date_of_purchase" class="block text-gray-700 text-sm font-bold mb-2"><b>Date of Purchase:</b></label>
                     <input type="date" id="date_of_purchase" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="date_of_purchase">
                     @error('date_of_purchase') <span class="text-red-500">{{ $message }}</span>@enderror
+                </div>
+                <div class="mb-4">
+                    <label for="share_sold" class="block text-gray-700 text-sm font-bold mb-2"><b>Notes (Optional):</b></label>
+                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Notes" wire:model="note">
+                    @error('note') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
             </div>
         </x-slot>

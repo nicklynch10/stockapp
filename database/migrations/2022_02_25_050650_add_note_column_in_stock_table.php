@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCompanyNameColumnInStockTable extends Migration
+class AddNoteColumnInStockTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,9 @@ class AddCompanyNameColumnInStockTable extends Migration
     public function up()
     {
         Schema::table('stock', function (Blueprint $table) {
-           $table->string('company_name')->after('stock_ticker')->nullable();
+            $table->unsignedBigInteger('account_id')->after('date_of_purchase')->nullable();
+            $table->string('note')->after('account_id')->nullable();
+            $table->foreign('account_id')->references('id')->on('account')->onDelete('cascade');
         });
     }
 
@@ -26,7 +28,8 @@ class AddCompanyNameColumnInStockTable extends Migration
     public function down()
     {
         Schema::table('stock', function (Blueprint $table) {
-            $table->dropColumn('company_name');
+            $table->dropColumn('account_id');
+            $table->dropColumn('note');
         });
     }
 }

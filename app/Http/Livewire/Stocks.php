@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class Stocks extends Component
 {
-    public $stocks,$company_name,$description, $sector,$market_cap,$current_share_price,$average_cost,$share_number, $date_of_purchase,$stock_id;
+    public $stocks,$company_name,$description, $sector,$market_cap,$current_share_price,$average_cost,$share_number, $date_of_purchase,$stock_id,$note;
     public $isOpen = 0;
     public $issellOpen=0;
     public $isbuyOpen=0;
@@ -85,6 +85,7 @@ class Stocks extends Component
         $this->current_share_price = '';
         $this->average_cost = '';
         $this->share_number = '';
+        $this->note='';
         $this->date_of_purchase=Carbon::now()->format('Y-m-d');
     }
 
@@ -106,13 +107,14 @@ class Stocks extends Component
             'ave_cost' => $this->average_cost,
             'share_number' => $this->share_number,
             'date_of_purchase' => $this->date_of_purchase,
+            'note'=>$this->note,
         ]);
         $lastInsertedID = $insertid->id;
 
         if($this->stock_id==Null)
         {
             Transaction::Create([
-                's_id' => $lastInsertedID,
+                'stock_id' => $lastInsertedID,
                 'type'=>0,
                 'stock'=>$this->share_number,
                 'share_price'=>$this->average_cost,
@@ -142,6 +144,7 @@ class Stocks extends Component
         $this->share_number = $stock->share_number;
         $this->share_price = '';
         $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
+        $this->note = $stock->note;
         $this->openModal();
     }
 
@@ -193,7 +196,7 @@ class Stocks extends Component
             'share_sold'=>'required',
         ]);
         Transaction::create([
-                's_id'=>$this->stock_id,
+                'stock_id'=>$this->stock_id,
                 'type'=>1,
                 'stock'=>$this->share_sold,
                 'share_price'=>$this->share_price,
@@ -256,7 +259,7 @@ class Stocks extends Component
         ]);
 
         Transaction::Create([
-            's_id' => $this->stock_id,
+            'stock_id' => $this->stock_id,
             'type'=>0,
             'stock'=>$this->share_number,
             'share_price'=>$this->average_cost,

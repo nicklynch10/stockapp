@@ -27,8 +27,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('stock', Stocks::class,)->name('stock');
-Route::get('portfolio', Portfolio::class,)->name('portfolio');
+//Route::get('stock', Stocks::class,)->name('stock');
+Route::get('portfolio', Stocks::class,)->name('portfolio');
 Route::get('overview', Overview::class,)->name('overview');
 Route::get('account', Account::class,)->name('account');
 

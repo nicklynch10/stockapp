@@ -29,7 +29,10 @@ class AddDescriptionColumnInStockTable extends Migration
     public function down()
     {
         Schema::table('stock', function (Blueprint $table) {
-            //
+            $table->dropColumn('description');
+            $table->dropColumn('sector');
+            $table->dropColumn('market_cap');
+            $table->dropColumn('current_share_price');
         });
     }
 }

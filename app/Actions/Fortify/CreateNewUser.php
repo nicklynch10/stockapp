@@ -44,6 +44,7 @@ class CreateNewUser implements CreatesNewUsers
             'account_name'=>'Taxable Account',
             'account_brokerage'=>'Not assigned',
             'commission'=>0,
+            'set_default'=>1,
         ]);
 
         return $insert;

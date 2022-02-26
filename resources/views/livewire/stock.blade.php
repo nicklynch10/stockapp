@@ -143,6 +143,15 @@
                     @error('share_number') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
                 <div class="mb-4">
+                    <label for="account_type" class="block text-gray-700 text-sm font-bold mb-2"><b>Select Account:</b></label>
+                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="account_type">
+                        @foreach($account as $acc)
+                            <option value="{{$acc->id}}">{{$acc->account_type}}</option>
+                        @endforeach
+                    </select>
+                    @error('account_type') <span class="text-red-500">{{ $message }}</span>@enderror
+                </div>
+                <div class="mb-4">
                     <label for="date_of_purchase" class="block text-gray-700 text-sm font-bold mb-2"><b>Date of Purchase:</b></label>
                     <input type="date" id="date_of_purchase" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="date_of_purchase">
                     @error('date_of_purchase') <span class="text-red-500">{{ $message }}</span>@enderror

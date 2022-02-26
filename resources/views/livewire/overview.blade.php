@@ -23,8 +23,8 @@
                                     <th class="px-6 py-4">Number of Shares</th>
                                     <th class="px-6 py-4">Cost Basis</th>
                                     <th class="px-6 py-4">Current Price</th>
-                                    <th class="px-6 py-4">$ Change</th>
-                                    <th class="px-6 py-4">% Change</th>
+{{--                                    <th class="px-6 py-4">$ Change</th>--}}
+{{--                                    <th class="px-6 py-4">% Change</th>--}}
                                     <th class="px-6 py-4">Current Total Value</th>
                                     <th class="px-6 py-4">Total Cost</th>
                                     <th class="px-6 py-4">Total  % Change</th>
@@ -64,8 +64,8 @@
                                                 }
                                           }
                                     }
-                                    $current_total_value=($price_current['latestPrice']*($buy-$sell));
-                                    $total_cost=($stock->ave_cost*($buy-$sell));
+                                    $current_total_value=($price_current['latestPrice']*$stock->share_number);
+                                    $total_cost=($stock->ave_cost*$stock->share_number);
                                     $gain=($sharesell)*($sell-$buy);
                                     $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
                                     $dchange=($price_current['latestPrice']-$stock->ave_cost)*$stock->share_number;
@@ -77,8 +77,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$sharebuy-$sharesell}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($stock->ave_cost,2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($price_current['latestPrice'],2)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$dchange<0?"($".number_format(abs($dchange),2).")":"$".number_format(abs($dchange),2)}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$pchange<0?"(".number_format(abs($pchange),2)."%)":number_format(abs($pchange),2)."%"}}</td>
+{{--                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$dchange<0?"($".number_format(abs($dchange),2).")":"$".number_format(abs($dchange),2)}}</td>--}}
+{{--                                    <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$pchange<0?"(".number_format(abs($pchange),2)."%)":number_format(abs($pchange),2)."%"}}</td>--}}
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$current_total_value<0?"($".number_format(abs($current_total_value),2).")":"$".number_format(abs($current_total_value),2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$total_cost<0?"($".number_format(abs($total_cost),2).")":"$".number_format(abs($total_cost),2)}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center {{$current_total_value/$total_cost-1<0?"text-red-600":"text-green-600"}}">{{$current_total_value/$total_cost-1<0?"(".abs(number_format(($current_total_value/$total_cost)-1,2))."%)":abs(number_format(($current_total_value/$total_cost)-1,2))."%"}}</td>

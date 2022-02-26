@@ -24,6 +24,7 @@
                         <table>
                             <thead class="bg-gray-100">
                             <tr>
+                                <th class="px-6 py-4">Set as Default</th>
                                 <th class="px-6 py-4 w-20">No.</th>
                                 <th class="px-6 py-4">Account Name</th>
                                 <th class="px-6 py-4">Account Type</th>
@@ -39,6 +40,7 @@
                                 @endphp
                                 @forelse($this->account as $acc)
                                     <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked":""}} wire:click="set_default({{$acc->id}})"></td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_name}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_type}}</td>
@@ -73,9 +75,9 @@
             <div class="col-span-6 lg:col-span-4">
                 <div class="mb-4">
                     <label for="account_type" class="block text-gray-700 text-sm font-bold mb-2"><b>Account Type :</b></label>
-                    <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="account_type">
+                    <select id ="account_type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="account_type">
                         <option>Select Account</option>
-                        <option value="Individual Brokerage Account" selected>Individual Brokerage Account</option>
+                        <option value="Individual Brokerage Account" selected="selected">Individual Brokerage Account</option>
                         <option value="Joint Brokerage Account">Joint Brokerage Account</option>
                         <option value="Roth IRA">Roth IRA</option>
                         <option value="Traditional IRA">Traditional IRA</option>

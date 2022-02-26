@@ -3,10 +3,12 @@
 namespace App\Http\Livewire;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 use App\Models\Stock;
 use App\Models\Transaction;
+use App\Models\Account;
 use phpDocumentor\Reflection\Types\Null_;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +22,7 @@ class Stocks extends Component
     public $isdeleteOpen=0;
     public $ticker=Null;
     public $stock_ticker=Null;
-    public $current_price,$price;
+    public $current_price,$price,$account,$account_type;
     public $symbol;
     public $lastInsertedID,$insertid;
     public $type,$stock,$share_price,$share_sold,$date_of_transaction;
@@ -34,6 +36,7 @@ class Stocks extends Component
             $this->getdata($this->stock_ticker);
         }
         $this->stocks = Stock::all();
+        $this->account= Account::where('user_id',Auth::user()->id)->get();
         return view('livewire.stock');
     }
 
@@ -87,6 +90,8 @@ class Stocks extends Component
         $this->share_number = '';
         $this->note='';
         $this->date_of_purchase=Carbon::now()->format('Y-m-d');
+        $default=Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
+        $this->account_type=$default->id;
     }
 
     public function store()
@@ -108,6 +113,7 @@ class Stocks extends Component
             'share_number' => $this->share_number,
             'date_of_purchase' => $this->date_of_purchase,
             'note'=>$this->note,
+            'account_id'=>$this->account_type,
         ]);
         $lastInsertedID = $insertid->id;
 
@@ -120,13 +126,20 @@ class Stocks extends Component
                 'share_price'=>$this->average_cost,
                 'date_of_transaction'=>$this->date_of_purchase,
             ]);
+
         }
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
             'message'=>$this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares'
         ]);
-
-        $this->openModal();
+        if($this->stock_id==Null)
+        {
+            $this->openModal();
+        }
+        else
+        {
+            $this->closeModal();
+        }
         $this->resetInputFields();
     }
 
@@ -145,6 +158,7 @@ class Stocks extends Component
         $this->share_price = '';
         $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->note = $stock->note;
+        $this->account_type=$stock->account_id;
         $this->openModal();
     }
 
@@ -196,12 +210,12 @@ class Stocks extends Component
             'share_sold'=>'required',
         ]);
         Transaction::create([
-                'stock_id'=>$this->stock_id,
-                'type'=>1,
-                'stock'=>$this->share_sold,
-                'share_price'=>$this->share_price,
-                'date_of_transaction'=>$this->date_of_purchase,
-            ]);
+            'stock_id'=>$this->stock_id,
+            'type'=>1,
+            'stock'=>$this->share_sold,
+            'share_price'=>$this->share_price,
+            'date_of_transaction'=>$this->date_of_purchase,
+        ]);
 
         if($this->stock_id)
         {

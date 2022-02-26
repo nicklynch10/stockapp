@@ -11,11 +11,12 @@ use App\Models\Account As Accounts;
 class Account extends Component
 {
     public $isOpen = 0;
-    public $user_id,$account_type,$account_name,$account_brokerage,$commission,$account_id,$deleteid;
+    public $user_id,$account_type,$account_name,$account_brokerage,$commission,$account_id,$deleteid,$set_default;
     public $deleteaccount=0;
+
     public function render()
     {
-        $this->account=Accounts::where('user_id',Auth::user()->id)->get();
+        $this->account=Accounts::where('user_id',Auth::user()->id)->orderBy('account.created_at','DESC')->get();
         return view('livewire.account');
     }
 
@@ -55,6 +56,7 @@ class Account extends Component
             'account_name' => $this->account_name,
             'account_brokerage' => $this->account_brokerage,
             'commission' => $this->commission,
+            'set_default'=>0,
         ]);
 
         $this->dispatchBrowserEvent('alert',[
@@ -76,7 +78,6 @@ class Account extends Component
         $this->openModal();
     }
 
-
     public function delete($id)
     {
         Accounts::find($id)->delete();
@@ -97,5 +98,18 @@ class Account extends Component
     public function closedeleteaccount()
     {
         $this->deleteaccount=false;
+    }
+
+    public function set_default($set_default)
+    {
+        Accounts::where('user_id', '=', Auth::user()->id)->update(['set_default' => 0]);
+        $result=Accounts::find($set_default);
+        $result->update([
+            'set_default'=>1,
+        ]);
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Account Set As Successfully.'
+        ]);
     }
 }

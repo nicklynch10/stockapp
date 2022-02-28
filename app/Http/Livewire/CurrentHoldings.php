@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Stock;
+use App\Models\Transaction;
 use Livewire\Component;
 
 class CurrentHoldings extends Component
@@ -13,13 +14,13 @@ class CurrentHoldings extends Component
 
     public function render()
     {
-        return view('livewire.current-holdings',['currentholding'=>$this->fetchData(),]);
+        return view('livewire.current-holdings',['currentholding'=>$this->fetchData(),'transaction'=>Transaction::all()]);
     }
+
     public function sort($column)
     {
         $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
         $this->sortColumn = $column;
-
         return $this->fetchData();
     }
 

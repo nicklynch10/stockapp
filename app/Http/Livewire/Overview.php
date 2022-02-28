@@ -8,12 +8,17 @@ use App\Models\Stock;
 
 class Overview extends Component
 {
-    public $stocks,$data;
+    public $search;
+    public $sortColumn;
+    public $sortDirection;
+    public $stocks;
+
 
     public function render()
     {
-        $this->stocks = Stock::all();
-        $this->transaction=Transaction::all();
+        $this->sto = Stock::all();
+        $this->tran = Transaction::all();
+
         return view('livewire.overview');
     }
 }

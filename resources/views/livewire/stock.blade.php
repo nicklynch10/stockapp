@@ -34,10 +34,13 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
+                                @php
+                                $i=1;
+                                @endphp
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->id }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $i++ }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->company_name }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ $stock->ave_cost }}</td>

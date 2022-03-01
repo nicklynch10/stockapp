@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class Stocks extends Component
 {
-    public $stocks,$company_name,$description, $sector,$market_cap,$current_share_price,$average_cost,$share_number, $date_of_purchase,$stock_id,$note;
+    public $stocks,$company_name,$description, $sector,$market_cap,$current_share_price,$average_cost,$share_number,$date_of_purchase,$stock_id,$note;
     public $isOpen = 0;
     public $issellOpen=0;
     public $isbuyOpen=0;
@@ -26,7 +26,8 @@ class Stocks extends Component
     public $symbol;
     public $lastInsertedID,$insertid;
     public $type,$stock,$share_price,$share_sold,$date_of_transaction;
-    public $current_stock,$final_stock,$record;
+    public $diff;
+    public $current_stock,$final_stock,$record,$result;
     public $deletestock=false;
 
     public function render()
@@ -35,7 +36,7 @@ class Stocks extends Component
         {
             $this->getdata($this->stock_ticker);
         }
-        $this->stocks = Stock::all();
+        $this->stocks = Stock::orderBy('updated_at','DESC')->get();
         $this->account= Account::where('user_id',Auth::user()->id)->get();
         return view('livewire.stock');
     }
@@ -102,6 +103,7 @@ class Stocks extends Component
             'share_number' => 'required',
         ]);
 
+        $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
             'stock_ticker' => $this->stock_ticker,
             'company_name' => $this->company_name,
@@ -114,6 +116,12 @@ class Stocks extends Component
             'date_of_purchase' => $this->date_of_purchase,
             'note'=>$this->note,
             'account_id'=>$this->account_type,
+            'dchange'=>($this->current_share_price-$this->average_cost)*$this->share_number,
+            'pchange'=>($this->current_share_price/$this->average_cost)-1,
+            'current_total_value'=>($this->current_share_price*$this->share_number),
+            'total_cost'=>($this->average_cost*$this->share_number),
+            'total_gain_loss'=>0,
+            'total_long_term_gains'=>$diff->format("%a")>366?"Long":"Short",
         ]);
         $lastInsertedID = $insertid->id;
 
@@ -126,7 +134,6 @@ class Stocks extends Component
                 'share_price'=>$this->average_cost,
                 'date_of_transaction'=>$this->date_of_purchase,
             ]);
-
         }
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',

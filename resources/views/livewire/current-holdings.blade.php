@@ -1,7 +1,7 @@
 <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
     <table>
-        <thead class="bg-gray-100">
-        <tr class="bg-gray-100">
+        <thead class="bg-gray-300">
+        <tr>
             <th class="px-4 py-2 w-20">No.</th>
             <th wire:click="sort('stock_ticker')"
                 class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Stock Ticker<span>
@@ -103,7 +103,7 @@
             </tr>
         @empty
             <tr>
-                <th class="text-center px-6 py-4" colspan="10">No Stock Found</th>
+                <th class="text-center px-6 py-4" colspan="11">No Stock Found</th>
             </tr>
         @endforelse
         </tbody>

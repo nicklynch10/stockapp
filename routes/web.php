@@ -6,6 +6,8 @@ use App\Http\Livewire\Stocks;
 use App\Http\Livewire\Portfolio;
 use App\Http\Livewire\Overview;
 use App\Http\Livewire\Account;
+use App\Http\Livewire\MarkNotification;
+use App\Http\Controllers\NotificationController;
 
 
 /*
@@ -31,4 +33,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('portfolio', Stocks::class,)->name('portfolio');
 Route::get('overview', Overview::class,)->name('overview');
 Route::get('account', Account::class,)->name('account');
+Route::get('notifications',[NotificationController::class,'show'])->name('notifications');
 

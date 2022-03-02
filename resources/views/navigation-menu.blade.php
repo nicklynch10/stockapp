@@ -5,26 +5,27 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('portfolio') }}">
                         <x-jet-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
-                        {{ __('Accounts') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('overview') }}" :active="request()->routeIs('overview')">
                         {{ __('Overview') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('portfolio') }}" :active="request()->routeIs('portfolio')">
                         {{ __('Portfolio') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
+                        {{ __('Accounts') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <livewire:mark-notification />
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">

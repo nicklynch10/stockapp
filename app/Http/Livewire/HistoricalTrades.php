@@ -9,6 +9,7 @@ use Livewire\WithPagination;
 class HistoricalTrades extends Component
 {
     use WithPagination;
+    protected $listeners=['historicaldata'=>'render'];
 
     public function render()
     {

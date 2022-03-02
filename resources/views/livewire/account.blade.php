@@ -7,7 +7,7 @@
 
 <main class="p-0 m-0 flex-grow ">
     <div class="container mx-auto px-4 py-10 md:py-12">
-        <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
+        <div class="flex flex-col sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     @if (session()->has('message'))
@@ -22,7 +22,7 @@
                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Add New Account') }}</x-jet-button>
                     <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                         <table>
-                            <thead class="bg-gray-100">
+                            <thead class="bg-gray-300">
                             <tr>
                                 <th class="px-6 py-4">Set as Default</th>
                                 <th class="px-6 py-4 w-20">No.</th>
@@ -45,8 +45,8 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_name}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_type}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_brokerage}}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{$acc->commission}}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F dS, Y') }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($acc->commission,2)}}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
                                             <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-pencil cursor-pointer"></i></a>
                                         </td>
@@ -123,7 +123,6 @@
                     {{ __('Delete') }}
                 </x-jet-button>
             @endif
-
         </x-slot>
     </x-jet-dialog-modal>
 

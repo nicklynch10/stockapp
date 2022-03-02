@@ -25,6 +25,8 @@ class CurrentHoldings extends Component
             $price_current = $current->json();
             $transaction=Transaction::all();
             $sharebuy=0;
+            $buy=0;
+            $sell=0;
             $sharesell=0;
             foreach($transaction as $tra)
             {

@@ -27,7 +27,7 @@ class Stocks extends Component
     public $lastInsertedID,$insertid;
     public $type,$stock,$share_price,$share_sold,$date_of_transaction;
     public $diff;
-    public $current_stock,$final_stock,$record,$result;
+    public $current_stock,$final_stock,$record,$result,$gettransaction;
     public $deletestock=false;
 
     public function render()
@@ -37,7 +37,9 @@ class Stocks extends Component
             $this->getdata($this->stock_ticker);
         }
         $this->stocks = Stock::orderBy('updated_at','DESC')->get();
+        $this->gettransaction = Transaction::all();
         $this->account= Account::where('user_id',Auth::user()->id)->get();
+        $this->emit('historicaldata');
         return view('livewire.stock');
     }
 
@@ -55,7 +57,7 @@ class Stocks extends Component
 
             $marketcap = Http::get($endpoint . 'stable/stock/' . $ticker . '/stats?token=' . $token);
             $market = $marketcap->json();
-            $this->market_cap = $market ? $market['marketcap'] : '';
+            $this->market_cap = $market ? round(($market['marketcap']/1000000), 2) : '';
 
             $current_price = Http::get($endpoint . 'stable/stock/' . $ticker . '/quote?token=' . $token);
             $price = $current_price->json();
@@ -153,13 +155,17 @@ class Stocks extends Component
     public function edit($id)
     {
         $stock = Stock::findOrFail($id);
+        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+        $endpoint = 'https://cloud.iexapis.com/';
+        $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+        $price=$current_price->json();
         $this->stock_id = $id;
         $this->stock_ticker = $stock->stock_ticker;
         $this->company_name = $stock->company_name;
         $this->description = $stock->description;
         $this->sector = $stock->sector;
         $this->market_cap = $stock->market_cap;
-        $this->current_share_price = $stock->current_share_price;
+        $this->current_share_price = $price ? $price['latestPrice'] : '';
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';

@@ -20,10 +20,11 @@ class Stocks extends Component
     public $issellOpen=0;
     public $isbuyOpen=0;
     public $isdeleteOpen=0;
+    public $isCompanyOpen=0;
     public $ticker=Null;
     public $stock_ticker=Null;
-    public $current_price,$price,$account,$account_type;
-    public $symbol;
+    public $current_price,$price,$account,$account_type,$tags,$issuetype;
+    public $symbol,$tickerdata;
     public $lastInsertedID,$insertid;
     public $type,$stock,$share_price,$share_sold,$date_of_transaction;
     public $diff;
@@ -54,6 +55,8 @@ class Stocks extends Component
             $this->company_name = $company ? $company['companyName'] : '';
             $this->description = $company ? $company['description'] : '';
             $this->sector = $company ? $company['sector'] : '';
+            $this->issuetype=$company?$company['issueType']:'';
+            $this->tags=$company?json_encode($company['tags']):'';
 
             $marketcap = Http::get($endpoint . 'stable/stock/' . $ticker . '/stats?token=' . $token);
             $market = $marketcap->json();
@@ -90,6 +93,7 @@ class Stocks extends Component
         $this->market_cap = '';
         $this->current_share_price = '';
         $this->average_cost = '';
+        $this->issuetype = '';
         $this->share_number = '';
         $this->note='';
         $this->date_of_purchase=Carbon::now()->format('Y-m-d');
@@ -113,6 +117,8 @@ class Stocks extends Component
             'sector' => $this->sector,
             'market_cap' => $this->market_cap,
             'current_share_price' => $this->current_share_price,
+            'issuetype' => $this->issuetype,
+            'tags' => $this->tags,
             'ave_cost' => $this->average_cost,
             'share_number' => $this->share_number,
             'date_of_purchase' => $this->date_of_purchase,
@@ -166,6 +172,8 @@ class Stocks extends Component
         $this->sector = $stock->sector;
         $this->market_cap = $stock->market_cap;
         $this->current_share_price = $price ? $price['latestPrice'] : '';
+        $this->issuetype = $stock->issuetype;
+        $this->tags = $stock->tags;
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
@@ -320,5 +328,41 @@ class Stocks extends Component
         $this->isbuyOpen = false;
     }
     //  End Buy Stock Functions
+
+    // Company Detail Function
+
+    public function company($stockticker)
+    {
+        $tickerdata=Stock::findOrFail($stockticker);
+        $this->stock_id=$tickerdata->id;
+        $this->stock_ticker = $tickerdata->stock_ticker;
+        $this->company_name = $tickerdata->company_name;
+        $this->description = $tickerdata->description;
+        $this->sector = $tickerdata->sector;
+        $this->market_cap = $tickerdata->market_cap;
+        $this->tags = $tickerdata->tags;
+        $this->current_share_price = $tickerdata->current_share_price;
+        $this->average_cost = $tickerdata->ave_cost;
+        $this->share_number = $tickerdata->share_number;
+        $this->share_price = '';
+        $this->date_of_purchase = Carbon::parse($tickerdata->date_of_purchase)->format('Y-m-d');
+        $this->openCompanyModal();
+    }
+
+
+
+    public function openCompanyModal()
+    {
+        $this->isCompanyOpen = true;
+    }
+
+    public function closeCompanyModal()
+    {
+        $this->isCompanyOpen = false;
+    }
+
+    // End Company detail Function
+
+
 
 }

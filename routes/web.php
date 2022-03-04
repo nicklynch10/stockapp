@@ -8,6 +8,7 @@ use App\Http\Livewire\Overview;
 use App\Http\Livewire\Account;
 use App\Http\Livewire\MarkNotification;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\HomeController;
 
 
 /*
@@ -25,13 +26,14 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker',[HomeController::class,'addTicker'])->name('addticker');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
 //Route::get('stock', Stocks::class,)->name('stock');
-Route::get('portfolio', Stocks::class,)->name('portfolio');
-Route::get('overview', Overview::class,)->name('overview');
-Route::get('account', Account::class,)->name('account');
-Route::get('notifications',[NotificationController::class,'show'])->name('notifications');
+Route::middleware(['auth:sanctum', 'verified'])->get('portfolio', Stocks::class,)->name('portfolio');
+Route::middleware(['auth:sanctum', 'verified'])->get('overview', Overview::class,)->name('overview');
+Route::middleware(['auth:sanctum', 'verified'])->get('account', Account::class,)->name('account');
+Route::middleware(['auth:sanctum', 'verified'])->get('notifications',[NotificationController::class,'show'])->name('notifications');
 

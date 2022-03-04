@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\StockTicker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -15,31 +16,36 @@ use Illuminate\Support\Facades\DB;
 
 class Stocks extends Component
 {
-    public $stocks,$company_name,$description, $sector,$market_cap,$current_share_price,$average_cost,$share_number,$date_of_purchase,$stock_id,$note;
+    public $stocks, $company_name, $description, $sector, $market_cap, $current_share_price, $average_cost, $share_number, $date_of_purchase, $stock_id, $note;
     public $isOpen = 0;
-    public $issellOpen=0;
-    public $isbuyOpen=0;
-    public $isdeleteOpen=0;
-    public $isCompanyOpen=0;
-    public $ticker=Null;
-    public $stock_ticker=Null;
-    public $current_price,$price,$account,$account_type,$tags,$issuetype;
-    public $symbol,$tickerdata;
-    public $lastInsertedID,$insertid;
-    public $type,$stock,$share_price,$share_sold,$date_of_transaction;
+    public $issellOpen = 0;
+    public $isbuyOpen = 0;
+    public $isdeleteOpen = 0;
+    public $isCompanyOpen = 0;
+    public $ticker = Null;
+    public $stock_ticker = Null;
+    public $current_price, $price, $account, $account_type, $tags, $issuetype;
+    public $symbol, $tickerdata;
+    public $lastInsertedID, $insertid;
+    public $type, $stock, $share_price, $share_sold, $date_of_transaction,$alltags;
     public $diff;
-    public $current_stock,$final_stock,$record,$result,$gettransaction;
-    public $deletestock=false;
+    public $current_stock, $final_stock, $record, $result, $gettransaction,$companyname;
+    public $deletestock = false;
 
     public function render()
     {
-        if($this->stock_ticker!=Null && $this->average_cost==Null)
-        {
+        if ($this->stock_ticker != Null && $this->average_cost == Null) {
             $this->getdata($this->stock_ticker);
         }
-        $this->stocks = Stock::orderBy('updated_at','DESC')->get();
+        if($this->company_name!='')
+        {
+            $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->company_name . '%')
+                ->get()
+                ->toArray();
+        }
+        $this->stocks = Stock::orderBy('updated_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
-        $this->account= Account::where('user_id',Auth::user()->id)->get();
+        $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');
         return view('livewire.stock');
     }
@@ -103,6 +109,7 @@ class Stocks extends Component
 
     public function store()
     {
+        dd($this->stock_ticker);
         $this->validate([
             'stock_ticker' => 'required',
             'average_cost' => 'required',
@@ -340,7 +347,7 @@ class Stocks extends Component
         $this->description = $tickerdata->description;
         $this->sector = $tickerdata->sector;
         $this->market_cap = $tickerdata->market_cap;
-        $this->tags = $tickerdata->tags;
+        $this->alltags = json_decode($tickerdata->tags);
         $this->current_share_price = $tickerdata->current_share_price;
         $this->average_cost = $tickerdata->ave_cost;
         $this->share_number = $tickerdata->share_number;

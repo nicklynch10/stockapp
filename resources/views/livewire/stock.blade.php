@@ -109,6 +109,7 @@
         <x-slot name="content">
             <!-- Role -->
             <div class="col-span-6 lg:col-span-4">
+
                 <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Stock Ticker:</b></label>
                     <label>{{$this->stock_ticker}}</label>
@@ -135,19 +136,23 @@
                         <label>{{$this->market_cap}}</label>
                     </div>
                 @endif
-                @if($this->tags)
+                @if($this->alltags)
                     <div class="mb-4">
                         <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Tags:</b></label>
-                        <label>{{$this->tags}}</label>
+                        @if(isset($this->alltags))
+                            @foreach($this->alltags as $t)
+                                <label>{{$t}}</label><br>
+                            @endforeach
+                        @endif
                     </div>
                 @endif
                 <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Current Share Price:</b></label>
-                    <label>{{$this->current_share_price}}</label>
+                    <label>${{$this->current_share_price}}</label>
                 </div>
                 <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Average Purchase Price:</b></label>
-                    <label>{{$this->average_cost}}</label>
+                    <label>${{$this->average_cost}}</label>
                 </div>
                 <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Number of Shares:</b></label>
@@ -179,28 +184,44 @@
             <!-- Role -->
             <div class="col-span-6 lg:col-span-4">
                 <div class="mb-4">
+                    <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>
+                    <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">
+                    @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
+                </div>
+                <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 text-sm font-bold mb-2"><b>Stock Ticker:</b></label>
-                    <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
-                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
+{{--                    <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">--}}
+{{--                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror--}}
+                    @if(isset($this->companyname))
+                    <select wire:click="getdata($event.target.value)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="stock_ticker">
+                            @foreach($this->companyname as $com)
+                            <option value="{{$com['ticker']}}">{{$com['ticker']}}</option>
+                            @endforeach
+                    </select>
+                    @else
+                        <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
+                        @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
+                        <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2 w-40 h-40">
+                            <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
+                                <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                     viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
-                <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2 w-40 h-40">
-                    <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
-                        <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                             viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor"
-                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </div>
-                </div>
-                @if($this->stock_ticker!='')
-                    <div class="mb-4">
-                        <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>
-                        <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">
-                        @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
-                    </div>
+
+{{--                @if($this->stock_ticker!='')--}}
+{{--                    <div class="mb-4">--}}
+{{--                        <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>--}}
+{{--                        <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">--}}
+{{--                        @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror--}}
+{{--                    </div>--}}
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 text-sm font-bold mb-2"><b>Description:</b></label>
                         <textarea id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Description" wire:model="description" rows="5"></textarea>
@@ -214,7 +235,7 @@
                     <div class="mb-4">
                         <label for="sector" class="block text-gray-700 text-sm font-bold mb-2"><b>Issue Type:</b></label>
                         <input type="text" id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Issue Type" wire:model="issuetype">
-                        <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="tags">
+                        <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Issue Type" wire:model="tags">
                         @error('issuetype') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                     <div class="mb-4">
@@ -227,7 +248,7 @@
                         <input type="text" id="current_share_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="current_share_price">
                         @error('current_share_price') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
-                @endif
+{{--                @endif--}}
                 <div class="mb-4">
                     <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Purchase Price (per Share):</b></label>
                     <input type="text" id="average_cost" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" wire:model="average_cost">

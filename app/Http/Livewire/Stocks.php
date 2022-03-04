@@ -109,7 +109,6 @@ class Stocks extends Component
 
     public function store()
     {
-        dd($this->stock_ticker);
         $this->validate([
             'stock_ticker' => 'required',
             'average_cost' => 'required',

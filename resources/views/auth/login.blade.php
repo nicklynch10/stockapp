@@ -34,9 +34,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('register'))
-                    <x-jet-button class="float-left mr-5">
-                        <a href="{{ route('register') }}"> {{ __('Register') }}</a>
-                    </x-jet-button>
+                    <a href="{{ route('register') }}" class="float-left mr-5 inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">{{ __('Register') }}</a>
                 @endif
 
                 @if (Route::has('password.request'))

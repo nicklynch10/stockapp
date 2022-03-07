@@ -21,5 +21,6 @@ class HomeController extends Controller
                 'ticker_company'=>$com['name'],
             ]);
         }
+        return redirect('portfolio');
     }
 }

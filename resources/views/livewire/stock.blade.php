@@ -36,7 +36,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @php
-                                $i=1;
+                                  $i=1;
                                 @endphp
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
@@ -45,10 +45,10 @@
                                             $totalbuyshare=0;
                                             foreach($gettransaction as $gtran)
                                             {
-                                                if($gtran->stock_id==$stock->id && $gtran->type==0)
+                                                if($gtran->ticker_name==$stock->stock_ticker && $gtran->type==0 && $gtran->user_id==$stock->user_id)
                                                 {
-                                                      $totalbuy+=($gtran->share_price*$gtran->stock);
-                                                      $totalbuyshare+=$gtran->stock;
+                                                     $totalbuy+=($gtran->share_price*$gtran->stock);
+                                                     $totalbuyshare+=$gtran->stock;
                                                 }
                                             }
                                         @endphp
@@ -57,7 +57,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900"><a class="cursor-pointer" wire:click="company({{ $stock->id }})">{{$stock->company_name}}</a></td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ number_format($totalbuy/$totalbuyshare,2) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->share_number }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $totalbuyshare }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->issuetype }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('F jS, Y')}}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
@@ -193,30 +193,32 @@
 {{--                    <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">--}}
 {{--                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror--}}
                     @if(isset($this->companyname))
-                    <select wire:click="getdata($event.target.value)" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="stock_ticker">
-                            @foreach($this->companyname as $com)
-                            <option value="{{$com['ticker']}}">{{$com['ticker']}}</option>
-                            @endforeach
+                    <select name="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="stock_ticker">
+                        <option value=""></option>
+                        @foreach($this->companyname as $com)
+                            <option value="{{$com['ticker']}}" wire:click="getdata({{$com['ticker']}})">{{$com['ticker']}}</option>
+                        @endforeach
                     </select>
                     @else
                         <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
                         @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
-                        <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2 w-40 h-40">
-                            <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
-                                <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                     viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                            stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            </div>
-                        </div>
+
                     @endif
+                    <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2 w-40 h-40">
+                        <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
+                            <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor"
+                                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
 
 
-{{--                @if($this->stock_ticker!='')--}}
+                @if($this->stock_ticker!='')
 {{--                    <div class="mb-4">--}}
 {{--                        <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>--}}
 {{--                        <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">--}}
@@ -248,7 +250,7 @@
                         <input type="text" id="current_share_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="current_share_price">
                         @error('current_share_price') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
-{{--                @endif--}}
+                @endif
                 <div class="mb-4">
                     <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Purchase Price (per Share):</b></label>
                     <input type="text" id="average_cost" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" wire:model="average_cost">
@@ -377,7 +379,7 @@
                 <div class="mb-4">
                     <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>
                     <label>{{$this->company_name}}</label>
-                    {{--                            <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Company Name" wire:model="company_name">--}}
+                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Company Name" wire:model="company_name">
                     {{--                            @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror--}}
                 </div>
                 <div class="mb-4">
@@ -404,19 +406,19 @@
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 text-sm font-bold mb-2"><b>Description:</b></label>
                     <label>{{$this->description}}</label>
-                    {{--                            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Description" wire:model="description"></textarea>--}}
+                    <textarea hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Description" wire:model="description"></textarea>
                     {{--                            @error('description') <span class="text-red-500">{{ $message }}</span>@enderror--}}
                 </div>
                 <div class="mb-4">
                     <label for="sector" class="block text-gray-700 text-sm font-bold mb-2"><b>Sector:</b></label>
                     <label>{{$this->sector}}</label>
-                    {{--                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Sector" wire:model="sector">--}}
+                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Sector" wire:model="sector">
                     {{--                            @error('sector') <span class="text-red-500">{{ $message }}</span>@enderror--}}
                 </div>
                 <div class="mb-4">
                     <label for="market_cap" class="block text-gray-700 text-sm font-bold mb-2"><b>Market Cap ($mm):</b></label>
                     <label>{{$this->market_cap}}</label>
-                    {{--                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Market Cap" wire:model="market_cap">--}}
+                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Market Cap" wire:model="market_cap">
                     {{--                            @error('market_cap') <span class="text-red-500">{{ $message }}</span>@enderror--}}
                 </div>
             </div>

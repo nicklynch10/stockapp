@@ -53,7 +53,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900" colspan="6">No Account Found</th>
+                                        <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900" colspan="8">No Account Found</th>
                                     </tr>
                                 @endforelse
                             </tbody>

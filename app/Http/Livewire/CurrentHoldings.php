@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\Stock;
 use App\Models\Transaction;
@@ -16,7 +17,7 @@ class CurrentHoldings extends Component
 
     public function render()
     {
-        $currstock=Stock::all();
+        $currstock=Stock::where('user_id',Auth::user()->id)->get();
         foreach($currstock as $st)
         {
             $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
@@ -73,7 +74,7 @@ class CurrentHoldings extends Component
 
     public function fetchData()
     {
-        return Stock::
+        return Stock::where('user_id',Auth::user()->id)->
         when($this->search, function ($q) {
             $q->where('company_name', 'like', "$this->search%");
         })->

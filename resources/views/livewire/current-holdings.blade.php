@@ -88,6 +88,7 @@
         <tbody class="bg-white divide-y divide-gray-200">
         @php $i=1; @endphp
         @forelse($currentholding as $curr)
+            @if($curr->share_number!=0)
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->stock_ticker}}</td>
@@ -101,6 +102,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-center {{$curr->total_gain_loss<0?"text-red-600":"text-green-600"}}">{{$curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2)}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->total_long_term_gains}}</td>
             </tr>
+            @endif
         @empty
             <tr>
                 <th class="text-center px-6 py-4" colspan="11">No Stock Found</th>

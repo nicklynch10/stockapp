@@ -57,7 +57,7 @@ class updatestockprice extends Command
             if($totalpchange<1 || $totalpchange>1 || $totalpchange<5 || $totalpchange>5 || $totalpchange<10)
             {
                 $details=[
-                    'body' => $stock->stock_ticker.' Total % Change Is '.($totalpchange<0?"(".abs(round($totalpchange,2))."%)":abs(round($totalpchange,2))."%"),
+                    'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange<0?"(".abs(round($totalpchange,2))."%)":abs(round($totalpchange,2))."%"),
                 ];
             }
             $user=User::all();

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class Stocks extends Component
 {
-    public $stocks, $company_name, $description, $sector, $market_cap, $current_share_price, $average_cost, $share_number, $date_of_purchase, $stock_id, $note;
+    public $user_id,$stocks, $company_name, $description, $sector, $market_cap, $current_share_price, $average_cost, $share_number, $date_of_purchase, $stock_id, $note;
     public $isOpen = 0;
     public $issellOpen = 0;
     public $isbuyOpen = 0;
@@ -29,7 +29,7 @@ class Stocks extends Component
     public $lastInsertedID, $insertid;
     public $type, $stock, $share_price, $share_sold, $date_of_transaction,$alltags;
     public $diff;
-    public $current_stock, $final_stock, $record, $result, $gettransaction,$companyname;
+    public $current_stock, $final_stock, $record, $result, $gettransaction,$companyname,$buyInsertid,$lastBuyInsertedID;
     public $deletestock = false;
 
     public function render()
@@ -43,7 +43,7 @@ class Stocks extends Component
                 ->get()
                 ->toArray();
         }
-        $this->stocks = Stock::orderBy('updated_at', 'DESC')->get();
+        $this->stocks = Stock::where('user_id',Auth::user()->id)->groupBy('stock_ticker')->orderBy('updated_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');
@@ -117,6 +117,7 @@ class Stocks extends Component
 
         $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
+            'user_id'=>Auth::user()->id,
             'stock_ticker' => $this->stock_ticker,
             'company_name' => $this->company_name,
             'description' => $this->description,
@@ -146,6 +147,7 @@ class Stocks extends Component
                 'type'=>0,
                 'stock'=>$this->share_number,
                 'share_price'=>$this->average_cost,
+                'user_id'=>Auth::user()->id,
                 'date_of_transaction'=>$this->date_of_purchase,
             ]);
         }
@@ -241,6 +243,7 @@ class Stocks extends Component
             'type'=>1,
             'stock'=>$this->share_sold,
             'share_price'=>$this->share_price,
+            'user_id'=>Auth::user()->id,
             'date_of_transaction'=>$this->date_of_purchase,
         ]);
 
@@ -298,29 +301,62 @@ class Stocks extends Component
         $this->validate([
             'share_number'=>'required',
         ]);
-
+        $current_stock=Stock::where('id',$this->stock_id)->first();
+        $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
+        $buyInsertid=Stock::Create([
+            'user_id'=>Auth::user()->id,
+            'stock_ticker' => $this->stock_ticker,
+            'company_name' => $this->company_name,
+            'description' => $this->description,
+            'sector' => $this->sector,
+            'market_cap' => $this->market_cap,
+            'current_share_price' => $this->current_share_price,
+            'issuetype' => $current_stock->issuetype,
+            'tags' => $current_stock->tags,
+            'ave_cost' => $this->average_cost,
+            'share_number' => $this->share_number,
+            'date_of_purchase' => $this->date_of_purchase,
+            'account_id'=>$current_stock->account_id,
+            'dchange'=>($this->current_share_price-$this->average_cost)*$this->share_number,
+            'pchange'=>($this->current_share_price/$this->average_cost)-1,
+            'current_total_value'=>($this->current_share_price*$this->share_number),
+            'total_cost'=>($this->average_cost*$this->share_number),
+            'total_gain_loss'=>0,
+            'total_long_term_gains'=>$diff->format("%a")>366?"Long":"Short",
+        ]);
+        $lastBuyInsertedID = $buyInsertid->id;
         Transaction::Create([
-            'stock_id' => $this->stock_id,
+            'stock_id' => $lastBuyInsertedID,
             'type'=>0,
             'stock'=>$this->share_number,
             'share_price'=>$this->average_cost,
+            'user_id'=>Auth::user()->id,
             'date_of_transaction'=>$this->date_of_purchase,
         ]);
 
-        if($this->stock_id)
-        {
-            $current_stock=Stock::select('share_number')->where('id',$this->stock_id)->first();
-            $final_stock=$current_stock->share_number+$this->share_number;
-            $record = Stock::find($this->stock_id);
-            $record->update([
-                'share_number'=>$final_stock,
-            ]);
-            $this->dispatchBrowserEvent('alert',[
-                'type'=>'success',
-                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares'
-            ]);
-            $this->buy($this->stock_id);
-        }
+
+//        Transaction::Create([
+//            'stock_id' => $this->stock_id,
+//            'type'=>0,
+//            'stock'=>$this->share_number,
+//            'share_price'=>$this->average_cost,
+//            'date_of_transaction'=>$this->date_of_purchase,
+//        ]);
+//
+//        if($this->stock_id)
+//        {
+//            $current_stock=Stock::select('share_number')->where('id',$this->stock_id)->first();
+//            $final_stock=$current_stock->share_number+$this->share_number;
+//            $record = Stock::find($this->stock_id);
+//            $record->update([
+//                'share_number'=>$final_stock,
+//            ]);
+//            $this->dispatchBrowserEvent('alert',[
+//                'type'=>'success',
+//                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares'
+//            ]);
+//            $this->buy($this->stock_id);
+//        }
         $this->closeBuyModal();
     }
 
@@ -354,8 +390,6 @@ class Stocks extends Component
         $this->date_of_purchase = Carbon::parse($tickerdata->date_of_purchase)->format('Y-m-d');
         $this->openCompanyModal();
     }
-
-
 
     public function openCompanyModal()
     {

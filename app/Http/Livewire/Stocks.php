@@ -43,7 +43,7 @@ class Stocks extends Component
                 ->get()
                 ->toArray();
         }
-        $this->stocks = Stock::where('user_id',Auth::user()->id)->groupBy('stock_ticker')->orderBy('updated_at', 'DESC')->get();
+        $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('updated_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');
@@ -56,13 +56,14 @@ class Stocks extends Component
         {
             $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
             $endpoint = 'https://cloud.iexapis.com/';
-            $symbol = Http::get($endpoint . 'stable/stock/' . $ticker . '/company?token=' . $token);
+            $symbol = Http::get($endpoint . 'stable/stock/'.$ticker.'/company?token=' . $token);
             $company = $symbol->json();
             $this->company_name = $company ? $company['companyName'] : '';
             $this->description = $company ? $company['description'] : '';
             $this->sector = $company ? $company['sector'] : '';
             $this->issuetype=$company?$company['issueType']:'';
             $this->tags=$company?json_encode($company['tags']):'';
+            $this->stock_ticker=$ticker;
 
             $marketcap = Http::get($endpoint . 'stable/stock/' . $ticker . '/stats?token=' . $token);
             $market = $marketcap->json();

@@ -16,7 +16,7 @@ class HomeController extends Controller
         $company = $symbol->json();
         foreach($company as $com)
         {
-            StockTicker::Create([
+            StockTicker::updateOrCreate(['ticker'=>$com['symbol']],[
                'ticker'=>$com['symbol'],
                 'ticker_company'=>$com['name'],
             ]);

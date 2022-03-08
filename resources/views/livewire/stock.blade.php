@@ -45,7 +45,7 @@
                                             $totalbuyshare=0;
                                             foreach($gettransaction as $gtran)
                                             {
-                                                if($gtran->ticker_name==$stock->stock_ticker && $gtran->type==0 && $gtran->user_id==$stock->user_id)
+                                                if( $gtran->stock_id==$stock->id && $gtran->type==0 )
                                                 {
                                                      $totalbuy+=($gtran->share_price*$gtran->stock);
                                                      $totalbuyshare+=$gtran->stock;
@@ -57,8 +57,8 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900"><a class="cursor-pointer" wire:click="company({{ $stock->id }})">{{$stock->company_name}}</a></td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ number_format($totalbuy/$totalbuyshare,2) }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $totalbuyshare }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->issuetype }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->share_number }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">@if($stock->issuetype=='et') Stock @elseif($stock->issuetype=='ad') ETF @else {{$stock->issuetype}} @endif</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('F jS, Y')}}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
                                                 <x-jet-button wire:click="sell({{ $stock->id }})" class="py-2 px-4">{{__('Sell')}}</x-jet-button>
@@ -194,7 +194,6 @@
 {{--                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror--}}
                     @if(isset($this->companyname))
                     <select name="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="stock_ticker">
-                        <option value=""></option>
                         @foreach($this->companyname as $com)
                             <option value="{{$com['ticker']}}" wire:click="getdata({{$com['ticker']}})">{{$com['ticker']}}</option>
                         @endforeach
@@ -202,9 +201,8 @@
                     @else
                         <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
                         @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
-
                     @endif
-                    <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2 w-40 h-40">
+                    <div wire:loading.delay wire:target="stock_ticker" wire:loading.class="mt-2">
                         <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
                             <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                  viewBox="0 0 24 24">

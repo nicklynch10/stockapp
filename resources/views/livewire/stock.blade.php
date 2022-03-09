@@ -41,24 +41,15 @@
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
                                         @php
-                                            $totalbuy=0;
-                                            $totalbuyshare=0;
-                                            foreach($gettransaction as $gtran)
-                                            {
-                                                if( $gtran->stock_id==$stock->id && $gtran->type==0 )
-                                                {
-                                                     $totalbuy+=($gtran->share_price*$gtran->stock);
-                                                     $totalbuyshare+=$gtran->stock;
-                                                }
-                                            }
+                                            $companyname=explode('-',$stock->security_name);
                                         @endphp
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $i++ }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900"><a class="cursor-pointer" wire:click="company({{ $stock->id }})">{{$stock->company_name}}</a></td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ number_format($totalbuy/$totalbuyshare,2) }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900"><a class="cursor-pointer" wire:click="company({{ $stock->id }})">{{isset($companyname[1])?$companyname[1]:$companyname[0]}}</a></td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ number_format($stock->ave_cost,2) }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ $stock->share_number }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">@if($stock->issuetype=='et') Stock @elseif($stock->issuetype=='ad') ETF @else {{$stock->issuetype}} @endif</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">@if($stock->issuetype=='et') ETF @elseif($stock->issuetype=='ad') ADR @elseif($stock->issuetype=='cs') Common Stock @else {{$stock->issuetype}} @endif</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('F jS, Y')}}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
                                                 <x-jet-button wire:click="sell({{ $stock->id }})" class="py-2 px-4">{{__('Sell')}}</x-jet-button>
@@ -109,7 +100,6 @@
         <x-slot name="content">
             <!-- Role -->
             <div class="col-span-6 lg:col-span-4">
-
                 <div class="mb-4">
                     <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Stock Ticker:</b></label>
                     <label>{{$this->stock_ticker}}</label>
@@ -217,11 +207,11 @@
 
 
                 @if($this->stock_ticker!='')
-{{--                    <div class="mb-4">--}}
-{{--                        <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>--}}
-{{--                        <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">--}}
-{{--                        @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-{{--                    </div>--}}
+                    <div class="mb-4">
+                        <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Security Name:</b></label>
+                        <input type="text" id="securityname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Security Name" wire:model="security_name">
+                        @error('security_name') <span class="text-red-500">{{ $message }}</span>@enderror
+                    </div>
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 text-sm font-bold mb-2"><b>Description:</b></label>
                         <textarea id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Description" wire:model="description" rows="5"></textarea>
@@ -251,7 +241,7 @@
                 @endif
                 <div class="mb-4">
                     <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Purchase Price (per Share):</b></label>
-                    <input type="text" id="average_cost" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" wire:model="average_cost">
+                    <input type="text" id="average_cost" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" @if($this->openmodalval==0) wire:click="$emit('AveModal')" @endif {{$this->avepricereadonly==0?'':'readonly'}}  wire:model="average_cost">
                     @error('average_cost') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
                 <div class="mb-4">
@@ -457,6 +447,26 @@
         </x-slot>
     </x-jet-confirmation-modal>
     {{-- End Delete Stock --}}
+
+    <x-jet-confirmation-modal wire:model="isAveOpen">
+        <x-slot name="title">
+            {{ __('Average Purchase Price') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you want to Change Average Purchase Price?') }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-button class="ml-2" wire:click="closeAveModal(1)" wire:loading.attr="disabled">
+                {{ __('Yes') }}
+            </x-jet-button>
+
+            <x-jet-danger-button class="ml-2"  wire:click="closeAveNoModal(1)" wire:loading.attr="disabled">
+                {{ __('No') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
 
 
 </main>

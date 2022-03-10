@@ -32,8 +32,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 //Route::get('stock', Stocks::class,)->name('stock');
-Route::middleware(['auth:sanctum', 'verified'])->get('portfolio', Stocks::class,)->name('portfolio');
-Route::middleware(['auth:sanctum', 'verified'])->get('overview', Overview::class,)->name('overview');
-Route::middleware(['auth:sanctum', 'verified'])->get('account', Account::class,)->name('account');
-Route::middleware(['auth:sanctum', 'verified'])->get('notifications',[NotificationController::class,'show'])->name('notifications');
+Route::get('portfolio', Stocks::class,)->middleware(['auth:sanctum', 'verified'])->name('portfolio');
+Route::get('overview', Overview::class,)->middleware(['auth:sanctum', 'verified'])->name('overview');
+Route::get('account', Account::class,)->middleware(['auth:sanctum', 'verified'])->name('account');
+Route::get('notifications',[NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
 

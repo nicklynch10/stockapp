@@ -16,14 +16,11 @@
 
     <div class="p-3 flex flex-wrap justify-center bg-white">
 
-        <div
-            class="w-full lg:w-1/2 lg:border-b-0 border-b-2 border-gray-200 p-4 free_form tracking-wide ">
+        <div class="w-full lg:w-1/2 lg:border-b-0 border-gray-200 p-4 free_form tracking-wide ">
             {{$n->data['tagline']}}
         </div>
 
-
     </div>
-
     <div class="text-xs italic p-2 text-gray-800 border-t-2 border-gray-100 ">
         {{$n->created_at->diffForHumans()}}
     </div>
@@ -34,13 +31,10 @@
         text-decoration: underline;
         color: blue;
     }
-
     .free_form > .ql-font-serif {
         font: sans-serif;
     }
-
     .free_form > ul {
         list-style: inside;
     }
-
 </style>

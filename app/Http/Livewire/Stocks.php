@@ -22,6 +22,7 @@ class Stocks extends Component
     public $isbuyOpen = 0;
     public $isdeleteOpen = 0;
     public $isCompanyOpen = 0;
+    public $currentStep = 1;
 
     public $isAveOpen=false;
     public $ticker = Null;
@@ -54,6 +55,25 @@ class Stocks extends Component
         return view('livewire.stock');
     }
 
+    public function firstStepSubmit()
+    {
+        $this->validate([
+            'stock_ticker' => 'required',
+            'average_cost' => 'required',
+            'share_number' => 'required',
+        ]);
+        $this->currentStep = 2;
+    }
+
+    public function secondStepSubmit()
+    {
+        $this->currentStep = 3;
+    }
+    public function back($step)
+    {
+        $this->currentStep = $step;
+    }
+
     public function getdata($ticker=Null)
     {
         if($ticker!=Null)
@@ -65,6 +85,30 @@ class Stocks extends Component
             $this->company_name = $company ? $company['companyName'] : '';
             $this->description = $company ? $company['description'] : '';
             $this->sector = $company ? $company['sector'] : '';
+            if(isset($company['issueType']))
+            {
+                if($company['issueType']=='et')
+                {
+                    $this->issuetype="ETF";
+                }
+                elseif ($company['issueType']=='et')
+                {
+                    $this->issuetype="ADR";
+                }
+                elseif ($company['issueType']=='cs')
+                {
+                    $this->issuetype="Common Stock";
+                }
+                else
+                {
+                    $this->issuetype=$company['issueType'];
+                }
+            }
+            else
+            {
+                $this->issuetype='';
+            }
+
             $this->issuetype=$company?$company['issueType']:'';
             $this->tags=$company?json_encode($company['tags']):'';
             $this->security_name=$company?$company['securityName']:'';
@@ -195,10 +239,33 @@ class Stocks extends Component
         $this->description = $company['description'];
         $this->sector = $company['sector'];
         $this->current_share_price = $price ? $price['latestPrice'] : '';
-        $this->issuetype = $company['issueType'];
+        if(isset($company['issueType']))
+        {
+            if($company['issueType']=='et')
+            {
+                $this->issuetype="ETF";
+            }
+            elseif ($company['issueType']=='et')
+            {
+                $this->issuetype="ADR";
+            }
+            elseif ($company['issueType']=='cs')
+            {
+                $this->issuetype="Common Stock";
+            }
+            else
+            {
+                $this->issuetype=$company['issueType'];
+            }
+        }
+        else
+        {
+            $this->issuetype='';
+        }
         $this->tags = json_encode($company['tags']);
         $this->openmodalval=0;
         $this->avepricereadonly=0;
+        $this->currentStep=1;
         $marketcap = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/stats?token=' . $token);
         $market = $marketcap->json();
         $this->market_cap = $market ? round(($market['marketcap']/1000000), 2) : '';
@@ -410,6 +477,7 @@ class Stocks extends Component
         $this->current_share_price = $tickerdata->current_share_price;
         $this->average_cost = $tickerdata->ave_cost;
         $this->share_number = $tickerdata->share_number;
+        $this->issuetype = $tickerdata->issuetype;
         $this->share_price = '';
         $this->date_of_purchase = Carbon::parse($tickerdata->date_of_purchase)->format('Y-m-d');
         $this->openCompanyModal();

@@ -16,9 +16,6 @@
         <link rel="stylesheet" type="text/css" href="/css/tooltipster.bundle.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/tooltipster-sideTip-borderless.min.css" />
 
-        {{--  Process Modal  --}}
-        <link rel="stylesheet" type="text/css" href="https://acisp.ac.tz/css/addons-pro/steppers.css">
-        <link rel="stylesheet" type="text/css" href="https://acisp.ac.tz/css/addons-pro/steppers.min.css">
 
 
         @livewireStyles
@@ -28,8 +25,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-        <script src="https://acisp.ac.tz/js/addons-pro/steppers.js"></script>
-        <script src="https://acisp.ac.tz/js/addons-pro/steppers.min.js"></script>
 
         <script type="text/javascript" src="/js/tooltipster.bundle.min.js"></script>
 

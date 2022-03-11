@@ -374,7 +374,8 @@ class Stocks extends Component
         $this->current_share_price = $price ? $price['latestPrice'] : '';
         $this->stock_id = $id;
         $this->stock_ticker = $stock->stock_ticker;
-        $this->company_name = $stock->security_name;
+        $this->company_name = $stock->company_name;
+        $this->security_name = $stock->security_name;
         $this->description = $stock->description;
         $this->sector = $stock->sector;
         $this->market_cap = $stock->market_cap;
@@ -396,6 +397,7 @@ class Stocks extends Component
             'user_id'=>Auth::user()->id,
             'stock_ticker' => $this->stock_ticker,
             'company_name' => $this->company_name,
+            'security_name' => $this->security_name,
             'description' => $this->description,
             'sector' => $this->sector,
             'market_cap' => $this->market_cap,

@@ -21,7 +21,6 @@
         </div>
     </div>
 
-
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -38,6 +37,7 @@
             </div>
         </div>
     </div>
+
     <script>
         var xValues = [@foreach($this->sto as $st)
             @if($st->share_number!=0)

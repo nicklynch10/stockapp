@@ -156,7 +156,7 @@ class Stocks extends Component
         $this->note='';
         $this->date_of_purchase=Carbon::now()->format('Y-m-d');
         $default=Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
-        $this->account_type=$default->id;
+        $this->account_type=$default?$default->id:'';
     }
 
     public function store()

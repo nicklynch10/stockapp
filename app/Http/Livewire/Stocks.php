@@ -425,6 +425,11 @@ class Stocks extends Component
             'user_id'=>Auth::user()->id,
             'date_of_transaction'=>$this->date_of_purchase,
         ]);
+        $this->dispatchBrowserEvent('alert',[
+                'type'=>'success',
+                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares'
+            ]);
+            $this->buy($this->stock_id);
 
 
 //        Transaction::Create([

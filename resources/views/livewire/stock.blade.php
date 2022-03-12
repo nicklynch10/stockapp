@@ -295,7 +295,7 @@
                                 <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Notes" wire:model="note">
                                 @error('note') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
-                            <x-jet-button class="ml-2 bg-red-600 hover:bg-red-500" wire:click="back(1)">Back</x-jet-button>
+
                         </div>
                     </div>
                 </div>
@@ -309,6 +309,10 @@
                 </x-jet-secondary-button>
 
             @elseif($currentStep == 2)
+                <x-jet-button class="mr-2 bg-red-600 hover:bg-red-500" wire:click="back(1)">
+                    {{ __('Back') }}
+                </x-jet-button>
+
                 <x-jet-secondary-button wire:click="closeModal()">
                     {{ __('Cancel') }}
                 </x-jet-secondary-button>

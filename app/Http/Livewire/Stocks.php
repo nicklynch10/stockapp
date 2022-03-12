@@ -91,7 +91,7 @@ class Stocks extends Component
                 {
                     $this->issuetype="ETF";
                 }
-                elseif ($company['issueType']=='et')
+                elseif ($company['issueType']=='ad')
                 {
                     $this->issuetype="ADR";
                 }
@@ -108,8 +108,6 @@ class Stocks extends Component
             {
                 $this->issuetype='';
             }
-
-            $this->issuetype=$company?$company['issueType']:'';
             $this->tags=$company?json_encode($company['tags']):'';
             $this->security_name=$company?$company['securityName']:'';
             $this->stock_ticker=$ticker;

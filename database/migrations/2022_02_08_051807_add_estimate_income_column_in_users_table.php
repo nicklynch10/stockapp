@@ -14,8 +14,8 @@ class AddEstimateIncomeColumnInUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('estimate_income')->nullable()->change();;
-            $table->string('income_label')->nullable()->change();
+            $table->string('estimate_income')->nullable()->after('password');
+            $table->string('income_label')->nullable()->after('estimate_income');
         });
     }
 

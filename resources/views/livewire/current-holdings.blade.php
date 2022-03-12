@@ -2,7 +2,6 @@
     <table>
         <thead class="bg-gray-300">
         <tr>
-            <th class="px-4 py-2 w-20">No.</th>
             <th wire:click="sort('stock_ticker')"
                 class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Stock Ticker<span>
                 @if($sortColumn === 'stock_ticker')
@@ -12,7 +11,7 @@
                 @endif
         </span></th>
             <th wire:click="sort('share_number')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Number of Shares<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Share Count<span>
                 @if($sortColumn === 'share_number')
                     <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                 @else
@@ -28,7 +27,7 @@
                 @endif
         </span></th>
             <th wire:click="sort('current_share_price')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Current Price<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Share Price<span>
                 @if($sortColumn === 'current_share_price')
                     <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                 @else
@@ -52,7 +51,7 @@
                     @endif
         </span></th>
             <th wire:click="sort('current_total_value')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]"> Current Total Value<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]"> Market Value<span>
                 @if($sortColumn === 'current_total_value')
                         <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                     @else
@@ -68,7 +67,7 @@
                     @endif
         </span></th>
             <th wire:click="sort('total_gain_loss')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Total $ Gains/Losses<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Total Gain / (Loss)<span>
                 @if($sortColumn === 'total_gain_loss')
                         <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                     @else
@@ -76,7 +75,7 @@
                     @endif
         </span></th>
             <th wire:click="sort('total_long_term_gains')"
-                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Total  $ Long Term Gains<span>
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Tax Classification<span>
                 @if($sortColumn === 'total_long_term_gains')
                         <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
                     @else
@@ -86,11 +85,9 @@
         </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-        @php $i=1; @endphp
         @forelse($currentholding as $curr)
             @if($curr->share_number!=0)
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->stock_ticker}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->share_number}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($curr->ave_cost,2)}}</td>

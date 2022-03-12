@@ -47,10 +47,10 @@ class CurrentHoldings extends Component
             }
             $current_total_value=($price_current['latestPrice']*$st->share_number);
             $total_cost=($st->ave_cost*$st->share_number);
-            $gain=($sharesell)*($sell-$buy);
+            $gain=$current_total_value-$total_cost;
             $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
-            $dchange=($price_current['latestPrice']-$st->ave_cost)*$st->share_number;
-            $pchange=($price_current['latestPrice']/$st->ave_cost)-1;
+            $dchange=$price_current['latestPrice']-$st->ave_cost;
+            $pchange=(($price_current['latestPrice']/$st->ave_cost)-1)*100;
             $result=Stock::find($st->id);
             $result->update([
                 'current_share_price'=>$price_current['latestPrice'],
@@ -59,7 +59,7 @@ class CurrentHoldings extends Component
                 'current_total_value'=>$current_total_value,
                 'total_cost'=>$total_cost,
                 'total_gain_loss'=>$gain,
-                'total_long_term_gains'=>$diff->format("%a")>366?"Long":"Short",
+                'total_long_term_gains'=>$diff->format("%a")>366?"Long / ". \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($st->date_of_purchase)) ." Days held":"Short / ". \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($st->date_of_purchase)) ." Days held",
             ]);
         }
         return view('livewire.current-holdings',['currentholding'=>$this->fetchData(),'transaction'=>Transaction::all()]);

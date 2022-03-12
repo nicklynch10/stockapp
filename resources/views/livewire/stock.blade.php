@@ -25,7 +25,6 @@
                         <table>
                             <thead class="bg-gray-300">
                                 <tr>
-                                    <th class="px-6 py-4 w-20">No.</th>
                                     <th class="px-6 py-4">Ticker</th>
                                     <th class="px-6 py-4">Company Name</th>
                                     <th class="px-6 py-4">Cost Basis </th>
@@ -36,16 +35,12 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @php
-                                  $i=1;
-                                @endphp
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
                                         @php
                                             $companyname=explode('-',$stock->security_name);
                                         @endphp
                                         <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $i++ }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900"><a class="cursor-pointer" wire:click="company({{ $stock->id }})">{{isset($companyname[1])?$companyname[1]:$companyname[0]}}</a></td>
                                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{ number_format($stock->ave_cost,2) }}</td>

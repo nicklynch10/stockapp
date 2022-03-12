@@ -377,8 +377,8 @@ class Stocks extends Component
         $this->description = $stock->description;
         $this->sector = $stock->sector;
         $this->market_cap = $stock->market_cap;
-        $this->average_cost = $stock->ave_cost;
-        $this->share_number = $stock->share_number;
+        $this->average_cost = '';
+        $this->share_number = '';
         $this->share_price = '';
         $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->openBuyModal();

@@ -25,7 +25,6 @@
                             <thead class="bg-gray-300">
                             <tr>
                                 <th class="px-6 py-4">Set as Default</th>
-                                <th class="px-6 py-4 w-20">No.</th>
                                 <th class="px-6 py-4">Account Name</th>
                                 <th class="px-6 py-4">Account Type</th>
                                 <th class="px-6 py-4">Account Brokerage</th>
@@ -35,13 +34,9 @@
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @php
-                                    $i=1;
-                                @endphp
                                 @forelse($this->account as $acc)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked":""}} wire:click="set_default({{$acc->id}})"></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$i++}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_name}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_type}}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_brokerage}}</td>

@@ -187,7 +187,7 @@
                 </div>
 
                 <div class="row setup-content {{ $currentStep != 1 ? 'displayNone' : '' }}" id="step-1">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12 pt-6">
                         <div class="col-md-12">
                             <div class="mb-4">
                                 <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Search By Company Name Or Ticker:</b></label>
@@ -280,7 +280,6 @@
                                 <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Notes" wire:model="note">
                                 @error('note') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
-
                         </div>
                     </div>
                 </div>

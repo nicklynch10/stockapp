@@ -38,7 +38,7 @@
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
                                         @php
-                                            $companyname=explode('-',$stock->security_name);
+                                            $companyname=explode('-',$stock->security_name)
                                         @endphp
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
@@ -190,27 +190,12 @@
                     <div class="col-xs-12">
                         <div class="col-md-12">
                             <div class="mb-4">
-                                <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>
-                                <input type="text" id="companyname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="company_name">
+                                <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Search By Company Name Or Ticker:</b></label>
+                                <input type="text" id="tickerorcompany" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Ticker Or Company Name" wire:model="tickerorcompany">
+                                <input type="text" id="company_name" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="{{$this->company_name}}">
+                                <input type="text" id="ticker" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="{{$this->stock_ticker}}">
                                 @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="stockticker" class="block text-gray-700 text-sm font-bold mb-2"><b>Stock Ticker:</b></label>
-                                {{--                    <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">--}}
-                                {{--                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-                                @if(isset($this->companyname))
-                                    <select name="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="stock_ticker">
-                                        <option value="">Select Ticker</option>
-                                        @foreach($this->companyname as $com)
-                                            <option value="{{$com['ticker']}}" wire:click="getdata({{$com['ticker']}})">{{$com['ticker']}}</option>
-                                        @endforeach
-                                    </select>
-                                @else
-                                    <input type="text" id="stock_ticker" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
-                                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
-                                @endif
-                                <div wire:loading.delay.shortest wire:target="stock_ticker" wire:loading.class="mt-2">
+                                <div wire:loading.delay.shortest wire:target="tickerorcompany" wire:loading.class="mt-2">
                                     <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
                                         <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                              viewBox="0 0 24 24">
@@ -222,7 +207,12 @@
                                     </div>
                                 </div>
                             </div>
-
+                            @if($this->companyname)
+                            <div class="mb-4" style="border-left:5px solid #00c806;padding: 10px">
+                                <label class="text-2xl"><b>{{$this->stock_ticker}}</b></label><br>
+                                <label>{{$this->company_name}}</label>
+                            </div>
+                            @endif
                             <div class="mb-4">
                                 <label for="current_share_price" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Share Price:</b></label>
                                 <input type="text" id="current_share_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="current_share_price">
@@ -252,10 +242,10 @@
                                 <input type="date" id="date_of_purchase" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
                                 @error('date_of_purchase') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
-
                         </div>
                     </div>
                 </div>
+
                 <div class="row setup-content {{ $currentStep != 2 ? 'displayNone' : '' }}" id="step-2">
                     <div class="col-xs-12">
                         <div class="col-md-12">
@@ -299,16 +289,16 @@
 
         <x-slot name="footer">
             @if($currentStep == 1)
-                <x-jet-secondary-button wire:click="firstStepSubmit">
-                    Next
+                <x-jet-secondary-button wire:click="firstStepSubmit()" wire:loading.attr="disabled">
+                    {{ __('Next') }}
                 </x-jet-secondary-button>
 
             @elseif($currentStep == 2)
-                <x-jet-button class="mr-2 bg-red-600 hover:bg-red-500" wire:click="back(1)">
+                <x-jet-button class="mr-2 bg-red-600 hover:bg-red-500" wire:click="back(1)" wire:loading.attr="disabled">
                     {{ __('Back') }}
                 </x-jet-button>
 
-                <x-jet-secondary-button wire:click="closeModal()">
+                <x-jet-secondary-button wire:click="closeModal()" wire:loading.attr="disabled">
                     {{ __('Cancel') }}
                 </x-jet-secondary-button>
 

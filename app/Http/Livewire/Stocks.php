@@ -31,7 +31,7 @@ class Stocks extends Component
     public $symbol, $tickerdata;
     public $lastInsertedID, $insertid;
     public $type, $stock, $share_price, $share_sold, $date_of_transaction,$alltags;
-    public $diff;
+    public $diff,$tickerorcompany;
     public $current_stock, $final_stock, $record, $result, $gettransaction,$companyname,$buyInsertid,$lastBuyInsertedID;
     public $deletestock = false;
     protected $listeners=['AveModal'=>'openAveModal'];
@@ -39,14 +39,48 @@ class Stocks extends Component
 
     public function render()
     {
-        if ($this->stock_ticker != Null && $this->average_cost == Null) {
-            $this->getdata($this->stock_ticker);
-        }
-        if($this->company_name!='')
+        if($this->tickerorcompany!=Null)
         {
-            $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->company_name . '%')
-                ->get()
-                ->toArray();
+            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
+                ->orwhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
+                ->first();
+            $this->company_name=$this->companyname?$this->companyname['ticker_company']:'';
+            $this->stock_ticker=$this->companyname?$this->companyname['ticker']:'';
+            if($this->companyname && $this->companyname['ticker'])
+            {
+                $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+                $endpoint = 'https://cloud.iexapis.com/';
+                $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
+                $company = $symbol->json();
+                $this->description = $company ? $company['description'] : '';
+                $this->sector = $company ? $company['sector'] : '';
+                if(isset($company['issueType']))
+                {
+                    if($company['issueType']=='et')
+                    {
+                        $this->issuetype="ETF";
+                    }
+                    elseif ($company['issueType']=='ad')
+                    {
+                        $this->issuetype="ADR";
+                    }
+                    elseif ($company['issueType']=='cs')
+                    {
+                        $this->issuetype="Common Stock";
+                    }
+                    else
+                    {
+                        $this->issuetype=$company['issueType'];
+                    }
+                }
+                $this->tags=$company?json_encode($company['tags']):'';
+                $this->security_name=$company?$company['securityName']:'';
+                $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);
+                $price = $current_price->json();
+                $this->current_share_price = $price ? $price['latestPrice'] : '';
+                $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+
+            }
         }
         $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
@@ -58,7 +92,6 @@ class Stocks extends Component
     public function firstStepSubmit()
     {
         $this->validate([
-            'stock_ticker' => 'required',
             'average_cost' => 'required',
             'share_number' => 'required',
         ]);
@@ -74,53 +107,6 @@ class Stocks extends Component
         $this->currentStep = $step;
     }
 
-    public function getdata($ticker=Null)
-    {
-        if($ticker!=Null)
-        {
-            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-            $endpoint = 'https://cloud.iexapis.com/';
-            $symbol = Http::get($endpoint . 'stable/stock/'.$ticker.'/company?token=' . $token);
-            $company = $symbol->json();
-            $this->company_name = $company ? $company['companyName'] : '';
-            $this->description = $company ? $company['description'] : '';
-            $this->sector = $company ? $company['sector'] : '';
-            if(isset($company['issueType']))
-            {
-                if($company['issueType']=='et')
-                {
-                    $this->issuetype="ETF";
-                }
-                elseif ($company['issueType']=='ad')
-                {
-                    $this->issuetype="ADR";
-                }
-                elseif ($company['issueType']=='cs')
-                {
-                    $this->issuetype="Common Stock";
-                }
-                else
-                {
-                    $this->issuetype=$company['issueType'];
-                }
-            }
-            else
-            {
-                $this->issuetype='';
-            }
-            $this->tags=$company?json_encode($company['tags']):'';
-            $this->security_name=$company?$company['securityName']:'';
-            $this->stock_ticker=$ticker;
-
-            $marketcap = Http::get($endpoint . 'stable/stock/' . $ticker . '/stats?token=' . $token);
-            $market = $marketcap->json();
-            $this->market_cap = $market ? round(($market['marketcap']/1000000), 2) : '';
-
-            $current_price = Http::get($endpoint . 'stable/stock/' . $ticker . '/quote?token=' . $token);
-            $price = $current_price->json();
-            $this->current_share_price = $price ? $price['latestPrice'] : '';
-        }
-    }
 
     public function create()
     {
@@ -150,7 +136,9 @@ class Stocks extends Component
         $this->average_cost = '';
         $this->issuetype = '';
         $this->share_number = '';
+        $this->tickerorcompany = '';
         $this->openmodalval=1;
+        $this->currentStep=1;
         $this->note='';
         $this->date_of_purchase=Carbon::now()->format('Y-m-d');
         $default=Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
@@ -165,7 +153,7 @@ class Stocks extends Component
             'share_number' => 'required',
         ]);
 
-        $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
+        $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
             'user_id'=>Auth::user()->id,
             'stock_ticker' => $this->stock_ticker,
@@ -191,18 +179,15 @@ class Stocks extends Component
         ]);
         $lastInsertedID = $insertid->id;
 
-        if($this->stock_id==Null)
-        {
-            Transaction::Create([
-                'stock_id' => $lastInsertedID,
-                'type'=>0,
-                'ticker_name'=>$this->stock_ticker,
-                'stock'=>$this->share_number,
-                'share_price'=>$this->average_cost,
-                'user_id'=>Auth::user()->id,
-                'date_of_transaction'=>$this->date_of_purchase,
-            ]);
-        }
+        Transaction::updateOrCreate(['stock_id' => $this->stock_id],[
+            'stock_id' => $lastInsertedID,
+            'type'=>0,
+            'ticker_name'=>$this->stock_ticker,
+            'stock'=>$this->share_number,
+            'share_price'=>$this->average_cost,
+            'user_id'=>Auth::user()->id,
+            'date_of_transaction'=>$this->date_of_purchase,
+        ]);
 
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
@@ -231,7 +216,9 @@ class Stocks extends Component
         $company = $symbol->json();
 
         $this->stock_id = $id;
+        $this->tickerorcompany=$stock->stock_ticker;
         $this->stock_ticker = $stock->stock_ticker;
+        $this->companyname = $stock->stock_ticker;
         $this->company_name = $company['companyName'];
         $this->security_name = $company['securityName'];
         $this->description = $company['description'];
@@ -264,10 +251,7 @@ class Stocks extends Component
         $this->openmodalval=0;
         $this->avepricereadonly=0;
         $this->currentStep=1;
-        $marketcap = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/stats?token=' . $token);
-        $market = $marketcap->json();
-        $this->market_cap = $market ? round(($market['marketcap']/1000000), 2) : '';
-
+        $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
@@ -312,8 +296,12 @@ class Stocks extends Component
         $this->current_share_price = $stock->current_share_price;
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
+        $this->issuetype = $stock->issuetype;
+        $this->security_name = $stock->security_name;
+        $this->tags = $stock->tags;
         $this->share_price = '';
         $this->share_sold = '';
+        $this->openmodalval=1;
         $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->openSellModal();
     }
@@ -380,6 +368,7 @@ class Stocks extends Component
         $this->average_cost = '';
         $this->share_number = '';
         $this->share_price = '';
+        $this->openmodalval=1;
         $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->openBuyModal();
     }
@@ -390,7 +379,7 @@ class Stocks extends Component
             'share_number'=>'required',
         ]);
         $current_stock=Stock::where('id',$this->stock_id)->first();
-        $diff=date_diff(date_create(\Carbon\Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
+        $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
         $buyInsertid=Stock::Create([
             'user_id'=>Auth::user()->id,
             'stock_ticker' => $this->stock_ticker,

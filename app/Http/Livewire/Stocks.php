@@ -42,10 +42,15 @@ class Stocks extends Component
         if($this->tickerorcompany!=Null)
         {
             $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
-                ->orwhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                 ->first();
+            if(!$this->companyname)
+            {
+                $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
+                    ->first();
+            }
             $this->company_name=$this->companyname?$this->companyname['ticker_company']:'';
             $this->stock_ticker=$this->companyname?$this->companyname['ticker']:'';
+
             if($this->companyname && $this->companyname['ticker'])
             {
                 $token = 'pk_367c9e2f397648309da77c1a14e17ff6';

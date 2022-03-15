@@ -81,7 +81,7 @@
 
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="email" value="{{ __('Estimated income') }}" />
-            <x-jet-input type="estimate_income" class="mt-1 block w-full" wire:model.defer="state.estimate_income" />
+            <x-jet-input type="text" class="mt-1 block w-full" wire:model.defer="state.estimate_income" />
             <x-jet-input-error for="estimate_income" class="mt-2" />
         </div>
     </x-slot>

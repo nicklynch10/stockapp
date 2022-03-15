@@ -16,13 +16,13 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
 
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('update:stockprice')->twiceDaily(1, 13)->timezone('America/New_York');
+         $schedule->command('update:stockprice')->hourly()->timezone('America/New_York');
     }
 
     /**

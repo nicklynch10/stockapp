@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Models\Stock;
 use App\Models\User;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 use App\Notifications\Currentportfoliochange;
 

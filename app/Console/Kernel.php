@@ -4,10 +4,14 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\updatestockprice;
+use App\Console\Commands\UpdateStockPrice;
 
 class Kernel extends ConsoleKernel
 {
+    public $timezone='America/New_York';
+    protected $commands=[
+        UpdateStockPrice::class,
+    ];
 
     /**
      * Define the application's command schedule.
@@ -16,14 +20,9 @@ class Kernel extends ConsoleKernel
      * @return void
      */
 
-    protected $commands = [
-        Commands\UpdateStockPrice::class,
-    ];
-
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('update:stockprice')
-            ->everyMinute();
+         $schedule->command('update:stockprice')->everyMinute()->timezone('America/New_York');
     }
 
     /**

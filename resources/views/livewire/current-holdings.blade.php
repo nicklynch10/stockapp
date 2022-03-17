@@ -88,16 +88,16 @@
         @forelse($currentholding as $curr)
             @if($curr->share_number!=0)
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->stock_ticker}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->share_number}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($curr->ave_cost,2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($curr->current_share_price,2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->dchange<0?"($".number_format(abs($curr->dchange),2).")":"$".number_format(abs($curr->dchange),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->pchange<0?"(".number_format(abs($curr->pchange),2)."%)":number_format(abs($curr->pchange),2)."%"}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->current_total_value<0?"($".number_format(abs($curr->current_total_value),2).")":"$".number_format(abs($curr->current_total_value),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->total_cost<0?"($".number_format(abs($curr->total_cost),2).")":"$".number_format(abs($curr->total_cost),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center {{$curr->total_gain_loss<0?"text-red-600":"text-green-600"}}">{{$curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$curr->total_long_term_gains}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$curr->stock_ticker}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Count">{{$curr->share_number}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Cost Basis">${{number_format($curr->ave_cost,2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Price">${{number_format($curr->current_share_price,2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="$ Change">{{$curr->dchange<0?"($".number_format(abs($curr->dchange),2).")":"$".number_format(abs($curr->dchange),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="% Change">{{$curr->pchange<0?"(".number_format(abs($curr->pchange),2)."%)":number_format(abs($curr->pchange),2)."%"}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Market Value">{{$curr->current_total_value<0?"($".number_format(abs($curr->current_total_value),2).")":"$".number_format(abs($curr->current_total_value),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Total Cost">{{$curr->total_cost<0?"($".number_format(abs($curr->total_cost),2).")":"$".number_format(abs($curr->total_cost),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center {{$curr->total_gain_loss<0?"text-red-600":"text-green-600"}}" data-label="Total Gain / (Loss)">{{$curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Tax Classification">{{$curr->total_long_term_gains}}</td>
             </tr>
             @endif
         @empty

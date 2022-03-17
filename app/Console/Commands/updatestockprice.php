@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Command;
 use App\Models\Stock;
 use App\Models\User;
-use Illuminate\Console\Command;
+use Illuminate\Console\Commands;
 use Illuminate\Support\Facades\Http;
 use App\Notifications\Currentportfoliochange;
 
-class updatestockprice extends Command
+class UpdateStockPrice extends Command
 {
     /**
      * The name and signature of the console command.

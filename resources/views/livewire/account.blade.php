@@ -35,7 +35,9 @@
             table td:last-child{
                 border-bottom: 1px solid;
             }
+            table tr:nth-child(even){background-color: #ffffff;}
         }
+        table tr:nth-child(even){background-color: #f2f2f294;}
     </style>
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col sm:rounded-lg px-4 py-4">
@@ -89,6 +91,7 @@
             </div>
         </div>
     </div>
+
 
     <x-jet-dialog-modal wire:model="isOpen">
         <x-slot name="title">

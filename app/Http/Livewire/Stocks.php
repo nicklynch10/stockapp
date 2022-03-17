@@ -34,8 +34,9 @@ class Stocks extends Component
     public $diff,$tickerorcompany;
     public $current_stock, $final_stock, $record, $result, $gettransaction,$companyname,$buyInsertid,$lastBuyInsertedID;
     public $deletestock = false;
-    protected $listeners=['AveModal'=>'openAveModal'];
+
     public $openmodalval=0,$avepricereadonly=0;
+    protected $listeners=['AveModal'=>'openAveModal'];
 
     public function render()
     {
@@ -90,7 +91,7 @@ class Stocks extends Component
         $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-        $this->emit('historicaldata');
+
         return view('livewire.stock');
     }
 
@@ -206,6 +207,7 @@ class Stocks extends Component
         {
             $this->closeModal();
         }
+        $this->emit('historicaldata');
         $this->resetInputFields();
     }
 

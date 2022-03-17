@@ -8,10 +8,6 @@ use App\Console\Commands\updatestockprice;
 
 class Kernel extends ConsoleKernel
 {
-    public $timezone='America/New_York';
-    protected $commands=[
-        updatestockprice::class,
-    ];
 
     /**
      * Define the application's command schedule.
@@ -20,9 +16,14 @@ class Kernel extends ConsoleKernel
      * @return void
      */
 
+    protected $commands = [
+        Commands\UpdateStockPrice::class,
+    ];
+
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('update:stockprice')->hourly()->timezone('America/New_York');
+        $schedule->command('update:stockprice')
+            ->everyMinute();
     }
 
     /**

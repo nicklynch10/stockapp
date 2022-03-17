@@ -3,6 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Stock;
+use App\Models\User;
+use Illuminate\Console\Commands;
+use Illuminate\Support\Facades\Http;
+use App\Notifications\Currentportfoliochange;
 
 class UpdateStockPrice extends Command
 {
@@ -18,7 +23,7 @@ class UpdateStockPrice extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Update Stock Price';
 
     /**
      * Create a new command instance.
@@ -37,6 +42,30 @@ class UpdateStockPrice extends Command
      */
     public function handle()
     {
-        return 0;
+        $getstock=Stock::all();
+        foreach($getstock as $stock)
+        {
+            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+            $endpoint = 'https://cloud.iexapis.com/';
+            $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+            $price = $current_price->json();
+            $record = Stock::find($stock->id);
+            $update=$record->update([
+                'current_share_price'=>$price['latestPrice'],
+            ]);
+
+            $totalpchange= ($price['latestPrice']/$stock->ave_cost)-1;
+            if($totalpchange<1 || $totalpchange>1 || $totalpchange<5 || $totalpchange>5 || $totalpchange<10)
+            {
+                $details=[
+                    'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange<0?"(".abs(round($totalpchange,2))."%)":abs(round($totalpchange,2))."%"),
+                ];
+            }
+            $user=User::all();
+            foreach($user as $u)
+            {
+                $u->notify(new Currentportfoliochange($details));
+            }
+        }
     }
 }

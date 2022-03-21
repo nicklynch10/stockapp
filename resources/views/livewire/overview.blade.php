@@ -9,12 +9,22 @@
             table tr td{
                 display: block;
                 font-size: 12px;
+                padding-bottom: 10px !important;
+                padding-top: 10px !important;
             }
             table thead{
                 display: none;
             }
             table td{
                 text-align: right !important;
+            }
+            table tr{
+                display: flex !important;
+                flex-direction: column !important;
+                border: 2px solid #00000073 !important;
+                border-radius: 11px !important;
+                margin-bottom: 3px !important;
+                background-color: #ffffff !important;
             }
             table td:last-child{
                 border-bottom: 0;
@@ -29,13 +39,11 @@
                 float: left;
                 font-weight: bold;
                 width: 15px;
+                color: #000000;
             }
-            table td:last-child{
-                border-bottom: 1px solid;
-            }
-            table tr:nth-child(even){background-color: #ffffff !important;}
+            table td:first-child { background: #00c80696;border-radius: 7px 7px 0px 0px; }
         }
-        table tr:nth-child(even){background-color: #f2f2f294;}
+        table tr:nth-child(even){background-color: #ffffff;}
     </style>
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
 
@@ -47,7 +55,7 @@
                         <h3 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Tax Savings Realized') }}
                         </h3>
-                        <h2 class="pt-2 text-2xl">${{$this->totalSavingsRealized}}</h2>
+                        <h2 class="pt-2 text-2xl">${{number_format($this->totalSavingsRealized,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -127,11 +135,7 @@
         </div>
     </div>
 
-
-
-
-
-
+    @if(isset($this->sto) && count($this->sto)>0)
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -145,11 +149,15 @@
                         <div class="chart has-fixed-height" id="pie_basic" style="width: 100%;height: 500px;">
 
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @endif
+
+    @if(isset($this->date) && count($this->date)>0)
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -166,8 +174,7 @@
             </div>
         </div>
     </div>
-
-
+    @endif
 
 
 
@@ -251,6 +258,9 @@
         }
     </script>
 
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
             google.charts.load('current', {'packages':['corechart']});
@@ -260,9 +270,8 @@
 
                 var data = google.visualization.arrayToDataTable([
                     ['Date', 'Cummulative'],
-
                     @php
-                        foreach($this->date as $d)
+                        foreach($this->date as $key=>$d)
                         {
                             $total=0; $value='';
                             foreach($this->tran as $t)
@@ -277,7 +286,6 @@
                                     {
                                         $total-=$t->stock;
                                     }
-                                    $value.= $t->type==0?$total." => ".$t->stock." Buy of ".$t->ticker_name." for $".number_format($t->share_price,2)." per share <br>":$total." => ".$t->stock." sale of ".$t->ticker_name." for $".number_format($t->share_price,2)." per share <br>";
                                 }
                             }
                             echo "['".$d->date_of_transaction."', $total],";

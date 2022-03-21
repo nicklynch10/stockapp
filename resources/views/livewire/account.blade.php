@@ -12,6 +12,14 @@
                 display: block;
                 font-size: 12px;
             }
+            table tr{
+                display: flex !important;
+                flex-direction: column !important;
+                border: 2px solid #00000073 !important;
+                border-radius: 11px !important;
+                margin-bottom: 3px !important;
+                background-color: #ffffff !important;
+            }
             table thead{
                 display: none;
             }
@@ -32,12 +40,19 @@
                 font-weight: bold;
                 width: 15px;
             }
+            table td:nth-child(2) { order: 1; background: #00c80696;border-radius: 7px 7px 0px 0px; }
+            table td:nth-child(1) { order: 2; }
+            table td:nth-child(3) { order: 3; }
+            table td:nth-child(4) { order: 4; }
+            table td:nth-child(5) { order: 5; }
+            table td:nth-child(6) { order: 6; }
+            table td:nth-child(7) { order: 7; }
+
             table td:last-child{
-                border-bottom: 1px solid;
+                /*border-bottom: 1px solid;*/
             }
-            table tr:nth-child(even){background-color: #ffffff;}
         }
-        table tr:nth-child(even){background-color: #f2f2f294;}
+        table tr:nth-child(even){background-color: #ffffff;}
     </style>
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col sm:rounded-lg px-4 py-4">
@@ -56,23 +71,23 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                         <table>
                             <thead class="bg-gray-300">
-                            <tr>
-                                <th class="px-6 py-4">Set as Default</th>
-                                <th class="px-6 py-4">Account Name</th>
-                                <th class="px-6 py-4">Account Type</th>
-                                <th class="px-6 py-4">Account Brokerage</th>
-                                <th class="px-6 py-4">Commission Rate per Share</th>
-                                <th class="px-6 py-4">Date Created</th>
-                                <th class="px-6 py-4">Action</th>
-                            </tr>
+                                <tr>
+                                    <th class="px-6 py-4">Set as Default</th>
+                                    <th class="px-6 py-4">Account Name</th>
+                                    <th class="px-6 py-4">Account Type</th>
+                                    <th class="px-6 py-4">Account Brokerage</th>
+                                    <th class="px-6 py-4">Commission Rate per Share</th>
+                                    <th class="px-6 py-4">Date Created</th>
+                                    <th class="px-6 py-4">Action</th>
+                                </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($this->account as $acc)
                                     <tr>
                                         <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-900"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked":""}} wire:click="set_default({{$acc->id}})"></td>
-                                        <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_name}}</td>
-                                        <td data-label="Account Type" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_type}}</td>
-                                        <td data-label="Account Brokerage" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$acc->account_brokerage}}</td>
+                                        <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder">{{$acc->account_name}}</td>
+                                        <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900">{{$acc->account_type}}</td>
+                                        <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900">{{$acc->account_brokerage}}</td>
                                         <td data-label="Commission Rate per Share" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($acc->commission,2)}}</td>
                                         <td data-label="Date Created" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
                                         <td data-label="Action" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">

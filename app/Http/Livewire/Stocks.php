@@ -85,13 +85,12 @@ class Stocks extends Component
                 $price = $current_price->json();
                 $this->current_share_price = $price ? $price['latestPrice'] : '';
                 $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
-
             }
         }
         $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('created_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-
+        $this->emit('historicaldata');
         return view('livewire.stock');
     }
 
@@ -194,7 +193,7 @@ class Stocks extends Component
             'user_id'=>Auth::user()->id,
             'date_of_transaction'=>$this->date_of_purchase,
         ]);
-
+        $this->emit('historicaldata');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
             'message'=>$this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares'
@@ -207,7 +206,7 @@ class Stocks extends Component
         {
             $this->closeModal();
         }
-        $this->emit('historicaldata');
+
         $this->resetInputFields();
     }
 
@@ -276,6 +275,7 @@ class Stocks extends Component
             'message'=>'Stock Deleted Successfully.'
         ]);
         $this->closedeletestock();
+        $this->emit('historicaldata');
         $this->closeModal();
     }
 

@@ -309,7 +309,7 @@ class Stocks extends Component
         $this->share_price = '';
         $this->share_sold = '';
         $this->openmodalval=1;
-        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
+        $this->date_of_purchase = Carbon::now()->format('Y-m-d');
         $this->openSellModal();
     }
 
@@ -376,7 +376,7 @@ class Stocks extends Component
         $this->share_number = '';
         $this->share_price = '';
         $this->openmodalval=1;
-        $this->date_of_purchase = Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
+        $this->date_of_purchase = Carbon::now()->format('Y-m-d');
         $this->openBuyModal();
     }
 

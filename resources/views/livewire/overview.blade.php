@@ -149,7 +149,6 @@
                         <div class="chart has-fixed-height" id="pie_basic" style="width: 100%;height: 500px;">
 
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -164,7 +163,7 @@
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5">
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ __('CUMMULATIVE "Taxable Gain / (Loss)"') }}
+                            {{ __('Taxable Gain / (Loss) Over Time') }}
                         </h2>
                     </div>
                     <div class="overflow-hidden sm: rounded-lg table-align">
@@ -189,6 +188,7 @@
                     fontFamily: 'Roboto, Arial, Verdana, sans-serif',
                     fontSize: 18
                 },
+
                 title: {
                     text: '',
                     left: 'center',
@@ -216,16 +216,16 @@
                 },
 
                 legend: {
-                    orient: 'horizontal',
-                    bottom: '0%',
-                    left: 'center',
+                    orient: 'vertical',
+                    top: '0%',
+                    left: 'top',
                     data: [
                         @foreach($this->sto as $st)
                         '{{$st->stock_ticker}}',
                         @endforeach
                     ],
-                    itemHeight: 8,
-                    itemWidth: 8
+                    itemHeight: 15,
+                    itemWidth: 15
                 },
 
                 series: [{
@@ -296,7 +296,7 @@
                 var options = {
                     title: '',
                     curveType: 'function',
-                    legend: { position: 'bottom' }
+                    legend: { position: 'top'}
                 };
 
                 var chart = new google.visualization.LineChart(document.getElementById('google-line-chart'));

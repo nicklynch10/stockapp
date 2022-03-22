@@ -84,12 +84,15 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($stocks as $stock)
                                     @if($stock->share_number!=0)
+                                        @php
+                                            $companyname=explode('-',$stock->security_name)
+                                        @endphp
                                         <tr>
                                             <td data-label="Ticker" class="px-6 py-2 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
-                                            <td data-label="Company Name" class="px-6 py-2 whitespace-nowrap text-gray-900"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $stock->id }})">{{$stock->security_name}}</a></td>
+                                            <td data-label="Company Name" class="px-6 py-2 whitespace-nowrap text-gray-900"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $stock->id }})">{{$stock->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$stock->company_name}}</a></td>
                                             <td data-label="Cost Basis" class="px-6 py-2 whitespace-nowrap text-center text-gray-900">${{ number_format($stock->ave_cost,2) }}</td>
                                             <td data-label="Number of Shares" class="px-6 py-2 whitespace-nowrap text-center text-gray-900">{{ $stock->share_number }}</td>
-                                            <td data-label="Issue Type" class="px-6 py-2 whitespace-nowrap text-center text-gray-900">@if($stock->issuetype=='et') ETF @elseif($stock->issuetype=='ad') ADR @elseif($stock->issuetype=='cs') Common Stock @else {{$stock->issuetype}} @endif</td>
+                                            <td data-label="Issue Type" class="px-6 py-2 whitespace-nowrap text-center text-gray-900"> {{$stock->issuetype}} </td>
                                             <td data-label="Date" class="px-6 py-2 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($stock->date_of_purchase))->format('F jS, Y')}}</td>
                                             <td data-label="" class="px-6 py-2 whitespace-nowrap text-center text-gray-900 lastcoloumn">
                                                 <x-jet-button wire:click="sell({{ $stock->id }})" class="py-2 px-4">{{__('Sell')}}</x-jet-button>
@@ -122,7 +125,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 

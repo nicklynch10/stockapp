@@ -10,6 +10,14 @@
                     <i class="fas fa-sort"></i>
                 @endif
         </span></th>
+            <th wire:click="sort('stock_ticker')"
+                class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Company name<span>
+                @if($sortColumn === 'company_name')
+                        <i class="fa {{$sortDirection === 'asc' ? 'fa-chevron-up' : 'fa-chevron-down'}}"></i>
+                    @else
+                        <i class="fas fa-sort"></i>
+                    @endif
+        </span></th>
             <th wire:click="sort('share_number')"
                 class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Share Count<span>
                 @if($sortColumn === 'share_number')
@@ -86,9 +94,13 @@
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
         @forelse($currentholding as $curr)
+            @php
+                $companyname=explode('-',$curr->security_name);
+            @endphp
             @if($curr->share_number!=0)
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$curr->stock_ticker}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker"><p class="whitespace-normal">{{$curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name}}</p></td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Count">{{$curr->share_number}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Cost Basis">${{number_format($curr->ave_cost,2)}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Price">${{number_format($curr->current_share_price,2)}}</td>

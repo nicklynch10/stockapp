@@ -1,3 +1,10 @@
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{__('Portfolio')}}
+    </h2>
+</x-slot>
+
+<main class="p-0 m-0 flex-grow ">
 <style>
     @media screen and (max-width: 600px) {
         table tr td{
@@ -79,7 +86,8 @@
                                 <td data-label="Description" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ data_get($cron, 'description') ?? '-' }}</td>
                                 <td data-label="Next Run At" class="px-6 py-4 whitespace-nowrap text-left text-gray-900">{{ data_get($cron, 'next_execute_at') }}</td>
                                 <td data-label="" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 w-1/3">
-                                    <x-jet-button wire:click="executeCron('{{$cron['command']}}')" class="py-2 px-4">Execute</x-jet-button>
+                                    <x-jet-button wire:click="executeCron('{{ json_encode($cron['command'])}}')" class="py-2 px-4">Execute</x-jet-button>
+{{--                                    <x-jet-button wire:click="executeCron('{{ addslashes($cron['command']) }}', 'example')" class="py-2 px-4">Execute</x-jet-button>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -90,3 +98,4 @@
         </div>
     </div>
 </div>
+</main>

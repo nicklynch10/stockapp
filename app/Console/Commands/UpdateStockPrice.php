@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\Stock;
 use App\Models\User;
+use App\Notifications\Currentportfoliochange;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use App\Notifications\Currentportfoliochange;
 
 class UpdateStockPrice extends Command
 {

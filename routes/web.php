@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeveloperController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Stocks;
@@ -32,8 +33,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 //Route::get('stock', Stocks::class,)->name('stock');
+
+Route::get('help', function() { return view('support.help'); })->name('help');
 Route::get('portfolio', Stocks::class,)->middleware(['auth:sanctum', 'verified'])->name('portfolio');
 Route::get('overview', Overview::class,)->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('account', Account::class,)->middleware(['auth:sanctum', 'verified'])->name('account');
 Route::get('notifications',[NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
+Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
 

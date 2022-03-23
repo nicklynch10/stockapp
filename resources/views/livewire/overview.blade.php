@@ -276,15 +276,16 @@
                             $total=0; $value='';
                             foreach($this->tran as $t)
                             {
-                                if($d->date_of_transaction==$t->date_of_transaction)
+                                if($d->date_of_transaction==$t->date_of_transaction && $t->type==1)
                                 {
-                                    if($t->type==0)
+                                    $taxable=($t->share_price-$t->ave_cost)*($t->stock);
+                                    if($taxable>0)
                                     {
-                                        $total+=$t->stock;
+                                        $total+=$taxable;
                                     }
-                                    elseif($t->type==1)
+                                    elseif($taxable<0)
                                     {
-                                        $total-=$t->stock;
+                                        $total-=abs($taxable);
                                     }
                                 }
                             }

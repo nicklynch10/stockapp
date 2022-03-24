@@ -16,10 +16,10 @@ class CronList extends Component
 
     public function executeCron($command)
     {
-       // dd($command);
-        dispatch(function () use ($command) {
             Artisan::call($command);
-        });
+//        dispatch(function () use ($command) {
+//            Artisan::call($command);
+//        });
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
             'message'=>'Cron execution started!'

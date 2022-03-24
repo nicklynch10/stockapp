@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\StockTicker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -17,7 +18,11 @@ class Account extends Component
     public function render()
     {
         $this->account=Accounts::where('user_id',Auth::user()->id)->orderBy('account.created_at','DESC')->get();
-        $this->notification=Auth::user()->notifications->sortByDesc("created_at");
+        $start = strtotime('2020-01-01');
+        $end = time();
+        $timestamp = mt_rand($start, $end);
+        $r=date('Y-m-d',$timestamp);
+        dd($r);
         return view('livewire.account');
     }
 

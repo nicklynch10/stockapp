@@ -16,7 +16,7 @@ class CronList extends Component
 
     public function executeCron($command)
     {
-        dd(Artisan::call($command));
+       // dd($command);
         dispatch(function () use ($command) {
             Artisan::call($command);
         });

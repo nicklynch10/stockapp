@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 use Livewire\Component;
 
 class CronList extends Component
@@ -16,7 +16,7 @@ class CronList extends Component
 
     public function executeCron($command)
     {
-        $command="update:stockprice";
+        dd(Artisan::call($command));
         dispatch(function () use ($command) {
             Artisan::call($command);
         });

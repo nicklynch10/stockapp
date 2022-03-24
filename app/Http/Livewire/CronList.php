@@ -11,11 +11,13 @@ class CronList extends Component
 
     public function render()
     {
+        $this->data="test";
         return view('livewire.cron-list');
     }
 
     public function executeCron($command)
     {
+        dd($command);
         dispatch(function () use ($command) {
             Artisan::call($command);
         });

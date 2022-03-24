@@ -101,6 +101,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        @foreach($this->notification as $n)
+                            <h4> {{$n->data['tagline']}}</h4>
+                        @endforeach
                     </div>
                 </div>
             </div>

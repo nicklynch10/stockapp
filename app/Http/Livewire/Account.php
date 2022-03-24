@@ -17,6 +17,7 @@ class Account extends Component
     public function render()
     {
         $this->account=Accounts::where('user_id',Auth::user()->id)->orderBy('account.created_at','DESC')->get();
+        $this->notification=Auth::user()->notifications->sortByDesc("created_at");
         return view('livewire.account');
     }
 

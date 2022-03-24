@@ -18,11 +18,6 @@ class Account extends Component
     public function render()
     {
         $this->account=Accounts::where('user_id',Auth::user()->id)->orderBy('account.created_at','DESC')->get();
-        $start = strtotime('2020-01-01');
-        $end = time();
-        $timestamp = mt_rand($start, $end);
-        $r=date('Y-m-d',$timestamp);
-        dd($r);
         return view('livewire.account');
     }
 

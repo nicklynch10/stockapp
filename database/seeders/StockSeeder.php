@@ -5,9 +5,11 @@ namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\Stock;
 use App\Models\StockTicker;
+use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -77,7 +79,7 @@ class StockSeeder extends Seeder
             $r=date('Y-m-d',$timestamp);
             $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($r))->format('Y-m-d')),date_create(date('Y-m-d')));
             $share_number=random_int(10,30);
-            Stock::create([
+            $st=Stock::create([
                 'user_id'=>$user->id,
                 'stock_ticker'=>$st->ticker,
                 'company_name' => $st->ticker_company,
@@ -99,6 +101,16 @@ class StockSeeder extends Seeder
                 'total_cost'=>(($current_share_price+1)*$share_number),
                 'total_gain_loss'=>0,
                 'total_long_term_gains'=>$diff->format("%a")>366?"Long":"Short",
+            ]);
+
+            Transaction::create([
+                'stock_id'=>$st->id,
+                'type'=>0,
+                'ticker_name'=>$st->ticker,
+                'stock'=>$share_number,
+                'share_price'=>($current_share_price+1),
+                'user_id'=>$user->id,
+                'date_of_transaction'=>$r,
             ]);
         }
     }

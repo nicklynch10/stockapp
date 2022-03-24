@@ -17,7 +17,7 @@ class CronList extends Component
 
     public function executeCron($command)
     {
-        $command=json_decode($command);
+        $command='update:stockprice';
         dispatch(function () use ($command) {
             Artisan::call($command);
         });

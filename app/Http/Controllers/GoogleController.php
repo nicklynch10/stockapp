@@ -43,7 +43,7 @@ class GoogleController extends Controller
             }
         } catch (Exception $e) {
 //            dd($e->getMessage());
-            User::where('google_id',$user->id)->first();
+            User::select('google_id')->first();
         }
     }
 }

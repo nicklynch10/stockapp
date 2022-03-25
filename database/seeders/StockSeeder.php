@@ -74,12 +74,12 @@ class StockSeeder extends Seeder
             $current_share_price = $price ? $price['latestPrice'] : '';
             $market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
             $start = strtotime('2020-01-01');
-            $end = time();
+            $end = strtotime(date('Y-m-d'));
             $timestamp = mt_rand($start, $end);
             $r=date('Y-m-d',$timestamp);
             $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($r))->format('Y-m-d')),date_create(date('Y-m-d')));
             $share_number=random_int(10,30);
-            $st=Stock::create([
+            $stockId=Stock::create([
                 'user_id'=>$user->id,
                 'stock_ticker'=>$st->ticker,
                 'company_name' => $st->ticker_company,
@@ -104,7 +104,7 @@ class StockSeeder extends Seeder
             ]);
 
             Transaction::create([
-                'stock_id'=>$st->id,
+                'stock_id'=>$stockId->id,
                 'type'=>0,
                 'ticker_name'=>$st->ticker,
                 'stock'=>$share_number,

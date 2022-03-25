@@ -87,7 +87,7 @@ class Stocks extends Component
                 $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
             }
         }
-        $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('created_at', 'DESC')->get();
+        $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');

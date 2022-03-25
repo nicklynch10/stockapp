@@ -146,9 +146,10 @@
                         </h2>
                     </div>
                     <div class="overflow-hidden sm: rounded-lg table-align">
-                        <div class="chart has-fixed-height" id="pie_basic" style="width: 100%;height: 500px;">
+                        <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
+{{--                        <div class="chart has-fixed-height" id="pie_basic" style="width: 100%;height: 500px;">--}}
 
-                        </div>
+{{--                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -175,88 +176,126 @@
     </div>
     @endif
 
+    <script>
+        var xValues = [@foreach($this->sto as $st)
+            @if($st->total_stock!=0)
+            "{{$st->stock_ticker}}",
+            @endif
+            @endforeach];
+        var yValues = [
+            @foreach($this->sto as $st)
+                @if($st->total_stock!=0)
+                    @php
+                        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+                        $endpoint = 'https://cloud.iexapis.com/';
+                        $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
+                        $price = $current_price->json();
+                    @endphp
+                {{round($st->total_stock*$price['latestPrice'])}},
+            @endif
+            @endforeach];
 
+                var barColors = ["#BFDBFE", "#FECACA", "#10B981",
+                    "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#F87171", "#4338CA", "#EFF6FF", "#FDF2F8", "#ECFDF5", "#FEF3C7", "#F3F4F6", "#EDE9FE", "#F9A8D4", "#BFDBFE", "#FECACA", "#F87171",
+                    "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA",
+                    "#BFDBFE", "#FECACA", "#F87171",
+                    "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA", "#EFF6FF", "#FDF2F8", "#ECFDF5", "#FEF3C7", "#F3F4F6", "#EDE9FE", "#F9A8D4", "#BFDBFE", "#FECACA", "#F87171",
+                    "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA"];
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.1/echarts.min.js" integrity="sha512-41TNls7qBS/8rKqfgMho0blSRty2TgHbdHq1h8x248EseHj1ZfFPAbjWVBQssJtkXptUwaBLVC3F1W8he53bgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript">
-        var pie_basic_element = document.getElementById('pie_basic');
-        if (pie_basic_element) {
-                var pie_basic = echarts.init(pie_basic_element);
-            pie_basic.setOption({
-
-                textStyle: {
-                    fontFamily: 'Roboto, Arial, Verdana, sans-serif',
-                    fontSize: 18
-                },
-
-                title: {
-                    text: '',
-                    left: 'center',
-                    textStyle: {
-                        fontSize: 20,
-                        fontWeight: 800,
-                        color:'#000',
+                new Chart("myChart", {
+                    type: "pie",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data:yValues
+                        }]
                     },
-                    subtextStyle: {
-                        fontSize: 12
-                    }
-                },
 
-                tooltip: {
-                    trigger: 'item',
-                    backgroundColor: '#fff',
-                    padding: [10, 15],
-                    textStyle: {
-                        fontSize: 15,
-                        color:'#000',
-                        fontWeight: 500,
-                        fontFamily: 'Roboto, sans-serif'
-                    },
-                    formatter: "<b>{b}</b>: ${c}"
-                },
+                });
+            </script>
 
-                legend: {
-                    orient: 'vertical',
-                    top: '0%',
-                    left: 'top',
-                    data: [
-                        @foreach($this->sto as $st)
-                        '{{$st->stock_ticker}}',
-                        @endforeach
-                    ],
-                    itemHeight: 15,
-                    itemWidth: 15
-                },
 
-                series: [{
-                    name: 'Product Type',
-                    type: 'pie',
-                    radius: '70%',
-                    center: ['50%', '50%'],
-                    itemStyle: {
-                        normal: {
-                            borderWidth: 1,
-                            borderColor: '#fff'
-                        }
-                    },
-                    data: [
-                        @foreach($this->sto as $st)
-                            @if($st->total_stock!=0)
-                            @php
-                                $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-                                $endpoint = 'https://cloud.iexapis.com/';
-                                $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
-                                $price = $current_price->json()
-                            @endphp
+        {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.1/echarts.min.js" integrity="sha512-41TNls7qBS/8rKqfgMho0blSRty2TgHbdHq1h8x248EseHj1ZfFPAbjWVBQssJtkXptUwaBLVC3F1W8he53bgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--}}
+{{--    <script type="text/javascript">--}}
+{{--        var pie_basic_element = document.getElementById('pie_basic');--}}
+{{--        if (pie_basic_element) {--}}
+{{--                var pie_basic = echarts.init(pie_basic_element);--}}
+{{--            pie_basic.setOption({--}}
 
-                            {value: {{ $st->total_stock*$price['latestPrice'] }}, name: '{{$st->stock_ticker}}'},
-                            @endif
-                        @endforeach
-                    ]
-                }]
-            });
-        }
-    </script>
+{{--                textStyle: {--}}
+{{--                    fontFamily: 'Roboto, Arial, Verdana, sans-serif',--}}
+{{--                    fontSize: 18--}}
+{{--                },--}}
+
+{{--                title: {--}}
+{{--                    text: '',--}}
+{{--                    left: 'center',--}}
+{{--                    textStyle: {--}}
+{{--                        fontSize: 20,--}}
+{{--                        fontWeight: 800,--}}
+{{--                        color:'#000',--}}
+{{--                    },--}}
+{{--                    subtextStyle: {--}}
+{{--                        fontSize: 12--}}
+{{--                    }--}}
+{{--                },--}}
+
+{{--                tooltip: {--}}
+{{--                    trigger: 'item',--}}
+{{--                    backgroundColor: '#fff',--}}
+{{--                    padding: [10, 15],--}}
+{{--                    textStyle: {--}}
+{{--                        fontSize: 15,--}}
+{{--                        color:'#000',--}}
+{{--                        fontWeight: 500,--}}
+{{--                        fontFamily: 'Roboto, sans-serif'--}}
+{{--                    },--}}
+{{--                    formatter: "<b>{b}</b>: ${c}"--}}
+{{--                },--}}
+
+{{--                legend: {--}}
+{{--                    orient: 'vertical',--}}
+{{--                    top: '0%',--}}
+{{--                    left: 'top',--}}
+{{--                    data: [--}}
+{{--                        @foreach($this->sto as $st)--}}
+{{--                        '{{$st->stock_ticker}}',--}}
+{{--                        @endforeach--}}
+{{--                    ],--}}
+{{--                    itemHeight: 15,--}}
+{{--                    itemWidth: 15--}}
+{{--                },--}}
+
+{{--                series: [{--}}
+{{--                    name: 'Product Type',--}}
+{{--                    type: 'pie',--}}
+{{--                    radius: '70%',--}}
+{{--                    center: ['50%', '50%'],--}}
+{{--                    itemStyle: {--}}
+{{--                        normal: {--}}
+{{--                            borderWidth: 1,--}}
+{{--                            borderColor: '#fff'--}}
+{{--                        }--}}
+{{--                    },--}}
+{{--                    data: [--}}
+{{--                        @foreach($this->sto as $st)--}}
+{{--                            @if($st->total_stock!=0)--}}
+{{--                            @php--}}
+{{--                                $token = 'pk_367c9e2f397648309da77c1a14e17ff6';--}}
+{{--                                $endpoint = 'https://cloud.iexapis.com/';--}}
+{{--                                $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);--}}
+{{--                                $price = $current_price->json();--}}
+{{--                                $value= $st->total_stock*$price['latestPrice'];--}}
+{{--                            @endphp--}}
+{{--                            {value: {{ round($value) }}, name: '{{$st->stock_ticker}}'},--}}
+{{--                            @endif--}}
+{{--                        @endforeach--}}
+{{--                    ]--}}
+{{--                }]--}}
+{{--            });--}}
+{{--        }--}}
+{{--    </script>--}}
 
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

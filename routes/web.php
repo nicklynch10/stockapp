@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DeveloperController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Livewire\Stocks;
@@ -31,6 +32,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker',[HomeControlle
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 //Route::get('stock', Stocks::class,)->name('stock');
 

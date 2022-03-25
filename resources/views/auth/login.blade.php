@@ -8,7 +8,7 @@
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
+                {!! session('status') !!}
             </div>
         @endif
 
@@ -46,6 +46,11 @@
                 <x-jet-button class="ml-4">
                     {{ __('Log in') }}
                 </x-jet-button>
+            </div>
+            <div class="flex items-center justify-end mt-4">
+                <a href="{{ url('auth/google') }}">
+                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin-left: 3em;">
+                </a>
             </div>
         </form>
     </x-jet-authentication-card>

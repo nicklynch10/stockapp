@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'estimate_income',
         'income_label',
+        'google_id',
     ];
 
     /**

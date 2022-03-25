@@ -42,8 +42,7 @@ class GoogleController extends Controller
                 return redirect()->intended('login')->with('status','<h4 class="text-red-700 text-lg ">Whoops! Your email is not register</h4>');
             }
         } catch (Exception $e) {
-//            dd($e->getMessage());
-            User::select('google_id')->first();
+            dd($e->getMessage());
         }
     }
 }

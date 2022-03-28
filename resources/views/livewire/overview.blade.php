@@ -147,9 +147,6 @@
                     </div>
                     <div class="overflow-hidden sm: rounded-lg table-align">
                         <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
-{{--                        <div class="chart has-fixed-height" id="pie_basic" style="width: 100%;height: 500px;">--}}
-
-{{--                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -157,7 +154,7 @@
     </div>
     @endif
 
-    @if(isset($this->date) && count($this->date)>0)
+    @if(isset($this->box2) && count($this->box2)>0)
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -216,88 +213,6 @@
             </script>
 
 
-        {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.1/echarts.min.js" integrity="sha512-41TNls7qBS/8rKqfgMho0blSRty2TgHbdHq1h8x248EseHj1ZfFPAbjWVBQssJtkXptUwaBLVC3F1W8he53bgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--}}
-{{--    <script type="text/javascript">--}}
-{{--        var pie_basic_element = document.getElementById('pie_basic');--}}
-{{--        if (pie_basic_element) {--}}
-{{--                var pie_basic = echarts.init(pie_basic_element);--}}
-{{--            pie_basic.setOption({--}}
-
-{{--                textStyle: {--}}
-{{--                    fontFamily: 'Roboto, Arial, Verdana, sans-serif',--}}
-{{--                    fontSize: 18--}}
-{{--                },--}}
-
-{{--                title: {--}}
-{{--                    text: '',--}}
-{{--                    left: 'center',--}}
-{{--                    textStyle: {--}}
-{{--                        fontSize: 20,--}}
-{{--                        fontWeight: 800,--}}
-{{--                        color:'#000',--}}
-{{--                    },--}}
-{{--                    subtextStyle: {--}}
-{{--                        fontSize: 12--}}
-{{--                    }--}}
-{{--                },--}}
-
-{{--                tooltip: {--}}
-{{--                    trigger: 'item',--}}
-{{--                    backgroundColor: '#fff',--}}
-{{--                    padding: [10, 15],--}}
-{{--                    textStyle: {--}}
-{{--                        fontSize: 15,--}}
-{{--                        color:'#000',--}}
-{{--                        fontWeight: 500,--}}
-{{--                        fontFamily: 'Roboto, sans-serif'--}}
-{{--                    },--}}
-{{--                    formatter: "<b>{b}</b>: ${c}"--}}
-{{--                },--}}
-
-{{--                legend: {--}}
-{{--                    orient: 'vertical',--}}
-{{--                    top: '0%',--}}
-{{--                    left: 'top',--}}
-{{--                    data: [--}}
-{{--                        @foreach($this->sto as $st)--}}
-{{--                        '{{$st->stock_ticker}}',--}}
-{{--                        @endforeach--}}
-{{--                    ],--}}
-{{--                    itemHeight: 15,--}}
-{{--                    itemWidth: 15--}}
-{{--                },--}}
-
-{{--                series: [{--}}
-{{--                    name: 'Product Type',--}}
-{{--                    type: 'pie',--}}
-{{--                    radius: '70%',--}}
-{{--                    center: ['50%', '50%'],--}}
-{{--                    itemStyle: {--}}
-{{--                        normal: {--}}
-{{--                            borderWidth: 1,--}}
-{{--                            borderColor: '#fff'--}}
-{{--                        }--}}
-{{--                    },--}}
-{{--                    data: [--}}
-{{--                        @foreach($this->sto as $st)--}}
-{{--                            @if($st->total_stock!=0)--}}
-{{--                            @php--}}
-{{--                                $token = 'pk_367c9e2f397648309da77c1a14e17ff6';--}}
-{{--                                $endpoint = 'https://cloud.iexapis.com/';--}}
-{{--                                $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);--}}
-{{--                                $price = $current_price->json();--}}
-{{--                                $value= $st->total_stock*$price['latestPrice'];--}}
-{{--                            @endphp--}}
-{{--                            {value: {{ round($value) }}, name: '{{$st->stock_ticker}}'},--}}
-{{--                            @endif--}}
-{{--                        @endforeach--}}
-{{--                    ]--}}
-{{--                }]--}}
-{{--            });--}}
-{{--        }--}}
-{{--    </script>--}}
-
-
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -310,24 +225,11 @@
                 var data = google.visualization.arrayToDataTable([
                     ['Date', 'Cummulative'],
                     @php
-                        foreach($this->date as $key=>$d)
+                        $total=0;
+                        foreach($box2 as $key=>$d)
                         {
-                            $total=0; $value='';
-                            foreach($this->tran as $t)
-                            {
-                                if($d->date_of_transaction==$t->date_of_transaction && $t->type==1)
-                                {
-                                    $taxable=($t->share_price-$t->ave_cost)*($t->stock);
-                                    if($taxable>0)
-                                    {
-                                        $total+=$taxable;
-                                    }
-                                    elseif($taxable<0)
-                                    {
-                                        $total-=abs($taxable);
-                                    }
-                                }
-                            }
+                            $value=($d->share_price-$d->ave_cost)*($d->stock);
+                            $total+=($d->share_price-$d->ave_cost)*($d->stock);
                             echo "['".$d->date_of_transaction."', $total],";
                         }
                     @endphp

@@ -51,7 +51,19 @@
             table tr .lastcoloumn:last-child{
                 display: block !important;
             }
-            table td:first-child { background: #00c80696;border-radius: 7px 7px 0px 0px; }
+
+            .historical tr{
+                display: flex !important;
+                flex-wrap: wrap;
+                flex-direction: row !important;
+            }
+            .historical td:nth-child(5) { order: 1; background: #00c80696;border-radius: 7px 7px 0px 0px;width: 100% !important;}
+            .historical td:nth-child(1) { order: 2; width: 100% !important;}
+            .historical td:nth-child(2) { order: 3; width: 100% !important;}
+            .historical td:nth-child(3) { order: 4; width: 100% !important;}
+            .historical td:nth-child(4) { order: 5; width: 100% !important;}
+            .historical td:nth-child(6) { order: 6; width: 50% !important;}
+            .historical td:nth-child(7) { order: 7; width: 50% !important;}
         }
     </style>
     <div class="container mx-auto px-4 py-10 md:py-12">
@@ -88,7 +100,7 @@
                                             $companyname=explode('-',$stock->security_name)
                                         @endphp
                                         <tr>
-                                            <td data-label="Ticker" class="px-6 py-2 whitespace-nowrap text-gray-900">{{ $stock->stock_ticker }}</td>
+                                            <td data-label="Ticker" class="px-6 py-2 whitespace-nowrap text-gray-900"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $stock->id }})">{{ $stock->stock_ticker }}</a></td>
                                             <td data-label="Company Name" class="px-6 py-2 whitespace-nowrap text-gray-900"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $stock->id }})">{{$stock->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$stock->company_name}}</a></td>
                                             <td data-label="Cost Basis" class="px-6 py-2 whitespace-nowrap text-center text-gray-900">${{ number_format($stock->ave_cost,2) }}</td>
                                             <td data-label="Number of Shares" class="px-6 py-2 whitespace-nowrap text-center text-gray-900">{{ $stock->share_number }}</td>
@@ -109,6 +121,28 @@
                             </tbody>
                         </table>
                     </div>
+                        @if($hasMorePages)
+                            <div
+                                x-data="{
+                                    observe () {
+                                        let observer = new IntersectionObserver((entries) => {
+                                            entries.forEach(entry => {
+                                                if (entry.isIntersecting) {
+                                                    @this.call('loadMore')
+                                                }
+                                            })
+                                        }, {
+                                            root: null
+                                        })
+
+                                        observer.observe(this.$el)
+                                    }
+                                }"
+                                    x-init="observe"
+                                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4"
+                                >
+                            </div>
+                        @endif
                 </div>
             </div>
         </div>

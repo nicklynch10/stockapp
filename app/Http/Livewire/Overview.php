@@ -20,20 +20,17 @@ class Overview extends Component
     public function render()
     {
         $this->sto = Stock::select('stock_ticker',DB::raw("(sum(share_number)) as total_stock"))->where('user_id',Auth::user()->id)->groupBy('stock_ticker')->get();
-        $this->tran = Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->get();
-        $this->date=Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->groupBy('date_of_transaction')->get();
 
         $this->totalSavingsRealized=0;
 
         //Box 2
-        $box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->orderBy('transaction.created_at','DESC')->get();
+        $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();
         $taxable=0;
-        foreach($box2 as $b2)
+        foreach($this->box2 as $b2)
         {
             $taxable+=($b2->share_price-$b2->ave_cost)*($b2->stock);
         }
         $this->totalTaxableGainLoss=$taxable;
-
         //Box 3
         $box3=Stock::where('user_id',Auth::user()->id)->get();
         $gain=0;

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\StockTicker;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
@@ -36,7 +37,42 @@ class Stocks extends Component
     public $deletestock = false;
 
     public $openmodalval=0,$avepricereadonly=0;
-    protected $listeners=['AveModal'=>'openAveModal'];
+    protected $listeners=['AveModal'=>'openAveModal','load-more' => 'loadMore'];
+
+
+    public $page = 1;
+    public $perPage = 5;
+    public $hasMorePages;
+    public $points;
+
+    public function mount()
+    {
+        $this->stocks = new Collection();
+        $this->loadStock();
+    }
+    public function loadStock()
+    {
+        $allStock = $this->getAllStock();
+        $this->stocks->push(...$allStock);
+
+        $this->hasMorePages = (bool) count($allStock);
+    }
+    public function getAllStock()
+    {
+        return Stock::where('user_id',Auth::user()->id)->orderBy('date_of_purchase', 'DESC')
+            ->skip(($this->page - 1) * $this->perPage)
+            ->take($this->perPage)->get();
+    }
+    public function loadMore()
+    {
+        if ($this->hasMorePages !== null && ! $this->hasMorePages) {
+            return;
+        }
+
+        $this->page++;
+
+        $this->loadStock();
+    }
 
     public function render()
     {
@@ -87,7 +123,7 @@ class Stocks extends Component
                 $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
             }
         }
-        $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->get();
+//        $this->stocks=Stock::where('user_id',Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');
@@ -425,30 +461,6 @@ class Stocks extends Component
             ]);
             $this->buy($this->stock_id);
 
-
-//        Transaction::Create([
-//            'stock_id' => $this->stock_id,
-//            'type'=>0,
-//            'stock'=>$this->share_number,
-//            'ticker_name'=>$this->stock_ticker,
-//            'share_price'=>$this->average_cost,
-//            'date_of_transaction'=>$this->date_of_purchase,
-//        ]);
-//
-//        if($this->stock_id)
-//        {
-//            $current_stock=Stock::select('share_number')->where('id',$this->stock_id)->first();
-//            $final_stock=$current_stock->share_number+$this->share_number;
-//            $record = Stock::find($this->stock_id);
-//            $record->update([
-//                'share_number'=>$final_stock,
-//            ]);
-//            $this->dispatchBrowserEvent('alert',[
-//                'type'=>'success',
-//                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares'
-//            ]);
-//            $this->buy($this->stock_id);
-//        }
         $this->closeBuyModal();
     }
 

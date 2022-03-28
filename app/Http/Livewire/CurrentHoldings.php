@@ -17,9 +17,30 @@ class CurrentHoldings extends Component
 
     public function render()
     {
-        $currstock=Stock::where('user_id',Auth::user()->id)->get();
-        dispatch(new \App\Jobs\CurrentHoldings($currstock));
-        return view('livewire.current-holdings',['currentholding'=>$this->fetchData(),'transaction'=>Transaction::all()]);
+        $this->currstock=Stock::where('user_id',Auth::user()->id)->get();
+        foreach($this->currstock as $st)
+        {
+            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+            $endpoint = 'https://cloud.iexapis.com/';
+            $current = Http::get($endpoint . 'stable/stock/'.$st->stock_ticker.'/quote?token=' . $token);
+            $price_current = $current->json();
+            $current_total_value=($price_current['latestPrice']*$st->share_number);
+            $total_cost=($st->ave_cost*$st->share_number);
+            $gain=$current_total_value-$total_cost;
+            $dchange=$price_current['latestPrice']-$st->ave_cost;
+            $pchange=(($price_current['latestPrice']/$st->ave_cost)-1)*100;
+            $result=Stock::find($st->id);
+            $result->update([
+                'current_share_price'=>$price_current['latestPrice'],
+                'dchange'=>$dchange,
+                'pchange'=>$pchange,
+                'current_total_value'=>$current_total_value,
+                'total_cost'=>$total_cost,
+                'total_gain_loss'=>$gain,
+            ]);
+        }
+//        dispatch(new \App\Jobs\CurrentHoldings($currstock));
+        return view('livewire.current-holdings',['currentholding'=>$this->fetchData()]);
     }
 
     public function sort($column)

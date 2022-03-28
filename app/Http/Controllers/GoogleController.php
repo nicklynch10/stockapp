@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,8 +24,7 @@ class GoogleController extends Controller
             $findemail = User::where('email',$user->email)->first();
             if($findemail)
             {
-                $findgoogleid = User::where('google_id',$user->id)->first();
-                if($findgoogleid)
+                if($findemail['google_id'])
                 {
                     Auth::login($findemail);
                     return redirect()->intended('portfolio');
@@ -39,7 +40,26 @@ class GoogleController extends Controller
             }
             else
             {
-                return redirect()->intended('login')->with('status','<h4 class="text-red-700 text-lg ">Whoops! Your email is not register</h4>');
+                // Register user code
+                $insert= User::create([
+                    'name' => $user['given_name']." ".$user['family_name'],
+                    'first_name' => $user['given_name'],
+                    'last_name' => $user['family_name'],
+                    'email' => $user->email,
+                    'password' => Hash::make('z'),
+                ]);
+                $lastInsertedID = $insert->id;
+
+                Account::create([
+                    'user_id'=>$lastInsertedID,
+                    'account_type'=> 'Individual Brokerage Account',
+                    'account_name'=>'Taxable Account',
+                    'account_brokerage'=>'Not assigned',
+                    'commission'=>0,
+                    'set_default'=>1,
+                ]);
+
+                Auth::login($insert);
             }
         } catch (Exception $e) {
             dd($e->getMessage());

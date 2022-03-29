@@ -55,7 +55,7 @@
                         <h3 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Tax Savings Realized') }}
                         </h3>
-                        <h2 class="pt-2 text-2xl">${{number_format($this->totalSavingsRealized,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalSavingsRealized<0?"($".number_format($this->totalSavingsRealized,2).")":"$".number_format($this->totalSavingsRealized,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Taxable Gain / (Loss)') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">${{number_format($this->totalTaxableGainLoss,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalTaxableGainLoss<0?"($".number_format($this->totalTaxableGainLoss,2).")":"$".number_format($this->totalTaxableGainLoss,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Unrealized Gain / (Loss)') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">${{number_format($this->totalUnrealizedGainLoss,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalUnrealizedGainLoss<0?"($".number_format($this->totalUnrealizedGainLoss,2).")":"$".number_format($this->totalUnrealizedGainLoss,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Harvestable Losses') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">${{number_format($this->harvestableLosses,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->harvestableLosses<0?"($".number_format($this->harvestableLosses,2).")":"$".number_format($this->harvestableLosses,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Unrealized Gain') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">${{number_format($this->unrealizedGain,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->unrealizedGain<0?"($".number_format($this->unrealizedGain,2).")":"$".number_format($this->unrealizedGain,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -154,7 +154,8 @@
     </div>
     @endif
 
-    @if(isset($this->box2) && count($this->box2)>0)
+
+    @if(isset($this->box2) && count($this->box2)>0 && $totalTaxableGainLoss!=0)
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">

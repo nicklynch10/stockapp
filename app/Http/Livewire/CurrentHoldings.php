@@ -24,7 +24,7 @@ class CurrentHoldings extends Component
             $endpoint = 'https://cloud.iexapis.com/';
             $current = Http::get($endpoint . 'stable/stock/'.$st->stock_ticker.'/quote?token=' . $token);
             $price_current = $current->json();
-            $current_total_value=($price_current['latestPrice']*$st->share_number);
+            $current_total_value=$price_current['latestPrice']*$st->share_number;
             $total_cost=($st->ave_cost*$st->share_number);
             $gain=$current_total_value-$total_cost;
             $dchange=$price_current['latestPrice']-$st->ave_cost;
@@ -59,6 +59,11 @@ class CurrentHoldings extends Component
         when($this->sortColumn && $this->sortDirection, function ($q) {
             $q->orderBy($this->sortColumn, $this->sortDirection);
         })->paginate();
+    }
+
+    public function company($id)
+    {
+        $this->emit('company',$id);
     }
 
 }

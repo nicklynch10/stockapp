@@ -20,8 +20,8 @@
             <tr>
                 <td data-label="Date" class="p-3 whitespace-nowrap text-center text-gray-900">{{\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y') }}</td>
                 <td data-label="Trade" class="p-3 whitespace-nowrap text-center text-gray-900">{{ $trad->type==0?'Buy':'Sell' }}</td>
-                <td data-label="Ticker" class="p-3 whitespace-nowrap text-center text-gray-900">{{ $trad->stock_ticker }}</td>
-                <td data-label="Company Name" class="p-3 whitespace-nowrap text-center text-gray-900"><p class="whitespace-normal">{{$trad->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$trad->company_name}}</p></td>
+                <td data-label="Ticker" class="p-3 whitespace-nowrap text-center text-gray-900"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $trad->stock_id }})">{{ $trad->stock_ticker }}</a></td>
+                <td data-label="Company Name" class="p-3 whitespace-nowrap text-center text-gray-900"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $trad->stock_id }})"><p class="whitespace-normal">{{$trad->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$trad->company_name}}</p></a></td>
                 <td data-label="Summary" class="p-3 whitespace-nowrap text-center text-gray-900"><p class="whitespace-normal">{!! $trad->type==0?'Purchased '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share':'Sold '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share'  !!}</p></td>
                 <td data-label="Taxable Gain / (Loss)" class="p-3 whitespace-nowrap text-center {{$taxable<0?"text-red-600":"text-green-600"}}">{{$trad->type==1?$taxable<0?"($".number_format(abs($taxable),2).")":"$".number_format($taxable,2):'-'}}</td>
                 <td data-label="Proceeds" class="p-3 whitespace-nowrap text-center {{$trad->type==0?'text-red-600':'text-green-600'}}">{{ $trad->type==0?'($'.number_format($trad->stock*$trad->share_price,2).")":'$'.number_format($trad->stock*$trad->share_price,2) }}</td>
@@ -39,4 +39,3 @@
         </div>
     @endif
 </div>
-

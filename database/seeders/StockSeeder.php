@@ -100,7 +100,7 @@ class StockSeeder extends Seeder
                 'current_total_value'=>($current_share_price*$share_number),
                 'total_cost'=>(($current_share_price+1)*$share_number),
                 'total_gain_loss'=>0,
-                'total_long_term_gains'=>$diff->format("%a")>366?"Long":"Short",
+                'total_long_term_gains'=>$diff->format("%a")>366?"Long / " .$diff->format("%d")." Days held" :"Short / ".$diff->format("%d")." Days held",
             ]);
 
             Transaction::create([

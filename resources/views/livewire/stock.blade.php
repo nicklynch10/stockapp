@@ -121,28 +121,6 @@
                             </tbody>
                         </table>
                     </div>
-                        @if($hasMorePages)
-                            <div
-                                x-data="{
-                                    observe () {
-                                        let observer = new IntersectionObserver((entries) => {
-                                            entries.forEach(entry => {
-                                                if (entry.isIntersecting) {
-                                                    @this.call('loadMore')
-                                                }
-                                            })
-                                        }, {
-                                            root: null
-                                        })
-
-                                        observer.observe(this.$el)
-                                    }
-                                }"
-                                    x-init="observe"
-                                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4"
-                                >
-                            </div>
-                        @endif
                 </div>
             </div>
         </div>
@@ -163,83 +141,7 @@
 
 
     {{--  Company Detail  --}}
-    <x-jet-dialog-modal wire:model="isCompanyOpen">
-        <x-slot name="title">
-            {{ __('Compnay Detail') }}
-            <button wire:click="edit({{$this->stock_id}})" class="float-right"><i class="fa fa-edit"></i></button>
-        </x-slot>
-
-
-        <x-slot name="content">
-
-            <!-- Role -->
-            <div class="col-span-6 lg:col-span-4">
-                <div class="mb-4">
-                    <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Stock Ticker:</b></label>
-                    <label>{{$this->stock_ticker}}</label>
-                </div>
-                <div class="mb-4">
-                    <label for="companyname" class="block text-gray-700 font-bold mb-2"><b>Company Name:</b></label>
-                    <label>{{$this->company_name}}</label>
-                </div>
-                @if($this->description)
-                    <div class="mb-4">
-                        <label for="description" class="block text-gray-700 font-bold mb-2"><b>Description:</b></label>
-                        <label>{{$this->description}}</label>
-                    </div>
-                @endif
-                @if($this->issuetype)
-                    <div class="mb-4">
-                        <label for="issuetype" class="block text-gray-700 font-bold mb-2"><b>Issue Type:</b></label>
-                        <label>{{$this->issuetype}}</label>
-                    </div>
-                @endif
-                @if($this->sector)
-                    <div class="mb-4">
-                        <label for="sector" class="block text-gray-700 font-bold mb-2"><b>Sector:</b></label>
-                        <label>{{$this->sector}}</label>
-                    </div>
-                @endif
-                @if($this->market_cap)
-                    <div class="mb-4">
-                        <label for="marketcap" class="block text-gray-700 font-bold mb-2"><b>Market cap:</b></label>
-                        <label>{{$this->market_cap}}</label>
-                    </div>
-                @endif
-                @if($this->alltags)
-                    <div class="mb-4">
-                        <label for="tage" class="block text-gray-700 font-bold mb-2"><b>Tags:</b></label>
-                        @if(isset($this->alltags))
-                            @foreach($this->alltags as $t)
-                                <label>{{$t}}</label><br>
-                            @endforeach
-                        @endif
-                    </div>
-                @endif
-                <div class="mb-4">
-                    <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Current Share Price:</b></label>
-                    <label>${{$this->current_share_price}}</label>
-                </div>
-                <div class="mb-4">
-                    <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Average Purchase Price:</b></label>
-                    <label>${{$this->average_cost}}</label>
-                </div>
-                <div class="mb-4">
-                    <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Number of Shares:</b></label>
-                    <label>{{$this->share_number}}</label>
-                </div>
-                <x-jet-button wire:click="sell({{ $this->stock_id }})" class="py-2 px-4">{{__('Sell')}}</x-jet-button>
-                <x-jet-button wire:click="buy({{ $this->stock_id }})" class="py-2 px-4">{{__('Buy')}}</x-jet-button>
-            </div>
-        </x-slot>
-
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="closeCompanyModal()">
-                {{ __('Cancel') }}
-            </x-jet-secondary-button>
-
-        </x-slot>
-    </x-jet-dialog-modal>
+        @livewire('company-detail-modal')
     {{-- End Company detail  --}}
 
 
@@ -396,143 +298,13 @@
 
 
     {{-- Stock Sell Modal  --}}
-    <x-jet-dialog-modal wire:model="issellOpen">
-        <x-slot name="title">
-            {{ __('Stock Sale') }}
-            <button wire:click="closeSellModal()" class="float-right"><i class="fa fa-close"></i></button>
-        </x-slot>
-
-        <x-slot name="content">
-            <!-- Role -->
-            <div class="col-span-6 lg:col-span-4">
-                <div class="mb-4">
-                    <label for="stockticker" class="block text-gray-700 text-sm font-bold mb-2"><b>Stock Ticker:</b></label>
-                    <label>{{$this->stock_ticker}}</label>
-                    <input type="text" hidden readonly class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
-                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>
-                    <label>{{$this->company_name}}</label>
-                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Company Name" wire:model="company_name">
-                    @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="share_number" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Number of Shares:</b></label>
-                    <label>{{$this->share_number}}</label>
-                </div>
-                <div class="mb-4">
-                    <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Sale Price (Per Share):</b></label>
-                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Sale Price" wire:model="share_price">
-                    @error('share_price') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="share_sold" class="block text-gray-700 text-sm font-bold mb-2"><b>Shares Sold:</b></label>
-                    <input type="text" id="share_sold" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter shares..." wire:model="share_sold">
-                    @error('share_sold') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="date_of_purchase" class="block text-gray-700 text-sm font-bold mb-2"><b>Date of Sale:</b></label>
-                    <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="date_of_purchase">
-                    @error('date_of_purchase') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-            </div>
-        </x-slot>
-
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="closeSellModal()">
-                {{ __('Cancel') }}
-            </x-jet-secondary-button>
-
-            <x-jet-button class="ml-2" wire:click="addsell()" wire:loading.attr="disabled">
-                {{ __('Save') }}
-            </x-jet-button>
-        </x-slot>
-    </x-jet-dialog-modal>
+    @livewire('stock-sell-modal')
     {{--   End Stock Sell Modal  --}}
 
 
-    {{-- Stock Sell Modal  --}}
-    <x-jet-dialog-modal wire:model="isbuyOpen">
-        <x-slot name="title">
-            {{ __('Buy Existing Stock ') }}
-            <button wire:click="closeBuyModal()" class="float-right"><i class="fa fa-close"></i></button>
-        </x-slot>
-
-        <x-slot name="content">
-            <!-- Role -->
-            <div class="col-span-6 lg:col-span-4">
-                <div class="mb-4">
-                    <label for="stockticker" class="block text-gray-700 text-sm font-bold mb-2"><b>Stock Ticker:</b></label>
-                    <label>{{$this->stock_ticker}}</label>
-                    <input type="text" hidden readonly class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
-                    @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Company Name:</b></label>
-                    <label>{{$this->company_name}}</label>
-                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Company Name" wire:model="company_name">
-                    {{--                            @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-                </div>
-                <div class="mb-4">
-                    <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Security Name:</b></label>
-                    <label>{{$this->security_name}}</label>
-                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Company Name" wire:model="security_name">
-                    {{--                            @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-                </div>
-                <div class="mb-4">
-                    <label for="current_share_price" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Share Price:</b></label>
-                    <label>{{$this->current_share_price}}</label>
-                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="current_share_price">
-                    @error('current_share_price') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Cost Per Share:</b></label>
-                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" wire:model="average_cost">
-                    @error('average_cost') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="share_number" class="block text-gray-700 text-sm font-bold mb-2"><b>Total Number of Shares:</b></label>
-                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter shares..." wire:model="share_number">
-                    @error('share_number') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="date_of_purchase" class="block text-gray-700 text-sm font-bold mb-2"><b>Date of Purchase:</b></label>
-                    <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="date_of_purchase">
-                    @error('date_of_purchase') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
-                <div class="mb-4">
-                    <label for="description" class="block text-gray-700 text-sm font-bold mb-2"><b>Description:</b></label>
-                    <label>{{$this->description}}</label>
-                    <textarea hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Description" wire:model="description"></textarea>
-                    {{--                            @error('description') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-                </div>
-                <div class="mb-4">
-                    <label for="sector" class="block text-gray-700 text-sm font-bold mb-2"><b>Sector:</b></label>
-                    <label>{{$this->sector}}</label>
-                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Sector" wire:model="sector">
-                    {{--                            @error('sector') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-                </div>
-                <div class="mb-4">
-                    <label for="market_cap" class="block text-gray-700 text-sm font-bold mb-2"><b>Market Cap ($mm):</b></label>
-                    <label>{{$this->market_cap}}</label>
-                    <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly placeholder="Enter Market Cap" wire:model="market_cap">
-                    {{--                            @error('market_cap') <span class="text-red-500">{{ $message }}</span>@enderror--}}
-                </div>
-            </div>
-        </x-slot>
-
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="closeBuyModal()">
-                {{ __('Cancel') }}
-            </x-jet-secondary-button>
-
-            <x-jet-button class="ml-2" wire:click="addbuy()" wire:loading.attr="disabled">
-                {{ __('Save') }}
-            </x-jet-button>
-        </x-slot>
-    </x-jet-dialog-modal>
-    {{--   End Stock Sell Modal  --}}
+    {{-- Stock Buy Modal  --}}
+    @livewire('stock-buy-modal')
+    {{--   End Stock Buy Modal  --}}
 
     {{-- Delete Stock --}}
     <x-jet-confirmation-modal wire:model="deletestock">
@@ -543,7 +315,7 @@
         <x-slot name="content">
             {{ __('Are you sure you want to delete stock?') }}
             <br><br>
-            <span class="text-red-700">Please note this will remove all transaction history associate with this stock. This cannot be undone.</span>
+            <span class="text-red-700">{{ __('Please note this will remove all transaction history associate with this stock. This cannot be undone.') }}</span>
         </x-slot>
 
         <x-slot name="footer">

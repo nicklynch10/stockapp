@@ -64,6 +64,11 @@
             .historical td:nth-child(4) { order: 5; width: 100% !important;}
             .historical td:nth-child(6) { order: 6; width: 50% !important;}
             .historical td:nth-child(7) { order: 7; width: 50% !important;}
+
+            .stock td:first-child{
+                background: #00c80696;
+                border-radius: 7px 7px 0px 0px;width: 100% !important;
+            }
         }
     </style>
     <div class="container mx-auto px-4 py-10 md:py-12">
@@ -81,7 +86,7 @@
                     @endif
                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
                     <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
-                        <table>
+                        <table class="stock">
                             <thead class="bg-gray-300">
                                 <tr>
                                     <th class="px-6 py-4">Ticker</th>

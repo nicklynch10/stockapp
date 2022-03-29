@@ -84,7 +84,7 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($this->account as $acc)
                                     <tr>
-                                        <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-900"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked":""}} wire:click="set_default({{$acc->id}})"></td>
+                                        <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-900"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
                                         <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder">{{$acc->account_name}}</td>
                                         <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900">{{$acc->account_type}}</td>
                                         <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900">{{$acc->account_brokerage}}</td>

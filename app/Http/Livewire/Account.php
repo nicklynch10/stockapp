@@ -13,6 +13,7 @@ class Account extends Component
 {
     public $isOpen = 0;
     public $user_id,$account_type,$account_name,$account_brokerage,$commission,$account_id,$deleteid,$set_default;
+    public $allData,$data;
     public $deleteaccount=0;
 
     public function render()
@@ -81,36 +82,63 @@ class Account extends Component
 
     public function delete($id)
     {
-        Accounts::find($id)->delete();
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
-            'message'=>'Account Deleted Successfully.'
-        ]);
+        $data = Accounts::where('id',$id)->first();
+        if($data['set_default'] == 1)
+        {
+            Accounts::find($id)->delete();
+            $allData = Accounts::where('user_id',Auth::user()->id)->where('id','!=',$id)->first();
+            if($allData)
+            {
+                $allData->update([
+                    'set_default' => 1,
+                ]);
+                $this->dispatchBrowserEvent('alert',[
+                    'type' => 'success',
+                    'message' => '<p style="color: red">Account Delete Successfully</p> <br>'.$allData['account_name'].' Account Set As Default Successfully.'
+                ]);
+            }
+            else
+            {
+                $this->dispatchBrowserEvent('alert',[
+                    'type' => 'error',
+                    'message' => 'Account Deleted Successfully.<br>No More Account Please Add Account.'
+                ]);
+            }
+        }
+        else
+        {
+            Accounts::find($id)->delete();
+            $this->dispatchBrowserEvent('alert',[
+                'type' => 'error',
+                'message' => 'Account Deleted Successfully.'
+            ]);
+        }
         $this->closedeleteaccount();
         $this->closeModal();
     }
 
     public function deleteaccount($id)
     {
-        $this->deleteid=$id;
-        $this->deleteaccount=true;
+        $this->deleteid = $id;
+        $this->deleteaccount = true;
     }
 
     public function closedeleteaccount()
     {
-        $this->deleteaccount=false;
+        $this->deleteaccount = false;
     }
 
     public function set_default($set_default)
     {
-        Accounts::where('user_id', '=', Auth::user()->id)->update(['set_default' => 0]);
-        $result=Accounts::find($set_default);
+
+        Accounts::where('user_id', '=' , Auth::user()->id)->update(['set_default' => 0]);
+        $result = Accounts::find($set_default);
         $result->update([
-            'set_default'=>1,
+            'set_default' => 1,
         ]);
         $this->dispatchBrowserEvent('alert',[
-            'type'=>'success',
-            'message'=>'Account Set As Successfully.'
+            'type' => 'success',
+            'message' => 'Account Set As Default Successfully.'
         ]);
     }
 }

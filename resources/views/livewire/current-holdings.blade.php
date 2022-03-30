@@ -99,7 +99,7 @@
             @endphp
             @if($curr->share_number!=0)
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->stock_id }})">{{$curr->stock_ticker}}</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})">{{$curr->stock_ticker}}</a></td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})"><p class="whitespace-normal">{{$curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name}}</p></a></td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Count">{{$curr->share_number}}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Cost Basis">${{number_format($curr->ave_cost,2)}}</td>

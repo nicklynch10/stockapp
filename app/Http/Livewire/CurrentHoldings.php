@@ -24,20 +24,27 @@ class CurrentHoldings extends Component
             $endpoint = 'https://cloud.iexapis.com/';
             $current = Http::get($endpoint . 'stable/stock/'.$st->stock_ticker.'/quote?token=' . $token);
             $price_current = $current->json();
-            $current_total_value=$price_current['latestPrice']*$st->share_number;
-            $total_cost=($st->ave_cost*$st->share_number);
-            $gain=$current_total_value-$total_cost;
-            $dchange=$price_current['latestPrice']-$st->ave_cost;
-            $pchange=(($price_current['latestPrice']/$st->ave_cost)-1)*100;
-            $result=Stock::find($st->id);
-            $result->update([
-                'current_share_price'=>$price_current['latestPrice'],
-                'dchange'=>$dchange,
-                'pchange'=>$pchange,
-                'current_total_value'=>$current_total_value,
-                'total_cost'=>$total_cost,
-                'total_gain_loss'=>$gain,
-            ]);
+            if($price_current!=NULL)
+            {
+                if($st->current_share_price != $price_current['latestPrice'])
+                {
+                    $current_total_value = $price_current?$price_current['latestPrice']:$st->current_share_price*$st->share_number;
+                    $total_cost = ($st->ave_cost*$st->share_number);
+                    $gain = $current_total_value-$total_cost;
+                    $dchange = $price_current?$price_current['latestPrice']:$st->current_share_price-$st->ave_cost;
+                    $pchange = (($price_current?$price_current['latestPrice']:$st->current_share_price/$st->ave_cost)-1)*100;
+                    $result = Stock::find($st->id);
+                    $result->update([
+                        'current_share_price' => $price_current?$price_current['latestPrice']:$st->current_share_price,
+                        'dchange' => $dchange,
+                        'pchange' => $pchange,
+                        'current_total_value' => $current_total_value,
+                        'total_cost' => $total_cost,
+                        'total_gain_loss' => $gain,
+                    ]);
+                }
+            }
+            break;
         }
 //        dispatch(new \App\Jobs\CurrentHoldings($currstock));
         return view('livewire.current-holdings',['currentholding'=>$this->fetchData()]);

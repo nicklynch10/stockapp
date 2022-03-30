@@ -55,7 +55,7 @@
                         <h3 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Tax Savings Realized') }}
                         </h3>
-                        <h2 class="pt-2 text-2xl">{{$this->totalSavingsRealized<0?"($".number_format($this->totalSavingsRealized,2).")":"$".number_format($this->totalSavingsRealized,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalSavingsRealized<0?"($".abs(number_format($this->totalSavingsRealized,2)).")":"$".number_format($this->totalSavingsRealized,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Taxable Gain / (Loss)') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->totalTaxableGainLoss<0?"($".number_format($this->totalTaxableGainLoss,2).")":"$".number_format($this->totalTaxableGainLoss,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalTaxableGainLoss<0?"($".abs(number_format($this->totalTaxableGainLoss,2)).")":"$".number_format($this->totalTaxableGainLoss,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Unrealized Gain / (Loss)') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->totalUnrealizedGainLoss<0?"($".number_format($this->totalUnrealizedGainLoss,2).")":"$".number_format($this->totalUnrealizedGainLoss,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalUnrealizedGainLoss<0?"($".abs(number_format($this->totalUnrealizedGainLoss,2)).")":"$".number_format($this->totalUnrealizedGainLoss,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Harvestable Losses') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->harvestableLosses<0?"($".number_format($this->harvestableLosses,2).")":"$".number_format($this->harvestableLosses,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->harvestableLosses<0?"($".abs(number_format($this->harvestableLosses,2)).")":"$".number_format($this->harvestableLosses,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Unrealized Gain') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->unrealizedGain<0?"($".number_format($this->unrealizedGain,2).")":"$".number_format($this->unrealizedGain,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->unrealizedGain<0?"($".abs(number_format($this->unrealizedGain,2)).")":"$".number_format($this->unrealizedGain,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -183,13 +183,7 @@
         var yValues = [
             @foreach($this->sto as $st)
                 @if($st->total_stock!=0)
-                    @php
-                        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-                        $endpoint = 'https://cloud.iexapis.com/';
-                        $current_price = Http::get($endpoint . 'stable/stock/' . $st->stock_ticker . '/quote?token=' . $token);
-                        $price = $current_price->json();
-                    @endphp
-                {{round($st->total_stock*$price['latestPrice'])}},
+                {{round($st->total_stock*$st->current_share_price)}},
             @endif
             @endforeach];
 
@@ -211,10 +205,8 @@
                     },
 
                 });
-            </script>
-
-
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    </script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
@@ -231,7 +223,7 @@
                         {
                             $value=($d->share_price-$d->ave_cost)*($d->stock);
                             $total+=($d->share_price-$d->ave_cost)*($d->stock);
-                            echo "['".$d->date_of_transaction."', $total],";
+                            echo "['".$d->date_of_transaction."',$total],";
                         }
                     @endphp
                 ]);

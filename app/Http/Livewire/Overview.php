@@ -19,8 +19,7 @@ class Overview extends Component
 
     public function render()
     {
-        $this->sto = Stock::select('stock_ticker',DB::raw("(sum(share_number)) as total_stock"))->where('user_id',Auth::user()->id)->groupBy('stock_ticker')->get();
-
+        $this->sto = Stock::select('stock_ticker','current_share_price',DB::raw("(sum(share_number)) as total_stock"))->where('user_id',Auth::user()->id)->groupBy('stock_ticker','current_share_price')->get();
         $this->totalSavingsRealized=0;
 
         //Box 2

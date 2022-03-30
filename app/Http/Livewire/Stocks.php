@@ -39,7 +39,7 @@ class Stocks extends Component
 
     public function render()
     {
-        if($this->tickerorcompany!=Null)
+        if($this->tickerorcompany!=Null && !isset($this->stock_id))
         {
             $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
                 ->first();
@@ -118,15 +118,6 @@ class Stocks extends Component
         $this->openModal();
     }
 
-    public function openModal()
-    {
-        $this->isOpen = true;
-    }
-
-    public function closeModal()
-    {
-        $this->isOpen = false;
-    }
 
     private function resetInputFields(){
         $this->stock_id = '';
@@ -216,7 +207,6 @@ class Stocks extends Component
         $endpoint = 'https://cloud.iexapis.com/';
         $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
         $price=$current_price->json();
-
         $symbol = Http::get($endpoint . 'stable/stock/'.$stock->stock_ticker.'/company?token=' . $token);
         $company = $symbol->json();
 
@@ -224,11 +214,11 @@ class Stocks extends Component
         $this->tickerorcompany=$stock->stock_ticker;
         $this->stock_ticker = $stock->stock_ticker;
         $this->companyname = $stock->stock_ticker;
-        $this->company_name = $company['companyName'];
-        $this->security_name = $company['securityName'];
-        $this->description = $company['description'];
-        $this->sector = $company['sector'];
-        $this->current_share_price = $price ? $price['latestPrice'] : '';
+        $this->company_name = $company?$company['companyName']:$stock->company_name;
+        $this->security_name = $company?$company['securityName']:$stock->security_name;
+        $this->description = $company?$company['description']:$stock->description;
+        $this->sector = $company?$company['sector']:$stock->sector;
+        $this->current_share_price = $price ? $price['latestPrice'] : $stock->current_share_price;
         if(isset($company['issueType']))
         {
             if($company['issueType']=='et')
@@ -250,13 +240,13 @@ class Stocks extends Component
         }
         else
         {
-            $this->issuetype='';
+            $this->issuetype=$stock->issuetype;
         }
-        $this->tags = json_encode($company['tags']);
+        $this->tags = json_encode($company?$company['tags']:$stock->tags);
         $this->openmodalval=0;
         $this->avepricereadonly=0;
         $this->currentStep=1;
-        $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+        $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : round(($stock->market_cap/1000000), 2);
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';
@@ -264,6 +254,15 @@ class Stocks extends Component
         $this->note = $stock->note;
         $this->account_type=$stock->account_id;
         $this->openModal();
+    }
+    public function openModal()
+    {
+        $this->isOpen = true;
+    }
+
+    public function closeModal()
+    {
+        $this->isOpen = false;
     }
 
     public function delete($id)

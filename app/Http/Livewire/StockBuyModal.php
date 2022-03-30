@@ -28,7 +28,7 @@ class StockBuyModal extends Component
         $stock = Stock::findOrFail($id);
         $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
         $price = $current_price->json();
-        $this->current_share_price = $price ? $price['latestPrice'] : '';
+        $this->current_share_price = $price ? $price['latestPrice'] : $stock->current_share_price;
         $this->stock_id = $id;
         $this->stock_ticker = $stock->stock_ticker;
         $this->company_name = $stock->company_name;

@@ -1,0 +1,196 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\Account;
+use App\Models\Stock;
+use App\Models\Transaction;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Livewire\Component;
+
+class StockAddEditModal extends Component
+{
+    protected $listeners=['create' => 'create','editStock' => 'editStockModal'];
+    public $isOpen = 0;
+    public $currentStep = 1;
+    public $stock_id,$stock_ticker,$company_name,$description,$security_name,$sector,$market_cap,$current_share_price,$average_cost,$issuetype,$share_number,$tickerorcompany;
+    public $openmodalval,$note,$date_of_purchase,$account_type,$companyname,$avepricereadonly;
+
+    public function render()
+    {
+        $this->account = Account::where('user_id', Auth::user()->id)->get();
+        return view('livewire.stock-add-edit-modal');
+    }
+
+    public function firstStepSubmit()
+    {
+        $this->validate([
+            'average_cost' => 'required',
+            'share_number' => 'required',
+        ]);
+        $this->currentStep = 2;
+    }
+
+    public function secondStepSubmit()
+    {
+        $this->currentStep = 3;
+    }
+    public function back($step)
+    {
+        $this->currentStep = $step;
+    }
+
+    public function create()
+    {
+        $this->resetInputFields();
+        $this->openModal();
+    }
+
+    private function resetInputFields(){
+        $this->stock_id = '';
+        $this->stock_ticker = '';
+        $this->company_name = '';
+        $this->description = '';
+        $this->security_name = '';
+        $this->sector = '';
+        $this->market_cap = '';
+        $this->current_share_price = '';
+        $this->average_cost = '';
+        $this->issuetype = '';
+        $this->share_number = '';
+        $this->tickerorcompany = '';
+        $this->openmodalval=1;
+        $this->currentStep=1;
+        $this->note='';
+        $this->date_of_purchase=Carbon::now()->format('Y-m-d');
+        $default=Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
+        $this->account_type=$default?$default->id:'';
+    }
+
+    public function store()
+    {
+        $this->validate([
+            'stock_ticker' => 'required',
+            'average_cost' => 'required',
+            'share_number' => 'required',
+        ]);
+
+        $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
+        $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
+            'user_id'=>Auth::user()->id,
+            'stock_ticker' => $this->stock_ticker,
+            'company_name' => $this->company_name,
+            'description' => $this->description,
+            'sector' => $this->sector,
+            'security_name' => $this->security_name,
+            'market_cap' => $this->market_cap,
+            'current_share_price' => $this->current_share_price,
+            'issuetype' => $this->issuetype,
+            'tags' => $this->tags,
+            'ave_cost' => $this->average_cost,
+            'share_number' => $this->share_number,
+            'date_of_purchase' => $this->date_of_purchase,
+            'note'=>$this->note,
+            'account_id'=>$this->account_type,
+            'dchange'=>($this->current_share_price-$this->average_cost)*$this->share_number,
+            'pchange'=>($this->current_share_price/$this->average_cost)-1,
+            'current_total_value'=>($this->current_share_price*$this->share_number),
+            'total_cost'=>($this->average_cost*$this->share_number),
+            'total_gain_loss'=>0,
+            'total_long_term_gains'=>$diff->format("%a")>366?"Long / " .$diff->format("%d")." Days held" :"Short / ".$diff->format("%d")." Days held",
+        ]);
+        $lastInsertedID = $insertid->id;
+
+        Transaction::updateOrCreate(['stock_id' => $this->stock_id],[
+            'stock_id' => $lastInsertedID,
+            'type'=>0,
+            'ticker_name'=>$this->stock_ticker,
+            'stock'=>$this->share_number,
+            'share_price'=>$this->average_cost,
+            'user_id'=>Auth::user()->id,
+            'date_of_transaction'=>$this->date_of_purchase,
+        ]);
+//        $this->emit('historicaldata');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>$this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares'
+        ]);
+        if($this->stock_id==Null)
+        {
+            $this->openModal();
+        }
+        else
+        {
+            $this->closeModal();
+        }
+
+        $this->resetInputFields();
+    }
+
+    public function editStockModal($id)
+    {
+        $stock = Stock::findOrFail($id);
+        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
+        $endpoint = 'https://cloud.iexapis.com/';
+        $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+        $price=$current_price->json();
+        $symbol = Http::get($endpoint . 'stable/stock/'.$stock->stock_ticker.'/company?token=' . $token);
+        $company = $symbol->json();
+
+        $this->stock_id = $id;
+        $this->tickerorcompany=$stock->stock_ticker;
+        $this->stock_ticker = $stock->stock_ticker;
+        $this->companyname = $stock->stock_ticker;
+        $this->company_name = $company?$company['companyName']:$stock->company_name;
+        $this->security_name = $company?$company['securityName']:$stock->security_name;
+        $this->description = $company?$company['description']:$stock->description;
+        $this->sector = $company?$company['sector']:$stock->sector;
+        $this->current_share_price = $price ? $price['latestPrice'] : $stock->current_share_price;
+        if(isset($company['issueType']))
+        {
+            if($company['issueType']=='et')
+            {
+                $this->issuetype="ETF";
+            }
+            elseif ($company['issueType']=='et')
+            {
+                $this->issuetype="ADR";
+            }
+            elseif ($company['issueType']=='cs')
+            {
+                $this->issuetype="Common Stock";
+            }
+            else
+            {
+                $this->issuetype=$company['issueType'];
+            }
+        }
+        else
+        {
+            $this->issuetype=$stock->issuetype;
+        }
+        $this->tags = json_encode($company?$company['tags']:$stock->tags);
+        $this->openmodalval=0;
+        $this->avepricereadonly=0;
+        $this->currentStep=1;
+        $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : round(($stock->market_cap/1000000), 2);
+        $this->average_cost = $stock->ave_cost;
+        $this->share_number = $stock->share_number;
+        $this->share_price = '';
+        $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
+        $this->note = $stock->note;
+        $this->account_type=$stock->account_id;
+        $this->openModal();
+    }
+    public function openModal()
+    {
+        $this->isOpen = true;
+    }
+
+    public function closeModal()
+    {
+        $this->isOpen = false;
+    }
+}

@@ -6,19 +6,26 @@ use App\Models\StockTicker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use App\Models\Account As Accounts;
-
+use App\Models\Account as Accounts;
 
 class Account extends Component
 {
     public $isOpen = 0;
-    public $user_id,$account_type,$account_name,$account_brokerage,$commission,$account_id,$deleteid,$set_default;
-    public $allData,$data;
+    public $user_id;
+    public $account_type;
+    public $account_name;
+    public $account_brokerage;
+    public $commission;
+    public $account_id;
+    public $deleteid;
+    public $set_default;
+    public $allData;
+    public $data;
     public $deleteaccount=0;
 
     public function render()
     {
-        $this->account=Accounts::where('user_id',Auth::user()->id)->orderBy('account.created_at','DESC')->get();
+        $this->account=Accounts::where('user_id', Auth::user()->id)->orderBy('account.created_at', 'DESC')->get();
         return view('livewire.account');
     }
 
@@ -38,7 +45,8 @@ class Account extends Component
         $this->isOpen = false;
     }
 
-    private function resetInputFields(){
+    private function resetInputFields()
+    {
         $this->account_type = '';
         $this->account_name = '';
         $this->account_brokerage = '';
@@ -61,9 +69,9 @@ class Account extends Component
             'set_default'=>0,
         ]);
 
-        $this->dispatchBrowserEvent('alert',[
+        $this->dispatchBrowserEvent('alert', [
             'type'=>'success',
-            'message'=>$this->account_id ?'Account Update Successfully':'New Account Create Successfully',
+            'message'=>$this->account_id ? 'Account Update Successful' : 'New Account Created Successfully',
         ]);
         $this->closeModal();
         $this->resetInputFields();
@@ -82,33 +90,27 @@ class Account extends Component
 
     public function delete($id)
     {
-        $data = Accounts::where('id',$id)->first();
-        if($data['set_default'] == 1)
-        {
+        $data = Accounts::where('id', $id)->first();
+        if ($data['set_default'] == 1) {
             Accounts::find($id)->delete();
-            $allData = Accounts::where('user_id',Auth::user()->id)->where('id','!=',$id)->first();
-            if($allData)
-            {
+            $allData = Accounts::where('user_id', Auth::user()->id)->where('id', '!=', $id)->first();
+            if ($allData) {
                 $allData->update([
                     'set_default' => 1,
                 ]);
-                $this->dispatchBrowserEvent('alert',[
+                $this->dispatchBrowserEvent('alert', [
                     'type' => 'success',
-                    'message' => '<p style="color: red">Account Delete Successfully</p> <br>'.$allData['account_name'].' Account Set As Default Successfully.'
+                    'message' => '<p style="color: red">Account Delete Successfully</p> <br>'.$allData['account_name'].' Account Set As Default.'
                 ]);
-            }
-            else
-            {
-                $this->dispatchBrowserEvent('alert',[
+            } else {
+                $this->dispatchBrowserEvent('alert', [
                     'type' => 'error',
-                    'message' => 'Account Deleted Successfully.<br>No More Account Please Add Account.'
+                    'message' => 'Account Deleted Successfully.<br> Please make a new account if you wish to continue.'
                 ]);
             }
-        }
-        else
-        {
+        } else {
             Accounts::find($id)->delete();
-            $this->dispatchBrowserEvent('alert',[
+            $this->dispatchBrowserEvent('alert', [
                 'type' => 'error',
                 'message' => 'Account Deleted Successfully.'
             ]);
@@ -130,15 +132,14 @@ class Account extends Component
 
     public function set_default($set_default)
     {
-
-        Accounts::where('user_id', '=' , Auth::user()->id)->update(['set_default' => 0]);
+        Accounts::where('user_id', '=', Auth::user()->id)->update(['set_default' => 0]);
         $result = Accounts::find($set_default);
         $result->update([
             'set_default' => 1,
         ]);
-        $this->dispatchBrowserEvent('alert',[
+        $this->dispatchBrowserEvent('alert', [
             'type' => 'success',
-            'message' => 'Account Set As Default Successfully.'
+            'message' => 'Account Set As Default'
         ]);
     }
 }

@@ -10,13 +10,12 @@ class HomeController extends Controller
 {
     public function addTicker()
     {
-        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-        $endpoint = 'https://cloud.iexapis.com/';
+        $token = env('IEX_CLOUD_KEY', null);
+        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
         $symbol = Http::get($endpoint . 'stable/ref-data/symbols?token=' . $token);
         $company = $symbol->json();
-        foreach($company as $com)
-        {
-            StockTicker::updateOrCreate(['ticker'=>$com['symbol']],[
+        foreach ($company as $com) {
+            StockTicker::updateOrCreate(['ticker'=>$com['symbol']], [
                 'ticker'=>$com['symbol'],
                 'ticker_company'=>$com['name'],
             ]);

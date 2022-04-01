@@ -42,10 +42,9 @@ class UpdateStockPrice extends Command
     public function handle()
     {
         $getstock=Stock::all();
-        foreach($getstock as $stock)
-        {
-            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-            $endpoint = 'https://cloud.iexapis.com/';
+        foreach ($getstock as $stock) {
+            $token = env('IEX_CLOUD_KEY', null);
+            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
             $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
             $price = $current_price->json();
             $record = Stock::find($stock->id);
@@ -54,15 +53,13 @@ class UpdateStockPrice extends Command
             ]);
 
             $totalpchange= ($price['latestPrice']/$stock->ave_cost)-1;
-            if($totalpchange<1 || $totalpchange>1 || $totalpchange<5 || $totalpchange>5 || $totalpchange<10)
-            {
+            if ($totalpchange<1 || $totalpchange>1 || $totalpchange<5 || $totalpchange>5 || $totalpchange<10) {
                 $details=[
-                    'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange<0?"(".abs(round($totalpchange,2))."%)":abs(round($totalpchange,2))."%"),
+                    'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange<0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
                 ];
             }
             $user=User::all();
-            foreach($user as $u)
-            {
+            foreach ($user as $u) {
                 $u->notify(new Currentportfoliochange($details));
             }
         }

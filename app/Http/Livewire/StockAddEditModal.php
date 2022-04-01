@@ -15,8 +15,24 @@ class StockAddEditModal extends Component
     protected $listeners=['create' => 'create','editStock' => 'editStockModal'];
     public $isOpen = 0;
     public $currentStep = 1;
-    public $stock_id,$stock_ticker,$company_name,$description,$security_name,$sector,$market_cap,$current_share_price,$average_cost,$issuetype,$share_number,$tickerorcompany;
-    public $openmodalval,$note,$date_of_purchase,$account_type,$companyname,$avepricereadonly;
+    public $stock_id;
+    public $stock_ticker;
+    public $company_name;
+    public $description;
+    public $security_name;
+    public $sector;
+    public $market_cap;
+    public $current_share_price;
+    public $average_cost;
+    public $issuetype;
+    public $share_number;
+    public $tickerorcompany;
+    public $openmodalval;
+    public $note;
+    public $date_of_purchase;
+    public $account_type;
+    public $companyname;
+    public $avepricereadonly;
 
     public function render()
     {
@@ -48,7 +64,8 @@ class StockAddEditModal extends Component
         $this->openModal();
     }
 
-    private function resetInputFields(){
+    private function resetInputFields()
+    {
         $this->stock_id = '';
         $this->stock_ticker = '';
         $this->company_name = '';
@@ -66,7 +83,7 @@ class StockAddEditModal extends Component
         $this->note='';
         $this->date_of_purchase=Carbon::now()->format('Y-m-d');
         $default=Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
-        $this->account_type=$default?$default->id:'';
+        $this->account_type=$default ? $default->id : '';
     }
 
     public function store()
@@ -77,7 +94,8 @@ class StockAddEditModal extends Component
             'share_number' => 'required',
         ]);
 
-        $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
+        $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
+
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
             'user_id'=>Auth::user()->id,
             'stock_ticker' => $this->stock_ticker,
@@ -99,11 +117,11 @@ class StockAddEditModal extends Component
             'current_total_value'=>($this->current_share_price*$this->share_number),
             'total_cost'=>($this->average_cost*$this->share_number),
             'total_gain_loss'=>0,
-            'total_long_term_gains'=>$diff->format("%a")>366?"Long / " .$diff->format("%d")." Days held" :"Short / ".$diff->format("%d")." Days held",
+            'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
         ]);
         $lastInsertedID = $insertid->id;
 
-        Transaction::updateOrCreate(['stock_id' => $this->stock_id],[
+        Transaction::updateOrCreate(['stock_id' => $this->stock_id], [
             'stock_id' => $lastInsertedID,
             'type'=>0,
             'ticker_name'=>$this->stock_ticker,
@@ -113,16 +131,13 @@ class StockAddEditModal extends Component
             'date_of_transaction'=>$this->date_of_purchase,
         ]);
 //        $this->emit('historicaldata');
-        $this->dispatchBrowserEvent('alert',[
+        $this->dispatchBrowserEvent('alert', [
             'type'=>'success',
             'message'=>$this->stock_id ? 'Stock Updated Successfully.' : 'Stock Ticker : <b>'.$this->stock_ticker .'</b><br/> Total Buy : <b>' .$this->share_number.'</b> Shares'
         ]);
-        if($this->stock_id==Null)
-        {
+        if ($this->stock_id==null) {
             $this->openModal();
-        }
-        else
-        {
+        } else {
             $this->closeModal();
         }
 
@@ -132,50 +147,39 @@ class StockAddEditModal extends Component
     public function editStockModal($id)
     {
         $stock = Stock::findOrFail($id);
-        $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-        $endpoint = 'https://cloud.iexapis.com/';
+        $token = env('IEX_CLOUD_KEY', null);
+        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
         $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
         $price=$current_price->json();
         $symbol = Http::get($endpoint . 'stable/stock/'.$stock->stock_ticker.'/company?token=' . $token);
         $company = $symbol->json();
-
         $this->stock_id = $id;
         $this->tickerorcompany=$stock->stock_ticker;
         $this->stock_ticker = $stock->stock_ticker;
         $this->companyname = $stock->stock_ticker;
-        $this->company_name = $company?$company['companyName']:$stock->company_name;
-        $this->security_name = $company?$company['securityName']:$stock->security_name;
-        $this->description = $company?$company['description']:$stock->description;
-        $this->sector = $company?$company['sector']:$stock->sector;
+        $this->company_name = $company ? $company['companyName'] : $stock->company_name;
+        $this->security_name = $company ? $company['securityName'] : $stock->security_name;
+        $this->description = $company ? $company['description'] : $stock->description;
+        $this->sector = $company ? $company['sector'] : $stock->sector;
         $this->current_share_price = $price ? $price['latestPrice'] : $stock->current_share_price;
-        if(isset($company['issueType']))
-        {
-            if($company['issueType']=='et')
-            {
+        if (isset($company['issueType'])) {
+            if ($company['issueType']=='et') {
                 $this->issuetype="ETF";
-            }
-            elseif ($company['issueType']=='et')
-            {
+            } elseif ($company['issueType']=='et') {
                 $this->issuetype="ADR";
-            }
-            elseif ($company['issueType']=='cs')
-            {
+            } elseif ($company['issueType']=='cs') {
                 $this->issuetype="Common Stock";
-            }
-            else
-            {
+            } else {
                 $this->issuetype=$company['issueType'];
             }
-        }
-        else
-        {
+        } else {
             $this->issuetype=$stock->issuetype;
         }
-        $this->tags = json_encode($company?$company['tags']:$stock->tags);
+        $this->tags = json_encode($company ? $company['tags'] : $stock->tags);
         $this->openmodalval=0;
         $this->avepricereadonly=0;
         $this->currentStep=1;
-        $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : round(($stock->market_cap/1000000), 2);
+        $this->market_cap = $price ? round(($price['marketCap']/1000000), 0) : round(($stock->market_cap/1000000), 0);
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';

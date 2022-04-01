@@ -1,0 +1,15 @@
+<?php return array (
+  'account' => 'App\\Http\\Livewire\\Account',
+  'company-detail-modal' => 'App\\Http\\Livewire\\CompanyDetailModal',
+  'cron-list' => 'App\\Http\\Livewire\\CronList',
+  'current-holdings' => 'App\\Http\\Livewire\\CurrentHoldings',
+  'historical-trades' => 'App\\Http\\Livewire\\HistoricalTrades',
+  'mark-notification' => 'App\\Http\\Livewire\\MarkNotification',
+  'overview' => 'App\\Http\\Livewire\\Overview',
+  'portfolio' => 'App\\Http\\Livewire\\Portfolio',
+  'stock-add-edit-modal' => 'App\\Http\\Livewire\\StockAddEditModal',
+  'stock-buy-modal' => 'App\\Http\\Livewire\\StockBuyModal',
+  'stock-modal' => 'App\\Http\\Livewire\\StockModal',
+  'stock-sell-modal' => 'App\\Http\\Livewire\\StockSellModal',
+  'stocks' => 'App\\Http\\Livewire\\Stocks',
+);

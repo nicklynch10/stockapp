@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Http;
 
 class CurrentHoldingsUpdate implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -38,31 +41,28 @@ class CurrentHoldingsUpdate implements ShouldQueue
      */
     public function handle()
     {
-        foreach($this->cureentholding as $st)
-        {
-            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-            $endpoint = 'https://cloud.iexapis.com/';
+        foreach ($this->cureentholding as $st) {
+            $token = env('IEX_CLOUD_KEY', null);
+            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
             $current = Http::get($endpoint . 'stable/stock/'.$st->stock_ticker.'/quote?token=' . $token);
             $price_current = $current->json();
-            if($price_current!=NULL)
-            {
-                if($st->current_share_price != $price_current['latestPrice'])
-                {
-                    $current_total_value = $price_current?$price_current['latestPrice']:$st->current_share_price*$st->share_number;
+            if ($price_current!=null) {
+                if ($st->current_share_price != $price_current['latestPrice']) {
+                    $current_total_value = $price_current ? $price_current['latestPrice'] : $st->current_share_price*$st->share_number;
                     $total_cost = ($st->ave_cost*$st->share_number);
                     $gain = $current_total_value-$total_cost;
-                    $dchange = $price_current?$price_current['latestPrice']:$st->current_share_price-$st->ave_cost;
-                    $pchange = (($price_current?$price_current['latestPrice']:$st->current_share_price/$st->ave_cost)-1)*100;
-                    $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')),date_create(date('Y-m-d')));
+                    $dchange = $price_current ? $price_current['latestPrice'] : $st->current_share_price-$st->ave_cost;
+                    $pchange = (($price_current ? $price_current['latestPrice'] : $st->current_share_price/$st->ave_cost)-1)*100;
+                    $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
                     $result = Stock::find($st->id);
                     $result->update([
-                        'current_share_price' => $price_current?$price_current['latestPrice']:$st->current_share_price,
+                        'current_share_price' => $price_current ? $price_current['latestPrice'] : $st->current_share_price,
                         'dchange' => $dchange,
                         'pchange' => $pchange,
                         'current_total_value' => $current_total_value,
                         'total_cost' => $total_cost,
                         'total_gain_loss' => $gain,
-                        'total_long_term_gains'=>$diff->format("%a")>366?"Long / " .$diff->format("%d")." Days held" :"Short / ".$diff->format("%d")." Days held",
+                        'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
                     ]);
                 }
             }

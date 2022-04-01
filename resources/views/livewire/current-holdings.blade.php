@@ -119,6 +119,11 @@
         @endforelse
         </tbody>
     </table>
+    @if($currentholding->links())
+        <div class="p-5">
+            {{$currentholding->links()}}
+        </div>
+    @endif
     @livewire('company-detail-modal')
 </div>
 

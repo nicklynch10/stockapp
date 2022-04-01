@@ -3,10 +3,12 @@
         <x-slot name="logo">
             <x-jet-authentication-card-logo />
         </x-slot>
-
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="800421072281-84de2t16gcp1p6vjp9bot2acvq1q24cu.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
         <x-jet-validation-errors class="mb-4" />
 
-        @if (session('status'))
+    @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600">
                 {!! session('status') !!}
             </div>
@@ -48,10 +50,27 @@
                 </x-jet-button>
             </div>
             <div class="flex items-center justify-end mt-4">
-                <a href="{{ url('auth/google') }}">
-                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin-left: 3em;">
-                </a>
+{{--                <a href="{{ url('auth/google') }}">--}}
+{{--                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin-left: 3em;">--}}
+{{--                </a>--}}
+                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
             </div>
         </form>
+        <script>
+            function onSignIn(googleUser) {
+                // Useful data for your client-side scripts:
+                var profile = googleUser.getBasicProfile();
+                console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+                console.log('Full Name: ' + profile.getName());
+                console.log('Given Name: ' + profile.getGivenName());
+                console.log('Family Name: ' + profile.getFamilyName());
+                console.log("Image URL: " + profile.getImageUrl());
+                console.log("Email: " + profile.getEmail());
+
+                // The ID token you need to pass to your backend:
+                var id_token = googleUser.getAuthResponse().id_token;
+                console.log("ID Token: " + id_token);
+            }
+        </script>
     </x-jet-authentication-card>
 </x-guest-layout>

@@ -18,7 +18,7 @@ class StockSellModal extends Component
 
     public function render()
     {
-        $this->emit('historicaldata');
+//        $this->emit('historicaldata');
         return view('livewire.stock-sell-modal');
     }
     public function sellModal($id)
@@ -41,6 +41,16 @@ class StockSellModal extends Component
         $this->openmodalval=1;
         $this->date_of_purchase = Carbon::now()->format('Y-m-d');
         $this->openSellModal();
+    }
+
+    public function openSellModal()
+    {
+        $this->issellOpen = true;
+    }
+
+    public function closeSellModal()
+    {
+        $this->issellOpen = false;
     }
 
     public function addsell()
@@ -75,13 +85,5 @@ class StockSellModal extends Component
         }
     }
 
-    public function openSellModal()
-    {
-        $this->issellOpen = true;
-    }
 
-    public function closeSellModal()
-    {
-        $this->issellOpen = false;
-    }
 }

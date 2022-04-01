@@ -173,6 +173,17 @@
         </div>
     </div>
     @endif
+    {{-- Stock Sell Modal  --}}
+    @livewire('stock-sell-modal')
+    {{--   End Stock Sell Modal  --}}
+
+    {{-- Stock Purchase Add  --}}
+    @livewire('stock-add-edit-modal')
+    {{--   End Stock Purchase Input  --}}
+
+    {{-- Stock Buy Modal  --}}
+    @livewire('stock-buy-modal')
+    {{--   End Stock Buy Modal  --}}
 
     <script>
         var xValues = [@foreach($this->sto as $st)

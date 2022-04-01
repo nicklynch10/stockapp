@@ -2,7 +2,7 @@
 <x-jet-dialog-modal wire:model="isCompanyOpen">
     <x-slot name="title">
         {{ __('Compnay Detail') }}
-        <button wire:click="edit({{$this->stock_id}})" class="float-right"><i class="fa fa-edit"></i></button>
+        <button wire:click="editStock({{$this->stock_id}})" class="float-right"><i class="fa fa-edit"></i></button>
     </x-slot>
 
 

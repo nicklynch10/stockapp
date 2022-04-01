@@ -15,6 +15,12 @@ class CurrentHoldings extends Component
     public $sortDirection;
     public $currstock,$current,$buy,$sharebuy,$sell,$sharesell,$current_total_value,$total_cost,$gain,$diff,$dchange,$pchange,$result;
 
+
+    public function company($id)
+    {
+        $this->emit('company',$id);
+    }
+
     public function render()
     {
         $this->currstock=Stock::where('user_id',Auth::user()->id)->get();
@@ -68,9 +74,6 @@ class CurrentHoldings extends Component
         })->paginate();
     }
 
-    public function company($id)
-    {
-        $this->emit('company',$id);
-    }
+
 
 }

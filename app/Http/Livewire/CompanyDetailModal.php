@@ -12,6 +12,22 @@ class CompanyDetailModal extends Component
     public $stock_id,$stock_ticker,$company_name,$description,$sector,$market_cap,$alltags,$current_share_price,$average_cost,$share_number,$issuetype,$share_price,$date_of_purchase;
     protected $listeners = ['company' => 'companyDetail'];
 
+
+    public function sell($id)
+    {
+        $this->emit('sell',$id);
+    }
+
+    public function buy($id)
+    {
+        $this->emit('buy',$id);
+    }
+
+    public function editStock($id)
+    {
+        $this->emit('editStock',$id);
+    }
+
     public function render()
     {
         $this->emit('historicaldata');
@@ -49,18 +65,5 @@ class CompanyDetailModal extends Component
     // End Company Detail
 
 
-    public function sell($id)
-    {
-        $this->emit('sell',$id);
-    }
 
-    public function buy($id)
-    {
-        $this->emit('buy',$id);
-    }
-
-    public function edit($id)
-    {
-        $this->emit('edit',$id);
-    }
 }

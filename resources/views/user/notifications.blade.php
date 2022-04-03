@@ -10,7 +10,7 @@
     @else
         <div class="container mx-auto px-4 py-10 md:py-12">
             <div class="p-5 bg-white my-5 border border-gray-300 rounded rounded-t-lg text-center">
-                No Notification.
+                No Notifications.
             </div>
         </div>
     @endif

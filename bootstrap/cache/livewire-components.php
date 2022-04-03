@@ -1,5 +1,6 @@
 <?php return array (
   'account' => 'App\\Http\\Livewire\\Account',
+  'check-correlations' => 'App\\Http\\Livewire\\CheckCorrelations',
   'company-detail-modal' => 'App\\Http\\Livewire\\CompanyDetailModal',
   'cron-list' => 'App\\Http\\Livewire\\CronList',
   'current-holdings' => 'App\\Http\\Livewire\\CurrentHoldings',

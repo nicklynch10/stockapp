@@ -30,6 +30,15 @@ class StockSeeder extends Seeder
             'password'=>Hash::make('demo@2022'),
         ]);
 
+        $n=User::create([
+            'name' => 'Nick Lynch',
+            'first_name' => 'Nick',
+            'last_name' => "Lynch",
+            'email' => "nick@taxghost.com",
+            'password'=>bcrypt('z'),
+        ]);
+
+        // @ajay this needs to be for all users... account for 1 user should not show up for other users.
         $acc=Account::create([
             'user_id'=>$user->id,
             'account_type'=> 'Individual Brokerage Account',
@@ -40,35 +49,28 @@ class StockSeeder extends Seeder
         ]);
 
         $stock=StockTicker::inRandomOrder()->limit(100)->get();
-        foreach($stock as $st)
-        {
-            $token = 'pk_367c9e2f397648309da77c1a14e17ff6';
-            $endpoint = 'https://cloud.iexapis.com/';
+
+        // @ajay can we clean this up and separate this into different factories?
+        foreach ($stock as $st) {
+            $token = env('IEX_CLOUD_KEY', null);
+            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
             $symbol = Http::get($endpoint . 'stable/stock/'.$st->ticker.'/company?token=' . $token);
             $company = $symbol->json();
             $description = $company ? $company['description'] : '';
             $sector = $company ? $company['sector'] : '';
-            if(isset($company['issueType']))
-            {
-                if($company['issueType']=='et')
-                {
+            if (isset($company['issueType'])) {
+                if ($company['issueType']=='et') {
                     $issuetype="ETF";
-                }
-                elseif ($company['issueType']=='ad')
-                {
+                } elseif ($company['issueType']=='ad') {
                     $issuetype="ADR";
-                }
-                elseif ($company['issueType']=='cs')
-                {
+                } elseif ($company['issueType']=='cs') {
                     $issuetype="Common Stock";
-                }
-                else
-                {
+                } else {
                     $issuetype=$company['issueType'];
                 }
             }
-            $tags=$company?json_encode($company['tags']):'';
-            $security_name=$company?$company['securityName']:'';
+            $tags=$company ? json_encode($company['tags']) : '';
+            $security_name=$company ? $company['securityName'] : '';
             $current_price = Http::get($endpoint . 'stable/stock/' . $st->ticker . '/quote?token=' . $token);
             $price = $current_price->json();
             $current_share_price = $price ? $price['latestPrice'] : '';
@@ -76,9 +78,9 @@ class StockSeeder extends Seeder
             $start = strtotime('2020-01-01');
             $end = strtotime(date('Y-m-d'));
             $timestamp = mt_rand($start, $end);
-            $r=date('Y-m-d',$timestamp);
-            $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($r))->format('Y-m-d')),date_create(date('Y-m-d')));
-            $share_number=random_int(10,30);
+            $r=date('Y-m-d', $timestamp);
+            $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($r))->format('Y-m-d')), date_create(date('Y-m-d')));
+            $share_number=random_int(10, 30);
             $stockId=Stock::create([
                 'user_id'=>$user->id,
                 'stock_ticker'=>$st->ticker,
@@ -100,7 +102,7 @@ class StockSeeder extends Seeder
                 'current_total_value'=>($current_share_price*$share_number),
                 'total_cost'=>(($current_share_price+1)*$share_number),
                 'total_gain_loss'=>0,
-                'total_long_term_gains'=>$diff->format("%a")>366?"Long / " .$diff->format("%d")." Days held" :"Short / ".$diff->format("%d")." Days held",
+                'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
             ]);
 
             Transaction::create([

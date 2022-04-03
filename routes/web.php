@@ -11,7 +11,8 @@ use App\Http\Livewire\Account;
 use App\Http\Livewire\MarkNotification;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\SecInfoController;
+use App\Http\Controllers\SecCompareController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker',[HomeController::class,'addTicker'])->name('addticker');
+Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker', [HomeController::class,'addTicker'])->name('addticker');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -39,10 +40,17 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 
 //Route::get('stock', Stocks::class,)->name('stock');
 
-Route::get('help', function() { return view('support.help'); })->name('help');
-Route::get('portfolio', Stocks::class,)->middleware(['auth:sanctum', 'verified'])->name('portfolio');
-Route::get('overview', Overview::class,)->middleware(['auth:sanctum', 'verified'])->name('overview');
-Route::get('account', Account::class,)->middleware(['auth:sanctum', 'verified'])->name('account');
-Route::get('notifications',[NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
+Route::get('help', function () {
+    return view('support.help');
+})->name('help');
+Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
+Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
+Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
+Route::get('notifications', [NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
 Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
 
+
+
+// ** NL Routes ** //
+Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
+Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');

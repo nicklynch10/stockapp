@@ -114,7 +114,7 @@
             @endif
         @empty
             <tr>
-                <th class="text-center px-6 py-4" colspan="11">No Stock Found</th>
+                <th class="text-center px-6 py-4" colspan="11">Nothing's here yet! Add your holdings to continue.</th>
             </tr>
         @endforelse
         </tbody>

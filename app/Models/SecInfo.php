@@ -26,8 +26,8 @@ class SecInfo extends Model
 
     public function __construct()
     {
-        $this->token = env('LIVE_IEX_CLOUD_KEY', null);
-        $this->endpoint = env('LIVE_IEX_CLOUD_ENDPOINT', null);
+        $this->token = env('IEX_CLOUD_KEY', null);
+        $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
     }
 
     public function setInfo()
@@ -61,6 +61,7 @@ class SecInfo extends Model
     public function statsUpdate()
     {
         $data = Http::get($this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token);
+        //dd($data);
         //stores all of the price data in a json text string.
         $this->price_data = json_encode($data->json());
         $prices = collect($data->json());
@@ -98,7 +99,7 @@ class SecInfo extends Model
         $this->company_name = $stats['companyName'];
         $this->peRatio = $stats['peRatio'];
         $this->year1ChangePercent = $stats['year1ChangePercent'];
-        $this->marketcap = $stats['marketcap'];
+        $this->marketcap = $stats['marketcap']/1000;
     }
 
 
@@ -134,6 +135,8 @@ class SecInfo extends Model
             return $item*100;
         });
 
+        //dd($prices1);
+
         $dates1 = collect(json_decode($this->price_data))->pluck("date");
         $dates2 = collect(json_decode($this->price_data))->pluck("date");
         $data = collect([$prices1,$dates1,$prices2,$dates2]);
@@ -141,7 +144,6 @@ class SecInfo extends Model
             dd("dates do not match?", $dates1, $dates2);
         }
         $covar = $this->getCovariance($prices1->toArray(), $prices2->toArray());
-
 
         $this->std = $this->getCovariance($prices1->toArray(), $prices1->toArray());
         $this->save();
@@ -151,7 +153,8 @@ class SecInfo extends Model
         $SI->save();
 
         $var = pow(($this->std), 2);
-        return $covar/($this->std)*($SI->std);
+        $p = $covar/(($this->std)*($SI->std));
+        return $p;
     }
 
     public function calcR2($SI)

@@ -30,13 +30,7 @@ class StockSeeder extends Seeder
             'password'=>Hash::make('demo@2022'),
         ]);
 
-        $n=User::create([
-            'name' => 'Nick Lynch',
-            'first_name' => 'Nick',
-            'last_name' => "Lynch",
-            'email' => "nick@taxghost.com",
-            'password'=>bcrypt('z'),
-        ]);
+
 
         // @ajay this needs to be for all users... account for 1 user should not show up for other users.
         $acc=Account::create([
@@ -50,7 +44,7 @@ class StockSeeder extends Seeder
 
         $stock=StockTicker::inRandomOrder()->limit(100)->get();
 
-        // @ajay can we clean this up and separate this into different factories?
+        // @ajay please clean this up and separate this into different factories
         foreach ($stock as $st) {
             $token = env('IEX_CLOUD_KEY', null);
             $endpoint = env('IEX_CLOUD_ENDPOINT', null);

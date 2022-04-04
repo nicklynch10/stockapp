@@ -12,7 +12,7 @@ class CheckCorrelations extends Component
 {
     public $ticker = "TSLA";
     public $sector = [
-        "VOX","VCR","VDC","VDE","VFH","VHT","VIS","VGT","VAW","VNQ","VPU", "F", "GM", "TM", "AAL","JETS","LUV","UAL","DAL"
+        "F", "GM", "TM", "AAL","JETS","LUV","UAL","DAL", "FB"
     ];
     public $correlations = [];
     public $stocks = [];

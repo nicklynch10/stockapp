@@ -26,7 +26,7 @@ class Stocks extends Component
     public $average_cost;
     public $share_number;
     public $date_of_purchase;
-    public $stock_id;
+    public $stock_id = 0;
     public $note;
     public $isdeleteOpen = 0;
 
@@ -64,54 +64,17 @@ class Stocks extends Component
 
     public $openmodalval=0;
     public $avepricereadonly=0;
-    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit'];
+    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit','stockData' => 'render'];
 
 
     public function render()
     {
-        if ($this->tickerorcompany!=null && !isset($this->stock_id)) {
-            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
-                ->first();
-            if (!$this->companyname) {
-                $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
-                    ->first();
-            }
-            $this->company_name=$this->companyname ? $this->companyname['ticker_company'] : '';
-            $this->stock_ticker=$this->companyname ? $this->companyname['ticker'] : '';
-
-            if ($this->companyname && $this->companyname['ticker']) {
-                $token = env('IEX_CLOUD_KEY', null);
-                $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
-                $company = $symbol->json();
-                $this->description = $company ? $company['description'] : '';
-                $this->sector = $company ? $company['sector'] : '';
-                if (isset($company['issueType'])) {
-                    if ($company['issueType']=='et') {
-                        $this->issuetype="ETF";
-                    } elseif ($company['issueType']=='ad') {
-                        $this->issuetype="ADR";
-                    } elseif ($company['issueType']=='cs') {
-                        $this->issuetype="Common Stock";
-                    } else {
-                        $this->issuetype=$company['issueType'];
-                    }
-                }
-                $this->tags=$company ? json_encode($company['tags']) : '';
-                $this->security_name=$company ? $company['securityName'] : '';
-                $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);
-                $price = $current_price->json();
-                $this->current_share_price = $price ? $price['latestPrice'] : '';
-                $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
-            }
-        }
         $this->stocks=Stock::where('user_id', Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->orderBy('created_at', 'DESC')->get();
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');
         return view('livewire.stock');
     }
-
 
     public function create()
     {

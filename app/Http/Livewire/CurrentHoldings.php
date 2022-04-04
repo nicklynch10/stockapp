@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Jobs\CurrentHoldingsUpdate;
+use App\Models\ViewStockUpdate;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -39,34 +40,13 @@ class CurrentHoldings extends Component
     {
         $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
         foreach ($this->currstock as $st) {
-            $token = env('IEX_CLOUD_KEY', null);
-            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-            $current = Http::get($endpoint . 'stable/stock/'.$st->stock_ticker.'/quote?token=' . $token);
-            $price_current = $current->json();
-            if ($price_current!=null) {
-                if ($st->current_share_price != $price_current['latestPrice']) {
-                    $current_total_value = $price_current ? $price_current['latestPrice'] : $st->current_share_price*$st->share_number;
-                    $total_cost = ($st->ave_cost*$st->share_number);
-                    $gain = $current_total_value-$total_cost;
-                    $dchange = $price_current ? $price_current['latestPrice'] : $st->current_share_price-$st->ave_cost;
-                    $pchange = (($price_current ? $price_current['latestPrice'] : $st->current_share_price/$st->ave_cost)-1)*100;
-                    $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
-                    $result = Stock::find($st->id);
-                    $result->update([
-                        'current_share_price' => $price_current ? $price_current['latestPrice'] : $st->current_share_price,
-                        'dchange' => $dchange,
-                        'pchange' => $pchange,
-                        'current_total_value' => $current_total_value,
-                        'total_cost' => $total_cost,
-                        'total_gain_loss' => $gain,
-                        'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
-                    ]);
-                }
+                $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
+                $result = Stock::find($st->id);
+                $result->update([
+                    'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+                ]);
             }
-            break;
-        }
-//        CurrentHoldingsUpdate::dispatch($currstock);
-//        dispatch(new \App\Jobs\CurrentHoldings($currstock));
+        $this->data=ViewStockUpdate::join('stock','stock.id','view_stock_update.stock_id')->where('stock.user_id',Auth::user()->id)->get();
         return view('livewire.current-holdings', ['currentholding'=>$this->fetchData()]);
     }
 

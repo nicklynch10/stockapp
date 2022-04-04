@@ -38,7 +38,7 @@ class CurrentHoldings extends Component
 
     public function render()
     {
-        $this->currstock=Stock::where('user_ids', Auth::user()->id)->get();
+        $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
         foreach ($this->currstock as $st) {
                 $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
                 $result = Stock::find($st->id);

@@ -227,7 +227,7 @@
             function drawChart() {
 
                 var data = google.visualization.arrayToDataTable([
-                    ['Date', 'Cummulative'],
+                    ['Date', 'Cumulative Taxable Gain / (Loss) Over Time'],
                     @php
                         $total=0;
                         foreach($box2 as $key=>$d)

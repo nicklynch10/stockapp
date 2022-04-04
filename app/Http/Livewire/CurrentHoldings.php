@@ -38,7 +38,7 @@ class CurrentHoldings extends Component
 
     public function render()
     {
-        $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
+        $this->currstock=Stock::where('user_ids', Auth::user()->id)->get();
         foreach ($this->currstock as $st) {
                 $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
                 $result = Stock::find($st->id);
@@ -46,7 +46,7 @@ class CurrentHoldings extends Component
                     'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
                 ]);
             }
-        $this->data=ViewStockUpdate::join('stock','stock.id','view_stock_update.stock_ids')->where('stock.user_id',Auth::user()->id)->get();
+//        $this->data=ViewStockUpdate::join('stock','stock.id','view_stock_update.stock_ids')->where('stock.user_id',Auth::user()->id)->get();
         return view('livewire.current-holdings', ['currentholding'=>$this->fetchData()]);
     }
 

@@ -10,6 +10,7 @@
   'portfolio' => 'App\\Http\\Livewire\\Portfolio',
   'stock-add-edit-modal' => 'App\\Http\\Livewire\\StockAddEditModal',
   'stock-buy-modal' => 'App\\Http\\Livewire\\StockBuyModal',
+  'stock-delete-modal' => 'App\\Http\\Livewire\\StockDeleteModal',
   'stock-modal' => 'App\\Http\\Livewire\\StockModal',
   'stock-sell-modal' => 'App\\Http\\Livewire\\StockSellModal',
   'stocks' => 'App\\Http\\Livewire\\Stocks',

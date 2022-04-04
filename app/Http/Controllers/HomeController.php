@@ -15,7 +15,7 @@ class HomeController extends Controller
         $symbol = Http::get($endpoint . 'stable/ref-data/symbols?token=' . $token);
         $company = $symbol->json();
         foreach ($company as $com) {
-            StockTicker::updateOrCreate(['ticker'=>$com['symbol']], [
+            StockTicker::Create([
                 'ticker'=>$com['symbol'],
                 'ticker_company'=>$com['name'],
             ]);

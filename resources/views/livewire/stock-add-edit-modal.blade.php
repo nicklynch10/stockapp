@@ -23,7 +23,6 @@
                 <div class="col-xs-12 pt-6">
                     <div class="col-md-12">
                         <div class="mb-4">
-                            <!-- {{$currentStep}} -->
                             <label for="companyname" class="block text-gray-700 text-sm font-bold mb-2"><b>Search By Company or Ticker:</b></label>
                             <input type="text" id="tickerorcompany" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Ticker or Company" wire:model="tickerorcompany">
                             <input type="text" id="company_name" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="{{$this->company_name}}">
@@ -147,3 +146,4 @@
         @endif
     </x-slot>
 </x-jet-dialog-modal>
+

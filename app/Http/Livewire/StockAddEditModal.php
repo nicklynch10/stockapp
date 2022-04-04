@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Account;
 use App\Models\Stock;
+use App\Models\StockTicker;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class StockAddEditModal extends Component
     protected $listeners=['create' => 'create','editStock' => 'editStockModal'];
     public $isOpen = 0;
     public $currentStep = 1;
-    public $stock_id;
+    public $stock_id = 0;
     public $stock_ticker;
     public $company_name;
     public $description;
@@ -33,9 +34,48 @@ class StockAddEditModal extends Component
     public $account_type;
     public $companyname;
     public $avepricereadonly;
+    public $company;
+
 
     public function render()
     {
+        if ($this->tickerorcompany != null) {
+            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
+                ->first();
+            if (!$this->companyname) {
+                $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
+                    ->first();
+            }
+            $this->company_name=$this->companyname ? $this->companyname['ticker_company'] : '';
+            $this->stock_ticker=$this->companyname ? $this->companyname['ticker'] : '';
+
+            if ($this->companyname && $this->companyname['ticker']) {
+                $token = env('IEX_CLOUD_KEY', null);
+                $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
+                $company = $symbol->json();
+                $this->description = $company ? $company['description'] : '';
+                $this->sector = $company ? $company['sector'] : '';
+                if (isset($company['issueType'])) {
+                    if ($company['issueType']=='et') {
+                        $this->issuetype="ETF";
+                    } elseif ($company['issueType']=='ad') {
+                        $this->issuetype="ADR";
+                    } elseif ($company['issueType']=='cs') {
+                        $this->issuetype="Common Stock";
+                    } else {
+                        $this->issuetype=$company['issueType'];
+                    }
+                }
+                $this->tags = $company ? json_encode($company['tags']) : '';
+                $this->security_name = $company ? $company['securityName'] : '';
+                $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);
+                $price = $current_price->json();
+                $this->current_share_price = $price ? $price['latestPrice'] : '';
+                $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+            }
+        }
+        $this->emit('stockData');
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         return view('livewire.stock-add-edit-modal');
     }
@@ -110,14 +150,14 @@ class StockAddEditModal extends Component
             'ave_cost' => $this->average_cost,
             'share_number' => $this->share_number,
             'date_of_purchase' => $this->date_of_purchase,
-            'note'=>$this->note,
-            'account_id'=>$this->account_type,
-            'dchange'=>($this->current_share_price-$this->average_cost)*$this->share_number,
-            'pchange'=>($this->current_share_price/$this->average_cost)-1,
-            'current_total_value'=>($this->current_share_price*$this->share_number),
-            'total_cost'=>($this->average_cost*$this->share_number),
-            'total_gain_loss'=>0,
-            'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+            'note' => $this->note,
+            'account_id' => $this->account_type,
+            'dchange' => $this->current_share_price-$this->average_cost,
+            'pchange' => (($this->current_share_price/$this->average_cost)-1)*100,
+            'current_total_value' => ($this->current_share_price*$this->share_number),
+            'total_cost' => ($this->average_cost*$this->share_number),
+            'total_gain_loss' => ($this->current_share_price*$this->share_number)-($this->average_cost*$this->share_number),
+            'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
         ]);
         $lastInsertedID = $insertid->id;
 
@@ -140,7 +180,7 @@ class StockAddEditModal extends Component
         } else {
             $this->closeModal();
         }
-
+        $this->emit('stockData');
         $this->resetInputFields();
     }
 
@@ -197,4 +237,5 @@ class StockAddEditModal extends Component
     {
         $this->isOpen = false;
     }
+
 }

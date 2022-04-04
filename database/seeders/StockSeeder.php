@@ -75,6 +75,7 @@ class StockSeeder extends Seeder
             $r=date('Y-m-d', $timestamp);
             $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($r))->format('Y-m-d')), date_create(date('Y-m-d')));
             $share_number=random_int(10, 30);
+            $ave_cost=$current_share_price+1;
             $stockId=Stock::create([
                 'user_id'=>$user->id,
                 'stock_ticker'=>$st->ticker,
@@ -86,16 +87,16 @@ class StockSeeder extends Seeder
                 'current_share_price' => $current_share_price,
                 'issuetype' => $issuetype,
                 'tags' => $tags,
-                'ave_cost' => ($current_share_price+1),
+                'ave_cost' => $ave_cost,
                 'share_number' => $share_number,
                 'date_of_purchase' => $r,
                 'note'=>'',
                 'account_id'=>$acc->id,
-                'dchange'=>($current_share_price-($current_share_price+1))*$share_number,
-                'pchange'=>($current_share_price/($current_share_price+1))-1,
+                'dchange'=>$current_share_price-$ave_cost,
+                'pchange'=>(($current_share_price/$ave_cost)-1)*100,
                 'current_total_value'=>($current_share_price*$share_number),
-                'total_cost'=>(($current_share_price+1)*$share_number),
-                'total_gain_loss'=>0,
+                'total_cost'=>($ave_cost*$share_number),
+                'total_gain_loss'=>($current_share_price*$share_number)-($ave_cost*$share_number),
                 'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
             ]);
 
@@ -104,7 +105,7 @@ class StockSeeder extends Seeder
                 'type'=>0,
                 'ticker_name'=>$st->ticker,
                 'stock'=>$share_number,
-                'share_price'=>($current_share_price+1),
+                'share_price'=>$ave_cost,
                 'user_id'=>$user->id,
                 'date_of_transaction'=>$r,
             ]);

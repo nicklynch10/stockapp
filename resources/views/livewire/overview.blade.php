@@ -234,7 +234,7 @@
                         {
                             $value=($d->share_price-$d->ave_cost)*($d->stock);
                             $total+=($d->share_price-$d->ave_cost)*($d->stock);
-                            echo "['".$d->date_of_transaction."',$total],";
+                            echo "['".Carbon\Carbon::parse($d->date_of_transaction)->format('M-d')."',$total],";
                         }
                     @endphp
                 ]);

@@ -43,7 +43,7 @@ class Overview extends Component
         }
         $this->totalTaxableGainLoss=$taxable;
         //Box 3
-        $box3=Stock::where('user_id',Auth::user()->id)->get();
+        $box3=Stock::join('view_stock_update','view_stock_update.stock_id','stock.id')->where('user_id',Auth::user()->id)->get();
         $nagative=0;
         $positive=0;
         foreach($box3 as $b3)

@@ -55,18 +55,6 @@
             })
         </script>
 
-        {{--   Procress Modal  --}}
-        <script>
-            $(document).ready(function () {
-                $('.stepper').mdbStepper();
-            })
-
-            function someFunction21() {
-                setTimeout(function () {
-                    $('#horizontal-stepper').nextStep();
-                }, 2000);
-            }
-        </script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />

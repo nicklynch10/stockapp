@@ -181,7 +181,7 @@
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 
-            <x-jet-danger-button class="ml-2" wire:click="delete({{$this->stock_id}})" wire:loading.attr="disabled">
+            <x-jet-danger-button class="ml-2" wire:click="delete({{$this->deleteid}})" wire:loading.attr="disabled">
                 {{ __('Delete') }}
             </x-jet-danger-button>
         </x-slot>

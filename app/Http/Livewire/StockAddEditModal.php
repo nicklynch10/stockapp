@@ -13,7 +13,7 @@ use Livewire\Component;
 
 class StockAddEditModal extends Component
 {
-    protected $listeners=['create' => 'create','editStock' => 'editStockModal'];
+    protected $listeners=['create' => 'create','editStock' => 'editStockModal','closeModal' => 'closeModal'];
     public $isOpen = 0;
     public $currentStep = 1;
     public $stock_id = 0;
@@ -238,4 +238,8 @@ class StockAddEditModal extends Component
         $this->isOpen = false;
     }
 
+    public function deletestock($id)
+    {
+        $this->emit('stockDelete',$id);
+    }
 }

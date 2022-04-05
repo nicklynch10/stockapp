@@ -55,6 +55,9 @@ Route::get('/migrate', function(){
 });
 
 
+
+
+
 // ** NL Routes ** //
 Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');

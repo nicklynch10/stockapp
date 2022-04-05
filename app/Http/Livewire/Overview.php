@@ -13,9 +13,18 @@ class Overview extends Component
     public $search;
     public $sortColumn;
     public $sortDirection;
-    public $stocks,$totalSavingsRealized,$totalTaxableGainLoss,$totalUnrealizedGainLoss,$harvestableLosses,$unrealizedGain;
-    public $box2,$box3;
-    public $taxable,$gain,$nagative,$positive;
+    public $stocks;
+    public $totalSavingsRealized;
+    public $totalTaxableGainLoss;
+    public $totalUnrealizedGainLoss;
+    public $harvestableLosses;
+    public $unrealizedGain;
+    public $box2;
+    public $box3;
+    public $taxable;
+    public $gain;
+    public $nagative;
+    public $positive;
 
     public function render()
     {

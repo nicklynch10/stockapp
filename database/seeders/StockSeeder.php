@@ -83,8 +83,8 @@ class StockSeeder extends Seeder
             $share_number=random_int(10, 30);
             $ave_cost=$current_share_price+1;
             $stockId=Stock::create([
-                'user_id'=>$user->id,
-                'stock_ticker'=>$st->ticker,
+                'user_id' => $user->id,
+                'stock_ticker' => $st->ticker,
                 'company_name' => $st->ticker_company,
                 'description' => $description,
                 'sector' => $sector,
@@ -96,24 +96,24 @@ class StockSeeder extends Seeder
                 'ave_cost' => $ave_cost,
                 'share_number' => $share_number,
                 'date_of_purchase' => $r,
-                'note'=>'',
-                'account_id'=>$acc->id,
-                'dchange'=>$current_share_price-$ave_cost,
-                'pchange'=>(($current_share_price/$ave_cost)-1)*100,
-                'current_total_value'=>($current_share_price*$share_number),
-                'total_cost'=>($ave_cost*$share_number),
-                'total_gain_loss'=>($current_share_price*$share_number)-($ave_cost*$share_number),
-                'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+                'note' => '',
+                'account_id' => $acc->id,
+                'dchange' => $current_share_price-$ave_cost,
+                'pchange' => (($current_share_price/$ave_cost)-1)*100,
+                'current_total_value' => ($current_share_price*$share_number),
+                'total_cost' => ($ave_cost*$share_number),
+                'total_gain_loss' => ($current_share_price*$share_number)-($ave_cost*$share_number),
+                'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
             ]);
 
             Transaction::create([
-                'stock_id'=>$stockId->id,
-                'type'=>0,
-                'ticker_name'=>$st->ticker,
-                'stock'=>$share_number,
-                'share_price'=>$ave_cost,
-                'user_id'=>$user->id,
-                'date_of_transaction'=>$r,
+                'stock_id' => $stockId->id,
+                'type' => 0,
+                'ticker_name' => $st->ticker,
+                'stock' => $share_number,
+                'share_price' => $ave_cost,
+                'user_id' => $user->id,
+                'date_of_transaction' => $r,
             ]);
         }
     }

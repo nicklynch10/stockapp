@@ -61,7 +61,7 @@ class UpdateStockPrice extends Command
             $user=User::all();
             foreach ($user as $u) {
                 $u->notify(new Currentportfoliochange($details));
-                sleep(5);
+                sleep(2);
             }
         }
     }

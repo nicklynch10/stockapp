@@ -55,7 +55,7 @@
                         <h3 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Tax Savings Realized') }}
                         </h3>
-                        <h2 class="pt-2 text-2xl">{{$this->totalSavingsRealized<0?"($".abs(number_format($this->totalSavingsRealized,2)).")":"$".number_format($this->totalSavingsRealized,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalSavingsRealized<0?"($".(number_format(abs($this->totalSavingsRealized),2)).")":"$".number_format($this->totalSavingsRealized,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Taxable Gain / (Loss)') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->totalTaxableGainLoss<0?"($".abs(number_format($this->totalTaxableGainLoss,2)).")":"$".number_format($this->totalTaxableGainLoss,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalTaxableGainLoss<0?"($".(number_format(abs($this->totalTaxableGainLoss),2)).")":"$".number_format($this->totalTaxableGainLoss,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Total Unrealized Gain / (Loss)') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->totalUnrealizedGainLoss<0?"($".abs(number_format($this->totalUnrealizedGainLoss,2)).")":"$".number_format($this->totalUnrealizedGainLoss,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->totalUnrealizedGainLoss<0?"($".(number_format(abs($this->totalUnrealizedGainLoss),2)).")":"$".number_format($this->totalUnrealizedGainLoss,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -97,7 +97,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Harvestable Losses') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->harvestableLosses<0?"($".abs(number_format($this->harvestableLosses,2)).")":"$".number_format($this->harvestableLosses,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->harvestableLosses<0?"($".(number_format(abs($this->harvestableLosses),2)).")":"$".number_format($this->harvestableLosses,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Unrealized Gain') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{$this->unrealizedGain<0?"($".abs(number_format($this->unrealizedGain,2)).")":"$".number_format($this->unrealizedGain,2)}}</h2>
+                        <h2 class="pt-2 text-2xl">{{$this->unrealizedGain<0?"($".(number_format(abs($this->unrealizedGain),2)).")":"$".number_format($this->unrealizedGain,2)}}</h2>
                     </div>
                 </div>
             </div>
@@ -229,12 +229,20 @@
                 var data = google.visualization.arrayToDataTable([
                     ['Date', 'Cumulative Taxable Gain / (Loss) Over Time'],
                     @php
-                        $total=0;
-                        foreach($box2 as $key=>$d)
+                        foreach($this->date as $key=>$d)
                         {
-                            $value=($d->share_price-$d->ave_cost)*($d->stock);
-                            $total+=($d->share_price-$d->ave_cost)*($d->stock);
-                            echo "['".Carbon\Carbon::parse($d->date_of_transaction)->format('M-d')."',$total],";
+                            $total=0; $taxable=0;
+                            foreach($this->tran as $t)
+                            {
+                                if($d->date_of_transaction>=$t->date_of_transaction)
+                                {
+                                    $taxable+=($t->share_price-$t->ave_cost)*($t->stock);
+                                }
+                            }
+                            if($taxable!=0)
+                            {
+                                echo "['".\Carbon\Carbon::parse($d->date_of_transaction)->format('n/j/Y')."', $taxable],";
+                            }
                         }
                     @endphp
                 ]);

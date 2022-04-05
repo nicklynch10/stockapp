@@ -81,6 +81,7 @@ class StockSellModal extends Component
                 'type'=>'success',
                 'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares'
             ]);
+            $this->emit('stockData');
             $this->closeSellModal();
         }
     }

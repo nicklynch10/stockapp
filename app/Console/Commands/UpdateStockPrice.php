@@ -48,20 +48,20 @@ class UpdateStockPrice extends Command
             $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
             $price = $current_price->json();
             $record = Stock::find($stock->id);
-            $update=$record->update([
+            $update = $record->update([
                 'current_share_price'=>$price['latestPrice'],
             ]);
 
-            $totalpchange= ($price['latestPrice']/$stock->ave_cost)-1;
+            $totalpchange = ($price['latestPrice']/$stock->ave_cost)-1;
             if ($totalpchange<1 || $totalpchange>1 || $totalpchange<5 || $totalpchange>5 || $totalpchange<10) {
-                $details=[
+                $details = [
                     'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange<0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
                 ];
             }
-            $user=User::all();
+            $user = User::all();
             foreach ($user as $u) {
                 $u->notify(new Currentportfoliochange($details));
-                sleep(2);
+                sleep(1);
             }
         }
     }

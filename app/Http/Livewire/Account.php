@@ -27,8 +27,6 @@ class Account extends Component
     public function render()
     {
         $this->account=Accounts::where('user_id', Auth::user()->id)->orderBy('account.created_at', 'DESC')->get();
-        $stock=Stock::get();
-        dd($stock);
         return view('livewire.account');
     }
 

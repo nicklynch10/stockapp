@@ -55,7 +55,10 @@ Route::get('/migrate', function(){
 });
 
 
-
+Route::get('run-seeder/{class}',function($class){
+ Artisan::call("db:seed",array('--class'=>$class));
+ dd('Run Seeder');
+});
 
 
 // ** NL Routes ** //

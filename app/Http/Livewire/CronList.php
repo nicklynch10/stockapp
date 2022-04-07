@@ -14,9 +14,8 @@ class CronList extends Component
         return view('livewire.cron-list');
     }
 
-    public function executeCron()
+    public function executeCron($command)
     {
-        $command='update:stockprice';
             Artisan::call($command);
 //        dispatch(function () use ($command) {
 //            Artisan::call($command);

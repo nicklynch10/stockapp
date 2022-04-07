@@ -173,6 +173,24 @@
         </div>
     </div>
     @endif
+
+    <div class="container mx-auto px-4 py-10 md:py-12">
+        <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="w-full mb-5">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Taxable Gain / (Loss) Over Time') }}
+                        </h2>
+                    </div>
+                    <div class="overflow-hidden sm: rounded-lg table-align">
+                        <canvas id="sales-summary-today"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- Stock Sell Modal  --}}
     @livewire('stock-sell-modal')
     {{--   End Stock Sell Modal  --}}
@@ -257,5 +275,98 @@
 
                 chart.draw(data, options);
             }
+        </script>
+
+        <script>
+            var data = {
+                labels:
+                    [
+                        @php
+                            foreach($this->date as $key=>$d)
+                            {
+                                $total=0; $taxable=0;
+                                foreach($this->tran as $t)
+                                {
+                                    if($d->date_of_transaction>=$t->date_of_transaction)
+                                    {
+                                        $taxable+=($t->share_price-$t->ave_cost)*($t->stock);
+                                    }
+                                }
+                                if($taxable!=0)
+                                {
+                                    echo "'".\Carbon\Carbon::parse($d->date_of_transaction)->format('n/j/Y')."',";
+                                }
+                            }
+                        @endphp
+                    ],
+                datasets: [
+                    {
+                        label: "Sales $",
+                        lineTension: 0,
+                        backgroundColor: "rgba(143,199,232,0.2)",
+                        borderColor: "rgba(108,108,108,1)",
+                        borderWidth: 1,
+                        pointBackgroundColor: "#535353",
+                        data: [
+                            @php
+                                foreach($this->date as $key=>$d)
+                                {
+                                    $total=0; $taxable=0;
+                                    foreach($this->tran as $t)
+                                    {
+                                        if($d->date_of_transaction>=$t->date_of_transaction)
+                                        {
+                                            $taxable+=($t->share_price-$t->ave_cost)*($t->stock);
+                                            $value=abs($taxable);
+                                        }
+                                    }
+                                    if($taxable!=0)
+                                    {
+                                        echo "$taxable,";
+                                    }
+                                }
+                            @endphp
+                        ]
+                    }
+                ]
+            };
+
+            //var myChart =
+            new Chart(document.getElementById('sales-summary-today'), {
+                type: 'line',
+                data: data,
+                options: {
+                    animation: false,
+                    legend: {display: false},
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    responsiveAnimationDuration: 0,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    if(parseInt(value) >= 1000){
+                                        if(value<0){
+                                            return '($' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')';
+                                        }
+                                        else{
+                                            return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                        }
+                                    }
+                                    else {
+                                        if(value<0){
+                                            return '($' + Math.abs(value) + ')';
+                                        }
+                                        else{
+                                            return '$' + Math.abs(value);
+                                        }
+                                    }
+                                }
+                            }
+                        }]
+                    }
+                }
+            });
         </script>
 </main>

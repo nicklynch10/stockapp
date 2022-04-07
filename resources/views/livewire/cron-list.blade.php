@@ -86,7 +86,7 @@
                                 <td data-label="Description" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ data_get($cron, 'description') ?? '-' }}</td>
                                 <td data-label="Next Run At" class="px-6 py-4 whitespace-nowrap text-left text-gray-900">{{ data_get($cron, 'next_execute_at') }}</td>
                                 <td data-label="" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 w-1/3">
-                                    <x-jet-button wire:click="executeCron('{{ $cron['command'] }}')" class="py-2 px-4">Execute</x-jet-button>
+                                    <x-jet-button wire:click="executeCron()" class="py-2 px-4">Execute</x-jet-button>
                                 </td>
                             </tr>
                         @endforeach

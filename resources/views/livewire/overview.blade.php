@@ -348,10 +348,10 @@
                                 callback: function(value, index, values) {
                                     if(parseInt(value) >= 1000){
                                         if(value<0){
-                                            return '($' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')';
+                                            return '($' + Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ')';
                                         }
                                         else{
-                                            return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                            return '$' + Math.abs(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                         }
                                     }
                                     else {

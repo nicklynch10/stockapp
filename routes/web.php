@@ -54,6 +54,10 @@ Route::get('/migrate', function(){
     dd('migrated!');
 });
 
+Route::get('schedule-run',function (){
+   Artisan::call('schedule:run');
+   dd('Schedule Run');
+});
 
 Route::get('run-seeder/{class}',function($class){
  Artisan::call("db:seed",array('--class'=>$class));

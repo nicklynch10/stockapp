@@ -155,24 +155,24 @@
     @endif
 
 
-    @if(isset($this->box2) && count($this->box2)>0 && $totalTaxableGainLoss!=0)
-    <div class="container mx-auto px-4 py-10 md:py-12">
-        <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="w-full mb-5">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ __('Taxable Gain / (Loss) Over Time') }}
-                        </h2>
-                    </div>
-                    <div class="overflow-hidden sm: rounded-lg table-align">
-                        <div id="google-line-chart" style="height: 600px; width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
+{{--    @if(isset($this->box2) && count($this->box2)>0 && $totalTaxableGainLoss!=0)--}}
+{{--    <div class="container mx-auto px-4 py-10 md:py-12">--}}
+{{--        <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">--}}
+{{--            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">--}}
+{{--                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">--}}
+{{--                    <div class="w-full mb-5">--}}
+{{--                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
+{{--                            {{ __('Taxable Gain / (Loss) Over Time') }}--}}
+{{--                        </h2>--}}
+{{--                    </div>--}}
+{{--                    <div class="overflow-hidden sm: rounded-lg table-align">--}}
+{{--                        <div id="google-line-chart" style="height: 600px; width: 100%;"></div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    @endif--}}
 
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">

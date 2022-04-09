@@ -21,6 +21,7 @@
             }
         }
     </style>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -159,7 +160,7 @@
                     </x-jet-dropdown>
                 </div>
             </div>
-
+            <div id="buttonDiv" onclick=></div>
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <livewire:mark-notification />
@@ -266,4 +267,23 @@
             </div>
         </div>
     </div>
+    <script>
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "800421072281-84de2t16gcp1p6vjp9bot2acvq1q24cu.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                { theme: "outline", size: "large" }  // customization attributes
+            );
+            google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+
+        function handleCredentialResponse(response) {
+            let t = response;
+            // display the JWT token
+            console.log("Encoded JWT ID token: " + t.credential);
+        }
+    </script>
 </nav>

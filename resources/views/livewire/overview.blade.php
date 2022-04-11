@@ -4,47 +4,6 @@
     </h2>
 </x-slot>
 <main class="p-0 m-0 flex-grow ">
-    <style>
-        @media screen and (max-width: 600px) {
-            table tr td{
-                display: block;
-                font-size: 12px;
-                padding-bottom: 10px !important;
-                padding-top: 10px !important;
-            }
-            table thead{
-                display: none;
-            }
-            table td{
-                text-align: right !important;
-            }
-            table tr{
-                display: flex !important;
-                flex-direction: column !important;
-                border: 2px solid #00000073 !important;
-                border-radius: 11px !important;
-                margin-bottom: 3px !important;
-                background-color: #ffffff !important;
-            }
-            table td:last-child{
-                border-bottom: 0;
-            }
-            table, thead, tbody, th, td, tr {
-                display: block;
-                font-size: 12px;
-                text-align: left !important;
-            }
-            table td::before{
-                content: attr(data-label);
-                float: left;
-                font-weight: bold;
-                width: 15px;
-                color: #000000;
-            }
-            table td:first-child { background: #00c80696;border-radius: 7px 7px 0px 0px; }
-        }
-        table tr:nth-child(even){background-color: #ffffff;}
-    </style>
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
 
         {{-- Box1  --}}

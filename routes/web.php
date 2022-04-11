@@ -59,6 +59,7 @@ Route::get('schedule-run',function (){
    dd('Schedule Run');
 });
 
+// ** run-seeder/StockSeeder ** //
 Route::get('run-seeder/{class}',function($class){
  Artisan::call("db:seed",array('--class'=>$class));
  dd('Run Seeder');

@@ -55,7 +55,6 @@ class UpdateStockPrice extends Command
                     'current_share_price' => $price['latestPrice'],
                 ]);
 
-
                 $totalpchange = (($price['latestPrice']/$stock->ave_cost)-1)*100;
                 if ($totalpchange < 1 || $totalpchange > 1 || $totalpchange < 5 || $totalpchange > 5 || $totalpchange < 10) {
                     $details = [

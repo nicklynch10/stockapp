@@ -49,21 +49,25 @@ class UpdateStockPrice extends Command
             $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
             $price = $current_price->json();
             $record = Stock::find($stock->id);
-            $update = $record->update([
-                'current_share_price' => $price['latestPrice'],
-            ]);
+            if($stock->current_share_price != $price['latestPrice'])
+            {
+                $record->update([
+                    'current_share_price' => $price['latestPrice'],
+                ]);
 
-            $totalpchange = (($price['latestPrice']/$stock->ave_cost)-1)*100;
-            if ($totalpchange < 1 || $totalpchange > 1 || $totalpchange < 5 || $totalpchange > 5 || $totalpchange < 10) {
-                $details = [
-                    'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange < 0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
-                ];
-            }
 
-            $user = User::where('id',$stock->user_id)->get();
-            foreach ($user as $u) {
-                $u->notify(new Currentportfoliochange($details));
-                sleep(2);
+                $totalpchange = (($price['latestPrice']/$stock->ave_cost)-1)*100;
+                if ($totalpchange < 1 || $totalpchange > 1 || $totalpchange < 5 || $totalpchange > 5 || $totalpchange < 10) {
+                    $details = [
+                        'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange < 0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
+                    ];
+                }
+
+                $user = User::where('id',$stock->user_id)->get();
+                foreach ($user as $u) {
+                    $u->notify(new Currentportfoliochange($details));
+                    sleep(2);
+                }
             }
         }
     }

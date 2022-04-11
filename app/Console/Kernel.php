@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('update:stockprice')->hourly()->timezone('America/New_York');
-//         $schedule->command('chown -R www-data:www-data /var/www/**********/storage/logs')->everyMinute();
+         $schedule->command('chown -R www-data:www-data /var/www/**********/storage/logs')->everyMinute();
     }
 
     /**

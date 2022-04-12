@@ -33,7 +33,7 @@
         @endforelse
         </tbody>
     </table>
-    @if($tradesdata->links())
+    @if(count($tradesdata->links()['elements'][0])>1)
         <div class="p-5">
             {{$tradesdata->links()}}
         </div>

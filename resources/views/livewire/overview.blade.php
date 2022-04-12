@@ -77,7 +77,9 @@
         </div>
     </div>
 
-    <div class="container mx-auto px-4 py-10 md:py-12">
+
+
+    <div class="container mx-auto px-4 py-10 md:py-5">
         <div class="flex flex-col sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -86,7 +88,7 @@
                             {{ __('Current Holdings') }}
                         </h2>
                     </div>
-                    <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg table-align">
                         @livewire('current-holdings')
                     </div>
                 </div>
@@ -94,43 +96,43 @@
         </div>
     </div>
 
-    @if(isset($this->sto) && count($this->sto)>0)
-    <div class="container mx-auto px-4 py-10 md:py-12">
-        <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="w-full mb-5">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ __('Asset Allocation') }}
-                        </h2>
-                    </div>
-                    <div class="overflow-hidden sm: rounded-lg table-align justify-center flex-row">
-                        <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
 
-    @if(isset($this->box2) && count($this->box2)>0 && $totalTaxableGainLoss!=0)
-    <div class="container mx-auto px-4 py-10 md:py-12">
-        <div class="flex flex-col bg-white shadow-xl sm:rounded-lg px-4 py-4">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="w-full mb-5">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ __('Taxable Gain / (Loss) Over Time') }}
-                        </h2>
-                    </div>
-                    <div class="overflow-hidden sm: rounded-lg table-align">
-                        <canvas id="TaxableGain"></canvas>
+
+    <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
+        @if(isset($this->sto) && count($this->sto)>0)
+            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-6 sm:col-span-6 xs:col-span-12 xs:col-start-2 rounded-lg">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="w-full mb-5">
+                            <h3 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+                                {{ __('Asset Allocation') }}
+                            </h3>
+                            <div class="overflow-hidden sm: rounded-lg table-align justify-center flex-row pt-10">
+                                <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+
+        @if(isset($this->box2) && count($this->box2)>0 && $totalTaxableGainLoss!=0)
+            <div class="flex flex-col bg-white sm:rounded-lg px-4 py-4 col-start-7 col-span-6 sm:col-span-6 xs:col-span-12 xs:col-start-2 rounded-lg">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="w-full mb-5">
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
+                                {{ __('Taxable Gain / (Loss) Over Time') }}
+                            </h2>
+                            <div class="overflow-hidden sm: rounded-lg table-align pt-10">
+                                <canvas id="TaxableGain"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
-    @endif
 
     {{-- Stock Sell Modal  --}}
     @livewire('stock-sell-modal')
@@ -157,10 +159,10 @@
             @endif
             @endforeach];
 
-            var barColors = ["#BFDBFE", "#FECACA", "#10B981",
-                "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#F87171", "#4338CA", "#EFF6FF", "#FDF2F8", "#ECFDF5", "#FEF3C7", "#F3F4F6", "#EDE9FE", "#F9A8D4", "#BFDBFE", "#FECACA", "#F87171",
-                "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA",
-                "#BFDBFE", "#FECACA", "#F87171",
+            var barColors = ["#bfdbfe", "#FF6347", "#fde68a", "#FF7F50", "#CD5C5C", "#d1fae5",
+                "#F08080", "#E9967A", "#fce7f3", "#FA8072", "#FFA07A", "#FF8C00", "#6B8E23", "#228B22", "#98FB98", "#20B2AA", "#DDA0DD", "#EE82EE", "#C71585", "#FF69B4", "#FFB6C1", "#FAEBD7", "#FFE4C4", "#F5F5DC", "#FFEBCD",
+                "#A0522D", "#CD853F", "#DEB887", "#696969", "#808080", "#FDF5E6", "#D2B48C",
+                "#F5DEB3", "#8B4513", "#D2691E",
                 "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA", "#EFF6FF", "#FDF2F8", "#ECFDF5", "#FEF3C7", "#F3F4F6", "#EDE9FE", "#F9A8D4", "#BFDBFE", "#FECACA", "#F87171",
                 "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA"];
 
@@ -174,6 +176,7 @@
                     }]
                 },
                 options: {
+                    responsive: true,
                     tooltips: {
                         callbacks: {
                             label: function(tooltipItem, data) {

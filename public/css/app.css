@@ -10983,6 +10983,146 @@ table a {
     }
 }
 
+@media (max-width: 820px) {
+    .mt\:mb-2 {
+        margin-bottom: 2px;
+    }
+    .mt\:block {
+        display: block
+    }
+
+    .mt\:flex {
+        display: flex
+    }
+
+    .mt\:grid {
+        display: grid
+    }
+
+    .mt\:flex-col{
+        flex-direction: column;
+    }
+
+    .mt\:flex-wrap{
+        flex-wrap: wrap;
+    }
+
+    .mt\:justify-center{
+        justify-content: center;
+    }
+
+    .mt\:border-black{
+        border-color: #00000073;
+    }
+
+    .mt\:border-solid{
+        border:solid
+    }
+
+    .mt\:border-2-solid-black{
+        border: 2px solid #00000073 !important;
+    }
+
+    .mt\:border-r-11{
+        border-radius: 11px;
+    }
+
+    .mt\:hidden {
+        display: none
+    }
+
+    .mt\:text-xs {
+        font-size: 12px;
+    }
+
+
+    .mt\:text-right {
+        text-align: right !important;
+    }
+
+    .mt\:text-left {
+        text-align: left;
+    }
+
+    .mt\:text-center {
+        text-align: center;
+    }
+
+    .mt\:float-r {
+        float: right !important;
+    }
+
+    .mt\:py-1{
+        padding-bottom: 6px;
+        padding-top: 6px
+    }
+
+    .mt\:px-3{
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .mt\:py-10{
+        padding-bottom: 10px;
+        padding-top: 10px
+    }
+
+    table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        width: 15px;
+        color: #000000;
+    }
+
+    .mt\:my-10{
+        margin-bottom: 10px;
+        margin-top: 10px
+    }
+
+    .mt\:mx-10{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .account table td:nth-child(2) { order: 1; background: #00c80696;border-radius: 7px 7px 0px 0px; }
+    .account table td:nth-child(1) { order: 2; }
+    .account table td:nth-child(3) { order: 3; }
+    .account table td:nth-child(4) { order: 4; }
+    .account table td:nth-child(5) { order: 5; }
+    .account table td:nth-child(6) { order: 6; }
+    .account table td:nth-child(7) { order: 7; }
+
+
+    table tr .lastcoloumn:last-child{
+        display: block !important;
+    }
+
+
+    .historical tr{
+        display: flex !important;
+        flex-wrap: wrap;
+        flex-direction: row !important;
+    }
+    .historical td:nth-child(5) { order: 1; background: #00c80696;border-radius: 7px 7px 0px 0px;width: 100% !important;}
+    .historical td:nth-child(1) { order: 2; width: 100% !important;}
+    .historical td:nth-child(2) { order: 3; width: 100% !important;}
+    .historical td:nth-child(3) { order: 4; width: 100% !important;}
+    .historical td:nth-child(4) { order: 5; width: 100% !important;}
+    .historical td:nth-child(6) { order: 6; width: 50% !important;}
+    .historical td:nth-child(7) { order: 7; width: 50% !important;}
+
+    .stock td:first-child{
+        background: #00c80696;
+        border-radius: 7px 7px 0px 0px;width: 100% !important;
+    }
+
+    .overview table td:first-child { background: #00c80696;border-radius: 7px 7px 0px 0px; }
+    .cronlist table td:first-child { background: #00c80696;border-radius: 7px 7px 0px 0px; }
+}
+
+
+
 @media (min-width: 1024px) {
     .lg\:col-span-1 {
         grid-column: span 1/span 1
@@ -11380,7 +11520,7 @@ table a {
 }
 
 
-@media (max-width: 640px) {
+@media (max-width: 840px) and (min-width: 320px){
     .xs\:col-span-8 {
         grid-column: span 8/span 8
     }

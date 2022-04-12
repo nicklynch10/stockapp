@@ -119,7 +119,7 @@
         @endforelse
         </tbody>
     </table>
-    @if($currentholding->links())
+    @if(count($currentholding->links()['elements'][0])>1)
         <div class="p-5">
             {{$currentholding->links()}}
         </div>

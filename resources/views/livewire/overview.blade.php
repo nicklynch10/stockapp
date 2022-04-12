@@ -205,6 +205,7 @@
                     @php
                         foreach($this->date as $key=>$d)
                         {
+
                             $total=0; $taxable=0;
                             foreach($this->tran as $t)
                             {

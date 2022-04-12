@@ -11,7 +11,7 @@
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="cronlist shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50 xs:hidden">
+                        <thead class="bg-gray-300 xs:hidden">
                         <tr class="xs:flex xs:flex-col xs:border-2-solid-black xs:border-r-11 xs:mb-2">
                             <th class="px-6 py-4 text-left">
                                 Command

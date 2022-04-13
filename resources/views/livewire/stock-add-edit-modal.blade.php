@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if($this->companyname)
+                        @if($this->tickerorcompany)
                             <div class="mb-4" style="border-left:5px solid #00c806;padding: 10px">
                                 <label class="text-2xl"><b>{{$this->stock_ticker}}</b></label><br>
                                 <label>{{$this->company_name}}</label>

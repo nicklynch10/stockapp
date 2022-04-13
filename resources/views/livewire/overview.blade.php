@@ -108,7 +108,7 @@
                                 {{ __('Asset Allocation') }}
                             </h3>
                             <div class="overflow-hidden sm: rounded-lg table-align justify-center flex-row pt-10">
-                                <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
+                                <canvas id="myChart" height="500" style="width:100%;max-width:2000px"></canvas>
                             </div>
                         </div>
                     </div>

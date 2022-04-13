@@ -32,7 +32,7 @@ class Overview extends Component
         $this->totalSavingsRealized=0;
 
         $this->tran = Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->get();
-        $this->date=Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->groupBy('date_of_transaction')->get();
+        $this->date=Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->whereYear('date_of_transaction', '=', date('Y'))->groupBy('date_of_transaction')->orderBy('date_of_transaction','ASC')->get();
 
         //Box 2
         $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();

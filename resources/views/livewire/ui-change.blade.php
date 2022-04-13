@@ -27,20 +27,20 @@
                             <div class="overflow-hidden sm: rounded-lg table-align">
                                 <div class="bg-white rounded self-start">
                                     @foreach($this->stock as $s)
-                                        @php
-                                            $token = env('IEX_CLOUD_KEY', null);
-                                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                                            $current_price = Http::get($endpoint . 'stable/stock/' . $s->stock_ticker . '/quote?token=' . $token);
-                                            $price = $current_price->json()
-                                        @endphp
+{{--                                        @php--}}
+{{--                                            $token = env('IEX_CLOUD_KEY', null);--}}
+{{--                                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);--}}
+{{--                                            $current_price = Http::get($endpoint . 'stable/stock/' . $s->stock_ticker . '/quote?token=' . $token);--}}
+{{--                                            $price = $current_price->json()--}}
+{{--                                        @endphp--}}
                                     <div class="grid grid-cols-12 flex items-center md:text-center border-gray-200 py-4 px-4 lg:px-6 border-b-2 space-x-2 w-full xs:flex-col xs:flex xs:text-center xs:flex-wrap xs:justify-center">
                                         <div class="col-span-8 col-start-1 xs:col-start-3 col-end-8 text-left xs:text-center">
                                              <span class=" h-full text-left font-black">{{ $s->stock_ticker }}</span><br>
                                              <span>{{ $s->share_number }} Shares</span>
                                         </div>
                                         <div class="col-span-2 col-start-10 p-2">
-                                            <span>${{ $price['latestPrice'] }}</span><br>
-                                            <span>{{ $price['changePercent']*100 }}</span>
+{{--                                            <span>${{ $price['latestPrice'] }}</span><br>--}}
+{{--                                            <span>{{ $price['changePercent']*100 }}</span>--}}
                                         </div>
                                     </div>
                                     @endforeach

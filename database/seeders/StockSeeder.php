@@ -27,7 +27,7 @@ class StockSeeder extends Seeder
             'first_name' => 'Demo',
             'last_name' => "User",
             'email' => "demo@gmail.com",
-            'password'=>Hash::make('demo@2022'),
+            'password'=>Hash::make('z'),
         ]);
 
 //        $n=User::create([

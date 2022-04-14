@@ -9,7 +9,7 @@ class UiChange extends Component
 {
     public function render()
     {
-        $this->stock=Stock::where('share_number','!=',0)->get();
+            $this->stock=Stock::where('share_number','!=',0)->get();
         return view('livewire.ui-change');
     }
 }

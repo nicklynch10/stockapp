@@ -50,6 +50,8 @@ class StockAddEditModal extends Component
             $this->security_name = '';
             $this->current_share_price = '';
             $this->market_cap = '';
+            $this->average_cost = '';
+            $this->share_number = '';
         }
         if ($this->tickerorcompany != null && $this->current_share_price == null) {
             $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)

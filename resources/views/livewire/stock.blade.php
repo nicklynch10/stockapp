@@ -64,7 +64,7 @@
 {{--                </div>--}}
 {{--            </div>--}}
 {{--        </div>--}}
-        <div class=" mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
+        <div class="grid grid-cols-12 gap-2">
             <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -86,11 +86,11 @@
                                         <div class="m-2">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start  flex flex-col justify-between" style="min-width: 100px; ">
                                                 <div class="mt-3 my-2">
-                                                    <a href="https://dev.perksweet.com/profile/235" class="flex justify-center">
+                                                    <div class="flex justify-center">
                                                         <img src="https://storage.googleapis.com/iex/api/logos/{{ $s->stock_ticker }}.png" class="rounded-full object-cover hover:bg-gray-100 h-16">
-                                                    </a>
+                                                    </div>
                                                     <div class="text-center p-1 mt-1">
-                                                        <a class="text-black font-black hover:bg-gray-100 text-xl" href="#">
+                                                        <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">
                                                             {{ $s->stock_ticker }}
                                                         </a>
                                                         <p class="pb-2 text-sm font-sans font-light text-grey-dark italic sm:text-xs">
@@ -108,7 +108,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-center text-sm mt-3 border-gray-200 border-t -my-2 p-2 text-gray-600">
-
                                                     <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="sell({{ $s->id }})">
                                                         Sell
                                                     </button>

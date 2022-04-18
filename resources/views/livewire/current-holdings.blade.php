@@ -1,7 +1,7 @@
-<div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
+<div class="overview shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
     <table>
-        <thead class="bg-gray-300">
-        <tr>
+        <thead class="bg-gray-300 xs:hidden">
+        <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
             <th wire:click="sort('stock_ticker')"
                 class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Stock Ticker<span>
                 @if($sortColumn === 'stock_ticker')
@@ -98,18 +98,18 @@
                 $companyname=explode('-',$curr->security_name)
             @endphp
             @if($curr->share_number!=0)
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})">{{$curr->stock_ticker}}</a></td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})"><p class="whitespace-normal">{{$curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name}}</p></a></td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Count">{{$curr->share_number}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Cost Basis">${{number_format($curr->ave_cost,2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Share Price">${{number_format($curr->current_share_price,2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="$ Change">{{$curr->dchange<0?"($".number_format(abs($curr->dchange),2).")":"$".number_format(abs($curr->dchange),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="% Change">{{$curr->pchange<0?"(".number_format(abs($curr->pchange),2)."%)":number_format(abs($curr->pchange),2)."%"}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Market Value">{{$curr->current_total_value<0?"($".number_format(abs($curr->current_total_value),2).")":"$".number_format(abs($curr->current_total_value),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Total Cost">{{$curr->total_cost<0?"($".number_format(abs($curr->total_cost),2).")":"$".number_format(abs($curr->total_cost),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center {{$curr->total_gain_loss<0?"text-red-600":"text-green-600"}}" data-label="Total Gain / (Loss)">{{$curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2)}}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Tax Classification">{{$curr->total_long_term_gains}}</td>
+            <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})">{{$curr->stock_ticker}}</a></td>
+                <td class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Stock Ticker"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})"><p class="whitespace-normal">{{$curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name}}</p></a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Share Count">{{$curr->share_number}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Cost Basis">${{number_format($curr->ave_cost,2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Share Price">${{number_format($curr->current_share_price,2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="$ Change">{{$curr->dchange<0?"($".number_format(abs($curr->dchange),2).")":"$".number_format(abs($curr->dchange),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="% Change">{{$curr->pchange<0?"(".number_format(abs($curr->pchange),2)."%)":number_format(abs($curr->pchange),2)."%"}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Market Value">{{$curr->current_total_value<0?"($".number_format(abs($curr->current_total_value),2).")":"$".number_format(abs($curr->current_total_value),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Total Cost">{{$curr->total_cost<0?"($".number_format(abs($curr->total_cost),2).")":"$".number_format(abs($curr->total_cost),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center xs:text-right xs:block xs:text-xs xs:py-10 {{$curr->total_gain_loss<0?"text-red-600":"text-green-600"}}" data-label="Total Gain / (Loss)">{{$curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2)}}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs xs:py-10" data-label="Tax Classification">{{$curr->total_long_term_gains}}</td>
             </tr>
             @endif
         @empty
@@ -119,7 +119,7 @@
         @endforelse
         </tbody>
     </table>
-    @if($currentholding->links())
+    @if(count($currentholding->links()['elements'][0])>1)
         <div class="p-5">
             {{$currentholding->links()}}
         </div>

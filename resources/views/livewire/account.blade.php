@@ -6,54 +6,6 @@
 </x-slot>
 
 <main class="p-0 m-0 flex-grow ">
-    <style>
-        @media screen and (max-width: 600px) {
-            table tr td{
-                display: block;
-                font-size: 12px;
-            }
-            table tr{
-                display: flex !important;
-                flex-direction: column !important;
-                border: 2px solid #00000073 !important;
-                border-radius: 11px !important;
-                margin-bottom: 3px !important;
-                background-color: #ffffff !important;
-            }
-            table thead{
-                display: none;
-            }
-            table td{
-                text-align: right !important;
-            }
-            table td:last-child{
-                border-bottom: 0;
-            }
-            table, thead, tbody, th, td, tr {
-                display: block;
-                font-size: 12px;
-                text-align: left !important;
-            }
-            table td::before{
-                content: attr(data-label);
-                float: left;
-                font-weight: bold;
-                width: 15px;
-            }
-            table td:nth-child(2) { order: 1; background: #00c80696;border-radius: 7px 7px 0px 0px; }
-            table td:nth-child(1) { order: 2; }
-            table td:nth-child(3) { order: 3; }
-            table td:nth-child(4) { order: 4; }
-            table td:nth-child(5) { order: 5; }
-            table td:nth-child(6) { order: 6; }
-            table td:nth-child(7) { order: 7; }
-
-            table td:last-child{
-                /*border-bottom: 1px solid;*/
-            }
-        }
-        table tr:nth-child(even){background-color: #ffffff;}
-    </style>
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -68,10 +20,10 @@
                         </div>
                     @endif
                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Add New Account') }}</x-jet-button>
-                    <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
+                    <div class="account shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                         <table>
-                            <thead class="bg-gray-300">
-                                <tr>
+                            <thead class="bg-gray-300 xs:hidden">
+                                <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
                                     <th class="px-6 py-4">Set as Default</th>
                                     <th class="px-6 py-4">Account Name</th>
                                     <th class="px-6 py-4">Account Type</th>
@@ -83,19 +35,19 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($this->account as $acc)
-                                    <tr>
-                                        <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-900"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
-                                        <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder">{{$acc->account_name}}</td>
-                                        <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900">{{$acc->account_type}}</td>
-                                        <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900">{{$acc->account_brokerage}}</td>
-                                        <td data-label="Commission Rate per Share" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">${{number_format($acc->commission,2)}}</td>
-                                        <td data-label="Date Created" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
-                                        <td data-label="Action" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
+                                    <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
+                                        <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-90 xs:text-right xs:block xs:text-xs"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
+                                        <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder xs:text-right xs:block xs:text-xs">{{$acc->account_name}}</td>
+                                        <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_type}}</td>
+                                        <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_brokerage}}</td>
+                                        <td data-label="Commission Rate per Share" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>
+                                        <td data-label="Date Created" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
+                                        <td data-label="Action" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">
                                             <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
                                         </td>
                                     </tr>
                                 @empty
-                                    <tr>
+                                    <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black">
                                         <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900" colspan="8">No Account Found</th>
                                     </tr>
                                 @endforelse

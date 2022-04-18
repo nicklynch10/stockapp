@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Livewire\Designchange;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Livewire\Stocks;
 use App\Http\Livewire\Portfolio;
@@ -38,17 +40,33 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-//Route::get('stock', Stocks::class,)->name('stock');
 
-Route::get('help', function () {
-    return view('support.help');
-})->name('help');
+Route::get('help', function () { return view('support.help'); })->name('help');
 Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
+Route::get('design', Designchange::class, )->middleware(['auth:sanctum', 'verified'])->name('design');
+
 Route::get('notifications', [NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
 Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
 
+
+// ** Migration Routes ** //
+Route::get('/migrate', function(){
+    Artisan::call('migrate');
+    dd('migrated!');
+});
+
+Route::get('schedule-run',function (){
+   Artisan::call('schedule:run');
+   dd('Schedule Run');
+});
+
+// ** run-seeder/StockSeeder ** //
+Route::get('run-seeder/{class}',function($class){
+ Artisan::call("db:seed",array('--class'=>$class));
+ dd('Run Seeder');
+});
 
 
 // ** NL Routes ** //

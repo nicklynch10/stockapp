@@ -12,8 +12,22 @@ class StockSellModal extends Component
 {
 
     public $issellOpen = 0;
-    public $stock_id,$stock_ticker,$company_name,$description,$sector,$market_cap,$current_share_price,$average_cost,$share_number,$issuetype,$security_name,$tags,$share_price,$share_sold
-                ,$openmodalval,$date_of_purchase;
+    public $stock_id;
+    public $stock_ticker;
+    public $company_name;
+    public $description;
+    public $sector;
+    public $market_cap;
+    public $current_share_price;
+    public $average_cost;
+    public $share_number;
+    public $issuetype;
+    public $security_name;
+    public $tags;
+    public $share_price;
+    public $share_sold;
+    public $openmodalval;
+    public $date_of_purchase;
     protected $listeners = ['sell' => 'sellModal'];
 
     public function render()
@@ -81,6 +95,7 @@ class StockSellModal extends Component
                 'type'=>'success',
                 'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares'
             ]);
+            $this->emit('stockData');
             $this->closeSellModal();
         }
     }

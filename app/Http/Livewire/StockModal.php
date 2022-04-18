@@ -11,7 +11,19 @@ use Livewire\Component;
 class StockModal extends Component
 {
     public $issellOpen = 0;
-    public $stock_id,$stock_ticker,$company_name,$description,$sector,$market_cap,$alltags,$current_share_price,$average_cost,$share_number,$issuetype,$share_price,$date_of_purchase;
+    public $stock_id;
+    public $stock_ticker;
+    public $company_name;
+    public $description;
+    public $sector;
+    public $market_cap;
+    public $alltags;
+    public $current_share_price;
+    public $average_cost;
+    public $share_number;
+    public $issuetype;
+    public $share_price;
+    public $date_of_purchase;
     protected $listeners = ['sell'=>'sellOpen'];
 
     public function render()

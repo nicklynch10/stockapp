@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Stock;
 use App\Models\StockTicker;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -100,7 +101,7 @@ class Account extends Component
                 ]);
                 $this->dispatchBrowserEvent('alert', [
                     'type' => 'success',
-                    'message' => '<p style="color: red">Account Delete Successfully</p> <br>'.$allData['account_name'].' Account Set As Default.'
+                    'message' => '<p class="text-red-700">Account Delete Successfully</p> <br>'.$allData['account_name'].' Account Set As Default.'
                 ]);
             } else {
                 $this->dispatchBrowserEvent('alert', [

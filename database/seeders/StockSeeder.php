@@ -25,11 +25,19 @@ class StockSeeder extends Seeder
         $user=User::create([
             'name' => 'Demo user',
             'first_name' => 'Demo',
-            'last_name' => "User",
+            'last_name' => 'User',
             'email' => "demo@gmail.com",
-            'password'=>Hash::make('demo@2022'),
+            'password'=>Hash::make('z'),
         ]);
 
+
+//        $n=User::create([
+//            'name' => 'Nick Lynch',
+//            'first_name' => 'Nick',
+//            'last_name' => "Lynch",
+//            'email' => "nick@taxghost.com",
+//            'password'=>bcrypt('z'),
+//        ]);
 
 
         // @ajay this needs to be for all users... account for 1 user should not show up for other users.
@@ -42,7 +50,14 @@ class StockSeeder extends Seeder
             'set_default'=>1,
         ]);
 
-        $stock=StockTicker::inRandomOrder()->limit(100)->get();
+        $stock=['UBS' , 'IBM' , 'TM' , 'HDB' , 'ZTS' , 'NLIT' , 'PLNT' , 'FORTY' , 'AMZN' , 'TKR' , 'EEMS' , 'VBR' , 'AVDV' , 'SCHC' , 'PSFE' ,
+            'EPHE' , 'UBX' , 'ETY' , 'MNTS' , 'XTAP' , 'RDHL' , 'AIR' , 'BHP' , 'EFT' , 'GOGL' , 'HRB' , 'IGEB' , 'IPDN' , 'MMC' , 'PBUS' ,
+            'ECNS' , 'VB' , 'GCIG' , 'SPY' , 'INDA' , 'IXC' , 'BBC' , 'RING' , 'VWO' , 'VTV' , 'BABA' , 'CCOR' , 'ERJ' , 'KTF' , 'OLED',
+            'HERO' , 'VOE' , 'EFV' , 'VDE' , 'MJ' , 'VFMO' , 'EWJ' , 'GM' , 'BTC' , 'LABU' , 'JETS' , 'PCB' , 'CPNG' , 'JBI' , 'LIFE' ,
+            'GOOG' , 'AJX' , 'AM' , 'GEM' , 'AMAT' , 'BAND' , 'TSLA' , 'PBR' , 'REX' , 'GGAL' , 'WNDY' , 'HMN' , 'IT' , 'MARK' , 'NDP',
+            'BCAT' , 'MLPR' , 'GH' , 'IMPL' , 'ZEST' , 'WIRE' , 'BB' , 'CHT' , 'DAUG' , 'EPRF' , 'FLN' , 'GROW' , 'INCO' , 'LCUT' , 'MOR',
+            'RELL' , 'RESD' , 'SQFT' , 'TISI' , 'UXIN' , 'VCR' , 'WINT' , 'NKE' , 'HDG' , 'AZEK'];
+
 
         // @ajay please clean this up and separate this into different factories
         foreach ($stock as $st) {
@@ -100,14 +115,18 @@ class StockSeeder extends Seeder
                 'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
             ]);
 
+
+        foreach ($stock as $st)
+        {
+            $result=Stock::factory()->addStock($user->id , $acc->id , $st)->create();
             Transaction::create([
-                'stock_id'=>$stockId->id,
-                'type'=>0,
-                'ticker_name'=>$st->ticker,
-                'stock'=>$share_number,
-                'share_price'=>$ave_cost,
-                'user_id'=>$user->id,
-                'date_of_transaction'=>$r,
+                'stock_id' => $result->id,
+                'type' => 0,
+                'ticker_name' => $result->stock_ticker,
+                'stock' => $result->share_number,
+                'share_price' => $result->ave_cost,
+                'user_id' => $result->user_id,
+                'date_of_transaction' => $result->date_of_purchase,
             ]);
         }
     }

@@ -10,10 +10,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
+use phpDocumentor\Reflection\Types\Null_;
 
 class StockAddEditModal extends Component
 {
-    protected $listeners=['create' => 'create','editStock' => 'editStockModal'];
+    protected $listeners=['create' => 'create','editStock' => 'editStockModal','closeModal' => 'closeModal'];
     public $isOpen = 0;
     public $currentStep = 1;
     public $stock_id = 0;
@@ -39,7 +40,20 @@ class StockAddEditModal extends Component
 
     public function render()
     {
-        if ($this->tickerorcompany != null) {
+        if($this->tickerorcompany == null)
+        {
+            $this->company_name = '';
+            $this->stock_ticker = '';
+            $this->description = '';
+            $this->sector = '';
+            $this->issuetype = '';
+            $this->security_name = '';
+            $this->current_share_price = '';
+            $this->market_cap = '';
+            $this->average_cost = '';
+            $this->share_number = '';
+        }
+        if ($this->tickerorcompany != null && $this->current_share_price == null) {
             $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
                 ->first();
             if (!$this->companyname) {
@@ -238,4 +252,8 @@ class StockAddEditModal extends Component
         $this->isOpen = false;
     }
 
+    public function deletestock($id)
+    {
+        $this->emit('stockDelete',$id);
+    }
 }

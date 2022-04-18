@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\StockPriceUpdate;
+use App\Console\Commands\LogClear;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\updatestockprice;
@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
    // public $timezone='America/New_York';
     protected $commands=[
         updatestockprice::class,
+        LogClear::class,
     ];
 
     /**
@@ -23,7 +24,8 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('update:stockprice')->twiceDaily(1, 13)->timezone('America/New_York');
+         $schedule->command('update:stockprice')->daily()->timezone('America/New_York');
+         $schedule->command('log:clear')->everyMinute()->timezone('America/New_York');
     }
 
     /**

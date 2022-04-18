@@ -104,7 +104,7 @@ class StockBuyModal extends Component
             'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b><br/> Total Buy : <b>'. $this->share_number.'</b> Shares'
         ]);
         $this->buyModal($this->stock_id);
-
+        $this->emit('stockData');
         $this->closeBuyModal();
     }
 

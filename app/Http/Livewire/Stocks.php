@@ -61,10 +61,10 @@ class Stocks extends Component
     public $buyInsertid;
     public $lastBuyInsertedID;
     public $deletestock = false;
-
+    public $deleteid=0;
     public $openmodalval=0;
     public $avepricereadonly=0;
-    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit','stockData' => 'render'];
+    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit','stockData' => 'render','stockDelete' => 'stockDelete'];
 
 
     public function render()
@@ -79,8 +79,6 @@ class Stocks extends Component
     public function create()
     {
         $this->emit('create');
-//        $this->resetInputFields();
-//        $this->openModal();
     }
 
     public function editStock($id)
@@ -99,8 +97,12 @@ class Stocks extends Component
         $this->closedeletestock();
         $this->closeModal();
     }
+    public function closeModal()
+    {
+        $this->emit('closeModal');
+    }
 
-    public function deletestock($id)
+    public function stockDelete($id)
     {
         $this->deleteid=$id;
         $this->deletestock=true;

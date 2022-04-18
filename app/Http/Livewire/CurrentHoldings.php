@@ -58,7 +58,7 @@ class CurrentHoldings extends Component
 
     public function fetchData()
     {
-        return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains')->join('stock','stock.id','view_stock_update.stock_id')->where('stock.user_id', Auth::user()->id)->
+        return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')->where('stock.user_id', Auth::user()->id)->
         when($this->search, function ($q) {
             $q->where('company_name', 'like', "$this->search%");
         })->

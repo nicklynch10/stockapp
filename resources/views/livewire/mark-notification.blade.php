@@ -21,6 +21,20 @@
             </div>
 
             <div class="border-t border-gray-200"></div>
+                @foreach($this->unread as $r)
+                    <a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                    style="
+                        word-break: break-word;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        line-height: 16px;
+                        max-height: 58px;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;">
+                        {{$r->data["tagline"]}}
+                    </a>
+                @endforeach
             <x-jet-dropdown-link href="{{ url('notifications')}}" class="text-sm text-gray-400">
                 View All Notifications
             </x-jet-dropdown-link>

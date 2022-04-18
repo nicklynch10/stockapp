@@ -79,23 +79,44 @@
 
 
 
-    <div class="container mx-auto px-4 py-10 md:py-5">
-        <div class="flex flex-col sm:rounded-lg px-4 py-4">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="w-full mb-5">
-                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            {{ __('Current Holdings') }}
-                        </h2>
-                    </div>
-                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg table-align">
-                        @livewire('current-holdings')
+{{--    <div class="container mx-auto px-4 py-10 md:py-5">--}}
+{{--        <div class="flex flex-col sm:rounded-lg px-4 py-4">--}}
+{{--            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">--}}
+{{--                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">--}}
+{{--                    <div class="w-full mb-5">--}}
+{{--                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
+{{--                            {{ __('Current Holdings') }}--}}
+{{--                        </h2>--}}
+{{--                    </div>--}}
+{{--                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg table-align">--}}
+{{--                        @livewire('current-holdings')--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
+    <div class="mx-auto px-4 py-10 md:py-5">
+        <div class="grid grid-cols-12 gap-2">
+            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
+                <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="w-full mb-5 overflow-hidden" style="height: 100%">
+                            <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
+                                <h2 class="text-xl font-black">Current Holdings
+                                </h2>
+
+                                <div class="inline-flex items-center space-x-2">
+                                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
+                                </div>
+                            </div>
+                            @livewire('current-holdings')
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
@@ -125,7 +146,7 @@
                                 {{ __('Taxable Gain / (Loss) Over Time') }}
                             </h2>
                             <div class="overflow-hidden sm: rounded-lg table-align pt-10">
-                                <canvas id="TaxableGain"></canvas>
+                                <canvas id="TaxableGain" height="500"></canvas>
                             </div>
                         </div>
                     </div>
@@ -160,6 +181,11 @@
             @endforeach];
 
             var barColors = ["#bfdbfe", "#FF6347", "#fde68a", "#FF7F50", "#CD5C5C", "#d1fae5",
+                "#F08080", "#E9967A", "#fce7f3", "#FA8072", "#FFA07A", "#FF8C00", "#6B8E23", "#228B22", "#98FB98", "#20B2AA", "#DDA0DD", "#EE82EE", "#C71585", "#FF69B4", "#FFB6C1", "#FAEBD7", "#FFE4C4", "#F5F5DC", "#FFEBCD",
+                "#A0522D", "#CD853F", "#DEB887", "#696969", "#808080", "#FDF5E6", "#D2B48C",
+                "#F5DEB3", "#8B4513", "#D2691E",
+                "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA", "#EFF6FF", "#FDF2F8", "#ECFDF5", "#FEF3C7", "#F3F4F6", "#EDE9FE", "#F9A8D4", "#BFDBFE", "#FECACA", "#F87171",
+                "#D97706", "#10B981", "#818CF8", "#DB2777", "#D1D5DB", "#DB2777", "#4338CA" , "#bfdbfe", "#FF6347", "#fde68a", "#FF7F50", "#CD5C5C", "#d1fae5",
                 "#F08080", "#E9967A", "#fce7f3", "#FA8072", "#FFA07A", "#FF8C00", "#6B8E23", "#228B22", "#98FB98", "#20B2AA", "#DDA0DD", "#EE82EE", "#C71585", "#FF69B4", "#FFB6C1", "#FAEBD7", "#FFE4C4", "#F5F5DC", "#FFEBCD",
                 "#A0522D", "#CD853F", "#DEB887", "#696969", "#808080", "#FDF5E6", "#D2B48C",
                 "#F5DEB3", "#8B4513", "#D2691E",
@@ -283,8 +309,9 @@
                             }
                             return label;
                         }
-                    }
+                    },
                 },
+
                 scales: {
                     yAxes: [{
                         ticks: {

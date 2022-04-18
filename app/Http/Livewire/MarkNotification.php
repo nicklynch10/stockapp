@@ -11,6 +11,7 @@ class MarkNotification extends Component
     public $unreadCount;
     public $is_open = false;
     public $read = [];
+    public $notify;
 
     public function open()
     {
@@ -28,10 +29,9 @@ class MarkNotification extends Component
         $this->unread = collect([$this->unread, $this->read])
             ->flatten()
             ->unique()
-            ->slice(0, 5);
+            ->slice(0, 10);
         $this->unreadCount = Auth::user()->unreadNotifications->count();
         Auth::user()->unreadNotifications->markAsRead();
-
         return view('livewire.mark-notification');
     }
 }

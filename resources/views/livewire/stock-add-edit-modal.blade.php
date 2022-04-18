@@ -49,6 +49,7 @@
                         <div class="mb-4">
                             <label for="current_share_price" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Share Price:</b></label>
                             <input type="text" id="current_share_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="current_share_price">
+                            <input type="hidden" id="tickerLogo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Current Share Price" wire:model="tickerLogo">
                             @error('current_share_price') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">

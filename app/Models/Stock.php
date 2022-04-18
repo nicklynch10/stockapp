@@ -12,8 +12,29 @@ class Stock extends Model
     protected $table="stock";
 
     protected $fillable = [
-        'user_id','stock_ticker','company_name','security_name','description','sector','market_cap','current_share_price','issuetype','tags','ave_cost','share_number','date_of_purchase','account_id','note','dchange','pchange',
-        'current_total_value','total_cost','total_gain_loss','total_long_term_gains',
+        'user_id',
+        'stock_ticker',
+        'company_name',
+        'security_name',
+        'description',
+        'sector',
+        'market_cap',
+        'current_share_price',
+        'issuetype',
+        'tags',
+        'ticker_logo',
+        'mutual_funds',
+        'ave_cost',
+        'share_number',
+        'date_of_purchase',
+        'account_id',
+        'note',
+        'dchange',
+        'pchange',
+        'current_total_value',
+        'total_cost',
+        'total_gain_loss',
+        'total_long_term_gains',
     ];
 
 }

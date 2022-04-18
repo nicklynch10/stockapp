@@ -55,7 +55,8 @@ class Currentportfoliochange extends Notification
     public function toArray($notifiable)
     {
         return [
-            'tagline' => $this->details['body']
+            'tagline' => $this->details['body'],
+            'logo' => $this->details['logo'],
         ];
     }
 }

@@ -36,6 +36,9 @@ class StockAddEditModal extends Component
     public $companyname;
     public $avepricereadonly;
     public $company;
+    public $tickerLogo;
+    public $logo;
+    public $logo_url;
 
 
     public function render()
@@ -52,8 +55,9 @@ class StockAddEditModal extends Component
             $this->market_cap = '';
             $this->average_cost = '';
             $this->share_number = '';
+            $this->tickerLogo='';
         }
-        if ($this->tickerorcompany != null && $this->current_share_price == null) {
+        if ($this->tickerorcompany != null && $this->average_cost == null) {
             $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
                 ->first();
             if (!$this->companyname) {
@@ -87,6 +91,10 @@ class StockAddEditModal extends Component
                 $price = $current_price->json();
                 $this->current_share_price = $price ? $price['latestPrice'] : '';
                 $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+
+                $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
+                $logo_url = $logo->json();
+                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
             }
         }
         $this->emit('stockData');
@@ -132,12 +140,13 @@ class StockAddEditModal extends Component
         $this->issuetype = '';
         $this->share_number = '';
         $this->tickerorcompany = '';
-        $this->openmodalval=1;
-        $this->currentStep=1;
-        $this->note='';
-        $this->date_of_purchase=Carbon::now()->format('Y-m-d');
-        $default=Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
-        $this->account_type=$default ? $default->id : '';
+        $this->openmodalval = 1;
+        $this->currentStep = 1;
+        $this->note = '';
+        $this->tickerLogo = '';
+        $this->date_of_purchase = Carbon::now()->format('Y-m-d');
+        $default = Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
+        $this->account_type = $default ? $default->id : '';
     }
 
     public function store()
@@ -172,6 +181,7 @@ class StockAddEditModal extends Component
             'total_cost' => ($this->average_cost*$this->share_number),
             'total_gain_loss' => ($this->current_share_price*$this->share_number)-($this->average_cost*$this->share_number),
             'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+            'ticker_logo' => $this->tickerLogo,
         ]);
         $lastInsertedID = $insertid->id;
 
@@ -239,7 +249,10 @@ class StockAddEditModal extends Component
         $this->share_price = '';
         $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->note = $stock->note;
-        $this->account_type=$stock->account_id;
+        $this->account_type = $stock->account_id;
+        $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
+        $logo_url = $logo->json();
+        $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
         $this->openModal();
     }
     public function openModal()

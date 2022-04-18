@@ -87,7 +87,7 @@
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start  flex flex-col justify-between" style="min-width: 100px; ">
                                                 <div class="mt-3 my-2">
                                                     <div class="flex justify-center">
-                                                        <img src="https://storage.googleapis.com/iex/api/logos/{{ $s->stock_ticker }}.png" class="rounded-full object-cover hover:bg-gray-100 h-16">
+                                                        <img src="{{ $s->ticker_logo }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
                                                         <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">
@@ -105,6 +105,9 @@
                                                         <p class="text-sm font-sans font-light text-grey-dark">
                                                             {{ $s->share_number }} Shares
                                                         </p>
+                                                        <p class="text-sm font-sans font-light text-grey-dark">
+                                                            {{ \Carbon\Carbon::createFromTimestamp(strtotime($s->date_of_purchase))->format('F jS, Y')}}
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="text-center text-sm mt-3 border-gray-200 border-t -my-2 p-2 text-gray-600">
@@ -114,9 +117,7 @@
                                                     <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="buy({{ $s->id }})">
                                                         Buy
                                                     </button>
-                                                    <a href="#" class="pl-1 pr-4">
-                                                        <i class="fa-solid fa-edit text-blue-500 tooltip tooltipstered"></i>
-                                                    </a>
+                                                    <a class="tooltip py-1 px-1" title="Edit Stock" wire:click="editStock({{ $s->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
                                                 </div>
                                             </div>
                                         </div>

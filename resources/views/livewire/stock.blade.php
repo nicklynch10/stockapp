@@ -77,7 +77,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-8 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-8 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                            <div class="grid grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 @foreach($stocks as $s)
                                     @if($s->share_number!=0)
                                         @php
@@ -204,6 +204,24 @@
             <x-jet-danger-button class="ml-2"  wire:click="closeAveNoModal(1)" wire:loading.attr="disabled">
                 {{ __('No') }}
             </x-jet-danger-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
+
+
+    <x-jet-confirmation-modal wire:model="issellShareOpen">
+        <x-slot name="title">
+            {{ __('Enter valid share') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <span class="text-red-700">{{ __('You can never sell more shares than you have') }}</span>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="closeSellShareModal()">
+                {{ __('Cancel') }}
+            </x-jet-secondary-button>
+
         </x-slot>
     </x-jet-confirmation-modal>
 

@@ -30,7 +30,7 @@
             </div>
             <div class="mb-4">
                 <label for="share_sold" class="block text-gray-700 text-sm font-bold mb-2"><b>Shares Sold:</b></label>
-                <input type="text" id="share_sold" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter shares..." wire:model="share_sold">
+                <input type="number" id="share_sold" min="1" max="{{ $this->share_number }}" data="{{ $this->share_number }}" class="share_number shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter shares..." wire:model="share_sold">
                 @error('share_sold') <span class="text-red-500">{{ $message }}</span>@enderror
             </div>
             <div class="mb-4">
@@ -51,3 +51,5 @@
         </x-jet-button>
     </x-slot>
 </x-jet-dialog-modal>
+
+

@@ -29,6 +29,7 @@ class Stocks extends Component
     public $stock_id = 0;
     public $note;
     public $isdeleteOpen = 0;
+    public $issellShareOpen = 0;
 
     public $isAveOpen=false;
     public $ticker = null;
@@ -64,7 +65,7 @@ class Stocks extends Component
     public $deleteid=0;
     public $openmodalval=0;
     public $avepricereadonly=0;
-    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit','stockData' => 'render','stockDelete' => 'stockDelete'];
+    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit','stockData' => 'render','stockDelete' => 'stockDelete','sharesell' => 'sharesellopen'];
 
 
     public function render()
@@ -147,5 +148,15 @@ class Stocks extends Component
         $this->openmodalval=$id;
         $this->avepricereadonly=$id;
         $this->isAveOpen = false;
+    }
+
+    public function sharesellopen()
+    {
+        $this->issellShareOpen = true;
+    }
+
+    public function closeSellShareModal()
+    {
+        $this->issellShareOpen = false;
     }
 }

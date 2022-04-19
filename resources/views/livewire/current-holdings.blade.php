@@ -144,7 +144,7 @@
             <option value="total_long_term_gains">Tax Classification</option>
         </select>
     </div>
-    <div class="grid grid-cols-4 xs:grid-cols-2 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+    <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
         @forelse($currentholding as $curr)
             @php
                 $companyname=explode('-',$curr->security_name)
@@ -153,7 +153,7 @@
                 <div class="m-2">
                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                         <div class="mt-3 my-1">
-                            <div class="flex flex-row items-center xs:flex-col">
+                            <div class="flex flex-row items-center xs:flex-col md:flex-col lg:flex-row">
                                 <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ $curr->ticker_logo }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a></h5>

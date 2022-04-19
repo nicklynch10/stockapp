@@ -12,6 +12,7 @@ class StockSellModal extends Component
 {
 
     public $issellOpen = 0;
+    public $issellShareOpen = 0;
     public $stock_id;
     public $stock_ticker;
     public $company_name;
@@ -32,9 +33,13 @@ class StockSellModal extends Component
 
     public function render()
     {
-//        $this->emit('historicaldata');
+        if($this->share_sold > $this->share_number)
+        {
+            $this->emit('sharesell');
+        }
         return view('livewire.stock-sell-modal');
     }
+
     public function sellModal($id)
     {
         $stock = Stock::findOrFail($id);
@@ -73,32 +78,35 @@ class StockSellModal extends Component
             'share_price'=>'required',
             'share_sold'=>'required',
         ]);
-        Transaction::create([
-            'stock_id'=>$this->stock_id,
-            'type'=>1,
-            'ticker_name'=>$this->stock_ticker,
-            'stock'=>$this->share_sold,
-            'share_price'=>$this->share_price,
-            'user_id'=>Auth::user()->id,
-            'date_of_transaction'=>$this->date_of_purchase,
-        ]);
 
-        if($this->stock_id)
-        {
-            $current_stock=Stock::select('share_number')->where('id',$this->stock_id)->first();
-            $final_stock=$current_stock->share_number-$this->share_sold;
-            $record = Stock::find($this->stock_id);
-            $record->update([
-                'share_number'=>$final_stock,
-            ]);
-            $this->dispatchBrowserEvent('alert',[
-                'type'=>'success',
-                'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares'
-            ]);
-            $this->emit('stockData');
-            $this->closeSellModal();
+        if($this->share_sold > $this->share_number){
+            $this->emit('sharesell');
+        }
+        else{
+            if($this->stock_id){
+                Transaction::create([
+                    'stock_id'=>$this->stock_id,
+                    'type'=>1,
+                    'ticker_name'=>$this->stock_ticker,
+                    'stock'=>$this->share_sold,
+                    'share_price'=>$this->share_price,
+                    'user_id'=>Auth::user()->id,
+                    'date_of_transaction'=>$this->date_of_purchase,
+                ]);
+
+                $current_stock=Stock::select('share_number')->where('id',$this->stock_id)->first();
+                $final_stock=$current_stock->share_number-$this->share_sold;
+                $record = Stock::find($this->stock_id);
+                $record->update([
+                    'share_number'=>$final_stock,
+                ]);
+                $this->dispatchBrowserEvent('alert',[
+                    'type'=>'success',
+                    'message'=>'Stock Ticker : <b>'.$this->stock_ticker. '</b> <br/>Total Sold : <b>'. $this->share_sold.'</b> Shares'
+                ]);
+                $this->emit('stockData');
+                $this->closeSellModal();
+            }
         }
     }
-
-
 }

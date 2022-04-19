@@ -84,7 +84,7 @@
                                             $companyname=explode('-',$s->security_name)
                                         @endphp
                                         <div class="m-2">
-                                            <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start  flex flex-col justify-between" style="min-width: 100px; ">
+                                            <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 self-start  flex flex-col justify-between" style="min-width: 100px; ">
                                                 <div class="mt-3 my-2">
                                                     <div class="flex justify-center">
                                                         <img src="{{ $s->ticker_logo }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">

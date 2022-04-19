@@ -10304,6 +10304,10 @@ table a {
         display: flex
     }
 
+    .sm\:flex-col {
+        flex-direction: column;
+    }
+
     .sm\:grid {
         display: grid
     }

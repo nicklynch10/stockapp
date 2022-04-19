@@ -143,6 +143,7 @@
         </x-slot>
     </x-jet-confirmation-modal>
     {{-- End Delete Account --}}
+
 </main>
 
 

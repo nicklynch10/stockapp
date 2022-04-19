@@ -79,44 +79,44 @@
 
 
 
-{{--    <div class="container mx-auto px-4 py-10 md:py-5">--}}
-{{--        <div class="flex flex-col sm:rounded-lg px-4 py-4">--}}
-{{--            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">--}}
-{{--                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">--}}
-{{--                    <div class="w-full mb-5">--}}
-{{--                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">--}}
-{{--                            {{ __('Current Holdings') }}--}}
-{{--                        </h2>--}}
-{{--                    </div>--}}
-{{--                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg table-align">--}}
-{{--                        @livewire('current-holdings')--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-    <div class="mx-auto px-4 py-10 md:py-5">
-        <div class="grid grid-cols-12 gap-2">
-            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
-                <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
-                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
-                                <h2 class="text-xl font-black">Current Holdings
-                                </h2>
-
-                                <div class="inline-flex items-center space-x-2">
-                                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
-                                </div>
-                            </div>
-                            @livewire('current-holdings')
-                        </div>
+    <div class="container mx-auto px-4 py-10 md:py-5">
+        <div class="flex flex-col sm:rounded-lg px-4 py-4">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="w-full mb-5">
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Current Holdings') }}
+                        </h2>
+                    </div>
+                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg table-align">
+                        @livewire('current-holdings')
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+{{--    <div class="mx-auto px-4 py-10 md:py-5">--}}
+{{--        <div class="grid grid-cols-12 gap-2">--}}
+{{--            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">--}}
+{{--                <div class="-my-2 sm:-mx-6 lg:-mx-8 example">--}}
+{{--                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">--}}
+{{--                        <div class="w-full mb-5 overflow-hidden" style="height: 100%">--}}
+{{--                            <div class="flex justify-between items-center w-full border-b-2 border-gray-300">--}}
+{{--                                <h2 class="text-xl font-black">Current Holdings--}}
+{{--                                </h2>--}}
+
+{{--                                <div class="inline-flex items-center space-x-2">--}}
+{{--                                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            @livewire('current-holdings')--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
 
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">

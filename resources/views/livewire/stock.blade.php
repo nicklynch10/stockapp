@@ -87,7 +87,7 @@
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start  flex flex-col justify-between" style="min-width: 100px; ">
                                                 <div class="mt-3 my-2">
                                                     <div class="flex justify-center">
-                                                        <img src="{{ $s->ticker_logo }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                        <img src="{{ isset($s->ticker_logo)?$s->ticker_logo:'https://storage.googleapis.com/iex/api/logos/'.$s->stock_ticker.'.png' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
                                                         <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">
@@ -147,6 +147,7 @@
     {{--  Company Detail  --}}
         @livewire('company-detail-modal')
     {{-- End Company detail  --}}
+
 
 
     {{-- Stock Purchase Add  --}}

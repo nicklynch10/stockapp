@@ -13,7 +13,7 @@ class CreateStockUpdateView extends Migration
      */
     public function up()
     {
-        DB::statement($this->createView());
+        //DB::statement($this->createView());
     }
 
     /**
@@ -23,7 +23,7 @@ class CreateStockUpdateView extends Migration
      */
     public function down()
     {
-        DB::statement($this->dropView());
+        // DB::statement($this->dropView());
     }
 
     private function createView(): string
@@ -49,5 +49,4 @@ class CreateStockUpdateView extends Migration
             DROP VIEW IF EXISTS `view_stock_update`;
             SQL;
     }
-
 }

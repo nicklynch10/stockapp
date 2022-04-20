@@ -15,6 +15,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SecInfoController;
 use App\Http\Controllers\SecCompareController;
+use App\Http\Controllers\FactorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,9 @@ Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 
-Route::get('help', function () { return view('support.help'); })->name('help');
+Route::get('help', function () {
+    return view('support.help');
+})->name('help');
 Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
@@ -52,23 +55,25 @@ Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
 
 
 // ** Migration Routes ** //
-Route::get('/migrate', function(){
+Route::get('/migrate', function () {
     Artisan::call('migrate');
     dd('migrated!');
 });
 
-Route::get('schedule-run',function (){
-   Artisan::call('schedule:run');
-   dd('Schedule Run');
+Route::get('schedule-run', function () {
+    Artisan::call('schedule:run');
+    dd('Schedule Run');
 });
 
 // ** run-seeder/StockSeeder ** //
-Route::get('run-seeder/{class}',function($class){
- Artisan::call("db:seed",array('--class'=>$class));
- dd('Run Seeder');
+Route::get('run-seeder/{class}', function ($class) {
+    Artisan::call("db:seed", array('--class'=>$class));
+    dd('Run Seeder');
 });
 
 
 // ** NL Routes ** //
 Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
+Route::get('factors', [FactorController::class, 'factors'])->name('factors');
+Route::get('factors-test', [FactorController::class, 'test'])->name('factors');

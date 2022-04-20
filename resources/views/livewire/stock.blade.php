@@ -149,6 +149,7 @@
     {{-- End Company detail  --}}
 
 
+
     {{-- Stock Purchase Add  --}}
         @livewire('stock-add-edit-modal')
     {{--   End Stock Purchase Input  --}}

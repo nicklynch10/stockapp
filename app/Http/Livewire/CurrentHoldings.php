@@ -29,6 +29,7 @@ class CurrentHoldings extends Component
     public $dchange;
     public $pchange;
     public $result;
+    protected $listeners = ['currentHolings' => 'render'];
 
 
     public function company($id)

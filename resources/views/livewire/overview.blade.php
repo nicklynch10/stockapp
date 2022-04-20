@@ -136,7 +136,15 @@
     @livewire('stock-sell-modal')
     {{--   End Stock Sell Modal  --}}
 
+    {{-- Delete Stock --}}
+    @livewire('stock-delete-modal')
+    {{-- End Delete Stock --}}
 
+    {{--  Ave price update confirmation  --}}
+    @livewire('ave-cost-update')
+    {{--  End Ave price update confirmation  --}}
+
+    @livewire('stock-share-sell');
 
     {{-- Stock Buy Modal  --}}
     @livewire('stock-buy-modal')

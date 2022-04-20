@@ -33,10 +33,6 @@ class StockSellModal extends Component
 
     public function render()
     {
-        if($this->share_sold > $this->share_number)
-        {
-            $this->emit('sharesell');
-        }
         return view('livewire.stock-sell-modal');
     }
 
@@ -109,4 +105,5 @@ class StockSellModal extends Component
             }
         }
     }
+
 }

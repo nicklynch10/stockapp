@@ -14,7 +14,7 @@ use phpDocumentor\Reflection\Types\Null_;
 
 class StockAddEditModal extends Component
 {
-    protected $listeners=['create' => 'create','editStock' => 'editStockModal','closeModal' => 'closeModal'];
+    protected $listeners=['create' => 'create','editStock' => 'editStockModal','closeModal' => 'closeModal','changeaveprice' => 'changeaveprice'];
     public $isOpen = 0;
     public $currentStep = 1;
     public $stock_id = 0;
@@ -270,5 +270,9 @@ class StockAddEditModal extends Component
     public function deletestock($id)
     {
         $this->emit('stockDelete',$id);
+    }
+
+    public function changeaveprice($id){
+        $this->avepricereadonly = $id;
     }
 }

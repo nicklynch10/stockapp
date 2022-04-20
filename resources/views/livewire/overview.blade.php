@@ -127,13 +127,16 @@
         @endif
     </div>
 
-    {{-- Stock Sell Modal  --}}
-    @livewire('stock-sell-modal')
-    {{--   End Stock Sell Modal  --}}
 
     {{-- Stock Purchase Add  --}}
     @livewire('stock-add-edit-modal')
     {{--   End Stock Purchase Input  --}}
+
+    {{-- Stock Sell Modal  --}}
+    @livewire('stock-sell-modal')
+    {{--   End Stock Sell Modal  --}}
+
+
 
     {{-- Stock Buy Modal  --}}
     @livewire('stock-buy-modal')

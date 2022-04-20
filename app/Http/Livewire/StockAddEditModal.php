@@ -58,8 +58,10 @@ class StockAddEditModal extends Component
             $this->tickerLogo='';
         }
         if ($this->tickerorcompany != null && $this->average_cost == null) {
-            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
-                ->first();
+//            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
+//                ->first();
+            $this->companyname = StockTicker::get();
+            dd($this->companyname);
             if (!$this->companyname) {
                 $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                     ->first();

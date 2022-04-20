@@ -8,6 +8,7 @@ use App\Models\Stock;
 use App\Models\SecInfo;
 use App\Models\SecCompare;
 use App\Models\StockTicker;
+use App\Models\Factor;
 use Illuminate\Support\Facades\Http;
 use Phpml\Classification\KNearestNeighbors;
 use Phpml\Regression\LeastSquares;
@@ -144,7 +145,7 @@ class SecInfo extends Model
         $SI1 = getTicker($ticker);
 
         if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
-            dd("Dates did not match");
+            dd("Sec dates did not match");
         }
 
         $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
@@ -164,21 +165,33 @@ class SecInfo extends Model
 
     public function compareToFactor($factor)
     {
+        $factor = Factor::find($factor["id"]);
         $this->getIEXData();
 
+        //dd($factor, $factor->date_data);
+        if (!isset($factor->date_data)|| !isset($this->date_data)) {
+            dd("no dates on factor compare", $factor, $this);
+        }
         if ($factor->getDateData()->first() != $this->getDateData()->first()) {
-            dd("Dates did not match");
+            dd("Factor dates did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
         }
 
         $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
 
+        $multiplier = 1/3; // adjusts so it is closer to bounds.
+        $cor = $p;
+        if ($p>0) {
+            $cor = $cor**($multiplier);
+        } else {
+            $cor = -1*((-1*$cor)**($multiplier));
+        }
 
         $SC = new FactorCompare();
         $SC->SI()->associate($this);
         $SC->factor()->associate($factor);
         $SC->ticker = $this->ticker;
         $SC->factor_name = $factor->name;
-        $SC->correlation = $p;
+        $SC->correlation = $cor;
         $SC->range = $this->range;
         $SC->amount = $this->getChangeData()->count();
         $SC->save();

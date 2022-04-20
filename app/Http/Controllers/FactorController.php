@@ -23,6 +23,7 @@ class FactorController extends Controller
         dd($f);
 
         $SI = getTicker("GOOG");
+        //dd($SI->getChangeData()->avg());
         $FC = $SI->compareToFactor($f);
         dd($FC);
     }

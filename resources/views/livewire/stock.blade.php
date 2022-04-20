@@ -6,7 +6,7 @@
 </x-slot>
 
 <main class="p-0 m-0 flex-grow ">
-{{--    <div class="mx-auto px-4 py-2 md:py-12">--}}
+    <div class="mx-auto px-4 py-2 md:py-12">
 {{--        <div class="flex flex-col sm:rounded-lg px-4 py-4">--}}
 {{--            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">--}}
 {{--                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">--}}
@@ -147,6 +147,8 @@
     {{--  Company Detail  --}}
         @livewire('company-detail-modal')
     {{-- End Company detail  --}}
+
+
 
     {{-- Stock Purchase Add  --}}
         @livewire('stock-add-edit-modal')

@@ -14,7 +14,7 @@ use phpDocumentor\Reflection\Types\Null_;
 
 class StockAddEditModal extends Component
 {
-    protected $listeners=['create' => 'create','editStock' => 'editStockModal','closeModal' => 'closeModal'];
+    protected $listeners=['create' => 'create','editStock' => 'editStockModal','closeModal' => 'closeModal','changeaveprice' => 'changeaveprice'];
     public $isOpen = 0;
     public $currentStep = 1;
     public $stock_id = 0;
@@ -95,6 +95,7 @@ class StockAddEditModal extends Component
                 $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
                 $logo_url = $logo->json();
                 $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+//                $this->tickerLogo = '';
             }
         }
         $this->emit('stockData');
@@ -253,6 +254,7 @@ class StockAddEditModal extends Component
         $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
         $logo_url = $logo->json();
         $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
+//        $this->tickerLogo = '';
         $this->openModal();
     }
     public function openModal()
@@ -268,5 +270,9 @@ class StockAddEditModal extends Component
     public function deletestock($id)
     {
         $this->emit('stockDelete',$id);
+    }
+
+    public function changeaveprice($id){
+        $this->avepricereadonly = $id;
     }
 }

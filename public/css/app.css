@@ -10583,7 +10583,7 @@ table a {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1024px){
     .md\:top-20 {
         top: 5rem
     }
@@ -11139,7 +11139,7 @@ table a {
 
 
 
-@media (min-width: 1024px) {
+@media (min-width: 1040px){
     .lg\:col-span-1 {
         grid-column: span 1/span 1
     }
@@ -11468,7 +11468,7 @@ table a {
     }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1280px) and (max-width: 1025px){
     .xl\:top-0 {
         top: 0
     }
@@ -11540,6 +11540,10 @@ table a {
         padding-bottom: 12rem;
         padding-top: 12rem
     }
+    .xl\:flex-col {
+        flex-direction: column;
+    }
+
 }
 
 

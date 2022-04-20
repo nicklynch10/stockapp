@@ -28,7 +28,7 @@ class Stocks extends Component
     public $date_of_purchase;
     public $stock_id = 0;
     public $note;
-    public $isdeleteOpen = 0;
+
     public $issellShareOpen = 0;
 
     public $isAveOpen=false;
@@ -61,12 +61,12 @@ class Stocks extends Component
     public $companyname;
     public $buyInsertid;
     public $lastBuyInsertedID;
-    public $deletestock = false;
-    public $deleteid=0;
+
+
     public $openmodalval=0;
     public $avepricereadonly=0;
-    protected $listeners=['AveModal'=>'openAveModal','edit' => 'edit','stockData' => 'render','stockDelete' => 'stockDelete','sharesell' => 'sharesellopen'];
-
+    protected $listeners=['edit' => 'edit','stockData' => 'render'];
+//'sharesell' => 'sharesellopen'
 
     public function render()
     {
@@ -88,33 +88,6 @@ class Stocks extends Component
     }
 
 
-    public function delete($id)
-    {
-        Stock::find($id)->delete();
-        $this->dispatchBrowserEvent('alert', [
-            'type'=>'error',
-            'message'=>'Stock Deleted Successfully.'
-        ]);
-        $this->closedeletestock();
-        $this->closeModal();
-    }
-    public function closeModal()
-    {
-        $this->emit('closeModal');
-    }
-
-    public function stockDelete($id)
-    {
-        $this->deleteid=$id;
-        $this->deletestock=true;
-    }
-
-    public function closedeletestock()
-    {
-        $this->deletestock=false;
-    }
-
-
     public function sell($id) // Sell Stock Functions
     {
         $this->emit('sell', $id);
@@ -130,33 +103,4 @@ class Stocks extends Component
         $this->emit('company', $stockticker);
     }
 
-    public function openAveModal()
-    {
-        if ($this->openmodalval==0) {
-            $this->isAveOpen = true;
-        }
-    }
-
-    public function closeAveModal($id)
-    {
-        $this->openmodalval=$id;
-        $this->isAveOpen = false;
-    }
-
-    public function closeAveNoModal($id)
-    {
-        $this->openmodalval=$id;
-        $this->avepricereadonly=$id;
-        $this->isAveOpen = false;
-    }
-
-    public function sharesellopen()
-    {
-        $this->issellShareOpen = true;
-    }
-
-    public function closeSellShareModal()
-    {
-        $this->issellShareOpen = false;
-    }
 }

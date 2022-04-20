@@ -58,10 +58,8 @@ class StockAddEditModal extends Component
             $this->tickerLogo='';
         }
         if ($this->tickerorcompany != null && $this->average_cost == null) {
-//            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
-//                ->first();
-            $this->companyname = StockTicker::get();
-            dd($this->companyname);
+            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
+                ->first();
             if (!$this->companyname) {
                 $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                     ->first();
@@ -94,9 +92,10 @@ class StockAddEditModal extends Component
                 $this->current_share_price = $price ? $price['latestPrice'] : '';
                 $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
 
-                $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
-                $logo_url = $logo->json();
-                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+//                $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
+//                $logo_url = $logo->json();
+//                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+                $this->tickerLogo = '';
             }
         }
         $this->emit('stockData');
@@ -252,9 +251,10 @@ class StockAddEditModal extends Component
         $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->note = $stock->note;
         $this->account_type = $stock->account_id;
-        $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
-        $logo_url = $logo->json();
-        $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
+//        $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
+//        $logo_url = $logo->json();
+//        $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
+        $this->tickerLogo = '';
         $this->openModal();
     }
     public function openModal()

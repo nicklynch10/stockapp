@@ -27,7 +27,7 @@ class StockSeeder extends Seeder
             'first_name' => 'Demo',
             'last_name' => 'User',
             'email' => "demo@gmail.com",
-            'password'=>Hash::make('z'),
+            'password'=>bcrypt('z'),
         ]);
 
 
@@ -46,8 +46,8 @@ class StockSeeder extends Seeder
             'account_type'=> 'Individual Brokerage Account',
             'account_name'=>'Taxable Account',
             'account_brokerage'=>'Not assigned',
-            'commission'=>0,
-            'set_default'=>1,
+            'commission'=> 0,
+            'set_default'=> 1,
         ]);
 
         $stock=['UBS' , 'IBM' , 'TM' , 'HDB' , 'ZTS' , 'NLIT' , 'PLNT' , 'FORTY' , 'AMZN' , 'TKR' , 'EEMS' , 'VBR' , 'AVDV' , 'SCHC' , 'PSFE' ,

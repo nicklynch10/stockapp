@@ -26,7 +26,7 @@ class SecInfoController extends Controller
     ];
 
     public $geo_factor = [
-        "SPY","VGK","VPL","VWO"
+        "SPY","VGK","VPL","VEA","VWO"
     ];
 
     public $value_factor = [
@@ -48,19 +48,20 @@ class SecInfoController extends Controller
     }
 
 
-    public function launch()
+
+
+    public function regression()
     {
         $samples = [[60], [61], [62], [63], [65]];
         $targets = [3.1, 3.6, 3.8, 4, 4.1];
 
         $regression = new LeastSquares();
         $regression->train($samples, $targets);
-        return $regression->getRSquared();
         return $regression->predict([64]);
     }
 
 
-    public function launch2()
+    public function launch()
     {
         $ticker = "GM";
         $coke = $this->findByTicker($ticker);
@@ -96,8 +97,8 @@ class SecInfoController extends Controller
     public function linear_regression($x, $y)
     {
         $n     = count($x);     // number of items in the array
-    $x_sum = array_sum($x); // sum of all X values
-    $y_sum = array_sum($y); // sum of all Y values
+        $x_sum = array_sum($x); // sum of all X values
+        $y_sum = array_sum($y); // sum of all Y values
 
     $xx_sum = 0;
         $xy_sum = 0;

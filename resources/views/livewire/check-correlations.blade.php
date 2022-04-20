@@ -28,10 +28,10 @@
         <x-jet-action-message class="mr-3" on="saved">
             {{ __('searching...') }}
         </x-jet-action-message>
-
+<!-- 
         <x-jet-button>
             {{ __('Search!') }}
-        </x-jet-button>
+        </x-jet-button> -->
     </x-slot>
 
 </x-jet-form-section>

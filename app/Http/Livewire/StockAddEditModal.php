@@ -92,10 +92,10 @@ class StockAddEditModal extends Component
                 $this->current_share_price = $price ? $price['latestPrice'] : '';
                 $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
 
-//                $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
-//                $logo_url = $logo->json();
-//                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
-                $this->tickerLogo = '';
+                $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
+                $logo_url = $logo->json();
+                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+//                $this->tickerLogo = '';
             }
         }
         $this->emit('stockData');
@@ -251,10 +251,10 @@ class StockAddEditModal extends Component
         $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->note = $stock->note;
         $this->account_type = $stock->account_id;
-//        $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
-//        $logo_url = $logo->json();
-//        $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
-        $this->tickerLogo = '';
+        $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
+        $logo_url = $logo->json();
+        $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
+//        $this->tickerLogo = '';
         $this->openModal();
     }
     public function openModal()

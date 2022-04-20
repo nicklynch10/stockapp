@@ -10,7 +10,7 @@ class CompanyDetailModal extends Component
 {
     public $isCompanyOpen = 0;
     public $stock_id,$stock_ticker,$company_name,$description,$sector,$market_cap,$alltags,$current_share_price,$average_cost,$share_number,$issuetype,$share_price,$date_of_purchase;
-    protected $listeners = ['company' => 'companyDetail'];
+    protected $listeners = ['company' => 'companyDetail','closeCompany' => 'closeCompanyModal'];
 
 
     public function sell($id)

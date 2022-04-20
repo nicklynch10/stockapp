@@ -46,7 +46,7 @@ class SecInfo extends Model
 
         //sends a get request to IEX for company info
         $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/stats?token=' . $this->token);
-        dd($url);
+        //dd($url);
         $data = Http::get($url);
 
         // extracts and saves data

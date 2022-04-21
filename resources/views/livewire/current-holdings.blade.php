@@ -155,7 +155,15 @@
                         <div class="mt-3 my-1">
                             <div class="flex flex-row items-center xs:flex-col xl:flex-col md:flex-col lg:flex-row">
                                 <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ isset($curr->ticker_logo)?$curr->ticker_logo:'https://storage.googleapis.com/iex/api/logos/'.$curr->stock_ticker.'.png' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
+                                    <?php
+                                    $string = $curr->ticker_logo;
+                                    if (strpos($string, "http") === 0) {
+                                        $logoUrl = $curr->ticker_logo;
+                                    } else {
+                                        $logoUrl = 'https://storage.googleapis.com/iex/api/logos/'.$curr->stock_ticker.'.png';
+                                    }
+                                    ?>
+                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ isset($curr->ticker_logo) ? $logoUrl : Auth::user()->profile_photo_url }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a class="cursor-pointer whitespace-normal" wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a></h5>
                                     <p class="mb-1 text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
                                     <p class="mb-1 text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} Shares</p>

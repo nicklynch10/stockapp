@@ -17,6 +17,6 @@ class FactorCompare extends Model
 
     public function factor()
     {
-        return $this->belongsTo(SecInfo::class, 'factor_id');
+        return $this->belongsTo(Factor::class, 'factor_id');
     }
 }

@@ -8,6 +8,7 @@ use App\Models\Stock;
 use App\Models\SecInfo;
 use App\Models\SecCompare;
 use App\Models\StockTicker;
+use App\Models\Factor;
 use Illuminate\Support\Facades\Http;
 use Phpml\Classification\KNearestNeighbors;
 use Phpml\Regression\LeastSquares;
@@ -55,6 +56,8 @@ class SecInfo extends Model
             return "company info query failed";
         }
 
+        //dd($this->ticker);
+
         $this->beta = $stats['beta'];
         $this->div_yield = $stats['dividendYield'];
         $this->company_name = $stats['companyName'];
@@ -89,7 +92,11 @@ class SecInfo extends Model
         // calculates the Standard Deviation
         $this->date_updated = Carbon::today()->format("Y-m-d");
         //$this->std = $this->Standard_Deviation($this->getChangeData());
-        $this->std = StandardDeviation::population($this->getChangeData()->toArray());
+        if ($this->getChangeData()->count()>0) {
+            $this->std = StandardDeviation::population($this->getChangeData()->toArray());
+        } else {
+            $this->std = 0;
+        }
         $this->calced_beta = $this->calcBeta();
 
         // saves for future use
@@ -117,18 +124,27 @@ class SecInfo extends Model
         return collect(json_decode($this->price_data));
     }
 
+    public function getPeerData()
+    {
+        return collect(json_decode($this->peer_data));
+    }
+
+    public function getIEXPeerData()
+    {
+        return collect(json_decode($this->IEXpeer_data));
+    }
+
     public function calcBeta()
     {
         //calculates beta using the S&P 500
-
-        $ticker = "SPY"; // S&P 500
+            $ticker = "SPY";// S&P 500
         if ($this->ticker == $ticker) {
-            return 1; // prevents recursion
+            return 1;
         }
         //initialize a SecInfo model
-        $SI1 = getTicker($ticker);
-
-        $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
+        $SC = $this->compareToTicker($ticker);
+        $SI1 = $SC->SI2;
+        $p = $SC->correlation;
         $beta = $p*$SI1->std*$this->std;
         //$beta = $this->getCovariance($SI1->getChangeData(), $this->getChangeData());
         return $beta;
@@ -136,18 +152,27 @@ class SecInfo extends Model
 
     public function compareToTicker($ticker)
     {
-        $ticker = $ticker;
-        if ($this->ticker == $ticker) {
-            return 1; // prevents recursion
+        //checks if the comparison has already been made within [30] days
+        $SC_old = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
+        //dd($ticker);
+        if ($SC_old && $SC_old->updated_at > now()->addDays(-30) && $SC_old->correlation != 0) {
+            $p = $SC_old->correlation;
+            $SI1 = $SC_old->SI1;
+        } elseif ($ticker == $this->ticker) {
+            $p = 1;
+            $SI1 = $this;
+        } else {
+            //initialize a SecInfo model
+            $SI1 = getTicker($ticker);
+            if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
+                //dd("Sec dates did not match");
+                $p = 0;
+            } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
+                $p = 0;
+            } else {
+                $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
+            }
         }
-        //initialize a SecInfo model
-        $SI1 = getTicker($ticker);
-
-        if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
-            dd("Dates did not match");
-        }
-
-        $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
 
         $SC = new SecCompare();
         $SC->SI1()->associate($this);
@@ -164,21 +189,46 @@ class SecInfo extends Model
 
     public function compareToFactor($factor)
     {
+        $factor = Factor::find($factor["id"]);
+
+        //checks if the comparison has already been made within [30] days
+        $SC_old = FactorCompare::all()->where('ticker', $this->ticker)->where('factor_id', $factor->id)->first();
+        if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
+            return $SC_old;
+        }
+
+
+
         $this->getIEXData();
+        //dd($factor);
+
+        //dd($factor, $factor->date_data);
+        if (!isset($factor->date_data)|| !isset($this->date_data)) {
+            dd("no dates on factor compare", $factor, $this);
+        }
 
         if ($factor->getDateData()->first() != $this->getDateData()->first()) {
-            dd("Dates did not match");
+            dd("Factor dates did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
+        } elseif ($factor->getChangeData()->count() != $this->getChangeData()->count()) {
+            dd("size did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
         }
 
         $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
 
+        $multiplier = 1/3; // adjusts so it is closer to bounds.
+        $cor = $p;
+        if ($p>0) {
+            $cor = $cor**($multiplier);
+        } else {
+            $cor = -1*((-1*$cor)**($multiplier));
+        }
 
         $SC = new FactorCompare();
         $SC->SI()->associate($this);
         $SC->factor()->associate($factor);
         $SC->ticker = $this->ticker;
         $SC->factor_name = $factor->name;
-        $SC->correlation = $p;
+        $SC->correlation = $cor;
         $SC->range = $this->range;
         $SC->amount = $this->getChangeData()->count();
         $SC->save();
@@ -187,209 +237,104 @@ class SecInfo extends Model
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /////////////// not used - pre 4.19.22 //////
-
-    public function setInfo()
+    public function pullIEXPeers()
     {
-        $this->statsUpdate();
-        $this->infoUpdate();
+        if (!$this->IEXpeer_data) {
+
+            //sends a get request to IEX for historical data
+            $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/peers?token=' . $this->token;
+            $data = Http::get($url);
+            $peers = $data->json();
+            if (!isset($peers)) {
+                return "peers query failed";
+            }
+
+            $peers = collect($data->json());
+
+
+            $this->IEXpeer_data = json_encode($peers);
+            $this->peer_data = json_encode($peers);
+        }
+
+        //$new = $this->getPeerData();
+        // foreach ($this->getIEXPeerData() as $p) {
+        //     if (!$new->contains($p)) {
+        //         $new->push($p);
+        //     }
+        // }
+
+        // cleans the peer data for valid peers only
+        $new = $this->getPeerData();  // starts with existing peer data and adds new ones
+        $new2 = collect([]);
+        $SCs = collect([]);
+        foreach ($new as $p) {
+            $SC = $this->compareToTicker($p);
+            if (isset($SC->correlation) && $SC->correlation != 0 && !$new2->contains($p) && $SC->ticker1 != $SC->ticker2) {
+                $new2->push($p);
+                $SCs->push($SC);
+            }
+        }
+
+        // sorts by correlation
+        $new3 = collect([]);
+        foreach ($SCs->sortByDesc("correlation") as $p) {
+            $new3->push($p->ticker2);
+        }
+
+
+
+        $this->peer_data = json_encode($new3->toArray());
         $this->save();
-
-        //calc normal beta for all
-        $SPY = $this->findByTicker("SPY");
-        $beta = $this->createCorrelation($SPY);
-        $this->calced_beta = $beta->correlation;
-        $this->save();
+        return $this->IEXpeer_data;
     }
 
 
-    public function findByTicker($ticker)
+    public function addRelatedPeers()
     {
-        //$SI1 = SecInfo::firstOrNew(['ticker'=>$ticker]);
-        if (SecInfo::all()->where('ticker', $ticker)->first()) {
-            $SI1 = SecInfo::all()->where('ticker', $ticker)->first();
-        //$SI1->setInfo();
-        } else {
-            $SI1 = new SecInfo();
-            $SI1->ticker = $ticker;
-            $SI1->setInfo();
+        $this->pullIEXPeers();
+        $new = $this->getPeerData();
+
+        foreach ($this->getPeerData()->slice(0, 2) as $p) {
+            $SI = getTicker($p);
+            $SI->pullIEXPeers();
+
+            foreach ($SI->getPeerData() as $pp) {
+                $new->push($pp);
+            }
         }
-        return $SI1;
+        $this->peer_data = json_encode($new->toArray());
+        $this->pullIEXPeers();
     }
 
 
-    public function statsUpdate()
+    public function addExistingPeers()
     {
-        $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
-        $data = Http::get($url);
+        $new = $this->getPeerData();
+        $random = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
 
-        $prices = collect($data->json());
-        //stores all of the price data in a json text string.
-        $this->price_data = json_encode($data->json());
-        $this->change_data = json_encode($prices->pluck("changePercent")->toArray());
-        // use the pluck function to extract a single datapoint
-        $dates = $prices->pluck("date");
-        $dollar_prices = $prices->pluck("close");
-
-        // price data used for calculations
-        $prices = $prices->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-        // note it is taking % change not $ price.
-
-        // calculates the Standard Deviation
-        $std = $this->Standard_Deviation($prices);
-        $this->std = $std;
-    }
-
-    public function infoUpdate()
-    {
-        // pulling beta and other stats //
-        // /stock/{symbol}/stats/{stat?}
-        // https://iexcloud.io/docs/api/#stats-basic
-        $data = Http::get($this->endpoint . 'stable/stock/'.$this->ticker.'/stats?token=' . $this->token);
-        $this->stats_data = json_encode($data->json());
-
-
-        $stats = $data->json();
-        if (!isset($stats)) {
-            return "query failed";
-        }
-        $this->beta = $stats['beta'];
-        $this->div_yield = $stats['dividendYield'];
-        $this->company_name = $stats['companyName'];
-        $this->peRatio = $stats['peRatio'];
-        $this->year1ChangePercent = $stats['year1ChangePercent'];
-        $this->marketcap = $stats['marketcap']/1000;
-    }
-
-
-    public function createCorrelation($SI)
-    {
-        if ($SI->ticker == $this->ticker) {
-            $cor = 1;
-        } else {
-            $cor = $this->calcCorrelation($SI);
+        foreach ($random as $SC) {
+            $new->push($SC->ticker1);
         }
 
-        $SC = new SecCompare();
-        $SC->SI1()->associate($this);
-        $SC->SI2()->associate($SI);
-        $SC->ticker1 = $this->ticker;
-        $SC->ticker2 = $SI->ticker;
-        $SC->correlation = $cor;
-        $SC->range = $this->range;
-        $SC->amount = collect(json_decode($this->price_data))->pluck("changePercent")->count();
-
-        $SC->save();
-        return $SC;
-    }
-
-
-    public function createFactorDiff($SI)
-    {
-        $this->setInfo();
-        $SI->setInfo();
-
-        $FSI = $this->replicate();
-        $FSI->ticker = $this->ticker."_".$SI->ticker;
-
-        $prices1 = collect(json_decode($this->price_data))->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-
-        $prices2 = collect(json_decode($SI->price_data))->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-
-        $prices = $prices1->map(function ($price, $key) use ($prices2) {
-            return $price - $prices2[$key];
-        });
-
-        $FSI->change_data = json_encode($prices);
-        return $FSI;
+        $this->peer_data = json_encode($new->toArray());
+        $this->pullIEXPeers();
     }
 
 
 
-    public function calcCorrelation($SI)
-    {
-        //$SI->setInfo();
-        $prices1 = collect(json_decode($this->price_data))->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-
-        $prices2 = collect(json_decode($SI->price_data))->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-
-        //dd($prices1);
-
-        $dates1 = collect(json_decode($this->price_data))->pluck("date");
-        $dates2 = collect(json_decode($this->price_data))->pluck("date");
-        $data = collect([$prices1,$dates1,$prices2,$dates2]);
-        if ($dates1->first() != $dates2->first() || $dates1->last() != $dates2->last()) {
-            dd("dates do not match?", $dates1, $dates2);
-        }
-        $covar = $this->getCovariance($prices1->toArray(), $prices2->toArray());
-
-        $this->std = $this->getCovariance($prices1->toArray(), $prices1->toArray());
-        $this->save();
 
 
-        $SI->std = $SI->getCovariance($prices2->toArray(), $prices2->toArray());
-        $SI->save();
 
-        $var = pow(($this->std), 2);
-        $p = $covar/(($this->std)*($SI->std));
-        return $p;
-    }
+    /////////////// stats functions /////////
 
     public function calcR2($SI)
     {
-        //$SI->setInfo();
-        $prices1 = collect(json_decode($this->price_data))->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-
-        $prices2 = collect(json_decode($SI->price_data))->pluck("changePercent")->map(function ($item) {
-            return $item*100;
-        });
-
-        $dates1 = collect(json_decode($this->price_data))->pluck("date");
-        $dates2 = collect(json_decode($this->price_data))->pluck("date");
-        $data = collect([$prices1,$dates1,$prices2,$dates2]);
-        if ($dates1->first() != $dates2->first() || $dates1->last() != $dates2->last()) {
-            dd("dates do not match?", $dates1, $dates2);
-        }
-
         $regression = new LeastSquares();
         $regression->train($prices1, $prices2);
         dd($regression);
         //return $regression->getCoefficients()[0];
     }
 
-
-
-
-    /////////////// stats functions /////////
     public function getCovariance($valuesA, $valuesB)
     {
         // sizing both arrays the same, if different sizes

@@ -36,6 +36,10 @@ class CreateSecInfosTable extends Migration
             $table->longText('volume_data')->nullable();
             $table->longText('date_data')->nullable();
 
+            //from IEX Historical Data Request
+            $table->longText('IEXpeer_data')->nullable();
+
+            $table->longText('peer_data')->nullable();
 
             // calculated from change_data
             $table->date('date_updated')->nullable();

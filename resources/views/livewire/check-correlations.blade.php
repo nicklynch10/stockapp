@@ -1,5 +1,5 @@
 <div>
-<x-jet-form-section submit="doNothing">
+<x-jet-form-section submit="">
 
 
     <x-slot name="title">
@@ -13,7 +13,7 @@
     <x-slot name="form">
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
-            <input wire:model.debounce.500ms="ticker"
+            <input wire:model.debounce.2000ms="ticker"
            type="ticker"
            id="tickerbar"
            autocomplete="off"
@@ -73,15 +73,19 @@
 
              @if($ticker != "" & count($correlations)>0)
             @foreach($correlations->sortByDesc("correlation")->slice(0, 20) as $result)
+
+
+            
                 <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->ticker2}} <br> {{$result->SI2->company_name}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->correlation*100,0)}}%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->beta,2)}}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->calced_beta,2)}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->div_yield*100,2)}}%</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">${{number_format($result->SI2->marketcap/1000,0)}}M</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">@if($result->SI2->peRatio >0){{number_format($result->SI2->peRatio,2)}}@else N/A @endif</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->year1ChangePercent*100,2)}}%</td>
                     </tr>
+        
             @endforeach
         @endif
        

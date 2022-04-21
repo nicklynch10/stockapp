@@ -2,7 +2,8 @@
     <x-slot name="header"></x-slot>
 
     @if(count(Auth::user()->notifications))
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 xs:my-10 xs:mx-10 mx-10 sm:mx-10 my-5 p-5">
+{{--        <div class="grid grid-cols-2 md:grid-cols-2 gap-4 xs:my-10 xs:mx-10 mx-10 sm:mx-10 my-5 p-5">--}}
+        <div class="grid grid-cols-2 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 xs:my-10 xs:mx-10 mx-10 sm:mx-10 my-5 p-5">
             @foreach(Auth::user()->notifications->sortByDesc("created_at") as $n)
                 @include('components.notification-card',['n'=>$n])
             @endforeach

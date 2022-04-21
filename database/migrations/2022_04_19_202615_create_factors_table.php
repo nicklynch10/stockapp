@@ -27,13 +27,13 @@ class CreateFactorsTable extends Migration
             $table->string('ticker2')->nullable();
             $table->longText('change_data1')->nullable();
             $table->longText('change_data2')->nullable();
-            $table->longText('dates_data1')->nullable();
-            $table->longText('dates_data2')->nullable();
+            $table->longText('date_data1')->nullable();
+            $table->longText('date_data2')->nullable();
 
             // calculated during refresh
             $table->string('operation')->default("-");
             $table->longText('change_data')->nullable();
-            $table->longText('dates_data')->nullable();
+            $table->longText('date_data')->nullable();
             $table->date('date_updated')->nullable();
             $table->unsignedBigInteger('amount')->nullable();
             $table->string('range')->nullable();

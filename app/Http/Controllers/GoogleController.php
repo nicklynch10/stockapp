@@ -60,6 +60,7 @@ class GoogleController extends Controller
                 ]);
 
                 Auth::login($insert);
+                return redirect()->intended('portfolio');
             }
         } catch (Exception $e) {
             dd($e->getMessage());

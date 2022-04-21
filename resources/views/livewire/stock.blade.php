@@ -32,7 +32,15 @@
                                                 </div>
                                                 <div class="mt-3 my-2">
                                                     <div class="flex justify-center">
-                                                        <img src="{{ isset($s->ticker_logo)?$s->ticker_logo:'https://storage.googleapis.com/iex/api/logos/'.$s->stock_ticker.'.png' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                        <?php
+                                                        $string = $s->ticker_logo;
+                                                        if (strpos($string, "http") === 0) {
+                                                            $logoUrl = $s->ticker_logo;
+                                                        } else {
+                                                            $logoUrl = 'https://storage.googleapis.com/iex/api/logos/'.$s->stock_ticker.'.png';
+                                                        }
+                                                        ?>
+                                                        <img src="{{ isset($s->ticker_logo) ? $logoUrl : Auth::user()->profile_photo_url }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
                                                         <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">

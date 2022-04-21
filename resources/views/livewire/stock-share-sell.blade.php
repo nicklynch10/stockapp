@@ -10,7 +10,7 @@
 
         <x-slot name="footer">
             <x-jet-secondary-button wire:click="closeSellShareModal()">
-                {{ __('Cancel') }}
+                {{ __('Ok') }}
             </x-jet-secondary-button>
 
         </x-slot>

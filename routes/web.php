@@ -48,6 +48,9 @@ Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
 
+//Route::get('design', Designchange::class, )->middleware(['auth:sanctum', 'verified'])->name('design');
+
+
 Route::get('notifications', [NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
 Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
 

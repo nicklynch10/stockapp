@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Http;
 
 class CheckCorrelations extends Component
 {
-    public $ticker = "TSLA";
-    public $sector = [
+    public $ticker = "TM";
+    public $comps = [
         "F", "GM", "TM", "AAL","JETS","LUV","UAL","DAL", "FB"
     ];
     public $correlations = [];
@@ -29,41 +29,28 @@ class CheckCorrelations extends Component
 
     public function updatedTicker()
     {
-        // $this->correlations = [1,2];
-        // return;
-        //dd("here");
-
-        $ticker = $this->ticker;
-        $stock = $this->findByTicker($ticker);
+        $stock = getTicker($this->ticker);
+        $stock->pullIEXPeers();
+        $stock->addRelatedPeers();
+        $stock->addExistingPeers();
+        $this->comps = $stock->getPeerData();
+        //dd($this->comps);
 
         $stocks = collect([]);
         $cors = collect([]);
 
-        foreach ($this->sector as $p) {
-            $SI1 = $this->findByTicker($p);
-            $stocks->push($SI1);
-
-            $SC = $stock->createCorrelation($SI1);
-            $cors->push($SC);
+        foreach ($this->comps as $p) {
+            $SC = $stock->compareToTicker($p);
+            $SI1 = $SC->SI2;
+            if ($SC->correlation>0) {
+                // adds to the list only if they find correlation data
+                $stocks->push($SI1);
+                $cors->push($SC);
+            }
         }
-        //dd($cors);
+
         $this->correlations = $cors;
         $this->stocks = $stocks;
-    }
-
-
-
-    public function findByTicker($ticker)
-    { // one of two identical functions. Other one is in the SecInfo model...
-        //$SI1 = SecInfo::firstOrNew(['ticker'=>$ticker]);
-        if (SecInfo::all()->where('ticker', $ticker)->first()) {
-            $SI1 = SecInfo::all()->where('ticker', $ticker)->first();
-        } else {
-            $SI1 = new SecInfo();
-            $SI1->ticker = $ticker;
-            $SI1->setInfo();
-        }
-        return $SI1;
     }
 
     public function doNothing()

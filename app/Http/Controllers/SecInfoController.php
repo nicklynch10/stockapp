@@ -50,48 +50,15 @@ class SecInfoController extends Controller
 
 
 
-    public function regression()
-    {
-        $samples = [[60], [61], [62], [63], [65]];
-        $targets = [3.1, 3.6, 3.8, 4, 4.1];
-
-        $regression = new LeastSquares();
-        $regression->train($samples, $targets);
-        return $regression->predict([64]);
-    }
-
 
     public function launch()
     {
-        $ticker = "GM";
-        $coke = $this->findByTicker($ticker);
-        $stocks = collect([]);
-        $cors = collect([]);
-        foreach ($this->portfolio as $p) {
-            $SI1 = $this->findByTicker($p);
-            $stocks->push($SI1);
-
-            $SC = $coke->createCorrelation($SI1);
-            $cors->push($SC);
-        }
-
-        dd($cors->sortByDesc('correlation'));
+        $stock = getTicker("GM");
+        $stock->pullIEXPeers();
+        dd($stock);
+        //dd($comps);
     }
 
-
-
-    public function findByTicker($ticker)
-    { // one of two identical functions. Other one is in the SecInfo model...
-        //$SI1 = SecInfo::firstOrNew(['ticker'=>$ticker]);
-        if (SecInfo::all()->where('ticker', $ticker)->first()) {
-            $SI1 = SecInfo::all()->where('ticker', $ticker)->first();
-        } else {
-            $SI1 = new SecInfo();
-            $SI1->ticker = $ticker;
-            $SI1->setInfo();
-        }
-        return $SI1;
-    }
 
 
     public function linear_regression($x, $y)
@@ -120,5 +87,16 @@ class SecInfoController extends Controller
         'slope'     => $slope,
         'intercept' => $intercept
     );
+    }
+
+
+    public function regression()
+    {
+        $samples = [[60], [61], [62], [63], [65]];
+        $targets = [3.1, 3.6, 3.8, 4, 4.1];
+
+        $regression = new LeastSquares();
+        $regression->train($samples, $targets);
+        return $regression->predict([64]);
     }
 }

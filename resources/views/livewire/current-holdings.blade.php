@@ -246,7 +246,7 @@
                 </div>
             @endif
         @empty
-            <h4>NO Current Holdings Found</h4>
+            <h4>No Current Holdings Found</h4>
         @endforelse
         @livewire('company-detail-modal')
     </div>

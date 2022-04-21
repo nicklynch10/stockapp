@@ -42,6 +42,7 @@ class SecInfo extends Model
 
         // only requests data from IEX if it has not been requested yet today
         if ($this->date_updated == Carbon::today()->format("Y-m-d")) {
+            // echo "<br>found ".$this->ticker;
             return "no request needed";
         }
 
@@ -68,6 +69,7 @@ class SecInfo extends Model
 
 
         //sends a get request to IEX for historical data
+        //echo "<br>pulling ".$this->ticker;
         $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
         $data = Http::get($url);
 
@@ -152,10 +154,17 @@ class SecInfo extends Model
 
     public function compareToTicker($ticker)
     {
+        $debug = false;
         //checks if the comparison has already been made within [30] days
         $SC_old = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
         //dd($ticker);
+        if ($debug) {
+            echo "<br>checking if correlation already exists between ".$this->ticker." and ".$ticker." at ".now();
+        }
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30) && $SC_old->correlation != 0) {
+            if ($debug) {
+                echo "<br>Found p. using p from ".$this->ticker." and ".$ticker." at ".now();
+            }
             $p = $SC_old->correlation;
             $SI1 = $SC_old->SI1;
         } elseif ($ticker == $this->ticker) {
@@ -163,6 +172,7 @@ class SecInfo extends Model
             $SI1 = $this;
         } else {
             //initialize a SecInfo model
+
             $SI1 = getTicker($ticker);
             if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
                 //dd("Sec dates did not match");
@@ -170,6 +180,9 @@ class SecInfo extends Model
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
             } else {
+                if ($debug) {
+                    echo "<br>no p found. Creating new p for ".$this->ticker." and ".$SI1->ticker." at ".now();
+                }
                 $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
             }
         }
@@ -311,9 +324,11 @@ class SecInfo extends Model
     {
         $new = $this->getPeerData();
         $random = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
-
+        //dd($random->first(), $random->random(), $random->last());
         foreach ($random as $SC) {
-            $new->push($SC->ticker1);
+            if (!$new->contains($SC->ticker1)) {
+                $new->push($SC->ticker1);
+            }
         }
 
         $this->peer_data = json_encode($new->toArray());

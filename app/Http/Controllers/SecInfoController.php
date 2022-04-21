@@ -55,6 +55,7 @@ class SecInfoController extends Controller
     {
         $stock = getTicker("GM");
         $stock->pullIEXPeers();
+        //echo "here";
         dd($stock);
         //dd($comps);
     }

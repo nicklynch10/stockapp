@@ -12,7 +12,7 @@ class CheckCorrelations extends Component
 {
     public $ticker = "TM";
     public $comps = [
-        "F", "GM", "TM", "AAL","JETS","LUV","UAL","DAL", "FB"
+        //"F", "GM", "TM", "AAL","JETS","LUV","UAL","DAL", "FB"
     ];
     public $correlations = [];
     public $stocks = [];
@@ -31,8 +31,12 @@ class CheckCorrelations extends Component
     {
         $stock = getTicker($this->ticker);
         $stock->pullIEXPeers();
+        // echo "<br> Done with OG peers";
+        // print_r($stock->getPeerData());
         $stock->addRelatedPeers();
         $stock->addExistingPeers();
+        // echo "<br> Done with existing peers";
+        // print_r($stock->getPeerData());
         $this->comps = $stock->getPeerData();
         //dd($this->comps);
 

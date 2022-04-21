@@ -25,6 +25,11 @@ class Factor extends Model
         $this->refresh();
     }
 
+    public function doNothing()
+    {
+        //as promised
+    }
+
     public function refresh()
     {
 

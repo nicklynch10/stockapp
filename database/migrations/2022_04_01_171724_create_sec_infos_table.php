@@ -37,6 +37,7 @@ class CreateSecInfosTable extends Migration
 
             //from IEX Historical Data Request
             $table->longText('IEXpeer_data')->nullable();
+            $table->longText('peer_data')->nullable();
 
             //from IEX Company Data Request
             $table->string('type')->nullable();

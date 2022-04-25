@@ -17,6 +17,7 @@ class CheckCorrelations extends Component
     ];
     public $correlations = [];
     public $stocks = [];
+    public $etfs = false;
 
     public function mount(Request $request)
     {
@@ -47,7 +48,7 @@ class CheckCorrelations extends Component
 
 
         $stock->addExistingPeers();
-        $stock->addRandomPeers(5);
+        $stock->addRandomPeers(10);
         // echo "<br> Done with existing peers";
         // print_r($stock->getPeerData());
         $this->comps = $stock->getPeerData();
@@ -61,8 +62,12 @@ class CheckCorrelations extends Component
             $SI1 = $SC->SI2;
             if ($SC->correlation>0) {
                 // adds to the list only if they find correlation data
-                $stocks->push($SI1);
-                $cors->push($SC);
+
+                if ($this->etfs || getTicker($p)->type != "et") {
+                    // checks if ETF toggle is on
+                    $stocks->push($SI1);
+                    $cors->push($SC);
+                }
             }
         }
 
@@ -73,5 +78,15 @@ class CheckCorrelations extends Component
     public function doNothing()
     {
         //as promised
+    }
+
+    public function showETFs()
+    { //toggles to show ETFs
+        if ($this->etfs) {
+            $this->etfs == false;
+        } else {
+            $this->etfs == true;
+        }
+        $this->updatedTicker();
     }
 }

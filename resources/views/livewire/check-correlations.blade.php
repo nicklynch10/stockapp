@@ -37,8 +37,16 @@
 </x-jet-form-section>
 
 
+<div class="flex justify-between items-center w-full m-2 p-2">
+          <x-jet-secondary-button wire:click="showETFs()" class="bg-green-300">
+                {{ __('Show ETFs') }}
+            </x-jet-secondary-button>
+    </div>
 
 <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10">
+
+    
+
     <table>
         <thead class="bg-gray-300">
             <tr>

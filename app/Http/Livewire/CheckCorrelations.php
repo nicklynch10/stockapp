@@ -7,6 +7,7 @@ use App\Models\Stock;
 use App\Models\SecInfo;
 use App\Models\StockTicker;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 class CheckCorrelations extends Component
 {
@@ -17,8 +18,12 @@ class CheckCorrelations extends Component
     public $correlations = [];
     public $stocks = [];
 
-    public function mount()
+    public function mount(Request $request)
     {
+        if ($request && $request->input('symbol') && $request->input('symbol') != $this->ticker) {
+            $t = $request->input('symbol');
+            $this->ticker = $t;
+        }
         $this->updatedTicker();
     }
 
@@ -33,8 +38,16 @@ class CheckCorrelations extends Component
         $stock->pullIEXPeers();
         // echo "<br> Done with OG peers";
         // print_r($stock->getPeerData());
-        $stock->addRelatedPeers();
+        if ($stock->getPeerData() && $stock->getPeerData()->count()<15) {
+            $stock->addRelatedPeers();
+            $stock->addRelatedPeers();
+            // echo "<br> Done with related peers";
+            // print_r($stock->getPeerData());
+        }
+
+
         $stock->addExistingPeers();
+        $stock->addRandomPeers(5);
         // echo "<br> Done with existing peers";
         // print_r($stock->getPeerData());
         $this->comps = $stock->getPeerData();

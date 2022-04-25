@@ -53,10 +53,10 @@ class SecInfoController extends Controller
 
     public function launch()
     {
-        $stock = getTicker("GM");
-        $stock->pullIEXPeers();
+        $stock = getTicker("GE");
+        //$stock->pullIEXPeers();
         //echo "here";
-        dd($stock);
+        dd($stock, convertType($stock->type));
         //dd($comps);
     }
 

@@ -21,7 +21,6 @@ class CreateSecInfosTable extends Migration
 
             // from IEX info Request
             $table->string('company_name')->nullable();
-            $table->string('type')->nullable();
             $table->decimal('peRatio', 10, 5)->nullable();
             $table->decimal('year1ChangePercent', 10, 5)->nullable();
             $table->double('marketcap', 2)->nullable();
@@ -39,7 +38,13 @@ class CreateSecInfosTable extends Migration
             //from IEX Historical Data Request
             $table->longText('IEXpeer_data')->nullable();
 
-            $table->longText('peer_data')->nullable();
+            //from IEX Company Data Request
+            $table->string('type')->nullable();
+            $table->string('security_name')->nullable();
+            $table->string('industry')->nullable();
+            $table->string('sector')->nullable();
+            $table->longText('company_tags')->nullable();
+            $table->longText('company_data')->nullable();
 
             // calculated from change_data
             $table->date('date_updated')->nullable();

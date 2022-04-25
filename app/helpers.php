@@ -15,6 +15,7 @@ if (!function_exists('getTicker')) {
             $SI1->ticker = $ticker;
         }
         $SI1->getIEXData();
+        //$SI1->save();
         return $SI1;
     }
 }
@@ -33,5 +34,55 @@ if (!function_exists('getFactor')) {
         }
         $f->refresh();
         return $f;
+    }
+}
+
+
+
+// allows you to convert the names of the securities into the real names (IEX scrambles this in the sandbox data)
+//Solution link inspiration
+//https://stackoverflow.com/questions/6807864/how-to-check-if-two-strings-contain-the-same-letters
+//$full is a toggle for if you want the long name vs the short
+if (!function_exists('convertType')) {
+    function convertType($t, $full=false)
+    {
+        $types = collect([ // from IEX Website
+            "ad" => "ADR",
+            "cs" => "Common Stock",
+            "cef" => "Closed End Fund",
+            "et" => "ETF",
+            "oef" => "Open Ended Fund",
+            "ps" => "Preferred Stock",
+            "rt" => "Right",
+            "struct" => "Structured Product",
+            "ut" => "Unit",
+            "wi" => "When Issued",
+            "wt" => "Warrant",
+            "empty" => "Other"
+        ]);
+
+        //creates an array of the input chars and sorts them in alphabetical order
+        // allows for scrambled words
+        $arr2 = str_split($t);
+        sort($arr2);
+        $text2Sorted = implode('', $arr2);
+        foreach ($types as $t1 => $b) {
+            $arr1 = str_split($t1);
+            sort($arr1);
+            $text1Sorted = implode('', $arr1);
+            if ($text1Sorted == $text2Sorted) {
+                if ($full) {
+                    return $b;
+                } else {
+                    return $t1;
+                }
+            }
+        }
+
+        if ($full) {
+            return "Other";
+        } else {
+            return "empty";
+        }
     }
 }

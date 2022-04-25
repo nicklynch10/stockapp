@@ -27,6 +27,8 @@ class SecInfo extends Model
     public $token;
     public $endpoint;
     public $range = "1y";
+    public $index = "SPY";
+    public $debug = false;
 
     public function __construct()
     {
@@ -38,10 +40,11 @@ class SecInfo extends Model
 
     public function getIEXData()
     {
-
+        $debug = $this->debug;
 
         // only requests data from IEX if it has not been requested yet today
         if ($this->date_updated == Carbon::today()->format("Y-m-d")) {
+            //echo "<br>found ".$this->ticker;
             return "no request needed";
         }
 
@@ -67,17 +70,41 @@ class SecInfo extends Model
         $this->info_data = json_encode($data->json());
 
 
-        //sends a get request to IEX for historical data
-        $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
+
+        //sends a get request to IEX for more company info
+        $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $this->token);
         $data = Http::get($url);
 
+        // extracts and saves data
+        $stats = $data->json();
+        if (!isset($stats)) {
+            return "more company info query failed";
+        }
+
+        $this->type = convertType($stats["issueType"], false);
+        $this->security_name = $stats["securityName"];
+        $this->industry = $stats["industry"];
+        $this->sector = $stats["sector"];
+        $this->company_tags = json_encode($stats["tags"]);
+        $this->company_data = json_encode($stats);
+
+
+        //sends a get request to IEX for historical data
+        if ($debug) {
+            echo "<br>pulling ".$this->ticker;
+        }
+        $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
+
+        $data = Http::get($url);
         $stats = $data->json();
         if (!isset($stats)) {
             return "historical query failed";
         }
 
         $historical_data = collect($data->json());
-
+        if ($debug) {
+            echo "<br>got data ";
+        }//.json_encode($stats);
 
         //stores all of the data in a json text string.
         $this->historical_data = json_encode($historical_data);
@@ -88,62 +115,52 @@ class SecInfo extends Model
         $this->date_data = json_encode($historical_data->pluck("date")->toArray());
         $this->volume_data = json_encode($historical_data->pluck("volume")->toArray());
         // use the pluck function to extract a single datapoint
-
+        //echo "<br>here1";
         // calculates the Standard Deviation
         $this->date_updated = Carbon::today()->format("Y-m-d");
         //$this->std = $this->Standard_Deviation($this->getChangeData());
         if ($this->getChangeData()->count()>0) {
             $this->std = StandardDeviation::population($this->getChangeData()->toArray());
+            if ($debug) {
+                echo "<br> Calculated STD for ".$this->ticker." = ".$this->std;
+            }
         } else {
             $this->std = 0;
+            if ($debug) {
+                echo "<br> No data found. STD = 0";
+            }
         }
-        $this->calced_beta = $this->calcBeta();
-
+        if ($this->ticker == $this->index) {
+            if ($debug) {
+                echo "<br> Ticker = index - calced_beta = 1";
+            }
+            $this->calced_beta = 1;
+        } else {
+            if ($debug) {
+                echo "<br> calculating Beta";
+            }
+            $this->calced_beta = $this->calcBeta();
+            if ($debug) {
+                echo "<br> calculating Beta for ".$this->ticker." as ".$this->calced_beta;
+            }
+        }
+        if ($debug) {
+            echo "<br>Done with the pull - saving down";
+        }
         // saves for future use
         $this->save();
     }
 
 
-    public function getChangeData()
-    {
-        return collect(json_decode($this->change_data));
-    }
-
-    public function getDateData()
-    {
-        return collect(json_decode($this->date_data));
-    }
-
-    public function getVolumeData()
-    {
-        return collect(json_decode($this->volume_data));
-    }
-
-    public function getPriceData()
-    {
-        return collect(json_decode($this->price_data));
-    }
-
-    public function getPeerData()
-    {
-        return collect(json_decode($this->peer_data));
-    }
-
-    public function getIEXPeerData()
-    {
-        return collect(json_decode($this->IEXpeer_data));
-    }
-
     public function calcBeta()
     {
         //calculates beta using the S&P 500
-            $ticker = "SPY";// S&P 500
-        if ($this->ticker == $ticker) {
-            return 1;
-        }
+        $ticker = $this->index;
         //initialize a SecInfo model
+        $SPY = getTicker($ticker);
         $SC = $this->compareToTicker($ticker);
-        $SI1 = $SC->SI2;
+        //dd($SC);
+        $SI1 = $SPY;
         $p = $SC->correlation;
         $beta = $p*$SI1->std*$this->std;
         //$beta = $this->getCovariance($SI1->getChangeData(), $this->getChangeData());
@@ -152,37 +169,60 @@ class SecInfo extends Model
 
     public function compareToTicker($ticker)
     {
+        $debug = $this->debug;
         //checks if the comparison has already been made within [30] days
         $SC_old = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
+
         //dd($ticker);
+        if ($debug) {
+            echo "<br>checking if correlation already exists between ".$this->ticker." and ".$ticker." at ".now();
+        }
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30) && $SC_old->correlation != 0) {
+            if ($debug) {
+                echo "<br>Found p. using p from ".$this->ticker." and ".$ticker." at ".now();
+            }
             $p = $SC_old->correlation;
             $SI1 = $SC_old->SI1;
         } elseif ($ticker == $this->ticker) {
+            if ($debug) {
+                echo "<br> same ticker using 1 for ".$this->ticker." and ".$ticker." at ".now();
+            }
             $p = 1;
             $SI1 = $this;
         } else {
             //initialize a SecInfo model
+
             $SI1 = getTicker($ticker);
+            //dd($SI1);
             if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
                 //dd("Sec dates did not match");
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
             } else {
+                if ($debug) {
+                    echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
+                }
                 $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
             }
         }
+        $this->save();
+
 
         $SC = new SecCompare();
         $SC->SI1()->associate($this);
         $SC->SI2()->associate($SI1);
+        //dd($SI1, $SC, $this);
         $SC->ticker1 = $this->ticker;
         $SC->ticker2 = $SI1->ticker;
         $SC->correlation = $p;
         $SC->range = $this->range;
         $SC->amount = $this->getChangeData()->count();
         $SC->save();
+
+        if ($ticker == "SPY") {
+            //dd($SC, $this);
+        }
 
         return $SC;
     }
@@ -311,18 +351,90 @@ class SecInfo extends Model
     {
         $new = $this->getPeerData();
         $random = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
-
+        //dd($random->first(), $random->random(), $random->last());
         foreach ($random as $SC) {
-            $new->push($SC->ticker1);
+            if (!$new->contains($SC->ticker1)) {
+                $new->push($SC->ticker1);
+            }
         }
+
+
+        $random = SecCompare::all()->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
+        //dd($random->first(), $random->random(), $random->last());
+        foreach ($random as $SC) {
+            if (!$new->contains($SC->ticker2)) {
+                $new->push($SC->ticker2);
+            }
+        }
+
 
         $this->peer_data = json_encode($new->toArray());
         $this->pullIEXPeers();
     }
 
 
+    public function addRandomPeers($n)
+    {
+        //adds random peers (of data that has been pulled already)
 
+        $new = $this->getPeerData();
+        // filters through all data and chooses only ones that have been updated within [30] days
+        $random = SecInfo::all()->where('ticker', "<>", $this->ticker)->filter(function ($value, $key) use ($new) {
+            if ($value->updated_at < now()->addDays(-30)) {
+                return false;
+            }
+            return !$new->contains($value->ticker);
+        });
 
+        //dd($random->random(5));
+
+        if (!$random) {
+            return "No data found in random pull";
+        }
+
+        // gets the min of amount found and ones added
+        $amt = min($n, $random->count());
+
+        //adds them into the peer set
+        foreach ($random->random($amt) as $SC) {
+            if (!$new->contains($SC->ticker)) {
+                $new->push($SC->ticker);
+            }
+        }
+
+        $this->peer_data = json_encode($new->toArray());
+        $this->pullIEXPeers();
+    }
+
+    public function getChangeData()
+    {
+        return collect(json_decode($this->change_data));
+    }
+
+    public function getDateData()
+    {
+        return collect(json_decode($this->date_data));
+    }
+
+    public function getVolumeData()
+    {
+        return collect(json_decode($this->volume_data));
+    }
+
+    public function getPriceData()
+    {
+        return collect(json_decode($this->price_data));
+    }
+
+    public function getPeerData()
+    {
+        return collect(json_decode($this->peer_data));
+    }
+
+    public function getIEXPeerData()
+    {
+        return collect(json_decode($this->IEXpeer_data));
+    }
 
 
     /////////////// stats functions /////////

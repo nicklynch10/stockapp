@@ -37,8 +37,21 @@
 </x-jet-form-section>
 
 
+<div class="flex justify-between items-center w-full m-2 p-2">
+          <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer">
+            @if($etfs)
+            {{ __('Hide ETFs') }}
+            @else
+            {{ __('Show ETFs') }}
+            @endif
+                
+            </a>
+    </div>
 
 <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10">
+
+    
+
     <table>
         <thead class="bg-gray-300">
             <tr>
@@ -72,20 +85,18 @@
         <tbody class="bg-white divide-y divide-gray-200">
 
              @if($ticker != "" & count($correlations)>0)
-            @foreach($correlations->sortByDesc("correlation")->slice(0, 20) as $result)
-
-
-            
-                <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->ticker2}} <br> {{$result->SI2->company_name}}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->correlation*100,0)}}%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->calced_beta,2)}}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->div_yield*100,2)}}%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">${{number_format($result->SI2->marketcap/1000,0)}}M</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">@if($result->SI2->peRatio >0){{number_format($result->SI2->peRatio,2)}}@else N/A @endif</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->year1ChangePercent*100,2)}}%</td>
-                    </tr>
-        
+            @foreach($correlations->sortByDesc("correlation")->slice(0, 50) as $result)
+                @if($result && isset($result->ticker2))
+                    <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->ticker2}} <br> {{$result->SI2->company_name}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->correlation*100,0)}}%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->calced_beta,2)}} / {{number_format($result->SI2->beta,2)}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->div_yield*100,2)}}%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">${{number_format($result->SI2->marketcap/1000,0)}}M</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">@if($result->SI2->peRatio >0){{number_format($result->SI2->peRatio,2)}}@else N/A @endif</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->year1ChangePercent*100,2)}}%</td>
+                        </tr>
+                @endif
             @endforeach
         @endif
        

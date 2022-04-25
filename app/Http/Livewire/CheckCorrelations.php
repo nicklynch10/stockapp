@@ -17,7 +17,7 @@ class CheckCorrelations extends Component
     ];
     public $correlations = [];
     public $stocks = [];
-    public $etfs = false;
+    public $etfs;
 
     public function mount(Request $request)
     {
@@ -82,10 +82,12 @@ class CheckCorrelations extends Component
 
     public function showETFs()
     { //toggles to show ETFs
+
+
         if ($this->etfs) {
-            $this->etfs == false;
+            $this->etfs = false;
         } else {
-            $this->etfs == true;
+            $this->etfs = true;
         }
         $this->updatedTicker();
     }

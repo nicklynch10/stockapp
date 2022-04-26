@@ -63,7 +63,8 @@ class StockBuyModal extends Component
     public function addbuy()
     {
         $this->validate([
-            'share_number'=>'required',
+            'average_cost' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
+            'share_number' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
         ]);
         $current_stock=Stock::where('id', $this->stock_id)->first();
         $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));

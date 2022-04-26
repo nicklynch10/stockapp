@@ -20,7 +20,6 @@
 
         <script src="{{ mix('js/app.js') }}" defer></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
         <script type="text/javascript" src="/js/tooltipster.bundle.min.js"></script>
 

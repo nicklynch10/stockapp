@@ -65,39 +65,52 @@ class StockAddEditModal extends Component
                 $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                     ->first();
             }
-            $this->company_name=$this->companyname ? $this->companyname['ticker_company'] : '';
-            $this->stock_ticker=$this->companyname ? $this->companyname['ticker'] : '';
-
-            if ($this->companyname && $this->companyname['ticker']) {
-                $token = env('IEX_CLOUD_KEY', null);
-                $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
-                $company = $symbol->json();
-                $this->description = $company ? $company['description'] : '';
-                $this->sector = $company ? $company['sector'] : '';
-                if (isset($company['issueType'])) {
-                    if ($company['issueType']=='et') {
-                        $this->issuetype="ETF";
-                    } elseif ($company['issueType']=='ad') {
-                        $this->issuetype="ADR";
-                    } elseif ($company['issueType']=='cs') {
-                        $this->issuetype="Common Stock";
-                    } else {
-                        $this->issuetype=$company['issueType'];
+            if(isset($this->companyname)){
+                $this->company_name=$this->companyname ? $this->companyname['ticker_company'] : '';
+                $this->stock_ticker=$this->companyname ? $this->companyname['ticker'] : '';
+                if ($this->companyname && $this->companyname['ticker']) {
+                    $token = env('IEX_CLOUD_KEY', null);
+                    $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
+                    $company = $symbol->json();
+                    $this->description = $company ? $company['description'] : '';
+                    $this->sector = $company ? $company['sector'] : '';
+                    if (isset($company['issueType'])) {
+                        if ($company['issueType']=='et') {
+                            $this->issuetype="ETF";
+                        } elseif ($company['issueType']=='ad') {
+                            $this->issuetype="ADR";
+                        } elseif ($company['issueType']=='cs') {
+                            $this->issuetype="Common Stock";
+                        } else {
+                            $this->issuetype=$company['issueType'];
+                        }
                     }
-                }
-                $this->tags = $company ? json_encode($company['tags']) : '';
-                $this->security_name = $company ? $company['securityName'] : '';
-                $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);
-                $price = $current_price->json();
-                $this->current_share_price = $price ? $price['latestPrice'] : '';
-                $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+                    $this->tags = $company ? json_encode($company['tags']) : '';
+                    $this->security_name = $company ? $company['securityName'] : '';
+                    $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);
+                    $price = $current_price->json();
+                    $this->current_share_price = $price ? $price['latestPrice'] : '';
+                    $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
 
-                $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
-                $logo_url = $logo->json();
-                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
-//                $this->tickerLogo = '';
+                    $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
+                    $logo_url = $logo->json();
+                    $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+                }
+            }else{
+                $this->company_name = '';
+                $this->stock_ticker = 'No Company Found';
+                $this->description = '';
+                $this->sector = '';
+                $this->issuetype = '';
+                $this->security_name = '';
+                $this->current_share_price = '';
+                $this->market_cap = '';
+                $this->average_cost = '';
+                $this->share_number = '';
+                $this->tickerLogo='';
             }
+
         }
         $this->emit('stockData');
         $this->account = Account::where('user_id', Auth::user()->id)->get();
@@ -107,8 +120,8 @@ class StockAddEditModal extends Component
     public function firstStepSubmit()
     {
         $this->validate([
-            'average_cost' => 'required',
-            'share_number' => 'required',
+            'average_cost' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
+            'share_number' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
         ]);
         $this->currentStep = 2;
     }
@@ -155,10 +168,10 @@ class StockAddEditModal extends Component
     {
         $this->validate([
             'stock_ticker' => 'required',
-            'average_cost' => 'required',
-            'share_number' => 'required',
+            'average_cost' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
+            'share_number' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
+            'market_cap' => 'regex:/^[1-9][0-9]+/|not_in:0',
         ]);
-
         $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
 
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [

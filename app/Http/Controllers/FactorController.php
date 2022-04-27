@@ -30,7 +30,7 @@ class FactorController extends Controller
 
     public function factors()
     {
-        return view('correlations\factors');
+        return view('correlations.factors');
     }
 
 

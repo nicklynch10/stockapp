@@ -44,7 +44,7 @@ class SecInfoController extends Controller
 
     public function view()
     {
-        return view('correlations\correlation-check');
+        return view('correlations.correlation-check');
     }
 
 

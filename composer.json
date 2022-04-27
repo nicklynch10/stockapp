@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-curl": "*",
         "doctrine/dbal": "^3.3",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -17,7 +18,7 @@
         "livewire/livewire": "^2.5",
         "lorisleiva/cron-translator": "^0.3.1",
         "php-ai/php-ml": "^0.4.1",
-        "ext-curl": "*"
+        "tomorrow-ideas/plaid-sdk-php": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

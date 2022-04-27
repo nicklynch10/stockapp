@@ -1,4 +1,3 @@
-
 <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Accounts
@@ -21,40 +20,45 @@
                         </div>
                     @endif
                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Add New Account') }}</x-jet-button>
+{{--                    <button >Link Your Bank Account</button>--}}
+                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 py-2 px-4 my-3" id="linkButton">
+                        Link accounts using Plaid
+                    </button>
                     <div class="account shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                         <table>
                             <thead class="bg-gray-300 xs:hidden">
-                                <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
-                                    <th class="px-6 py-4">Set as Default</th>
-                                    <th class="px-6 py-4">Account Name</th>
-                                    <th class="px-6 py-4">Account Type</th>
-                                    <th class="px-6 py-4">Account Brokerage</th>
-                                    <th class="px-6 py-4">Commission Rate per Share</th>
-                                    <th class="px-6 py-4">Date Created</th>
-                                    <th class="px-6 py-4">Action</th>
-                                </tr>
+                            <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
+                                <th class="px-6 py-4">Set as Default</th>
+                                <th class="px-6 py-4">Account Name</th>
+                                <th class="px-6 py-4">Account Type</th>
+                                <th class="px-6 py-4">Account Brokerage</th>
+                                <th class="px-6 py-4">Commission Rate per Share</th>
+                                <th class="px-6 py-4">Date Created</th>
+                                <th class="px-6 py-4">Action</th>
+                            </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse($this->account as $acc)
-                                    <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
-                                        <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-90 xs:text-right xs:block xs:text-xs"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
-                                        <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder xs:text-right xs:block xs:text-xs">{{$acc->account_name}}</td>
-                                        <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_type}}</td>
-                                        <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_brokerage}}</td>
-                                        <td data-label="Commission Rate per Share" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>
-                                        <td data-label="Date Created" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
-                                        <td data-label="Action" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">
-                                            <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black">
-                                        <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900" colspan="8">No Account Found</th>
-                                    </tr>
-                                @endforelse
+                            @forelse($this->account as $acc)
+                                <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
+                                    <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-90 xs:text-right xs:block xs:text-xs"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
+                                    <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder xs:text-right xs:block xs:text-xs">{{$acc->account_name}}</td>
+                                    <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_type}}</td>
+                                    <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_brokerage}}</td>
+                                    <td data-label="Commission Rate per Share" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>
+                                    <td data-label="Date Created" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
+                                    <td data-label="Action" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">
+                                        <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black">
+                                    <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900" colspan="8">No Account Found</th>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>
+                    <div id="account"></div>
                 </div>
             </div>
         </div>
@@ -65,6 +69,7 @@
         <x-slot name="title">
             {{ __('New Account') }}
             <button wire:click="closeModal()" class="float-right"><i class="fa fa-close"></i></button>
+
         </x-slot>
 
         <x-slot name="content">
@@ -143,22 +148,31 @@
             </x-jet-danger-button>
         </x-slot>
     </x-jet-confirmation-modal>
-    {{-- End Delete Account --}}
+
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            document.getElementById('linkButton').onclick = function() {
+                linkHandler.open();
+            };
+        });
+    </script>
+    <script>
+        var linkHandler = Plaid.create({
+            env:"sandbox",
+            token: 'link-sandbox-d464eced-c987-4727-acc9-6affdc538205',
+            onSuccess: (public_token, metadata) => {
+                console.log(metadata['accounts']);
+                    var data = document.getElementById("account");
+                    for (let i = 0;i > metadata['accounts'].length; i++){
+                        data.innerHTML = metadata['accounts'][$i].id;
+                    }
+            },
+            onLoad: () => {},
+            onExit: (err, metadata) => {
+            },
+            onEvent: (eventName, metadata) => {
+            },
+        });
+    </script>
 </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -160,7 +160,7 @@
     <script>
         var linkHandler = Plaid.create({
             env:"sandbox",
-            token: 'link-sandbox-d464eced-c987-4727-acc9-6affdc538205',
+            token: 'link-sandbox-22eb478d-8020-4cdb-b28a-de2f1ce98919',
             onSuccess: (public_token, metadata) => {
                 console.log(metadata['accounts']);
                     var data = document.getElementById("account");

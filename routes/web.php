@@ -77,4 +77,4 @@ Route::get('run-seeder/{class}', function ($class) {
 Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
 Route::get('factors', [FactorController::class, 'factors'])->name('factors');
-Route::get('factors-test', [FactorController::class, 'test'])->name('factors');
+//Route::get('factors-test', [FactorController::class, 'test'])->name('factors');

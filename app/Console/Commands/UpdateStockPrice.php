@@ -42,6 +42,7 @@ class UpdateStockPrice extends Command
      */
     public function handle()
     {
+        error_reporting(0);
         $getstock = User::join('stock','stock.user_id','users.id')->get();
         foreach ($getstock as $stock) {
             $token = env('IEX_CLOUD_KEY', null);

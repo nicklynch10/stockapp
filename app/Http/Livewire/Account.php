@@ -24,9 +24,76 @@ class Account extends Component
     public $allData;
     public $data;
     public $deleteaccount=0;
+    public $token;
+    protected $listeners = ['getToken' => 'render', 'getAccessToken' => 'getAccessToken'];
 
     public function render()
     {
+        $client_id = env('PLAID_CLIENT_ID');
+        $secret = env('PLAID_SECRET');
+        $client_name = env('PLAID_CLIENT_NAME');
+        $url = "https://sandbox.plaid.com/link/token/create";
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $headers = array(
+            "Content-Type: application/json",
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        $data = '{
+            "client_id": "'.$client_id.'",
+            "secret": "'.$secret.'",
+            "client_name": "'.$client_name.'",
+            "country_codes": ["US"],
+            "language": "en",
+            "user": {
+                "client_user_id": "unique_user_id"
+                },
+            "products": ["investments"]}';
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $resp = curl_exec($curl);
+        $data = json_decode($resp);
+        $this->token = $data->link_token;
+        $this->account=Accounts::where('user_id', Auth::user()->id)->orderBy('account.created_at', 'DESC')->get();
+        return view('livewire.account');
+    }
+
+
+    public function getAccessToken($public_token)
+    {
+        $client_id = env('PLAID_CLIENT_ID');
+        $secret = env('PLAID_SECRET');
+
+        $url = "https://sandbox.plaid.com/item/public_token/exchange";
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $headers = array(
+            "Content-Type: application/json",
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        $data = '{
+            "client_id": "'.$client_id.'",
+            "secret": "'.$secret.'",
+            "public_token": "'.$public_token.'"}';
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $resp = curl_exec($curl);
+        $data = json_decode($resp);
+        $this->access = $data->access_token;
+        $this->getInvestment($this->access);
+    }
+
+    public function getInvestment($access_token)
+    {
+        $client_id = env('PLAID_CLIENT_ID');
+        $secret = env('PLAID_SECRET');
+
         $url = "https://sandbox.plaid.com/investments/holdings/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -36,14 +103,32 @@ class Account extends Component
             "Content-Type: application/json",
         );
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        $data = '{"client_id":"6256b65fccf78000158a06aa","secret":"ade346c8009da99dea064fb6075270","access_token":"access-sandbox-ecb7bc4d-f13a-476b-a317-801e2088ae8d"}';
+        $data = '{
+            "client_id": "'.$client_id.'",
+            "secret": "'.$secret.'",
+            "access_token": "'.$access_token.'"}';
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
         $resp = curl_exec($curl);
-        $this->account=Accounts::where('user_id', Auth::user()->id)->orderBy('account.created_at', 'DESC')->get();
-        return view('livewire.account');
+        $data = json_decode($resp);
+        $accountData = $data->accounts;
+        foreach ($accountData as $ac){
+            if($ac->type == "investment"){
+                Accounts::Create([
+                    'user_id' =>Auth::user()->id,
+                    'account_type' => $ac->type,
+                    'account_name' => $ac->name,
+                    'account_brokerage' => "Not assigned",
+                    'commission' => $ac->balances->current,
+                    'set_default'=>0,
+                ]);
+            }
+        }
+        $this->dispatchBrowserEvent('alert', [
+            'type'=>'success',
+            'message'=>'Account Link Successfully',
+        ]);
     }
 
     public function create()

@@ -153,6 +153,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             document.getElementById('linkButton').onclick = function() {
+                Livewire.emit('getToken');
                 linkHandler.open();
             };
         });
@@ -160,13 +161,9 @@
     <script>
         var linkHandler = Plaid.create({
             env:"sandbox",
-            token: 'link-sandbox-103f79c6-e0f6-4393-ab67-3660f6d6ca1d',
+            token: '{{ $this->token }}',
             onSuccess: (public_token, metadata) => {
-                console.log(metadata['accounts']);
-                    var data = document.getElementById("account");
-                    for (let i = 0;i > metadata['accounts'].length; i++){
-                        data.innerHTML = metadata['accounts'][$i].id;
-                    }
+                Livewire.emit('getAccessToken',public_token);
             },
             onLoad: () => {},
             onExit: (err, metadata) => {

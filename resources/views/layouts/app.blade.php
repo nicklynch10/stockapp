@@ -33,7 +33,7 @@
             });
         </script>
 
-        <script src={{asset('css/notification.css') }}></script>
+        <script src=css/notification.css></script>
         <script>
             const Toast = Swal.mixin({
                 toast: true,

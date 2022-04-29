@@ -117,7 +117,7 @@ class Account extends Component
         $accountData = $data->accounts;
         foreach ($accountData as $ac){
             if($ac->type == "investment"){
-                $accountName = Accounts::where('account_name', $ac->name)
+                $accountName = Accounts::where(['account_name' => $ac->name,'user_id' => Auth::user()->id])
                     ->first();
                 if(!isset($accountName))
                 {

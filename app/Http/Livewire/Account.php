@@ -25,6 +25,8 @@ class Account extends Component
     public $data;
     public $deleteaccount=0;
     public $token;
+    public $account;
+    public $accountName;
     protected $listeners = ['getToken' => 'render', 'getAccessToken' => 'getAccessToken'];
 
     public function render()
@@ -115,20 +117,39 @@ class Account extends Component
         $accountData = $data->accounts;
         foreach ($accountData as $ac){
             if($ac->type == "investment"){
-                Accounts::Create([
-                    'user_id' =>Auth::user()->id,
-                    'account_type' => $ac->type,
-                    'account_name' => $ac->name,
-                    'account_brokerage' => "Not assigned",
-                    'commission' => $ac->balances->current,
-                    'set_default'=>0,
-                ]);
+                $accountName = Accounts::where('account_name', $ac->name)
+                    ->first();
+                if(!isset($accountName))
+                {
+                    $account=Accounts::Create([
+                        'user_id' =>Auth::user()->id,
+                        'account_type' => $ac->type,
+                        'account_name' => $ac->name,
+                        'account_brokerage' => "Not assigned",
+                        'commission' => $ac->balances->current,
+                        'set_default'=>0,
+                    ]);
+                }
+                else{
+                    $this->dispatchBrowserEvent('alert', [
+                        'type'=>'error',
+                        'message'=>'No more account',
+                    ]);
+                }
             }
         }
-        $this->dispatchBrowserEvent('alert', [
-            'type'=>'success',
-            'message'=>'Account Link Successfully',
-        ]);
+        if(isset($account)){
+            $this->dispatchBrowserEvent('alert', [
+                'type'=>'success',
+                'message'=>'Account Link Successfully',
+            ]);
+        }else{
+            $this->dispatchBrowserEvent('alert', [
+                'type'=>'error',
+                'message'=>'No more account',
+            ]);
+        }
+
     }
 
     public function create()

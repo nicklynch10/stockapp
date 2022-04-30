@@ -24,8 +24,7 @@ class StockBuyModal extends Component
     public $sector;
     public $market_cap;
     public $average_cost;
-    public $share_number
-            ;
+    public $share_number;
     public $share_price;
     public $openmodalval;
     public $date_of_purchase;
@@ -63,8 +62,8 @@ class StockBuyModal extends Component
     public function addbuy()
     {
         $this->validate([
-            'average_cost' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
-            'share_number' => 'required|regex:/^[1-9][0-9]+/|not_in:0',
+            'average_cost' => 'required|regex:/^[1-9]+/|not_in:0',
+            'share_number' => 'required|regex:/^[1-9]+/|not_in:0',
         ]);
         $current_stock=Stock::where('id', $this->stock_id)->first();
         $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));

@@ -6,7 +6,10 @@
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                         wire:click.debounce.debounce.4000ms="open">
                     @if($unreadCount > 0)
-                        <i class="mdl-badge fa fa-bell count_icon lg:text-lg text-red-700 text-red-600" data-badge="{{$unreadCount}} "></i>
+                        <i class="mdl-badge fa fa-bell count_icon lg:text-lg text-red-700 text-red-600" data-badge="{{$unreadCount}}"></i>
+                        <span class="cart-basket d-flex align-items-center justify-content-center count-icon">
+                            {{$unreadCount}}
+                        </span>
                     @else
                         <i class="mdl-badge fa fa-bell lg:text-lg no_notifications "></i>
                     @endif
@@ -35,9 +38,15 @@
                         {{$r->data["tagline"]}}
                     </a>
                 @endforeach
-            <x-jet-dropdown-link href="{{ url('notifications')}}" class="text-sm text-gray-400">
-                View All Notifications
-            </x-jet-dropdown-link>
+                @if(count($this->read)>0)
+                    <x-jet-dropdown-link href="{{ url('notifications')}}" class="text-sm text-gray-400">
+                        View All Notifications
+                    </x-jet-dropdown-link>
+                @else
+                    <x-jet-dropdown-link class="text-sm text-gray-400">
+                        No Notifications
+                    </x-jet-dropdown-link>
+                @endif
         </x-slot>
     </x-jet-dropdown>
 </div>

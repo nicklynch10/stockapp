@@ -27,6 +27,7 @@ class Account extends Component
     public $token;
     public $account;
     public $accountName;
+    public $beforeDate;
     protected $listeners = ['getToken' => 'render', 'getAccessToken' => 'getAccessToken'];
 
     public function render()
@@ -95,8 +96,8 @@ class Account extends Component
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
-
-        $url = "https://sandbox.plaid.com/investments/holdings/get";
+        $beforeDate = date('Y-m-d', strtotime('-2 months'));
+        $url = "https://sandbox.plaid.com/investments/transactions/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -108,7 +109,9 @@ class Account extends Component
         $data = '{
             "client_id": "'.$client_id.'",
             "secret": "'.$secret.'",
-            "access_token": "'.$access_token.'"}';
+            "access_token": "'.$access_token.'",
+            "start_date": "'.$beforeDate.'",
+            "end_date":"'.date('Y-m-d').'"}';
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -174,6 +177,7 @@ class Account extends Component
         $this->account_name = '';
         $this->account_brokerage = '';
         $this->commission = '';
+        $this->account_id = '';
     }
 
     public function store()

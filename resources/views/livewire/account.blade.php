@@ -67,7 +67,7 @@
 
     <x-jet-dialog-modal wire:model="isOpen">
         <x-slot name="title">
-            {{ __('New Account') }}
+            @if($this->account_id!=''){{ __('Edit Account') }} @else {{ __('New Account') }} @endif
             <button wire:click="closeModal()" class="float-right"><i class="fa fa-close"></i></button>
 
         </x-slot>
@@ -120,7 +120,7 @@
                 {{ __('Save') }}
             </x-jet-button>
 
-            @if($this->account_id)
+            @if($this->account_id!='')
                 <x-jet-button class="ml-2 bg-red-600 hover:bg-red-500" wire:click="deleteaccount({{$this->account_id}})" wire:loading.attr="disabled">
                     {{ __('Delete') }}
                 </x-jet-button>

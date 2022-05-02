@@ -2,7 +2,6 @@
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />
-
         </x-slot>
         <x-jet-validation-errors class="mb-4" />
 
@@ -12,9 +11,12 @@
             </div>
         @endif
 
+        <div class="flex justify-center my-2 text-xl font-bold">
+            <h4 class="text-xl font-semibold mt-1 mb-3 pb-1">{{ __('Log in to TaxGhost') }}</h4>
+        </div>
         <form method="POST" action="{{ route('login') }}">
             @csrf
-            <div class="flex justify-center my-2">
+            <div class="flex my-2 justify-center">
                 <a href="{{ url('auth/google') }}">
                     <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png">
                 </a>
@@ -42,14 +44,19 @@
                 @endif
             </div>
 
-            <div class="flex mt-4 justify-between">
-                <x-jet-button>
-                    {{ __('Log in') }}
+            <div class="flex mt-4 justify-center">
+                <x-jet-button class="w-full justify-center text-lg">
+                    {{ __('Log In') }}
                 </x-jet-button>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="float-left mr-5 inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">{{ __('Register') }}</a>
-                @endif
+            </div>
 
+            <div class="block mt-4 flex justify-between">
+                <label for="remember_me" class="flex">
+                    <span class="ml-2 text-lg text-sm text-gray-600">{{ __('New to TaxGhost?') }}</span>
+                </label>
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="float-left mr-5 inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition">{{ __('Get Started') }}</a>
+                @endif
             </div>
 
         </form>
@@ -65,4 +72,6 @@
             });
         </script>
     </x-jet-authentication-card>
+
+
 </x-guest-layout>

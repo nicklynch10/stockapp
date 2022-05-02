@@ -45,7 +45,7 @@
             </div>
 
             <div class="flex mt-4 justify-center">
-                <x-jet-button class="w-full justify-center text-lg">
+                <x-jet-button class="w-full justify-center text-lg h-9">
                     {{ __('Log In') }}
                 </x-jet-button>
             </div>

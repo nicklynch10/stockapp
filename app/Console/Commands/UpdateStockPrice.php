@@ -69,8 +69,7 @@ class UpdateStockPrice extends Command
                     {
                         $user = User::where('id',$stock->user_id)->get();
                         foreach ($user as $u) {
-                            $job = $u->notify(new Currentportfoliochange($details))->onQueue('emails');
-                            $job_result = $this->dispatch($job);
+                            $u->notify(new Currentportfoliochange($details));
                             sleep(1);
                         }
                     }

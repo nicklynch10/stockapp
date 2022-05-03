@@ -37,16 +37,10 @@
                                                         if (strpos($string, "http") === 0) {
                                                             $logoUrl = $s->ticker_logo;
                                                         } else {
-                                                            $logoUrl = 'https://storage.googleapis.com/iex/api/logos/'.$s->stock_ticker.'.png';
+                                                            $logoUrl = '';
                                                         }
                                                         ?>
-                                                        <img src="{{ isset($s->ticker_logo) ? $logoUrl : 'https://ui-avatars.com/api/?name='.$s->stock_ticker.'&color=7F9CF5&background=EBF4FF' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
-{{--                                                            <div class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 bg-white text-xl" style="background-color:#ebf4ff;color: #87a2f5;font-weight: 600;font-size: 20px;display: flex;flex-wrap: wrap;--}}
-{{--    align-content: center;--}}
-{{--    justify-content: center;--}}
-{{--    object-fit: contain;--}}
-{{--">{{ $s->stock_ticker }}</div>--}}
-
+                                                        <img src="{{ $s->ticker_logo=='' ? 'https://ui-avatars.com/api/?name='.$s->stock_ticker.'&color=7F9CF5&background=EBF4FF' : $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
                                                         <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">

@@ -69,33 +69,12 @@ class UpdateStockPrice extends Command
                     {
                         $user = User::where('id',$stock->user_id)->get();
                         foreach ($user as $u) {
-                            $u->notify(new Currentportfoliochange($details));
-                            error_reporting(0);
+                            $job = $u->notify(new Currentportfoliochange($details))->onQueue('emails');
+                            $job_result = $this->dispatch($job);
+                            sleep(1);
                         }
                     }
                 }
-//                if ($totalpchange < 0 && $totalpchange >= -1)
-//                {
-//                    $details = [
-//                        'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange < 0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
-//                        'logo' => $logo_url['url'],
-//                    ];
-//                }
-//                elseif ($totalpchange <= -4 && $totalpchange >= -6)
-//                {
-//                    $details = [
-//                        'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange < 0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
-//                        'logo' => $logo_url['url'],
-//                    ];
-//                }
-//                elseif ($totalpchange <=-9 && $totalpchange >= -10)
-//                {
-//                    $details = [
-//                        'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange < 0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
-//                        'logo' => $logo_url['url'],
-//                    ];
-//                }
-
             }
         }
     }

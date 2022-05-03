@@ -66,6 +66,7 @@ class StockSellModal extends Component
     public function closeSellModal()
     {
         $this->issellOpen = false;
+        $this->emit('closeCompany');
     }
 
     public function addsell()

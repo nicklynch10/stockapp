@@ -116,5 +116,6 @@ class StockBuyModal extends Component
     public function closeBuyModal()
     {
         $this->isbuyOpen = false;
+        $this->emit('closeCompany');
     }
 }

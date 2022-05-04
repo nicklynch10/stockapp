@@ -27,10 +27,6 @@
                                         @endphp
                                         <div class="m-2 text-center relative">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 flex flex-col justify-between" style="min-width: 100px; ">
-{{--                                                <div class="mr-1 text-gray-600">--}}
-{{--                                                    <a class="tooltip py-1 px-1 float-left" title="Edit Stock" wire:click="editStock({{ $s->id }})"><i class="fa fa-trash text-sm cursor-pointer"></i></a>--}}
-{{--                                                    <a class="tooltip py-1 px-1 float-right" title="Edit Stock" wire:click="editStock({{ $s->id }})"><i class="fa fa-edit text-sm cursor-pointer"></i></a>--}}
-{{--                                                </div>--}}
                                                 <div class="absolute right-2 top-1.5" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
                                                     <div @click="open = ! open">
                                                         <span
@@ -78,7 +74,7 @@
                                                         <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
-                                                        <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">
+                                                        <a class="cursor-pointer pb-2 text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">
                                                             {{ $s->stock_ticker }}
                                                         </a>
                                                         <p class="pb-2 text-sm font-sans font-light text-grey-dark italic sm:text-xs">

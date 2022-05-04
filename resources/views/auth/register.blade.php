@@ -9,28 +9,28 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
-            <div>
-                <x-jet-label for="first_name" value="{{ __('First Name') }}" />
-                <x-jet-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="first-name" />
+            <div class="mt-4">
+                <label for="first_name" class="block font-medium text-gray-700">{{ __('First Name') }} <span class="text-red-700 font-bold">*</span></label>
+                <x-jet-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autocomplete="first-name" />
             </div>
 
-            <div>
-                <x-jet-label for="last_name" value="{{ __('Last Name') }}" />
+            <div class="mt-4">
+                <label for="last_name" class="block font-medium text-gray-700">{{ __('Last Name') }} <span class="text-red-700 font-bold">*</span></label>
                 <x-jet-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="last-name" />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
+                <label for="email" class="block font-medium text-gray-700">{{ __('Email') }} <span class="text-red-700 font-bold">*</span></label>
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
+                <label for="password" class="block font-medium text-gray-700">{{ __('Password') }} <span class="text-red-700 font-bold">*</span></label>
                 <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                <label for="password_confirmation" class="block font-medium text-gray-700">{{ __('Confirm Password') }} <span class="text-red-700 font-bold">*</span></label>
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 

@@ -34,6 +34,7 @@ class StockDeleteModal extends Component
     {
         $this->deleteid=$id;
         $this->deletestock=true;
+        $this->emit('stockData');
     }
 
     public function closedeletestock()

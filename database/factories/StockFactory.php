@@ -64,6 +64,10 @@ class StockFactory extends Factory
         $share_number = random_int(10, 30);
         $ave_cost = $current_share_price + 1;
 
+        $logo = Http::get($endpoint . 'stable/stock/' . $ticker . '/logo?token=' . $token);
+        $logo_url = $logo->json();
+        $tickerLogo = $logo_url ? $logo_url['url'] : '';
+
         return $this->state([
             'user_id' => $userId,
             'stock_ticker' => $ticker,
@@ -86,6 +90,7 @@ class StockFactory extends Factory
             'total_cost' => ($ave_cost*$share_number),
             'total_gain_loss' => ($current_share_price*$share_number)-($ave_cost*$share_number),
             'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+            'ticker_logo' => $tickerLogo,
         ]);
     }
 }

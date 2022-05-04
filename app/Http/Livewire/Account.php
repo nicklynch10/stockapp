@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Stock;
 use App\Models\StockTicker;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -96,7 +97,7 @@ class Account extends Component
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
-        $beforeDate = date('Y-m-d', strtotime('-2 months'));
+        $beforeDate = date('Y-m-d', strtotime('-1 years'));
         $url = "https://sandbox.plaid.com/investments/transactions/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -125,12 +126,13 @@ class Account extends Component
                 if(!isset($accountName))
                 {
                     $account=Accounts::Create([
-                        'user_id' =>Auth::user()->id,
+                        'user_id' => Auth::user()->id,
                         'account_type' => $ac->type,
                         'account_name' => $ac->name,
                         'account_brokerage' => "Not assigned",
                         'commission' => $ac->balances->current,
-                        'set_default'=>0,
+                        'set_default' => 0,
+                        'plaid_account_id' => $ac->account_id,
                     ]);
                 }
                 else{
@@ -152,9 +154,63 @@ class Account extends Component
                 'message'=>'No more account',
             ]);
         }
-
+        $this->addHoldings($data);
     }
 
+    public function addHoldings($data)
+    {
+        $response = $data;
+        foreach ($response->accounts as $acc)
+        {
+            $getData = Accounts::where(['account_name' => $acc->name , 'user_id' => Auth::user()->id])->first();
+            $getData->update([
+                'plaid_account_id' => $acc->account_id,
+            ]);
+        }
+        $account = Accounts::where('user_id',Auth::user()->id)->get();
+        foreach($account as $ac)
+        {
+            foreach ($response->investment_transactions as $it)
+            {
+                if($ac->plaid_account_id == $it->account_id)
+                {
+                    foreach ($response->securities as $se)
+                    {
+                        if($it->security_id == $se->security_id)
+                        {
+                            $getAccountId = Accounts::where('plaid_account_id', $it->account_id)->first();
+                            if($it->type == "buy")
+                            {
+                                $insertid=Stock::Create([
+                                    'user_id'=>Auth::user()->id,
+                                    'stock_ticker' => $se->ticker_symbol,
+                                    'ave_cost' => $it->price,
+                                    'share_number' => $it->quantity,
+                                    'date_of_purchase' => $it->date,
+                                    'account_id' => $getAccountId->id,
+                                ]);
+                                $lastInsertedID = $insertid->id;
+
+                                Transaction::Create([
+                                    'stock_id' => $lastInsertedID,
+                                    'type' => 0,
+                                    'ticker_name' =>  $se->ticker_symbol,
+                                    'stock' =>  $it->quantity,
+                                    'share_price' => $it->price,
+                                    'user_id' => Auth::user()->id,
+                                    'date_of_transaction' => $it->date,
+                                ]);
+                            }
+                            elseif ($it->type == "sell")
+                            {
+                                //
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     public function create()
     {
         $this->resetInputFields();

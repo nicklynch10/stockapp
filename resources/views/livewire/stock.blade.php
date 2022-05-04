@@ -25,10 +25,45 @@
                                         @php
                                             $companyname=explode('-',$s->security_name)
                                         @endphp
-                                        <div class="m-2">
-                                            <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start  flex flex-col justify-between" style="min-width: 100px; ">
-                                                <div class="text-right mr-1 text-gray-600">
-                                                    <a class="tooltip py-1 px-1" title="Edit Stock" wire:click="editStock({{ $s->id }})"><i class="fa fa-edit text-sm cursor-pointer"></i></a>
+                                        <div class="m-2 text-center relative">
+                                            <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 flex flex-col justify-between" style="min-width: 100px; ">
+{{--                                                <div class="mr-1 text-gray-600">--}}
+{{--                                                    <a class="tooltip py-1 px-1 float-left" title="Edit Stock" wire:click="editStock({{ $s->id }})"><i class="fa fa-trash text-sm cursor-pointer"></i></a>--}}
+{{--                                                    <a class="tooltip py-1 px-1 float-right" title="Edit Stock" wire:click="editStock({{ $s->id }})"><i class="fa fa-edit text-sm cursor-pointer"></i></a>--}}
+{{--                                                </div>--}}
+                                                <div class="absolute right-2 top-1.5" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
+                                                    <div @click="open = ! open">
+                                                        <span
+                                                            class="inline-flex rounded-md text-gray-500 opacity-80 hover:opacity-100 cursor-pointer text-sm">
+                                                            <i class="fa fa-ellipsis-v ml-2 -mr-0.5 h-4 w-4"></i>
+                                                        </span>
+                                                    </div>
+
+                                                    <div x-show="open"
+                                                         x-transition:enter="transition ease-out duration-200"
+                                                         x-transition:enter-start="transform opacity-0 scale-95"
+                                                         x-transition:enter-end="transform opacity-100 scale-100"
+                                                         x-transition:leave="transition ease-in duration-75"
+                                                         x-transition:leave-start="transform opacity-100 scale-100"
+                                                         x-transition:leave-end="transform opacity-0 scale-95"
+                                                         class="absolute z-50 mt-2 w-36 rounded-md shadow-lg origin-top-right right-0"
+                                                         @click="open = false" style="display: none;"
+                                                    >
+                                                        <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
+                                                            <div>
+                                                                <a class="border border-gray-100 cursor-pointer text-sm text-green-500 block px-2 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out truncate "
+                                                                   style="border-top: none"
+                                                                   wire:click="editStock({{ $s->id }})">
+                                                                    {{ __('Edit Stock') }}
+                                                                </a>
+
+                                                                <a class="cursor-pointer block px-2 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out truncate text-sm text-red-500"
+                                                                   wire:click="deletestock({{ $s->id }})">
+                                                                    {{ __('Delete Stock') }}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="mt-3 my-2">
                                                     <div class="flex justify-center">
@@ -37,10 +72,10 @@
                                                         if (strpos($string, "http") === 0) {
                                                             $logoUrl = $s->ticker_logo;
                                                         } else {
-                                                            $logoUrl = '';
+                                                            $logoUrl = 'https://ui-avatars.com/api/?name='.$s->stock_ticker.'&color=7F9CF5&background=EBF4FF';
                                                         }
                                                         ?>
-                                                        <img src="{{ $logoUrl == '' ? 'https://ui-avatars.com/api/?name='.$s->stock_ticker.'&color=7F9CF5&background=EBF4FF' : $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                        <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
                                                         <a class="cursor-pointer text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">

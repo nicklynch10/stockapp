@@ -103,4 +103,9 @@ class Stocks extends Component
         $this->emit('company', $stockticker);
     }
 
+    public function deletestock($id)
+    {
+        $this->emit('stockDelete',$id);
+    }
+
 }

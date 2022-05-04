@@ -93,7 +93,7 @@
 
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
         @if(isset($this->sto) && count($this->sto)>0)
-            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-6 sm:col-span-6 xs:col-span-12 xs:col-start-2 rounded-lg">
+            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 {{(count($this->box2)>0 && $totalTaxableGainLoss!=0)?'col-span-6 sm:col-span-6':'col-span-12 sm:col-span-12'}}  xs:col-span-12 xs:col-start-2 rounded-lg">
                 <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5">

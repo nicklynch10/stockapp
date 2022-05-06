@@ -107,7 +107,7 @@
         *display: inline;
     }
     .ruler {
-        display:inline-block;
+        display:flex;
         margin: 0 auto;
         /*background: lightYellow;*/
         /*box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;*/

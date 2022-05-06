@@ -75,17 +75,7 @@ class StockAddEditModal extends Component
                     $company = $symbol->json();
                     $this->description = $company ? $company['description'] : '';
                     $this->sector = $company ? $company['sector'] : '';
-                    if (isset($company['issueType'])) {
-                        if ($company['issueType']=='et') {
-                            $this->issuetype="ETF";
-                        } elseif ($company['issueType']=='ad') {
-                            $this->issuetype="ADR";
-                        } elseif ($company['issueType']=='cs') {
-                            $this->issuetype="Common Stock";
-                        } else {
-                            $this->issuetype=$company['issueType'];
-                        }
-                    }
+                    $this->issuetype = $company ? convertType($company['issueType']) : '';
                     $this->tags = $company ? json_encode($company['tags']) : '';
                     $this->security_name = $company ? $company['securityName'] : '';
                     $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);

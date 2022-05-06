@@ -165,7 +165,7 @@ class Account extends Component
                     {
                         if($it->security_id == $se->security_id) // check investment transactions security id and securities security id
                         {
-                            $getAccountId = Accounts::where('plaid_account_id', $it->account_id)->first();
+                            $getAccountId = Accounts::where(['plaid_account_id' => $it->account_id, 'user_id' => Auth::user()->id])->first();
                             if($it->type == "buy" && $se->ticker_symbol!=null) // Check transactions type is buy
                             {
                                 $checkStock = Stock::where(['stock_ticker' => $se->ticker_symbol , 'date_of_purchase' => $it->date, 'user_id' => Auth::user()->id])->first();
@@ -220,23 +220,17 @@ class Account extends Component
                 }
             }
         }
-//        if(count($InsertedID)>0)
-//        {
-//            $this->dispatchBrowserEvent('alert', [
-//                'type'=>'success',
-//                'message'=>'All the hodings add in taxGhost',
-//            ]);
-//        }
-//        else
-//        {
-////            $this->dispatchBrowserEvent('alert', [
-////                'type'=>'error',
-////                'message'=>'No more holdings found in select account',
-////            ]);
-//            $this->message = 'Success';
-//        }
-        $this->message = 'Success';
-
+        if(count($InsertedID)>0)
+        {
+            $this->dispatchBrowserEvent('Success');
+        }
+        else
+        {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'error',
+                'message' => 'No more holdings found in selected account',
+            ]);
+        }
     }
 
     public function create()

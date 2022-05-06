@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="/css/flowbite.min.css" />
 
     <script src="https://unpkg.com/flowbite@1.3.4/dist/flowbite.js"></script>
-    @if(isset($this->message))
-        <input type="text" id="successmsg" value="{{ $this->message }}">
-    @endif
+{{--    @if(isset($this->message))--}}
+{{--        <input type="text" id="successmsg" value="{{ $this->message }}">--}}
+{{--    @endif--}}
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col sm:rounded-lg px-4 py-4">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -178,7 +178,7 @@
         });
     </script>
     <style>
-        @media screen and (max-width: 1000px) and (min-width: 500px){
+        @media screen and (max-width: 1000px) and (min-width: 550px){
             .model{
                 margin-top: 40%;
                 height: 30%;
@@ -186,10 +186,23 @@
                 overflow: hidden;
                 border-radius: 5%;
             }
-        }
-        @media screen and (max-width: 500px){
+        } @media screen and (max-width: 550px) and (min-width: 400px){
             .model{
-                margin-top: 80%;
+                margin-top: -320%;
+                height: 30%;
+                width: 100%;
+                overflow: hidden;
+                border-radius: 5%;
+            }
+            .text{
+                 margin-bottom: 0;
+                 font-size: x-large !important;
+                 margin-top: -106%;
+             }
+        }
+        @media screen and (max-width: 400px){
+            .model{
+                margin-top: -350%;
                 height: 30%;
                 width: 100%;
                 overflow: hidden;
@@ -212,29 +225,24 @@
     items-center h-modal md:h-full md:inset-0">
         <div class="relative px-4 w-full max-w-2xl h-full md:h-auto">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <button data-modal-toggle="defaultModal" type="button"  id="cls"></button>
+                <button data-modal-toggle="defaultModal" type="button" id="cls"></button>
                 <div class="p-6 pt-0 text-center" style="display: flex;justify-content: center;align-items: center;">
                     <h6 class="text mb-5 text-lg font-normal text-gray-500" style="position: absolute; font-size: xx-large; font-weight: bolder;color: #00c806;line-height: normal;">
-                        Plaid Accounts And All The Holdings Synch with TaxGhost Successfully</h6>
-                    <canvas  class="confetti" id="canvas" style="height: 40%; width: 100%;"></canvas>
+                        Plaid All Accounts And There Holdings Synch with TaxGhost Successfully</h6>
+                    <canvas  class="confetti" id="canvas" style="height: 100%; width: 100%;"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
+
     <script src="/js/confetti.min.js"></script>
     <script>
-        $('document').ready(function () {
-            var success =$('#successmsg').val();
-            console.log(success);
-            if(typeof success !== 'undefined' && success !== null && success !== '' )
-            {
-                console.log(success);
-                $('#btn').click();
+        window.addEventListener('Success', (e) => {
+            $('#btn').click();
                 setTimeout(function () {
                     $('#cls').click();
-                }, 5000);
-            }
+                }, 6000);
         });
     </script>
 </main>

@@ -220,7 +220,23 @@ class Account extends Component
                 }
             }
         }
+//        if(count($InsertedID)>0)
+//        {
+//            $this->dispatchBrowserEvent('alert', [
+//                'type'=>'success',
+//                'message'=>'All the hodings add in taxGhost',
+//            ]);
+//        }
+//        else
+//        {
+////            $this->dispatchBrowserEvent('alert', [
+////                'type'=>'error',
+////                'message'=>'No more holdings found in select account',
+////            ]);
+//            $this->message = 'Success';
+//        }
         $this->message = 'Success';
+
     }
 
     public function create()

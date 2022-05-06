@@ -9,7 +9,7 @@
 
     <script src="https://unpkg.com/flowbite@1.3.4/dist/flowbite.js"></script>
     @if(isset($this->message))
-        <input type="hidden" id="successmsg" value="{{ $this->message }}">
+        <input type="text" id="successmsg" value="{{ $this->message }}">
     @endif
     <div class="container mx-auto px-4 py-10 md:py-12">
         <div class="flex flex-col sm:rounded-lg px-4 py-4">
@@ -224,9 +224,9 @@
 
     <script src="/js/confetti.min.js"></script>
     <script>
-        $(window).load(function () {
+        $('document').ready(function () {
             var success =$('#successmsg').val();
-
+            console.log(success);
             if(typeof success !== 'undefined' && success !== null && success !== '' )
             {
                 console.log(success);
@@ -234,7 +234,6 @@
                 setTimeout(function () {
                     $('#cls').click();
                 }, 5000);
-
             }
         });
     </script>

@@ -72,9 +72,9 @@ if (!function_exists('convertType')) {
             $text1Sorted = implode('', $arr1);
             if ($text1Sorted == $text2Sorted) {
                 if ($full) {
-                    return $t1;
-                } else {
                     return $b;
+                } else {
+                    return $t1;
                 }
             }
         }

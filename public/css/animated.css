@@ -1,0 +1,326 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
+.wrapper {
+    margin: 18px 138px 10px;
+    height: 35px;
+    width: 512px;
+    background: linear-gradient(to right, #da1919 50%, #008000FF 50%);
+    border: 1px solid black;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+
+}
+/* growth and value */
+
+.blind {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #ffffff;
+    min-width: 50%;
+}
+
+.blind.right {
+    left: 50%;
+    border-left: 1px solid white;
+    transform-origin: left top;
+    background-color: #008000FF;
+    padding: 0 8px;
+
+}
+
+.blind.left {
+    border-right: 1px solid white;
+    transform-origin: left top;
+    background-color: #da1919;
+
+    /*background-image: url("https://storage.googleapis.com/iex/api/logos/TSLA.png");*/
+}
+.blind.left:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+}
+
+/* Small Cap and Large Cap */
+
+.blinds {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #ffffff;
+    min-width: 50%;
+}
+
+.blinds.right {
+    left: 50%;
+    border-left: 1px solid white;
+    transform-origin: left top;
+    background-color: #008000FF;
+    z-index: 1;
+
+}
+
+.blinds.left {
+    border-right: 1px solid white;
+    transform-origin: left top;
+    background-color: #da1919;
+
+}
+
+
+.blinds.right:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+    right: auto;
+}
+
+.blind.left:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: auto;
+    top: 0;
+    display: block;
+    min-width: 32px;
+    min-height: 33px;
+    right: -16px;
+}
+
+
+
+
+/* Low Volatility and  High Volatility */
+
+.blindsLow {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #ffffff;
+    min-width: 50%;
+}
+
+.blindsLow.right {
+    left: 50%;
+    border-left: 1px solid white;
+    transform-origin: left top;
+    background-color: #008000FF;
+    z-index: 1;
+
+}
+
+.blindsLow.left {
+    border-right: 1px solid white;
+    transform-origin: left top;
+    background-color: #da1919;
+
+}
+
+.blindsLow.right:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+    right: auto;
+}
+/* Lagging and Momentum */
+.blindsLagging {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #ffffff;
+    min-width: 50%;
+}
+
+.blindsLagging.right {
+    left: 50%;
+    border-left: 1px solid white;
+    transform-origin: left top;
+    background-color: #008000FF;
+    z-index: 1;
+
+}
+
+.blindsLagging.left {
+    border-right: 1px solid white;
+    transform-origin: left top;
+    background-color: #da1919;
+
+}
+
+.blindsLagging.right:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+    right: auto;
+}
+/* Fixed Income and Equities */
+.blindsFixed {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #ffffff;
+    min-width: 50%;
+}
+
+.blindsFixed.right {
+    left: 50%;
+    border-left: 1px solid white;
+    transform-origin: left top;
+    background-color: #008000FF;
+    z-index: 1;
+
+}
+
+.blindsFixed.left {
+    border-right: 1px solid white;
+    transform-origin: left top;
+    background-color: #da1919;
+
+}
+
+.blindsFixed.right:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+    right: auto;
+}
+/* Emerging and Developed */
+.blindsEmerging {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #ffffff;
+    min-width: 50%;
+}
+
+.blindsEmerging.right {
+    left: 50%;
+    border-left: 1px solid white;
+    transform-origin: left top;
+    background-color: #008000FF;
+    z-index: 1;
+
+}
+
+.blindsEmerging.left {
+    border-right: 1px solid white;
+    transform-origin: left top;
+    background-color: #da1919;
+
+}
+
+.blindsEmerging.left:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+}
+/* end */
+#buttons {
+    text-align: center;
+}
+
+/* Ruler crap */
+
+/*.ruler-container {*/
+/*    text-align: center;*/
+/*}*/
+.ruler, .ruler li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+/* IE6-7 Fix */
+.ruler, .ruler li {
+    *display: inline;
+}
+.ruler {
+    display:inline-block;
+    margin: 0 auto;
+    /*background: lightYellow;*/
+    /*box-shadow: 0 -1px 1em hsl(60, 60%, 84%) inset;*/
+    /*border-radius: 2px;*/
+    /*border: 1px solid #ccc;*/
+    color: #ccc;
+    height: 4em;
+    padding-right: 2cm;
+    white-space: nowrap;
+    margin-left: 1px;
+}
+.ruler li {
+    padding-left: 1cm;
+    width: 194px;
+    margin: 0.64em 1.8em 0.36em;
+    text-align: center;
+    position: relative;
+    text-shadow: 1px 1px hsl(60, 60%, 84%);
+}
+.ruler li:before {
+    content: '';
+    position: absolute;
+    border-left: 1px solid #ccc;
+    height: .69em;
+    top: -.70em;
+    right: 5em;
+}
+
+
+/*.progress .progress-bar:after{*/
+/*     content:"";*/
+/*     position: absolute;*/
+/*     top: 0px;*/
+/*     right: 0px;*/
+/*     background-image: url("https://storage.googleapis.com/iex/api/logos/TSLA.png");*/
+/*    background-size: 35px;*/
+/*     height:35px;*/
+/*     width: 35px;*/
+/*     border-radius: 50%;*/
+/*     border:1px solid black;*/
+/* }*/

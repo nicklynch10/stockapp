@@ -65,14 +65,14 @@ class StockAddEditModal extends Component
                 $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                     ->first();
             }
-            if(isset($this->companyname)){
-                $this->company_name=$this->companyname ? $this->companyname['ticker_company'] : '';
-                $this->stock_ticker=$this->companyname ? $this->companyname['ticker'] : '';
+            if(isset($this->companyname)) {
                 if ($this->companyname && $this->companyname['ticker']) {
                     $token = env('IEX_CLOUD_KEY', null);
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
                     $company = $symbol->json();
+                    $this->company_name = $company ? $company['companyName'] : $this->companyname['ticker_company'];
+                    $this->stock_ticker = $this->companyname ? $company['symbol'] : $this->companyname['ticker'];
                     $this->description = $company ? $company['description'] : '';
                     $this->sector = $company ? $company['sector'] : '';
                     $this->issuetype = $company ? convertType($company['issueType']) : '';
@@ -87,7 +87,7 @@ class StockAddEditModal extends Component
                     $logo_url = $logo->json();
                     $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
                 }
-            }else{
+            } else {
                 $this->company_name = '';
                 $this->stock_ticker = 'No Company Found';
                 $this->description = '';
@@ -100,7 +100,6 @@ class StockAddEditModal extends Component
                 $this->share_number = '';
                 $this->tickerLogo='';
             }
-
         }
         $this->emit('stockData');
         $this->account = Account::where('user_id', Auth::user()->id)->get();

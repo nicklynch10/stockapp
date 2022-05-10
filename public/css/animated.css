@@ -12,7 +12,7 @@
     border-radius: 20px;
 
 }
-/* growth and value */
+/*/ growth and value /*/
 
 .blind {
     height: 100%;
@@ -38,7 +38,7 @@
 
     /*background-image: url("https://storage.googleapis.com/iex/api/logos/TSLA.png");*/
 }
-.blind.left:before {
+.blind.left-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
@@ -51,7 +51,28 @@
     min-height: 33px;
 }
 
-/* Small Cap and Large Cap */
+.blind.right-demo:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+    right: auto;
+}
+
+
+
+
+
+
+
+
+/*/ Small Cap and Large Cap /*/
 
 .blinds {
     height: 100%;
@@ -78,7 +99,7 @@
 }
 
 
-.blinds.right:before {
+.blinds.right-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
@@ -91,25 +112,22 @@
     min-height: 33px;
     right: auto;
 }
-
-.blind.left:before {
+.blinds.left-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
     background-repeat: no-repeat;
     position: absolute;
-    left: auto;
+    right: -33px;
     top: 0;
     display: block;
-    min-width: 32px;
+    min-width: 33px;
     min-height: 33px;
-    right: -16px;
 }
 
 
 
-
-/* Low Volatility and  High Volatility */
+/*/ Low Volatility and  High Volatility /*/
 
 .blindsLow {
     height: 100%;
@@ -134,8 +152,20 @@
     background-color: #da1919;
 
 }
+.blindsLow.left-demo:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+}
 
-.blindsLow.right:before {
+.blindsLow.right-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
@@ -148,7 +178,9 @@
     min-height: 33px;
     right: auto;
 }
-/* Lagging and Momentum */
+
+
+/*/ Lagging and Momentum /*/
 .blindsLagging {
     height: 100%;
     position: absolute;
@@ -172,8 +204,19 @@
     background-color: #da1919;
 
 }
-
-.blindsLagging.right:before {
+.blindsLagging.left-demo:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+}
+.blindsLagging.right-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
@@ -186,7 +229,7 @@
     min-height: 33px;
     right: auto;
 }
-/* Fixed Income and Equities */
+/*/ Fixed Income and Equities /*/
 .blindsFixed {
     height: 100%;
     position: absolute;
@@ -210,8 +253,19 @@
     background-color: #da1919;
 
 }
-
-.blindsFixed.right:before {
+.blindsFixed.left-demo:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+}
+.blindsFixed.right-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
@@ -224,7 +278,7 @@
     min-height: 33px;
     right: auto;
 }
-/* Emerging and Developed */
+/*/ Emerging and Developed /*/
 .blindsEmerging {
     height: 100%;
     position: absolute;
@@ -249,7 +303,7 @@
 
 }
 
-.blindsEmerging.left:before {
+.blindsEmerging.left-demo:before {
     content: "";
     background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
     background-size: 33px 33px;
@@ -261,12 +315,25 @@
     min-width: 33px;
     min-height: 33px;
 }
-/* end */
+.blindsEmerging.right-demo:before {
+    content: "";
+    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
+    background-size: 33px 33px;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -33px;
+    top: 0;
+    display: block;
+    min-width: 33px;
+    min-height: 33px;
+    right: auto;
+}
+/*/ end /*/
 #buttons {
     text-align: center;
 }
 
-/* Ruler crap */
+/*/ Ruler crap /*/
 
 /*.ruler-container {*/
 /*    text-align: center;*/
@@ -277,7 +344,7 @@
     list-style: none;
     display: inline-block;
 }
-/* IE6-7 Fix */
+/*/ IE6-7 Fix /*/
 .ruler, .ruler li {
     *display: inline;
 }
@@ -323,4 +390,4 @@
 /*     width: 35px;*/
 /*     border-radius: 50%;*/
 /*     border:1px solid black;*/
-/* }*/
+/*/ }/*/

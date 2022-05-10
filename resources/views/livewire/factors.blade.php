@@ -34,7 +34,7 @@
                                    autocomplete="off"
                                    placeholder="Enter Ticker..."
                                    class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0"
-                                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
+                                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px" wire:model="ticker">
                             <x-jet-input-error for="ticker" class="mt-2" />
                         </div>
                         <div class="flex flex-col justify-between p-4 leading-normal">
@@ -84,99 +84,89 @@
                 </div>
                 <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                     <table class="historical">
-                            <tr>
-                                <th class="px-8 py-4"></th>
-                                <th class="px-8 py-4"></th>
-                                <th class="px-8 py-4"></th>
-                                <th class="px-8 py-4"></th>
-                                <th class="px-8 py-4"></th>
-                            </tr>
+                        <tr>
+                            <th class="px-8 py-4"></th>
+                            <th class="px-8 py-4"></th>
+                            <th class="px-8 py-4"></th>
+                            <th class="px-8 py-4"></th>
+                            <th class="px-8 py-4"></th>
+                        </tr>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
-                            <td> <label><b>Fixed Income </b></label></td>
-                            <td class="">
-                                <div class="wrapper mb-5">
-                                    <div class='blindsFixed right'></div>
-                                    <div class='blindsFixed left'></div>
-                                </div>
-                            </td>
-                            <td> <label><b>Equities </b></label></td>
-                            <td></td>
-                        </tr>
-
-
-                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
-                            <td> <label><b>Low Volatility </b></label></td>
-                            <td class="">
-                                <div class="wrapper mb-5">
-                                    <div class='blindsLow right'></div>
-                                    <div class='blindsLow left'></div>
-                                </div>
-                            </td>
-                            <td> <label><b>High Volatility </b></label></td>
-                            <td></td>
-                        </tr>
-
-
-                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
-                            <td> <label><b>Lagging </b></label></td>
-                            <td class="mt-8">
-                                <div class="wrapper">
-                                    <div class='blindsLagging right'></div>
-                                    <div class='blindsLagging left'></div>
-                                </div>
-                            </td>
-                            <td> <label><b>Momentum</b></label></td>
-                            <td></td>
-                        </tr>
-
-                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
-                            <td> <label><b>Emerging </b></label></td>
-                            <td class="mt-8">
-                                <div class="wrapper">
-                                    <div class='blindsEmerging right'></div>
-                                    <div class='blindsEmerging left'></div>
-                                </div>
-                            </td>
-                            <td> <label><b>Developed</b></label></td>
-                            <td></td>
-                        </tr>
-
-
-                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
-                            <td> <label><b>Small Cap </b></label></td>
-                            <td class="mt-8">
-                                <div class="wrapper">
-                                    <div class='blinds right'></div>
-                                    <div class='blinds left'></div>
-                                </div>
-                            </td>
-                            <td> <label><b>Large Cap</b></label></td>
-                            <td></td>
-                        </tr>
-
-
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
                             <td> <label><b>Growth </b></label></td>
                             <td class="">
                                 <div class="wrapper mb-5">
-                                    <div class='blind right'></div>
-                                    <div class='blind left'></div>
-                                </div>
-                                <div class="ruler-container">
-                                    <ul class="ruler" data-items="3"></ul>
+                                    <div class='blind right' id="blindRight"></div>
+                                    <div class='blind left' id="blindLeft"></div>
                                 </div>
                             </td>
                             <td> <label><b>Value </b></label></td>
                             <td></td>
                         </tr>
-
+                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                            <td></td>
+                            <td> <label><b>Small Cap </b></label></td>
+                            <td class="mt-8">
+                                <div class="wrapper">
+                                    <div class='blinds right' id="SmallRight"></div>
+                                    <div class='blinds left' id="SmallLeft"></div>
+                                </div>
+                            </td>
+                            <td> <label><b>Large Cap</b></label></td>
+                            <td></td>
+                        </tr>
+                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                            <td></td>
+                            <td> <label><b>Emerging </b></label></td>
+                            <td class="mt-8">
+                                <div class="wrapper">
+                                    <div class='blindsEmerging right' id="EmergingRight"></div>
+                                    <div class='blindsEmerging left' id="EmergingLeft"></div>
+                                </div>
+                            </td>
+                            <td> <label><b>Developed</b></label></td>
+                            <td></td>
+                        </tr>
+                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                            <td></td>
+                            <td> <label><b>Lagging </b></label></td>
+                            <td class="mt-8">
+                                <div class="wrapper">
+                                    <div class='blindsLagging right' id="LaggingRight"></div>
+                                    <div class='blindsLagging left' id="LaggingLeft"></div>
+                                </div>
+                            </td>
+                            <td> <label><b>Momentum</b></label></td>
+                            <td></td>
+                        </tr>
+                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                            <td></td>
+                            <td> <label><b>Low Volatility </b></label></td>
+                            <td class="">
+                                <div class="wrapper mb-5">
+                                    <div class='blindsLow right' id="LowRight"></div>
+                                    <div class='blindsLow left' id="LowLeft"></div>
+                                </div>
+                            </td>
+                            <td> <label><b>High Volatility </b></label></td>
+                            <td></td>
+                        </tr>
+                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                            <td></td>
+                            <td> <label><b>Fixed Income </b></label></td>
+                            <td class="">
+                                <div class="wrapper mb-5">
+                                    <div class='blindsFixed right' id="FixedRight"></div>
+                                    <div class='blindsFixed left' id="FixedLeft"></div>
+                                </div>
+                                <div class="ruler-container">
+                                    <ul class="ruler" data-items="3"></ul>
+                                </div>
+                            </td>
+                            <td> <label><b>Equities </b></label></td>
+                            <td></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -217,4 +207,9 @@
 
         </div>
     <script type="text/javascript" src="/js/animated.js"></script>
+    <script>
+        $("#tickerbar").on('change',function(){
+            window.location.reload();
+        });
+    </script>
 </div>

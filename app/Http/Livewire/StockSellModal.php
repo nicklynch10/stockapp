@@ -72,8 +72,8 @@ class StockSellModal extends Component
     public function addsell()
     {
         $this->validate([
-            'share_price'=>'required|regex:/^[1-9]+/|not_in:0',
-            'share_sold'=>'required',
+            'share_price'=>'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
+            'share_sold'=>'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
         ]);
 
         if($this->share_sold > $this->share_number){

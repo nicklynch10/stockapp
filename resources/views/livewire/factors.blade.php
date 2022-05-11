@@ -10,8 +10,7 @@
         </x-jet-section-title>
 
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form wire:submit.prevent="" enctype="multipart/form-data" method="post" >
-                @csrf
+
                 <div class="grid grid-cols-12  w-full flex">
                     <div class="grid-start-1 col-span-3 float-left  flex items-center justify-center">
                         @php
@@ -27,15 +26,18 @@
                     </div>
                     <div class="grid-start-4 col-span-9 float-right">
                         <div class="col-span-6 sm:col-span-4 p-4">
-                            <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
-                            <input wire:model.debounce.500ms="ticker"
-                                   type="ticker"
-                                   id="tickerbar"
-                                   autocomplete="off"
-                                   placeholder="Enter Ticker..."
-                                   class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0"
-                                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px" wire:model="ticker">
-                            <x-jet-input-error for="ticker" class="mt-2" />
+                            <form wire:submit.prevent="" enctype="multipart/form-data" method="post" >
+                            @csrf
+                                <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
+                                <input wire:model.debounce.500ms="ticker"
+                                       type="ticker"
+                                       id="tickerbar"
+                                       autocomplete="off"
+                                       placeholder="Enter Ticker..."
+                                       class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0"
+                                       style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
+                                <x-jet-input-error for="ticker" class="mt-2" />
+                            </form>
                         </div>
                         <div class="flex flex-col justify-between p-4 leading-normal">
                             @php
@@ -175,7 +177,7 @@
                 <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 bg-gray-50 sm:rounded-bl-md sm:rounded-br-md">
 
                 </div>
-            </form>
+
         </div>
     </div>
     <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10">
@@ -186,7 +188,7 @@
                         class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Factor
                     </th>
                     <th
-                        class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Correlation @if($ticker != "")with {{$ticker}}@endif
+                        class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]" id="mytable">Correlation @if($ticker != "")with {{$ticker}}@endif
                     </th>
                 </tr>
                 </thead>
@@ -196,20 +198,21 @@
                     @foreach($correlations->slice(0, 20) as $result)
 
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->factor->name}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" class="dataChange" data-label="Stock Ticker">{{$result->factor->name}}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->correlation}}</td>
                         </tr>
                     @endforeach
                 @endif
-
                 </tbody>
             </table>
 
         </div>
-    <script type="text/javascript" src="/js/animated.js"></script>
+    <script type="text/javascript" id="scriptid" class="selectpicker" src="/js/animated.js"></script>
     <script>
-        $("#tickerbar").on('change',function(){
-            window.location.reload();
+        $("#mytable").bind("DOMSubtreeModified", function() {
+            $(this).delay(1000).queue(function(){
+                window.location.reload();
+            });
         });
     </script>
 </div>

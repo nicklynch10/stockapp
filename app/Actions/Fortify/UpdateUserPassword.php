@@ -26,10 +26,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
                 $this->passwordRules(),
                 'different:current_password',
                 'min:8',             // must be at least 10 characters in length
-                'regex:/[a-z]/',      // must contain at least one lowercase letter
-                'regex:/[A-Z]/',      // must contain at least one uppercase letter
-                'regex:/[0-9]/',
-
+                'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
             ],
             'password_confirmation'=> 'required_with:password|same:password'
         ],['password.different' => 'The new password and old password must be different','password.regex' => 'The Password should be combination of alphanumeric and special character'])->after(function ($validator) use ($user, $input) {

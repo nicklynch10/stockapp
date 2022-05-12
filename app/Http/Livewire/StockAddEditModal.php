@@ -88,17 +88,11 @@ class StockAddEditModal extends Component
                     $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
                 }
             } else {
-                $this->company_name = '';
-                $this->stock_ticker = 'No Company Found';
-                $this->description = '';
-                $this->sector = '';
-                $this->issuetype = '';
-                $this->security_name = '';
-                $this->current_share_price = '';
-                $this->market_cap = '';
-                $this->average_cost = '';
-                $this->share_number = '';
-                $this->tickerLogo='';
+                $this->closeModal();
+                $this->dispatchBrowserEvent('alert', [
+                    'type' => 'error',
+                    'message' => 'No Company Found',
+                ]);
             }
         }
         $this->emit('stockData');
@@ -112,7 +106,9 @@ class StockAddEditModal extends Component
             'average_cost' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_number' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'date_of_purchase' => 'required',
+//            'company_name' => 'required'
         ]);
+
         $this->currentStep = 2;
     }
 

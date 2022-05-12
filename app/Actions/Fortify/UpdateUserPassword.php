@@ -29,9 +29,10 @@ class UpdateUserPassword implements UpdatesUserPasswords
                 'regex:/[a-z]/',      // must contain at least one lowercase letter
                 'regex:/[A-Z]/',      // must contain at least one uppercase letter
                 'regex:/[0-9]/',
+
             ],
             'password_confirmation'=> 'required_with:password|same:password'
-        ],['password.different' => 'The new password and old password must be different'])->after(function ($validator) use ($user, $input) {
+        ],['password.different' => 'The new password and old password must be different','password.regex' => 'The Password should be combination of alphanumeric and special character'])->after(function ($validator) use ($user, $input) {
             if (! isset($input['current_password']) || ! Hash::check($input['current_password'], $user->password)) {
                 $validator->errors()->add('current_password', __('The provided password does not match your current password.'));
             }

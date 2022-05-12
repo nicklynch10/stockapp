@@ -17,7 +17,7 @@ class CreateNewUser implements CreatesNewUsers
      * Validate and create a newly registered user.
      *
      * @param  array  $input
-     * @return \App\Models\User
+     * @return User
      */
     public function create(array $input)
     {
@@ -35,7 +35,7 @@ class CreateNewUser implements CreatesNewUsers
             ],
             'password_confirmation'=> 'required_with:password|same:password',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
-        ])->validate();
+        ],['password.regex' => 'The Password should be combination of alphanumeric and special character'])->validate();
 
         $insert= User::create([
             'name' => $input['first_name']." ".$input['last_name'],

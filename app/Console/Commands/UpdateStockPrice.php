@@ -70,7 +70,7 @@ class UpdateStockPrice extends Command
                         $user = User::where('id',$stock->user_id)->get();
                         foreach ($user as $u) {
                             $u->notify(new Currentportfoliochange($details));
-                            sleep(1);
+                            sleep(2);
                         }
                     }
                 }

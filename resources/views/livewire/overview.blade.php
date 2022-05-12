@@ -158,8 +158,11 @@
             @endforeach];
         var yValues = [
             @foreach($this->sto as $st)
+                @php
+                    $current_value = \App\Models\Stock::select('current_share_price')->where('user_id',Auth::user()->id)->where('stock_ticker',$st->stock_ticker)->first();
+                @endphp
                 @if($st->total_stock!=0)
-                {{round($st->total_stock*$st->current_share_price)}},
+                {{round($st->total_stock*$current_value->current_share_price)}},
             @endif
             @endforeach];
 

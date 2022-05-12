@@ -30,6 +30,7 @@ class Account extends Component
     public $accountName;
     public $beforeDate;
     public $message;
+    public $accounts;
     protected $listeners = ['getToken' => 'render', 'getAccessToken' => 'getAccessToken'];
 
     public function render()
@@ -89,17 +90,19 @@ class Account extends Component
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
+
         $data = json_decode($resp);
         $this->access = $data->access_token;
-        $this->getInvestment($this->access);
+        $this->addHoldings($this->access);
     }
 
-    public function getInvestment($access_token)
+    public function addHoldings($token)
     {
+        $tokens = $token;
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
-        $beforeDate = date('Y-m-d', strtotime('-2 months'));
-        $url = "https://sandbox.plaid.com/investments/transactions/get";
+
+        $url = "https://sandbox.plaid.com/investments/holdings/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -111,21 +114,13 @@ class Account extends Component
         $data = '{
             "client_id": "'.$client_id.'",
             "secret": "'.$secret.'",
-            "access_token": "'.$access_token.'",
-            "start_date": "'.$beforeDate.'",
-            "end_date":"'.date('Y-m-d').'"}';
+            "access_token": "'.$tokens.'"}';
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
-        $this->addHoldings($data);
-    }
-
-    public function addHoldings($data)
-    {
-        $response = $data;
-        foreach ($response->accounts as $ac)
+        foreach ($data->accounts as $ac)
         {
             if($ac->type == "investment")
             {
@@ -154,67 +149,149 @@ class Account extends Component
             }
         }
         $account = Accounts::where('user_id',Auth::user()->id)->get();
-        $InsertedID = [];
         foreach($account as $ac)
         {
-            foreach ($response->investment_transactions as $it)
+            foreach ($data->holdings as $hold)
             {
-                if($ac->plaid_account_id == $it->account_id)
+                if($ac->plaid_account_id == $hold->account_id)
                 {
-                    foreach ($response->securities as $se)
+                    foreach ($data->securities as $se)
                     {
-                        if($it->security_id == $se->security_id) // check investment transactions security id and securities security id
+                        if($hold->security_id == $se->security_id && $se->ticker_symbol!=null) // check investment Holdings security id and securities security id
                         {
-                            $getAccountId = Accounts::where(['plaid_account_id' => $it->account_id, 'user_id' => Auth::user()->id])->first();
-                            if($it->type == "buy" && $se->ticker_symbol!=null) // Check transactions type is buy
+                            $getAccountId = Accounts::where(['plaid_account_id' => $hold->account_id, 'user_id' => Auth::user()->id])->first();
+                            $checkStock = Stock::where(['stock_ticker' => $se->ticker_symbol , 'security_id' => $hold->security_id,'user_id' => Auth::user()->id])->first();
+                            if(!isset($checkStock))
                             {
-                                $checkStock = Stock::where(['stock_ticker' => $se->ticker_symbol , 'date_of_purchase' => $it->date, 'user_id' => Auth::user()->id])->first();
-                                if(!isset($checkStock))
-                                {
-                                    $insertid=Stock::Create([
-                                        'user_id'=>Auth::user()->id,
-                                        'stock_ticker' => $se->ticker_symbol,
-                                        'ave_cost' => $it->price,
-                                        'share_number' => $it->quantity,
-                                        'date_of_purchase' => $it->date,
-                                        'account_id' => $getAccountId->id,
-                                    ]);
-                                    $lastInsertedID = $insertid->id;
+                                $insertid=Stock::Create([
+                                    'user_id'=>Auth::user()->id,
+                                    'stock_ticker' => $se->ticker_symbol,
+                                    'ave_cost' => $hold->cost_basis,
+                                    'share_number' => $hold->quantity,
+                                    'date_of_purchase' => date('Y-m-d'),
+                                    'account_id' => $getAccountId->id,
+                                    'security_id' => $hold->security_id,
+                                ]);
+                                $lastInsertedID = $insertid->id;
 
-                                    Transaction::Create([
-                                        'stock_id' => $lastInsertedID,
-                                        'type' => 0,
-                                        'ticker_name' =>  $se->ticker_symbol,
-                                        'stock' =>  $it->quantity,
-                                        'share_price' => $it->price,
-                                        'user_id' => Auth::user()->id,
-                                        'date_of_transaction' => $it->date,
-                                    ]);
-                                    array_push($InsertedID,$lastInsertedID);
-                                }
+                                Transaction::Create([
+                                    'stock_id' => $lastInsertedID,
+                                    'type' => 0,
+                                    'ticker_name' =>  $se->ticker_symbol,
+                                    'stock' =>  $hold->quantity,
+                                    'share_price' => $hold->cost_basis,
+                                    'user_id' => Auth::user()->id,
+                                    'date_of_transaction' => date('Y-m-d'),
+                                    'plaid_investment_transaction_id' => $hold->security_id,
+                                ]);
                             }
-                            elseif ($it->type == "sell")
+                        }
+                    }
+                }
+            }
+        }
+        $this->access_token = $token;
+        $this->getInvestment($this->access_token);
+    }
+
+    public function getInvestment($access_token)
+    {
+        $client_id = env('PLAID_CLIENT_ID');
+        $secret = env('PLAID_SECRET');
+        $beforeDate = date('Y-m-d', strtotime('-2 months'));
+        $url = "https://sandbox.plaid.com/investments/transactions/get";
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $headers = array(
+            "Content-Type: application/json",
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        $data = '{
+            "client_id": "'.$client_id.'",
+            "secret": "'.$secret.'",
+            "access_token": "'.$access_token.'",
+            "start_date": "'.$beforeDate.'",
+            "end_date":"'.date('Y-m-d').'"}';
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $resp = curl_exec($curl);
+        $data = json_decode($resp);
+        $this->addInvestment($data);
+    }
+
+    public function addInvestment($data)
+    {
+        $response = $data;
+        $InsertedID = [];
+        $getStock = Stock::where('user_id',Auth::user()->id)->get();
+        foreach ($getStock as $stock)
+        {
+            foreach ($response->investment_transactions as $inv)
+            {
+                if($stock->security_id == $inv->security_id && $stock->stock_ticker!=null)
+                {
+                    if($inv->type == "sell")
+                    {
+                        if(abs($inv->quantity) > $stock->share_number){
+                            //
+                        }
+                        else{
+                            $transactionCheck = Transaction::where(['type' => 1,'plaid_investment_transaction_id' => $inv->security_id, 'user_id' => Auth::user()->id,'stock' => $inv->quantity])->first();
+                            $stockCheck = Stock::where(['security_id' => $inv->security_id,'user_id' => Auth::user()->id])->first();
+                            if($stockCheck != null && $transactionCheck==null)
                             {
-                                $sellStock = Stock::where(['stock_ticker' => $se->ticker_symbol , 'date_of_purchase' => $it->date, 'user_id' => Auth::user()->id])->first();
-                                if(isset($sellStock))
-                                {
-                                    if($it->quantity < $sellStock->share_number){
-                                        $final_stock = $sellStock->share_number - $it->quantity;
-                                        $sellStock->update([
-                                            'share_number'=>$final_stock,
-                                        ]);
-                                    }
-                                    Transaction::Create([
-                                        'stock_id' => $sellStock->id,
-                                        'type' => 1,
-                                        'ticker_name' =>  $se->ticker_symbol,
-                                        'stock' =>  $it->quantity,
-                                        'share_price' => $it->price,
-                                        'user_id' => Auth::user()->id,
-                                        'date_of_transaction' => $it->date,
+                                if($stock->id){
+                                    Transaction::create([
+                                        'stock_id'=>$stock->id,
+                                        'type'=>1,
+                                        'ticker_name'=>$stock->stock_ticker,
+                                        'stock'=>abs($inv->quantity),
+                                        'share_price'=>$inv->price,
+                                        'user_id'=>Auth::user()->id,
+                                        'date_of_transaction'=>$inv->date,
+                                        'plaid_investment_transaction_id' => $inv->security_id,
+                                    ]);
+
+                                    $current_stock=Stock::select('share_number')->where('id',$stock->id)->first();
+                                    $final_stock=$current_stock->share_number-abs($inv->quantity);
+                                    $record = Stock::find($stock->id);
+                                    $record->update([
+                                        'share_number'=>$final_stock,
                                     ]);
                                 }
                             }
+                        }
+                    }
+                    elseif ($inv->type == "buy")
+                    {
+                        $stockCheck = Stock::where(['security_id' => $inv->security_id,'user_id' => Auth::user()->id,'share_number' => $inv->quantity])->first();
+                        if($stockCheck == null)
+                        {
+                            $insertid=Stock::Create([
+                                'user_id'=>Auth::user()->id,
+                                'stock_ticker' => $stock->stock_ticker,
+                                'ave_cost' => $inv->price,
+                                'share_number' => $inv->quantity,
+                                'date_of_purchase' => $inv->date,
+                                'account_id' => $stock->account_id,
+                                'security_id' => $inv->security_id,
+                            ]);
+                            $lastInsertedID = $insertid->id;
+
+                            Transaction::Create([
+                                'stock_id' => $lastInsertedID,
+                                'type' => 0,
+                                'ticker_name' =>  $stock->stock_ticker,
+                                'stock' =>  $inv->quantity,
+                                'share_price' => $inv->price,
+                                'user_id' => Auth::user()->id,
+                                'date_of_transaction' => date('Y-m-d'),
+                                'plaid_investment_transaction_id' => $inv->security_id,
+                            ]);
+                            array_push($InsertedID,$lastInsertedID);
                         }
                     }
                 }

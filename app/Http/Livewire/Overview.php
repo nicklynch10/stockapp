@@ -29,7 +29,7 @@ class Overview extends Component
     public function render()
     {
         //  Pie chart
-        $this->sto = Stock::select('stock_ticker','current_share_price',DB::raw("(sum(share_number)) as total_stock"))->where('user_id',Auth::user()->id)->groupBy('stock_ticker','current_share_price')->get();
+        $this->sto = Stock::select('stock_ticker',DB::raw("(sum(share_number)) as total_stock"))->where('user_id',Auth::user()->id)->whereNotNull('current_share_price')->groupBy('stock_ticker')->get();
         $this->totalSavingsRealized=0;
 
         // Line chart

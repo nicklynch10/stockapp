@@ -28,6 +28,7 @@ class Stock extends Model
         'share_number',
         'date_of_purchase',
         'account_id',
+        'security_id',
         'note',
         'dchange',
         'pchange',

@@ -17,4 +17,5 @@
   'stock-sell-modal' => 'App\\Http\\Livewire\\StockSellModal',
   'stock-share-sell' => 'App\\Http\\Livewire\\StockShareSell',
   'stocks' => 'App\\Http\\Livewire\\Stocks',
+  'test' => 'App\\Http\\Livewire\\Test',
 );

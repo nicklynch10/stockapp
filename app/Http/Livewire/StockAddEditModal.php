@@ -112,7 +112,6 @@ class StockAddEditModal extends Component
             'average_cost' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_number' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'date_of_purchase' => 'required',
-            'company_name' => 'required'
         ]);
         $this->currentStep = 2;
     }
@@ -161,9 +160,7 @@ class StockAddEditModal extends Component
             'stock_ticker' => 'required',
             'average_cost' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_number' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
-            'market_cap' => 'regex:/^[1-9]+/|not_in:0',
             'date_of_purchase' => 'required',
-            'company_name' => 'required'
         ]);
         $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
 

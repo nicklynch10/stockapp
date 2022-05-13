@@ -87,12 +87,19 @@ class StockAddEditModal extends Component
                     $logo_url = $logo->json();
                     $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
                 }
-            } else {
-                $this->closeModal();
-                $this->dispatchBrowserEvent('alert', [
-                    'type' => 'error',
-                    'message' => 'No Company Found',
-                ]);
+            }
+            else {
+                $this->company_name = '';
+                $this->stock_ticker = 'No Company Found';
+                $this->description = '';
+                $this->sector = '';
+                $this->issuetype = '';
+                $this->security_name = '';
+                $this->current_share_price = '';
+                $this->market_cap = '';
+                $this->average_cost = '';
+                $this->share_number = '';
+                $this->tickerLogo='';
             }
         }
         $this->emit('stockData');
@@ -106,8 +113,8 @@ class StockAddEditModal extends Component
             'average_cost' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_number' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'date_of_purchase' => 'required',
-//            'company_name' => 'required'
-        ]);
+            'company_name' => 'required'
+        ],['company_name.required' => 'No Company Found Please Enter Valid Company Name']);
 
         $this->currentStep = 2;
     }
@@ -259,6 +266,10 @@ class StockAddEditModal extends Component
     }
     public function openModal()
     {
+        $this->resetValidation('average_cost');
+        $this->resetValidation('share_number');
+        $this->resetValidation('date_of_purchase');
+        $this->resetValidation('company_name');
         $this->isOpen = true;
     }
 

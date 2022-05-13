@@ -318,6 +318,9 @@ class Account extends Component
 
     public function openModal()
     {
+        $this->resetValidation('account_type');
+        $this->resetValidation('account_name');
+        $this->resetValidation('account_brokerage');
         $this->isOpen = true;
     }
 

@@ -69,9 +69,8 @@ class StockAddEditModal extends Component
                 if ($this->companyname && $this->companyname['ticker']) {
                     $token = env('IEX_CLOUD_KEY', null);
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                    $symbol = Http::get($endpoint . 'stable/ref-data/mutual-funds/symbols?token=' . $token);
+                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
                     $company = $symbol->json();
-                    dd($company);
                     $this->company_name = $company ? $company['companyName'] : $this->companyname['ticker_company'];
                     $this->stock_ticker = $this->companyname ? $company['symbol'] : $this->companyname['ticker'];
                     $this->description = $company ? $company['description'] : '';

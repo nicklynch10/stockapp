@@ -219,7 +219,6 @@ class Account extends Component
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
-        dd($data);
         $this->addInvestment($data);
     }
 

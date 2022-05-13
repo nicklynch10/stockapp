@@ -1,8 +1,6 @@
 <div>
     <link rel="stylesheet" type="text/css" href="/css/animated.css" />
 
-
-
     <div class="md:grid md:grid-cols-3 md:gap-6">
         <x-jet-section-title>
             <x-slot name="title"></x-slot>
@@ -14,15 +12,20 @@
                 <div class="grid grid-cols-12  w-full flex">
                     <div class="grid-start-1 col-span-3 float-left  flex items-center justify-center">
                         @php
-                            $string = $this->logo;
+                            $token = env('IEX_CLOUD_KEY', null);
+                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                            $logo = Http::get($endpoint . 'stable/stock/' . $this->ticker . '/logo?token=' . $token);
+                            $logo_url = $logo->json();
+                            $tickerLogo = $logo_url ? $logo_url['url'] : '';
+                            $string = $tickerLogo;
                             if (strpos($string, "http") === 0) {
-                                $logoUrl = $this->logo;
+                            $logoUrl = $tickerLogo;;
                             } else {
-                                $logoUrl = 'https://storage.googleapis.com/iex/api/logos/'.$this->ticker.'.png';
+                            $logoUrl = 'https://ui-avatars.com/api/?name='.$this->ticker.'&color=7F9CF5&background=EBF4FF';
                             }
                         @endphp
-
-                        <img src="{{ isset($this->logo) ? $logoUrl : 'https://ui-avatars.com/api/?name=UBS&color=7F9CF5&background=EBF4FF' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                        <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+{{--                        <img src="{{ isset($logoUrl) ? $logoUrl : 'https://ui-avatars.com/api/?name=UBS&color=7F9CF5&background=EBF4FF' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">--}}
                     </div>
                     <div class="grid-start-4 col-span-9 float-right">
                         <div class="col-span-6 sm:col-span-4 p-4">
@@ -61,9 +64,11 @@
                             </div>
                             <div class="flow-root">
                                 <label><b>Tags :</b></label>
-                                @foreach($tag as $t)
-                                    <span>[ {{ $t }} ] </span>
-                                @endforeach
+                                @if(isset($tag))
+                                    @foreach($tag as $t)
+                                        <span>[ {{ $t }} ] </span>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -207,6 +212,171 @@
             </table>
 
         </div>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
+        .blind.left-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+
+        .blind.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+
+        .blinds.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+        .blinds.left-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+
+
+        .blindsLow.left-demo:before {
+            content: "";
+            background-image:url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+
+        .blindsLow.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+
+
+        .blindsLagging.left-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+        .blindsLagging.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+
+        .blindsFixed.left-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+        .blindsFixed.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+
+
+        .blindsEmerging.left-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+        .blindsEmerging.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 33px 33px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+
+    </style>
     <script type="text/javascript" id="scriptid" class="selectpicker" src="/js/animated.js"></script>
     <script>
         $("#mytable").bind("DOMSubtreeModified", function() {

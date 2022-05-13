@@ -58,13 +58,12 @@ class Factors extends Component
         $f->name = "Fixed Income => Equities";
         $f->save();
         $this->factors->push($f);
-
         $this->updatedTicker();
+
     }
 
     public function updatedTicker()
     {
-
         $SI = getTicker($this->ticker);
         $this->correlations = collect([]);
 

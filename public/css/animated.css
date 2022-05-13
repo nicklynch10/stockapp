@@ -38,32 +38,32 @@
 
     /*background-image: url("https://storage.googleapis.com/iex/api/logos/TSLA.png");*/
 }
-.blind.left-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-}
+/*.blind.left-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    right: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*}*/
 
-.blind.right-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-    right: auto;
-}
+/*.blind.right-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    left: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*    right: auto;*/
+/*}*/
 
 
 
@@ -99,31 +99,31 @@
 }
 
 
-.blinds.right-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-    right: auto;
-}
-.blinds.left-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-}
+/*.blinds.right-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    left: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*    right: auto;*/
+/*}*/
+/*.blinds.left-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    right: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*}*/
 
 
 
@@ -152,32 +152,32 @@
     background-color: #da1919;
 
 }
-.blindsLow.left-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-}
+/*.blindsLow.left-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    right: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*}*/
 
-.blindsLow.right-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-    right: auto;
-}
+/*.blindsLow.right-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    left: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*    right: auto;*/
+/*}*/
 
 
 /*/ Lagging and Momentum /*/
@@ -204,31 +204,31 @@
     background-color: #da1919;
 
 }
-.blindsLagging.left-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-}
-.blindsLagging.right-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-    right: auto;
-}
+/*.blindsLagging.left-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    right: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*}*/
+/*.blindsLagging.right-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    left: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*    right: auto;*/
+/*}*/
 /*/ Fixed Income and Equities /*/
 .blindsFixed {
     height: 100%;
@@ -253,31 +253,31 @@
     background-color: #da1919;
 
 }
-.blindsFixed.left-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-}
-.blindsFixed.right-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-    right: auto;
-}
+/*.blindsFixed.left-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    right: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*}*/
+/*.blindsFixed.right-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    left: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*    right: auto;*/
+/*}*/
 /*/ Emerging and Developed /*/
 .blindsEmerging {
     height: 100%;
@@ -303,31 +303,31 @@
 
 }
 
-.blindsEmerging.left-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    right: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-}
-.blindsEmerging.right-demo:before {
-    content: "";
-    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);
-    background-size: 33px 33px;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: -33px;
-    top: 0;
-    display: block;
-    min-width: 33px;
-    min-height: 33px;
-    right: auto;
-}
+/*.blindsEmerging.left-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    right: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*}*/
+/*.blindsEmerging.right-demo:before {*/
+/*    content: "";*/
+/*    background-image: url(https://storage.googleapis.com/iex/api/logos/TSLA.png);*/
+/*    background-size: 33px 33px;*/
+/*    background-repeat: no-repeat;*/
+/*    position: absolute;*/
+/*    left: -33px;*/
+/*    top: 0;*/
+/*    display: block;*/
+/*    min-width: 33px;*/
+/*    min-height: 33px;*/
+/*    right: auto;*/
+/*}*/
 /*/ end /*/
 #buttons {
     text-align: center;

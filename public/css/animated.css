@@ -366,7 +366,7 @@
     width: 194px;
     margin: 0.64em 1.8em 0.36em;
     text-align: center;
-    position: relative;
+    /*position: relative;*/
     text-shadow: 1px 1px hsl(60, 60%, 84%);
 }
 .ruler li:before {

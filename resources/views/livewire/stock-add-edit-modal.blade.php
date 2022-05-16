@@ -1,6 +1,6 @@
 <x-jet-dialog-modal wire:model="isOpen">
     <x-slot name="title">
-        {{ __('Purchase New Stock') }}
+        @if($this->stock_id == '') {{ __('Purchase New Stock') }} @else {{ __('Edit Stock') }} @endif
         <button wire:click="closeModal()" class="float-right"><i class="fa fa-close"></i></button>
     </x-slot>
 

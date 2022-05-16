@@ -101,6 +101,18 @@
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
+                            <td></td>
+                            <td class="mr-10">
+                                <div class="ruler-container">
+                                    <ul class="ruler" data-items="3"></ul>
+                                </div>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                            <td></td>
                             <td> <label><b>Growth </b></label></td>
                             <td class="">
                                 <div class="wrapper mb-5">

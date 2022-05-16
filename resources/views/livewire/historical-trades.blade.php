@@ -8,7 +8,7 @@
                 <th class="px-6 py-4">Company Name</th>
                 <th class="px-6 py-4">Summary</th>
                 <th class="px-6 py-4">Taxable Gain / (Loss)</th>
-                <th class="px-6 py-4">Transaction Cost</th>
+                <th class="px-6 py-4">Transaction Proceeds (Cost)</th>
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">

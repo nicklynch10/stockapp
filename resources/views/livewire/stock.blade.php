@@ -43,8 +43,7 @@
                                                          x-transition:leave-start="transform opacity-100 scale-100"
                                                          x-transition:leave-end="transform opacity-0 scale-95"
                                                          class="absolute z-50 mt-2 w-36 rounded-md shadow-lg origin-top-right right-0"
-                                                         @click="open = false" style="display: none;"
-                                                    >
+                                                         @click="open = false" style="display: none;">
                                                         <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
                                                             <div>
                                                                 <a class="border border-gray-100 cursor-pointer text-sm text-green-500 block px-2 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out truncate "

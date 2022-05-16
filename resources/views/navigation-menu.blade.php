@@ -26,7 +26,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('portfolio') }}">
+                    <a href="{{ route('overview') }}">
                         <img src="/images/logo.png" class="logo">
 {{--                        <x-jet-application-mark class="block h-9 w-auto" />--}}
                     </a>
@@ -159,6 +159,9 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
+                <div class="ml-3 relative">
+                    <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>
+                </div>
             </div>
 
             <!-- Hamburger -->
@@ -265,6 +268,10 @@
                     @endforeach
                 @endif
             </div>
+            <div class="ml-3 relative">
+                <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>
+            </div>
+
         </div>
     </div>
 </nav>

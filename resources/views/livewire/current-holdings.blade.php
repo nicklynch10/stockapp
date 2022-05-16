@@ -130,7 +130,7 @@
     <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
         <h2 class="text-xl font-black">Current Holdings</h2>
         <select wire:change="sort($event.target.value)" class="shadow appearance-none border mb-3 w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            <option>Sort By</option>
+            <option value="0" hidden>Sort By</option>
             <option value="stock_ticker">Stock Ticker</option>
             <option value="company_name">company_name</option>
             <option value="share_number">share_number</option>

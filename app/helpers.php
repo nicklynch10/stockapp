@@ -9,7 +9,7 @@ if (!function_exists('getTicker')) {
         //creates an SecInfo from a ticker
         // will not create if exists already
 
-        $SI1 = SecInfo::all()->where("ticker", $ticker)->first();
+        $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name',$ticker)->first();
         if (!$SI1) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;

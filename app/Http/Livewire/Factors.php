@@ -72,8 +72,4 @@ class Factors extends Component
             $this->correlations->push($FC);
         }
     }
-
-
-
-
 }

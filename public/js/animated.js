@@ -15,10 +15,12 @@ function animate(percentage) {
         // determine which blind we're animating
         let blind = percentage < 0 ? "left" : "right";
         if (percentage < 0){
-            $("#blindLeft").addClass("left-demo");
 
+            $("#blindLeft").addClass("left-demo");
+            $("#blindLeft").attr("title",parseFloat(percentage).toFixed(2));
         }else {
             $("#blindRight").addClass("right-demo");
+            $("#blindRight").attr("title",parseFloat(percentage).toFixed(2));
         }
         $(`.blind.${blind}`)[0].animate(
             [
@@ -102,9 +104,6 @@ function animate(percentage) {
 
 $(document).ready(function () {
     animate($('#Growth').val());
-    // $(".apply").click(function () {
-    //     animate($("#amount").val());
-    // });
 });
 
 // animate(20);
@@ -146,7 +145,7 @@ function animates(percentages) {
 
     // determine if we've crossed the 0 threshold, which would force us to do something else here
     let thresholds = currentPercentageStates / percentages < 0;
-    // console.log("Crosses 0: " + thresholds);
+
     if (!thresholds && percentages != 0) {
         // determine which blind we're animating
         let blinds = percentages < 0 ? "left" : "right";
@@ -154,8 +153,10 @@ function animates(percentages) {
         if(percentages < 0)
         {
             $("#SmallLeft").addClass("left-demo");
+            $("#SmallLeft").attr("title",parseFloat(percentages).toFixed(2));
         }else {
             $("#SmallRight").addClass("right-demo");
+            $("#SmallRight").attr("title",parseFloat(percentages).toFixed(2));
         }
 
         $(`.blinds.${blinds}`)[0].animate(
@@ -182,20 +183,10 @@ function animates(percentages) {
 
         // get total travel distance
         let deltas = currentPercentageStates - percentages;
-        // console.log(deltas)
         // find the percentage of that travel that the first blind is responsible for
         let firstTravels  = currentPercentageStates / deltas;
         let secondTravels = 1 - firstTravels;
 
-        console.log("delta; total values to travel: ", deltas);
-        console.log(
-            "firstTravel; percentage of the total travel that should be done by the first blind: ",
-            firstTravels
-        );
-        console.log(
-            "secondTravel; percentage of the total travel that should be done by the second blind: ",
-            secondTravels
-        );
 
         // animate the first blind.
         $(`.blinds.${firstBlinds}`)[0].animate(
@@ -244,7 +235,6 @@ function animates(percentages) {
     }
     // save the new value so that the next iteration has a proper from keyframe
     currentPercentageStates = percentages;
-    // console.log(percentages)
 }
 
 
@@ -252,8 +242,6 @@ function animates(percentages) {
 
 $(document).ready(function () {
     animates($('#Small').val());
-
-
 });
 
 // Low Volatility and 	High Volatility	//
@@ -268,7 +256,6 @@ function animatesLow(percentagesLow) {
 
     // determine if we've crossed the 0 threshold, which would force us to do something else here
     let thresholdsLow = currentPercentageStatesLow / percentagesLow < 0;
-    console.log("Crosses 0: " + thresholdsLow);
     if (!thresholdsLow && percentagesLow != 0) {
         // determine which blind we're animating
         let blindsLow = percentagesLow < 0 ? "left" : "right";
@@ -276,8 +263,10 @@ function animatesLow(percentagesLow) {
         if(percentagesLow < 0)
         {
             $("#LowLeft").addClass("left-demo");
+            $("#LowLeft").attr("title",parseFloat(percentagesLow).toFixed(2));
         }else {
             $("#LowRight").addClass("right-demo");
+            $("#LowRight").attr("title",parseFloat(percentagesLow).toFixed(2));
         }
 
         $(`.blindsLow.${blindsLow}`)[0].animate(
@@ -304,20 +293,9 @@ function animatesLow(percentagesLow) {
 
         // get total travel distance
         let deltasLow = currentPercentageStatesLow - percentagesLow;
-        // console.log(deltasLow)
         // find the percentage of that travel that the first blind is responsible for
         let firstTravelsLow  = currentPercentageStatesLow / deltasLow;
         let secondTravelsLow = 1 - firstTravelsLow;
-
-        console.log("delta; total values to travel: ", deltasLow);
-        console.log(
-            "firstTravel; percentage of the total travel that should be done by the first blind: ",
-            firstTravelsLow
-        );
-        console.log(
-            "secondTravel; percentage of the total travel that should be done by the second blind: ",
-            secondTravelsLow
-        );
 
         // animate the first blind.
         $(`.blindsLow.${firstBlinds}`)[0].animate(
@@ -366,7 +344,6 @@ function animatesLow(percentagesLow) {
     }
     // save the new value so that the next iteration has a proper from keyframe
     currentPercentageStatesLow = percentagesLow;
-    // console.log(percentages)
 }
 // the following are just binding set ups for the buttons
 $(document).ready(function () {
@@ -386,15 +363,16 @@ function animatesFixed(percentagesFixed) {
 
     // determine if we've crossed the 0 threshold, which would force us to do something else here
     let thresholdsFixed = currentPercentageStatesFixed / percentagesFixed < 0;
-    console.log("Crosses 0: " + thresholdsFixed);
     if (!thresholdsFixed && percentagesFixed != 0) {
         // determine which blind we're animating
         let blindsFixed = percentagesFixed < 0 ? "left" : "right";
         if(percentagesFixed < 0)
         {
             $("#FixedLeft").addClass("left-demo");
+            $("#FixedLeft").attr("title",parseFloat(percentagesFixed).toFixed(2));
         }else {
             $("#FixedRight").addClass("right-demo");
+            $("#FixedRight").attr("title",parseFloat(percentagesFixed).toFixed(2));
         }
         $(`.blindsFixed.${blindsFixed}`)[0].animate(
             [
@@ -420,20 +398,10 @@ function animatesFixed(percentagesFixed) {
 
         // get total travel distance
         let deltasFixed = currentPercentageStatesFixed - percentagesFixed;
-        // console.log(deltas)
         // find the percentage of that travel that the first blind is responsible for
         let firstTravelsFixed  = currentPercentageStatesFixed / deltasFixed;
         let secondTravelsFixed = 1 - firstTravelsFixed;
 
-        console.log("delta; total values to travel: ", deltasFixed);
-        console.log(
-            "firstTravel; percentage of the total travel that should be done by the first blind: ",
-            firstTravelsFixed
-        );
-        console.log(
-            "secondTravel; percentage of the total travel that should be done by the second blind: ",
-            secondTravelsFixed
-        );
 
         // animate the first blind.
         $(`.blindsFixed.${firstBlinds}`)[0].animate(
@@ -482,7 +450,6 @@ function animatesFixed(percentagesFixed) {
     }
     // save the new value so that the next iteration has a proper from keyframe
     currentPercentageStatesFixed = percentagesFixed;
-    // console.log(percentages)
 }
 // the following are just binding set ups for the buttons
 $(document).ready(function () {
@@ -505,15 +472,16 @@ function animatesLagging(percentagesLagging) {
 
     // determine if we've crossed the 0 threshold, which would force us to do something else here
     let thresholdsLagging = currentPercentageStatesLagging / percentagesLagging < 0;
-    console.log("Crosses 0: " + thresholdsLagging);
     if (!thresholdsLagging && percentagesLagging != 0) {
         // determine which blind we're animating
         let blindsLagging = percentagesLagging < 0 ? "left" : "right";
         if(percentagesLagging < 0)
         {
             $("#LaggingLeft").addClass("left-demo");
+            $("#LaggingLeft").attr("title",parseFloat(percentagesLagging).toFixed(2));
         }else {
             $("#LaggingRight").addClass("right-demo");
+            $("#LaggingRight").attr("title",parseFloat(percentagesLagging).toFixed(2));
         }
         $(`.blindsLagging.${blindsLagging}`)[0].animate(
             [
@@ -539,20 +507,10 @@ function animatesLagging(percentagesLagging) {
 
         // get total travel distance
         let deltasLagging = currentPercentageStatesLagging - percentagesLagging;
-        // console.log(deltas)
         // find the percentage of that travel that the first blind is responsible for
         let firstTravelsLagging  = currentPercentageStatesLagging / deltasLagging;
         let secondTravelsLagging = 1 - firstTravelsLagging;
 
-        console.log("delta; total values to travel: ", deltasLagging);
-        console.log(
-            "firstTravel; percentage of the total travel that should be done by the first blind: ",
-            firstTravelsLagging
-        );
-        console.log(
-            "secondTravel; percentage of the total travel that should be done by the second blind: ",
-            secondTravelsLagging
-        );
 
         // animate the first blind.
         $(`.blindsLagging.${firstBlinds}`)[0].animate(
@@ -601,7 +559,6 @@ function animatesLagging(percentagesLagging) {
     }
     // save the new value so that the next iteration has a proper from keyframe
     currentPercentageStatesLagging = percentagesLagging;
-    // console.log(percentages)
 }
 // the following are just binding set ups for the buttons
 $(document).ready(function () {
@@ -623,17 +580,17 @@ function animatesEmerging(percentagesEmerging) {
 
     // determine if we've crossed the 0 threshold, which would force us to do something else here
     let thresholdsEmerging = currentPercentageStatesEmerging / percentagesEmerging < 0;
-    console.log("Crosses 0: " + thresholdsEmerging);
     if (!thresholdsEmerging && percentagesEmerging != 0) {
         // determine which blind we're animating
         let blindsEmerging = percentagesEmerging < 0 ? "left" : "right";
         if(percentagesEmerging < 0)
         {
             $("#EmergingLeft").addClass("left-demo");
+            $("#EmergingLeft").attr("title",parseFloat(percentagesEmerging).toFixed(2));
         }else {
             $("#EmergingRight").addClass("right-demo");
+            $("#EmergingRight").attr("title",parseFloat(percentagesEmerging).toFixed(2));
         }
-        console.log(blindsEmerging);
         $(`.blindsEmerging.${blindsEmerging}`)[0].animate(
             [
                 {
@@ -647,7 +604,7 @@ function animatesEmerging(percentagesEmerging) {
             {
                 fill: "forwards",
                 duration: durationsEmerging
-            },console.log(`translateX(${percentagesEmerging*100}%)`)
+            },
 
         );
     } else {
@@ -658,20 +615,9 @@ function animatesEmerging(percentagesEmerging) {
 
         // get total travel distance
         let deltasEmerging = currentPercentageStatesEmerging - percentagesEmerging;
-        // console.log(deltas)
         // find the percentage of that travel that the first blind is responsible for
         let firstTravelsEmerging  = currentPercentageStatesEmerging / deltasEmerging;
         let secondTravelsEmerging = 1 - firstTravelsEmerging;
-
-        console.log("delta; total values to travel: ", deltasEmerging);
-        console.log(
-            "firstTravel; percentage of the total travel that should be done by the first blind: ",
-            firstTravelsEmerging
-        );
-        console.log(
-            "secondTravel; percentage of the total travel that should be done by the second blind: ",
-            secondTravelsEmerging
-        );
 
         // animate the first blind.
 
@@ -692,7 +638,7 @@ function animatesEmerging(percentagesEmerging) {
                 // cut the animation short, this should run the animation to this x value of the easing function
                 iterations: easeReversalsEmerging(firstTravelsEmerging)
 
-            }, console.log(`translateX(${percentagesEmerging}%)`)
+            }
         );
 
         // animate the second blind
@@ -721,7 +667,6 @@ function animatesEmerging(percentagesEmerging) {
     }
     // save the new value so that the next iteration has a proper from keyframe
     currentPercentageStatesEmerging = percentagesEmerging;
-    console.log(currentPercentageStatesEmerging)
 }
 // the following are just binding set ups for the buttons
 $(document).ready(function () {

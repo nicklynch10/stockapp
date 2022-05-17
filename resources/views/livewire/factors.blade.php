@@ -1,107 +1,121 @@
 <div>
     <link rel="stylesheet" type="text/css" href="/css/animated.css" />
 
-    <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="">
         <x-jet-section-title>
             <x-slot name="title"></x-slot>
             <x-slot name="description"></x-slot>
         </x-jet-section-title>
 
         <div class="mt-5 md:mt-0 md:col-span-2">
-
-                <div class="grid grid-cols-12  w-full flex">
-                    <div class="grid-start-1 col-span-3 float-left  flex items-center justify-center">
-                        @php
-                            $token = env('IEX_CLOUD_KEY', null);
-                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                            $logo = Http::get($endpoint . 'stable/stock/' . $this->ticker . '/logo?token=' . $token);
-                            $logo_url = $logo->json();
-                            $tickerLogo = $logo_url ? $logo_url['url'] : '';
-                            $string = $tickerLogo;
-                            if (strpos($string, "http") === 0) {
-                            $logoUrl = $tickerLogo;;
-                            } else {
-                            $logoUrl = 'https://ui-avatars.com/api/?name='.$this->ticker.'&color=7F9CF5&background=EBF4FF';
-                            }
-                        @endphp
-                        <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
-{{--                        <img src="{{ isset($logoUrl) ? $logoUrl : 'https://ui-avatars.com/api/?name=UBS&color=7F9CF5&background=EBF4FF' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">--}}
-                    </div>
-                    <div class="grid-start-4 col-span-9 float-right">
-                        <div class="col-span-6 sm:col-span-4 p-4">
-                            <form wire:submit.prevent="" enctype="multipart/form-data" method="post" >
-                            @csrf
-                                <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
-                                <input wire:model.debounce.500ms="ticker"
-                                       type="ticker"
-                                       id="tickerbar"
-                                       autocomplete="off"
-                                       placeholder="Enter Ticker..."
-                                       class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0"
-                                       style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
-                                <x-jet-input-error for="ticker" class="mt-2" />
-                            </form>
-                        </div>
-                        <div class="flex flex-col justify-between p-4 leading-normal">
+            <div class="profile-page  mx-auto bg-white shadow rounded-md overflow-hidden p-2">
+                <div class="grid grid-cols-12 w-full flex justify-center">
+                    <div class="col-start-3 col-span-8">
+                        <div class=" flex justify-center mt-4 mx-6">
                             @php
                                 $token = env('IEX_CLOUD_KEY', null);
                                 $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                                $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
-                                $company = $symbol->json();
-                                $tag = $company['tags']
+                                $logo = Http::get($endpoint . 'stable/stock/' . $this->ticker . '/logo?token=' . $token);
+                                $logo_url = $logo->json();
+                                $tickerLogo = $logo_url ? $logo_url['url'] : '';
+                                $string = $tickerLogo;
+                                if (strpos($string, "http") === 0) {
+                                $logoUrl = $tickerLogo;;
+                                } else {
+                                $logoUrl = 'https://ui-avatars.com/api/?name='.$this->ticker.'&color=7F9CF5&background=EBF4FF';
+                                }
                             @endphp
-                            <div class="flow-root">
-                                <label><b>Company Name :</b></label>
-                                <span>{{ $company['companyName'] }}</span>
+                            <img src="{{ $logoUrl }}" class="h-24 w-24 rounded-full object-contain hover:bg-gray-100 h-16">
+                            {{--                        <img src="{{ isset($logoUrl) ? $logoUrl : 'https://ui-avatars.com/api/?name=UBS&color=7F9CF5&background=EBF4FF' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">--}}
+                        </div>
+                        <div class="text-center">
+                            <div class="col-span-6 sm:col-span-4 p-4">
+                                <form wire:submit.prevent="" enctype="multipart/form-data" method="post" >
+                                    @csrf
+                                    <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
+                                    <input wire:model.debounce.500ms="ticker"
+                                           type="ticker"
+                                           id="tickerbar"
+                                           autocomplete="off"
+                                           placeholder="Enter Ticker..."
+                                           class="focus:outline-none border-gray-200 p-1 py-2  sm:mr-0"
+                                           style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
+                                    <x-jet-input-error for="ticker" class="mt-2" />
+                                </form>
                             </div>
-                            <div class="flow-root">
-                                <label><b>Sector :</b></label>
-                                <span>{{ $company['sector'] }}</span>
-                            </div>
-                            <div class="flow-root">
-                                <label><b>Type :</b></label>
-                                <span>{{ convertType($company['issueType']) }}</span>
-                            </div>
-                            <div class="flow-root">
-                                <label><b>Tags :</b></label>
-                                @if(isset($tag))
-                                    @foreach($tag as $t)
-                                        <span>[ {{ $t }} ] </span>
-                                    @endforeach
+                            <div class="flex flex-col justify-between p-4 leading-normal">
+                                @php
+                                    $token = env('IEX_CLOUD_KEY', null);
+                                    $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
+                                    $company = $symbol->json();
+                                    $tag = $company['tags']
+                                @endphp
+                                @if($company['companyName'])
+                                <div class="flow-root">
+                                    <label><b>Company Name :</b></label>
+                                    <span>{{ $company['companyName'] }}</span>
+                                </div>
+                                @endif
+
+                                @if($company['sector'])
+                                <div class="flow-root">
+                                    <label><b>Sector :</b></label>
+                                    <span>{{ $company['sector'] }}</span>
+                                </div>
+                                @endif
+
+                                @if($company['issueType'])
+                                <div class="flow-root">
+                                    <label><b>Type :</b></label>
+                                    <span>{{ convertType($company['issueType']) }}</span>
+                                </div>
+                                @endif
+
+                                @if($tag)
+                                <div class="flow-root">
+                                    <label><b>Tags :</b></label>
+                                    @if(isset($tag))
+                                        @foreach($tag as $t)
+                                            <span>[ {{ $t }} ] </span>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                @endif
+
+                                @if($company['description'])
+                                <div class="grid grid-cols-12  w-full flex ">
+                                    <div class="col-span-12">
+                                        <label><b>Company Description :</b></label>
+                                        <span>{{ $company['description'] }}</span>
+                                    </div>
+                                </div>
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-12  w-full flex">
-                    <div class="col-span-12">
-                        <label><b>Company Description :</b></label>
-                        <span>{{ $this->description }}</span>
-                    </div>
-                </div>
-                <div class="flow-root">
-                    @if($ticker != "" & count($correlations)>0)
-                        @foreach($correlations->slice(0, 20) as $key => $result)
-                            @php
-                                $getWord = strtok($result->factor->name, " ")
-                            @endphp
-                            <input type="hidden" value="{{$result->correlation}}" id="{{ $getWord }}" data-id="{{$key}}">
-                        @endforeach
-                    @endif
-                </div>
-                <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
-                    <table class="historical">
-                        <tr>
-                            <th class="px-8 py-4"></th>
-                            <th class="px-8 py-4"></th>
-                            <th class="px-8 py-4"></th>
-                            <th class="px-8 py-4"></th>
-                            <th class="px-8 py-4"></th>
-                        </tr>
+            </div>
+
+            <div class="flow-root">
+                @if($ticker != "" & count($correlations)>0)
+                    @foreach($correlations->slice(0, 20) as $key => $result)
+                        @php
+                            $getWord = strtok($result->factor->name, " ")
+                        @endphp
+                        <input type="hidden" value="{{$result->correlation}}" id="{{ $getWord }}" data-id="{{$key}}">
+                    @endforeach
+                @endif
+            </div>
+
+
+            <div class="container px-4 py-10 mx-auto md:py-12">
+                <div class="p-8 my-10 bg-white shadow overflow-auto border-b border-gray-200 sm: rounded-lg table-align mt-5">
+                    <table>
                         <tbody class="bg-white divide-y divide-gray-200">
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
-                            <td></td>
+                            <td class=""></td>
+                            <td class=""></td>
                             <td class="mr-10">
                                 <div class="ruler-container">
                                     <ul class="ruler" data-items="3"></ul>
@@ -112,7 +126,7 @@
                         </tr>
 
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                            <td></td>
+                            <td class=""></td>
                             <td> <label><b>Growth </b></label></td>
                             <td class="">
                                 <div class="wrapper mb-5">
@@ -121,12 +135,12 @@
                                 </div>
                             </td>
                             <td> <label><b>Value </b></label></td>
-                            <td></td>
+                            <td class=""></td>
                         </tr>
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
                             <td> <label><b>Small Cap </b></label></td>
-                            <td class="mt-8">
+                            <td class="">
                                 <div class="wrapper">
                                     <div class='blinds right' id="SmallRight"></div>
                                     <div class='blinds left' id="SmallLeft"></div>
@@ -138,7 +152,7 @@
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
                             <td> <label><b>Emerging </b></label></td>
-                            <td class="mt-8">
+                            <td class="">
                                 <div class="wrapper">
                                     <div class='blindsEmerging right' id="EmergingRight"></div>
                                     <div class='blindsEmerging left' id="EmergingLeft"></div>
@@ -150,7 +164,7 @@
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
                             <td> <label><b>Lagging </b></label></td>
-                            <td class="mt-8">
+                            <td>
                                 <div class="wrapper">
                                     <div class='blindsLagging right' id="LaggingRight"></div>
                                     <div class='blindsLagging left' id="LaggingLeft"></div>
@@ -162,7 +176,7 @@
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
                             <td> <label><b>Low Volatility </b></label></td>
-                            <td class="">
+                            <td>
                                 <div class="wrapper mb-5">
                                     <div class='blindsLow right' id="LowRight"></div>
                                     <div class='blindsLow left' id="LowLeft"></div>
@@ -174,13 +188,10 @@
                         <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                             <td></td>
                             <td> <label><b>Fixed Income </b></label></td>
-                            <td class="">
+                            <td>
                                 <div class="wrapper mb-5">
                                     <div class='blindsFixed right' id="FixedRight"></div>
                                     <div class='blindsFixed left' id="FixedLeft"></div>
-                                </div>
-                                <div class="ruler-container">
-                                    <ul class="ruler" data-items="3"></ul>
                                 </div>
                             </td>
                             <td> <label><b>Equities </b></label></td>
@@ -189,15 +200,9 @@
                         </tbody>
                     </table>
                 </div>
-
-
-                <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 bg-gray-50 sm:rounded-bl-md sm:rounded-br-md">
-
-                </div>
-
+            </div>
         </div>
-    </div>
-    <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10 hidden">
             <table>
                 <thead class="bg-gray-300">
                 <tr>
@@ -222,8 +227,8 @@
                 @endif
                 </tbody>
             </table>
-
         </div>
+    </div>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
 

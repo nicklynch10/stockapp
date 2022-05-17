@@ -73,19 +73,19 @@
                                                         <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
-                                                        <a class="cursor-pointer pb-2 text-black font-black hover:bg-gray-100 text-xl" wire:click="company({{ $s->id }})">
+                                                        <a class="cursor-pointer pb-2 text-black break-words font-black hover:bg-gray-100 xs:text-lg bold font-sans hover:bg-gray-100" wire:click="company({{ $s->id }})">
                                                             {{ $s->stock_ticker }}
                                                         </a>
-                                                        <p class="pb-2 text-sm font-sans font-light text-grey-dark italic sm:text-xs">
+                                                        <p class="pb-2 text-sm font-sans break-words font-light text-grey-dark italic sm:text-xs">
                                                             {{ $s->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$s->company_name }}
                                                         </p>
-                                                        <p class="pb-2 text-sm font-sans font-light text-grey-dark italic sm:text-xs">
+                                                        <p class="pb-2 text-sm font-sans break-words font-light text-grey-dark italic sm:text-xs">
                                                             {{ $s->issuetype }}
                                                         </p>
-                                                        <p class="pb-1 text-sm font-sans font-light text-green-600">
+                                                        <p class="pb-1 text-sm font-sans break-words font-light text-green-600">
                                                             ${{ number_format($s->ave_cost,2) }}
                                                         </p>
-                                                        <p class="text-sm font-sans font-light text-grey-dark">
+                                                        <p class="text-sm font-sans break-words font-light text-grey-dark">
                                                             {{ $s->share_number }} Shares
                                                         </p>
                                                     </div>
@@ -124,23 +124,23 @@
 
 
     {{--  Company Detail  --}}
-        @livewire('company-detail-modal')
+    @livewire('company-detail-modal')
     {{-- End Company detail  --}}
 
     {{-- Stock Purchase Add  --}}
-        @livewire('stock-add-edit-modal')
+    @livewire('stock-add-edit-modal')
     {{--   End Stock Purchase Input  --}}
 
     {{-- Stock Sell Modal  --}}
-        @livewire('stock-sell-modal')
+    @livewire('stock-sell-modal')
     {{--   End Stock Sell Modal  --}}
 
     {{-- Stock Buy Modal  --}}
-        @livewire('stock-buy-modal')
+    @livewire('stock-buy-modal')
     {{--   End Stock Buy Modal  --}}
 
     {{-- Delete Stock --}}
-        @livewire('stock-delete-modal')
+    @livewire('stock-delete-modal')
     {{-- End Delete Stock --}}
 
     {{--  Ave price update confirmation  --}}
@@ -151,19 +151,3 @@
     @livewire('stock-share-sell');
     {{-- End Stock Share Sell Confirmation --}}
 </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

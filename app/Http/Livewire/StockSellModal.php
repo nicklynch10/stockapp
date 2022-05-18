@@ -74,6 +74,7 @@ class StockSellModal extends Component
         $this->validate([
             'share_price'=>'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_sold'=>'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
+            'date_of_purchase' => 'required',
         ]);
 
         if($this->share_sold > $this->share_number){

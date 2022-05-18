@@ -159,9 +159,9 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
-                <div class="ml-3 relative">
-                    <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>
-                </div>
+{{--                <div class="ml-3 relative">--}}
+{{--                    <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>--}}
+{{--                </div>--}}
             </div>
 
             <!-- Hamburger -->
@@ -268,9 +268,9 @@
                     @endforeach
                 @endif
             </div>
-            <div class="ml-3 relative">
-                <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>
-            </div>
+{{--            <div class="ml-3 relative">--}}
+{{--                <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>--}}
+{{--            </div>--}}
 
         </div>
     </div>

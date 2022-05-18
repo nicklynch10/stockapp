@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 
 use App\Models\Account;
+use App\Models\MutualFunds;
 use App\Models\Stock;
 use App\Models\StockTicker;
 use App\Models\Transaction;
@@ -59,10 +60,10 @@ class StockAddEditModal extends Component
             $this->tickerLogo='';
         }
         if ($this->tickerorcompany != null && $this->average_cost == null) {
-            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
+            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)->orWhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                 ->first();
             if (!$this->companyname) {
-                $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
+                $this->companyname = MutualFunds::where('symbol', $this->tickerorcompany)->orWhere('name', 'like', '%' . $this->tickerorcompany . '%')
                     ->first();
             }
             if(isset($this->companyname)) {

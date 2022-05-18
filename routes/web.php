@@ -33,6 +33,7 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker', [HomeController::class,'addTicker'])->name('addticker');// Add ticker in database
+Route::middleware(['auth:sanctum', 'verified'])->get('/addMutualFunds', [HomeController::class,'addMutualFunds'])->name('addmutualfunds');// Add mutual funds in database
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

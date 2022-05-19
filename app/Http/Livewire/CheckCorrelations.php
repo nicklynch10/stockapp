@@ -41,7 +41,7 @@ class CheckCorrelations extends Component
         // print_r($stock->getPeerData());
         if ($stock->getPeerData() && $stock->getPeerData()->count()<15) {
             $stock->addRelatedPeers();
-            $stock->addRelatedPeers();
+//            $stock->addRelatedPeers();
             // echo "<br> Done with related peers";
             // print_r($stock->getPeerData());
         }

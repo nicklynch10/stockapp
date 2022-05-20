@@ -9,7 +9,7 @@ if (!function_exists('getTicker')) {
         //creates an SecInfo from a ticker
         // will not create if exists already
 
-        $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name',$ticker)->first();
+        $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name', $ticker)->first();
         if (!$SI1) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
@@ -70,6 +70,7 @@ if (!function_exists('convertType')) {
             $arr1 = str_split($t1);
             sort($arr1);
             $text1Sorted = implode('', $arr1);
+
             if ($text1Sorted == $text2Sorted) {
                 if ($full) {
                     return $b;

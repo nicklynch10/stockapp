@@ -26,7 +26,7 @@ class SecInfo extends Model
 
     public $token;
     public $endpoint;
-    public $range = "1y";
+    public $range = "3m";
     public $index = "SPY";
     public $debug = false;
 
@@ -81,6 +81,7 @@ class SecInfo extends Model
             return "more company info query failed";
         }
 
+
         $this->type = convertType($stats["issueType"], false);
         $this->security_name = $stats["securityName"];
         $this->industry = $stats["industry"];
@@ -93,6 +94,7 @@ class SecInfo extends Model
         if ($debug) {
             echo "<br>pulling ".$this->ticker;
         }
+
         $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
 
         $data = Http::get($url);

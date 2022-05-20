@@ -4,12 +4,11 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-
 class Factors extends Component
 {
     public $correlations = [];
     public $factors = [];
-    public $ticker = 'SPHB';
+    public $ticker = 'TLSA';
     public $company;
     public $description;
     public $sector;
@@ -59,7 +58,6 @@ class Factors extends Component
         $f->save();
         $this->factors->push($f);
         $this->updatedTicker();
-
     }
 
     public function updatedTicker()

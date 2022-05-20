@@ -120,6 +120,7 @@ class Account extends Component
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
+
         foreach ($data->accounts as $ac)
         {
             if($ac->type == "investment")
@@ -198,7 +199,7 @@ class Account extends Component
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
-        $beforeDate = date('Y-m-d', strtotime('-2 months'));
+        $beforeDate = date('Y-m-d', strtotime('-10 year'));
         $url = "https://sandbox.plaid.com/investments/transactions/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -299,7 +300,10 @@ class Account extends Component
         }
         if(count($InsertedID)>0)
         {
-            $this->dispatchBrowserEvent('Success');
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'success',
+                'message' => 'Plaid All Accounts And There Holdings Synch with TaxGhost Successfully',
+            ]);
         }
         else
         {
@@ -427,4 +431,5 @@ class Account extends Component
             'message' => 'Account Set As Default'
         ]);
     }
+
 }

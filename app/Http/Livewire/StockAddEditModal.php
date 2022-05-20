@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 
 use App\Models\Account;
+use App\Models\MutualFunds;
 use App\Models\Stock;
 use App\Models\StockTicker;
 use App\Models\Transaction;
@@ -40,6 +41,7 @@ class StockAddEditModal extends Component
     public $tickerLogo;
     public $logo;
     public $logo_url;
+    public $data;
 
 
     public function render()
@@ -59,17 +61,18 @@ class StockAddEditModal extends Component
             $this->tickerLogo='';
         }
         if ($this->tickerorcompany != null && $this->average_cost == null) {
-            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)
+            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)->orWhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
                 ->first();
             if (!$this->companyname) {
-                $this->companyname = StockTicker::where('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
+                $this->companyname = MutualFunds::where('symbol', $this->tickerorcompany)->orWhere('name', 'like', '%' . $this->tickerorcompany . '%')
                     ->first();
             }
             if(isset($this->companyname)) {
-                if ($this->companyname && $this->companyname['ticker']) {
+                if ($this->companyname && $this->companyname['ticker'] || $this->companyname['symbol']) {
+                    $this->data = $this->companyname['ticker'] ? $this->companyname['ticker'] : $this->companyname['symbol'];
                     $token = env('IEX_CLOUD_KEY', null);
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->companyname['ticker'].'/company?token=' . $token);
+                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
                     $company = $symbol->json();
                     $this->company_name = $company ? $company['companyName'] : $this->companyname['ticker_company'];
                     $this->stock_ticker = $this->companyname ? $company['symbol'] : $this->companyname['ticker'];
@@ -78,12 +81,12 @@ class StockAddEditModal extends Component
                     $this->issuetype = $company ? convertType($company['issueType']) : '';
                     $this->tags = $company ? json_encode($company['tags']) : '';
                     $this->security_name = $company ? $company['securityName'] : '';
-                    $current_price = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/quote?token=' . $token);
+                    $current_price = Http::get($endpoint . 'stable/stock/' . $this->data . '/quote?token=' . $token);
                     $price = $current_price->json();
                     $this->current_share_price = $price ? $price['latestPrice'] : '';
                     $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
 
-                    $logo = Http::get($endpoint . 'stable/stock/' . $this->companyname['ticker'] . '/logo?token=' . $token);
+                    $logo = Http::get($endpoint . 'stable/stock/' . $this->data . '/logo?token=' . $token);
                     $logo_url = $logo->json();
                     $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
                 }

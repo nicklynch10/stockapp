@@ -167,10 +167,10 @@
                                     <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                         <a class=" cursor-pointer whitespace-normal " wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a>
                                     </h5>
-                                    <p class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
-                                    <p class="mb-1 break-words text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} Shares</p>
-                                    <p class="mb-1 break-words text-center text-sm font-sans font-light text-grey-dark">Cost Basis : ${{ number_format($curr->ave_cost,2) }}</p>
-                                    <p class="mb-1 break-words text-center text-sm font-sans font-light text-grey-dark">Share Price : ${{ number_format($curr->current_share_price,2) }}</p>
+                                    <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
+                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} Shares</p>
+                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis : ${{ number_format($curr->ave_cost,2) }}</p>
+                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price : ${{ number_format($curr->current_share_price,2) }}</p>
                                 </div>
                                 <div class="flex flex-col justify-between p-4 leading-normal">
                                     <div class="flow-root">
@@ -182,8 +182,8 @@
                                                             $ Change
                                                         </p>
                                                     </div>
-                                                    <div class="inline-flex items-center text-sm">
-                                                        {{ $curr->dchange<0?"($".number_format(abs($curr->dchange),2).")":"$".number_format(abs($curr->dchange),2) }}
+                                                    <div class="inline-flex items-center break-all text-sm">
+                                                        <p class="break-all">{{ $curr->dchange<0?"($".number_format(abs($curr->dchange),2).")":"$".number_format(abs($curr->dchange),2) }}</p>
                                                     </div>
                                                 </div>
                                             </li>

@@ -5,9 +5,6 @@
 </x-slot>
 
 <main class="p-0 m-0 flex-grow ">
-    <link rel="stylesheet" href="/css/flowbite.min.css" />
-
-    <script src="https://unpkg.com/flowbite@1.3.4/dist/flowbite.js"></script>
 {{--    @if(isset($this->message))--}}
 {{--        <input type="text" id="successmsg" value="{{ $this->message }}">--}}
 {{--    @endif--}}
@@ -168,6 +165,7 @@
             env:"sandbox",
             token: '{{ $this->token }}',
             onSuccess: (public_token, metadata) => {
+                console.log(metadata);
                 Livewire.emit('getAccessToken',public_token);
             },
             onLoad: () => {},
@@ -175,74 +173,6 @@
             },
             onEvent: (eventName, metadata) => {
             },
-        });
-    </script>
-    <style>
-        @media screen and (max-width: 1000px) and (min-width: 550px){
-            .model{
-                margin-top: 40%;
-                height: 30%;
-                width: 100%;
-                overflow: hidden;
-                border-radius: 5%;
-            }
-        } @media screen and (max-width: 550px) and (min-width: 400px){
-            .model{
-                margin-top: -320%;
-                height: 30%;
-                width: 100%;
-                overflow: hidden;
-                border-radius: 5%;
-            }
-            .text{
-                 margin-bottom: 0;
-                 font-size: x-large !important;
-                 margin-top: -106%;
-             }
-        }
-        @media screen and (max-width: 400px){
-            .model{
-                margin-top: -350%;
-                height: 30%;
-                width: 100%;
-                overflow: hidden;
-                border-radius: 5%;
-            }
-            .text{
-                margin-bottom: 0;
-                font-size: x-large !important;
-                margin-top: -106%;
-            }
-
-        }
-    </style>
-    <button class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm
-    px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="btn" type="button" data-modal-toggle="defaultModal" style="display: none;">
-        Toggle modal
-    </button>
-
-    <div id="defaultModal" aria-hidden="true" class="model hidden overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center
-    items-center h-modal md:h-full md:inset-0">
-        <div class="relative px-4 w-full max-w-2xl h-full md:h-auto">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <button data-modal-toggle="defaultModal" type="button" id="cls"></button>
-                <div class="p-6 pt-0 text-center" style="display: flex;justify-content: center;align-items: center;">
-                    <h6 class="text mb-5 text-lg font-normal text-gray-500" style="position: absolute; font-size: xx-large; font-weight: bolder;color: #00c806;line-height: normal;">
-                        Plaid All Accounts And There Holdings Synch with TaxGhost Successfully</h6>
-                    <canvas  class="confetti" id="canvas" style="height: 100%; width: 100%;"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script src="/js/confetti.min.js"></script>
-    <script>
-        window.addEventListener('Success', (e) => {
-            $('#btn').click();
-                setTimeout(function () {
-                    $('#cls').click();
-                }, 6000);
         });
     </script>
 </main>

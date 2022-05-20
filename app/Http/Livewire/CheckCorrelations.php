@@ -39,10 +39,12 @@ class CheckCorrelations extends Component
         $stock->pullIEXPeers();
         // echo "<br> Done with OG peers";
         // print_r($stock->getPeerData());
+
         if ($stock->getPeerData() && $stock->getPeerData()->count()<5) {
             $stock->addRelatedPeers();
             //$stock->addRelatedPeers();
             //$stock->addRelatedPeers();
+
             // echo "<br> Done with related peers";
             // print_r($stock->getPeerData());
         }

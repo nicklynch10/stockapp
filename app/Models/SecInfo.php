@@ -333,11 +333,12 @@ class SecInfo extends Model
     {
         $this->pullIEXPeers();
         $new = $this->getPeerData();
-
-        foreach ($this->getPeerData()->slice(0, 2) as $p) {
+        // chooses one of the top 10 peers
+        foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
             $SI = getTicker($p);
             $SI->pullIEXPeers();
 
+            // adds new peers in
             foreach ($SI->getPeerData() as $pp) {
                 $new->push($pp);
             }

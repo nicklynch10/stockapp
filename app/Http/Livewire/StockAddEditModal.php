@@ -233,8 +233,8 @@ class StockAddEditModal extends Component
     public function editStockModal($id)
     {
         $stock = Stock::findOrFail($id);
-        $token = env('IEX_CLOUD_KEY', null);
-        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+        $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
+        $endpoint = 'https://sandbox.iexapis.com/';
         $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
         $price=$current_price->json();
         if(!$price)
@@ -248,7 +248,7 @@ class StockAddEditModal extends Component
         $this->tickerorcompany=$stock->stock_ticker;
         $this->stock_ticker = $stock->stock_ticker;
         $this->companyname = $stock->stock_ticker;
-        $this->company_name = $company ? $company['companyName'] : $stock->company_name;
+        $this->company_name = $company ? $company['companyName'] : ($cryprice['companyName'] ? $cryprice['companyName'] : $stock->company_name);
         $this->security_name = $company ? $company['securityName'] : $stock->security_name;
         $this->description = $company ? $company['description'] : $stock->description;
         $this->sector = $company ? $company['sector'] : $stock->sector;

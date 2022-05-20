@@ -18,6 +18,7 @@ class CheckCorrelations extends Component
     public $correlations = [];
     public $stocks = [];
     public $etfs;
+    public $is_first_load = true;
 
     public function mount(Request $request)
     {
@@ -33,7 +34,7 @@ class CheckCorrelations extends Component
         return view('livewire.check-correlations');
     }
 
-    public function updatedTicker()
+    public function update_data()
     {
         $stock = getTicker($this->ticker);
         $stock->pullIEXPeers();
@@ -52,6 +53,16 @@ class CheckCorrelations extends Component
 
         $stock->addExistingPeers();
         $stock->addRandomPeers(1);
+    }
+
+    public function updatedTicker()
+    {
+        $stock = getTicker($this->ticker);
+        if ($this->is_first_load) {
+            $this->is_first_load = false;
+        } else {
+            $this->update_data();
+        }
         // echo "<br> Done with existing peers";
         // print_r($stock->getPeerData());
         $this->comps = $stock->getPeerData();

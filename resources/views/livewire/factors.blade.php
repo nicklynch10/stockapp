@@ -68,7 +68,7 @@
                                 @if($company['issueType'])
                                 <div class="flow-root">
                                     <label><b>Type :</b></label>
-                                    <span>{{ convertType($company['issueType']) }}</span>
+                                    <span>{{ convertType($company['issueType'], true) }}</span>
                                 </div>
                                 @endif
 

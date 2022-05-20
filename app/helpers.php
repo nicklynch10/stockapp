@@ -73,9 +73,9 @@ if (!function_exists('convertType')) {
 
             if ($text1Sorted == $text2Sorted) {
                 if ($full) {
-                    return $b;
-                } else {
                     return $t1;
+                } else {
+                    return $b;
                 }
             }
         }

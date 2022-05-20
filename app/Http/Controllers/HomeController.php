@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CryptoCurrency;
 use App\Models\MutualFunds;
 use App\Models\StockTicker;
 use Illuminate\Http\Request;
@@ -9,11 +10,18 @@ use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
+    public $token;
+    public $endpoint;
+
+    public function __construct()
+    {
+        $this->token = env('IEX_CLOUD_KEY', null);
+        $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
+    }
+
     public function addTicker()
     {
-        $token = env('IEX_CLOUD_KEY', null);
-        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-        $symbol = Http::get($endpoint . 'stable/ref-data/symbols?token=' . $token);
+        $symbol = Http::get($this->endpoint . 'stable/ref-data/symbols?token=' . $this->token);
         $company = $symbol->json();
         foreach ($company as $com) {
             StockTicker::Create([
@@ -26,14 +34,25 @@ class HomeController extends Controller
 
     public function addMutualFunds()
     {
-        $token = env('IEX_CLOUD_KEY', null);
-        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-        $symbol = Http::get($endpoint . 'stable/ref-data/mutual-funds/symbols?token=' . $token);
+        $symbol = Http::get($this->endpoint . 'stable/ref-data/mutual-funds/symbols?token=' . $this->token);
         $funds = $symbol->json();
         foreach ($funds as $com) {
             MutualFunds::Create([
                 'symbol'=>$com['symbol'],
                 'name'=>$com['name'],
+            ]);
+        }
+        return redirect('portfolio');
+    }
+
+    public function addCryptoCurrency()
+    {
+        $symbol = Http::get($this->endpoint . 'stable/ref-data/crypto/symbols?token=' . $this->token);
+        $funds = $symbol->json();
+        foreach ($funds as $com) {
+            CryptoCurrency::Create([
+                'crypto_symbol'=>$com['symbol'],
+                'crypto_name'=>$com['name'],
             ]);
         }
         return redirect('portfolio');

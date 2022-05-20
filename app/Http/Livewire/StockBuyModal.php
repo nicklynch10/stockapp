@@ -41,9 +41,13 @@ class StockBuyModal extends Component
         $endpoint = env('IEX_CLOUD_ENDPOINT', null);
         $stock = Stock::findOrFail($id);
         $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
-
         $price = $current_price->json();
-        $this->current_share_price = $price ? $price['latestPrice'] : $stock->current_share_price;
+        if(!$price)
+        {
+            $current_price = Http::get($endpoint . 'stable/crypto/' . $stock->stock_ticker . '/quote?token=' . $token);
+            $cryprice=$current_price->json();
+        }
+        $this->current_share_price = $price ? $price['latestPrice'] : ($cryprice ? $cryprice['latestPrice'] : $stock->current_share_price);
         $this->stock_id = $id;
         $this->stock_ticker = $stock->stock_ticker;
         $this->company_name = $stock->company_name;

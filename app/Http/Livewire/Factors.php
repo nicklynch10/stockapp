@@ -8,7 +8,7 @@ class Factors extends Component
 {
     public $correlations = [];
     public $factors = [];
-    public $ticker = 'TLSA';
+    public $ticker = 'TSLA';
     public $company;
     public $description;
     public $sector;

@@ -336,6 +336,9 @@ class SecInfo extends Model
         $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
+        if ($this->getPeerData()->count() < 2) {
+            return;
+        }
         foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
             $SI = getTicker($p);
             $SI->pullIEXPeers();
@@ -396,7 +399,7 @@ class SecInfo extends Model
         }
 
         // gets the min of amount found and ones added
-        $amt = min($n, $random->count());
+        $amt = min($n, $random->count()-1);
 
         //adds them into the peer set
         foreach ($random->random($amt) as $SC) {

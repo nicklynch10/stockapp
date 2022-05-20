@@ -40,9 +40,9 @@
 <div class="flex justify-between items-center w-full m-2 p-2">
           <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer">
             @if($etfs)
-            {{ __('Hide ETFs') }}
+            {{ __('Show Stocks Only') }}
             @else
-            {{ __('Show ETFs') }}
+            {{ __('Show ETFs Only') }}
             @endif
                 
             </a>
@@ -85,7 +85,7 @@
         <tbody class="bg-white divide-y divide-gray-200">
 
              @if($ticker != "" & count($correlations)>0)
-            @foreach($correlations->sortByDesc("correlation")->slice(0, 50) as $result)
+            @foreach($correlations->sortByDesc("correlation")->slice(0, 500) as $result)
                 @if($result && isset($result->ticker2))
                     <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->ticker2}} <br> {{$result->SI2->company_name}}</td>

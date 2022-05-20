@@ -36,38 +36,36 @@ class Account extends Component
 
     public function render()
     {
-        $data = SecCompare::all();
-        dd(count($data));
-//        $client_id = env('PLAID_CLIENT_ID');
-//        $secret = env('PLAID_SECRET');
-//        $client_name = env('PLAID_CLIENT_NAME');
-//        $url = "https://sandbox.plaid.com/link/token/create";
-//        $curl = curl_init($url);
-//        curl_setopt($curl, CURLOPT_URL, $url);
-//        curl_setopt($curl, CURLOPT_POST, true);
-//        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-//        $headers = array(
-//            "Content-Type: application/json",
-//        );
-//        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-//        $data = '{
-//            "client_id": "'.$client_id.'",
-//            "secret": "'.$secret.'",
-//            "client_name": "'.$client_name.'",
-//            "country_codes": ["US"],
-//            "language": "en",
-//            "user": {
-//                "client_user_id": "unique_user_id"
-//                },
-//            "products": ["investments"]}';
-//        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-//        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-//        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-//        $resp = curl_exec($curl);
-//        $data = json_decode($resp);
-//        $this->token = $data->link_token;
-//        $this->account=Accounts::where('user_id', Auth::user()->id)->orderBy('account.created_at', 'DESC')->get();
-//        return view('livewire.account');
+        $client_id = env('PLAID_CLIENT_ID');
+        $secret = env('PLAID_SECRET');
+        $client_name = env('PLAID_CLIENT_NAME');
+        $url = "https://sandbox.plaid.com/link/token/create";
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $headers = array(
+            "Content-Type: application/json",
+        );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        $data = '{
+            "client_id": "'.$client_id.'",
+            "secret": "'.$secret.'",
+            "client_name": "'.$client_name.'",
+            "country_codes": ["US"],
+            "language": "en",
+            "user": {
+                "client_user_id": "unique_user_id"
+                },
+            "products": ["investments"]}';
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $resp = curl_exec($curl);
+        $data = json_decode($resp);
+        $this->token = $data->link_token;
+        $this->account=Accounts::where('user_id', Auth::user()->id)->orderBy('account.created_at', 'DESC')->get();
+        return view('livewire.account');
     }
 
 

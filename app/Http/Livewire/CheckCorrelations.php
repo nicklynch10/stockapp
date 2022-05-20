@@ -18,6 +18,7 @@ class CheckCorrelations extends Component
     public $correlations = [];
     public $stocks = [];
     public $etfs;
+    public $is_first_load = true;
 
     public function mount(Request $request)
     {
@@ -33,25 +34,21 @@ class CheckCorrelations extends Component
         return view('livewire.check-correlations');
     }
 
+
     public function updatedTicker()
     {
         $stock = getTicker($this->ticker);
-        $stock->pullIEXPeers();
-        // echo "<br> Done with OG peers";
-        // print_r($stock->getPeerData());
-
-        if ($stock->getPeerData() && $stock->getPeerData()->count()<5) {
+        if ($this->is_first_load) {
+            // prevents loading on the first load. THis was causing timeout errors
+            $this->is_first_load = false;
+        } elseif (!$stock->IEXpeer_data) {
+            $stock->pullIEXPeers();
+        } else {
             $stock->addRelatedPeers();
-            //$stock->addRelatedPeers();
-            //$stock->addRelatedPeers();
-
-            // echo "<br> Done with related peers";
-            // print_r($stock->getPeerData());
         }
 
-
         $stock->addExistingPeers();
-        $stock->addRandomPeers(1);
+        $stock->addRandomPeers(100);
         // echo "<br> Done with existing peers";
         // print_r($stock->getPeerData());
         $this->comps = $stock->getPeerData();
@@ -65,9 +62,12 @@ class CheckCorrelations extends Component
             $SI1 = $SC->SI2;
             if ($SC->correlation>0) {
                 // adds to the list only if they find correlation data
-
-                if ($this->etfs || getTicker($p)->type != "et") {
-                    // checks if ETF toggle is on
+                if ($this->etfs && getTicker($p)->type == "et") {
+                    // if etf toggle is true and type is etf, then adds to list
+                    $stocks->push($SI1);
+                    $cors->push($SC);
+                } elseif (!$this->etfs && getTicker($p)->type != "et") {
+                    // if etf toggle is false and type is not etf, then adds to list
                     $stocks->push($SI1);
                     $cors->push($SC);
                 }

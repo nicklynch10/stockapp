@@ -32,8 +32,8 @@ class SecInfo extends Model
 
     public function __construct()
     {
-        $this->token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
-        $this->endpoint = 'https://sandbox.iexapis.com/';
+        $this->token = env('IEX_CLOUD_KEY', null);
+        $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
     }
 
 
@@ -336,19 +336,16 @@ class SecInfo extends Model
         $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
-        if(count($new)>0)
-        {
-            foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
-                $SI = getTicker($p);
-                $SI->pullIEXPeers();
+        foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
+            $SI = getTicker($p);
+            $SI->pullIEXPeers();
 
-                // adds new peers in
-                foreach ($SI->getPeerData() as $pp) {
-                    $new->push($pp);
-                }
+            // adds new peers in
+            foreach ($SI->getPeerData() as $pp) {
+                $new->push($pp);
             }
-            $this->peer_data = json_encode($new->toArray());
         }
+        $this->peer_data = json_encode($new->toArray());
         $this->pullIEXPeers();
     }
 

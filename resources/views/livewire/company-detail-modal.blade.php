@@ -45,7 +45,7 @@
             @if($this->alltags)
                 <div class="mb-4">
                     <label for="tage" class="block text-gray-700 font-bold mb-2"><b>Tags:</b></label>
-                    @if(isset($this->alltags))
+                    @if(!empty($this->alltags))
                         @foreach($this->alltags as $t)
                             <label>{{$t}}</label><br>
                         @endforeach

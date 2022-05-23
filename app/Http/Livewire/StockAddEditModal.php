@@ -44,12 +44,14 @@ class StockAddEditModal extends Component
     public $logo;
     public $logo_url;
     public $data;
+    public $type;
+    public $stocktype;
 
 
     public function render()
     {
-        $token = env('IEX_CLOUD_KEY', null);
-        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+        $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
+        $endpoint = 'https://sandbox.iexapis.com/';
         if($this->tickerorcompany == null)
         {
             $this->company_name = '';
@@ -77,6 +79,14 @@ class StockAddEditModal extends Component
             }
             if(isset($this->companyname)) {
                 if ($this->companyname && $this->companyname['ticker'] || $this->companyname['symbol']) {
+                    if($this->companyname['ticker'])
+                    {
+                        $this->type = 0;
+                    }
+                    elseif ($this->companyname['symbol'])
+                    {
+                        $this->type = 1;
+                    }
                     $this->data = $this->companyname['ticker'] ? $this->companyname['ticker'] : $this->companyname['symbol'];
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
                     $company = $symbol->json();
@@ -97,11 +107,12 @@ class StockAddEditModal extends Component
                 }
             }
             elseif(isset($this->cryptoData)){
-                $current_price = Http::get($endpoint . 'stable/crypto/' . $this->cryptoData['crypto_symbol'] . '/quote?token=' . $token);
+                $current_price = Http::get($endpoint . 'stable/crypto/'.$this->data.'/quote?token=' . $token);
                 $price = $current_price->json();
                 $this->current_share_price = $price ? $price['latestPrice'] : '';
                 $this->company_name = $this->cryptoData['crypto_name'];
                 $this->stock_ticker = $this->cryptoData['crypto_symbol'];
+                $this->type = 2;
             }
             else {
                 $this->company_name = '';
@@ -167,6 +178,7 @@ class StockAddEditModal extends Component
         $this->currentStep = 1;
         $this->note = '';
         $this->tickerLogo = '';
+        $this->type = '';
         $this->date_of_purchase = Carbon::now()->format('Y-m-d');
         $default = Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
         $this->account_type = $default ? $default->id : '';
@@ -194,6 +206,7 @@ class StockAddEditModal extends Component
             'tags' => $this->tags,
             'ave_cost' => $this->average_cost,
             'share_number' => $this->share_number,
+            'type' => $this->type,
             'date_of_purchase' => $this->date_of_purchase,
             'note' => $this->note,
             'account_id' => $this->account_type,
@@ -247,6 +260,7 @@ class StockAddEditModal extends Component
         $this->stock_id = $id;
         $this->tickerorcompany=$stock->stock_ticker;
         $this->stock_ticker = $stock->stock_ticker;
+        $this->type = "Stock";
         $this->companyname = $stock->stock_ticker;
         $this->company_name = $company ? $company['companyName'] : ($cryprice['companyName'] ? $cryprice['companyName'] : $stock->company_name);
         $this->security_name = $company ? $company['securityName'] : $stock->security_name;
@@ -255,12 +269,13 @@ class StockAddEditModal extends Component
         $this->current_share_price = $price ? $price['latestPrice'] : ($cryprice ? $cryprice['latestPrice'] : $stock->current_share_price);
         $this->issuetype=convertType($stock->issuetype);
         $this->tags = json_encode($company ? $company['tags'] : $stock->tags);
-        $this->openmodalval=0;
-        $this->avepricereadonly=0;
-        $this->currentStep=1;
+        $this->openmodalval = 0;
+        $this->avepricereadonly = 0;
+        $this->currentStep = 1;
         $this->market_cap = $price ? round(($price['marketCap']/1000000), 0) : ($stock->market_cap ? round(($stock->market_cap/1000000), 0) : 0);
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
+        $this->type = $stock->type;
         $this->share_price = '';
         $this->date_of_purchase =Carbon::parse($stock->date_of_purchase)->format('Y-m-d');
         $this->note = $stock->note;
@@ -268,7 +283,6 @@ class StockAddEditModal extends Component
         $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
         $logo_url = $logo->json();
         $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
-//        $this->tickerLogo = '';
         $this->openModal();
     }
     public function openModal()

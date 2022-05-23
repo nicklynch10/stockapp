@@ -26,6 +26,7 @@ class Stock extends Model
         'mutual_funds',
         'ave_cost',
         'share_number',
+        'type',
         'date_of_purchase',
         'account_id',
         'security_id',

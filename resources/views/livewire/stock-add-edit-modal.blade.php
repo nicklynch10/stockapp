@@ -28,9 +28,10 @@
                             <input type="text" id="tickerorcompany"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Ticker or Company" wire:model="tickerorcompany" {{ $this->stock_id ? 'readonly' : '' }}>
 
                             <input type="text" id="company_name" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="{{$this->company_name}}">
+                            <input type="text" id="type" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="{{$this->type}}">
                             <input type="text" id="ticker" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Company Name" wire:model="{{$this->stock_ticker}}">
                             @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
-                            <div wire:loading.delay.shortest wire:target="tickerorcompany" wire:loading.class="mt-2">
+                            <div wire:loading.delay.sh   ortest wire:target="tickerorcompany" wire:loading.class="mt-2">
                                 <div class="select-none text-sm text-indigo-500 flex flex-1 items-center justify-center text-center p-4 flex-1">
                                     <svg class="animate-spin h-6 w-6 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24">
@@ -45,7 +46,14 @@
                         @if($this->tickerorcompany)
                             <div class="mb-4" style="border-left:5px solid #00c806;padding: 10px">
                                 <label class="text-2xl"><b>{{$this->stock_ticker}}</b></label><br>
-                                <label>{{$this->company_name}}</label>
+                                <label>{{$this->company_name}}</label><br>
+                                @if($this->type == 0)
+                                    <label><div class="row-auto flex"><h3 style="background: green; border-radius: 50%;width: 20px;height: 20px;"></h3><p class="pl-3">Stock</p></div></label>
+                                @elseif($this->type == 1)
+                                    <label><div class="row-auto flex"><h3 style="background: red; border-radius: 50%;width: 20px;height: 20px;"></h3><p class="pl-3">Mutual Funds</p></div></label>
+                                @elseif($this->type == 2)
+                                    <label><div class="row-auto flex"><h3 style="background: gold; border-radius: 50%;width: 20px;height: 20px;"></h3><p class="pl-3">Crypto Currency</p></div></label>
+                                @endif
                             </div>
                         @endif
 

@@ -6,9 +6,8 @@
     </x-slot>
 
     <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-          @livewire('factors')
-
+        <div class="mx-auto px-4 py-10 md:py-5">
+            @livewire('factors')
         </div>
     </div>
 </x-guest-layout>

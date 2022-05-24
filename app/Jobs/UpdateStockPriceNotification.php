@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Stock;
 use App\Models\User;
 use App\Notifications\Currentportfoliochange;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,25 +37,53 @@ class UpdateStockPriceNotification implements ShouldQueue
     {
         $getstock = User::join('stock','stock.user_id','users.id')->get();
         foreach ($getstock as $stock) {
-            $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
-            $endpoint = 'https://sandbox.iexapis.com/';
-            $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
-            $price = $current_price->json();
-            if($price == null)
+            $beforeTime = Carbon::now()->subHour(12);
+            if($stock->currentpriceupdate_date > $beforeTime)
             {
-
-                $current_price = Http::get($endpoint . 'stable/crypto/' . $stock->stock_ticker . '/quote?token=' . $token);
-                $price = $current_price->json();
+                $currentPrice = $stock->current_share_price;
             }
-            if($price!==null)
+            else
             {
-                $record = Stock::find($stock->id);
-                if($stock->current_share_price != $price['latestPrice'])
+                $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
+                $endpoint = 'https://sandbox.iexapis.com/';
+                $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+                $price = $current_price->json();
+                if($price == null)
                 {
-                    $record->update([
-                        'current_share_price' => $price['latestPrice'],
-                    ]);
-                    $totalpchange = (($price['latestPrice']/$stock->ave_cost)-1)*100;
+                    $current_price = Http::get($endpoint . 'stable/crypto/' . $stock->stock_ticker . '/quote?token=' . $token);
+                    $price = $current_price->json();
+                }
+                if($price!==null)
+                {
+                    $record = Stock::find($stock->id);
+                    if($stock->current_share_price != $price['latestPrice']) {
+                        $record->update([
+                            'current_share_price' => $price['latestPrice'],
+                            'currentpriceupdate_date' => Carbon::now()->toDateTimeString(),
+                        ]);
+                    }
+                    $currentPrice = $price['latestPrice'];
+                }
+            }
+
+//            $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
+//            $endpoint = 'https://sandbox.iexapis.com/';
+//            $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
+//            $price = $current_price->json();
+//            if($price == null)
+//            {
+//                $current_price = Http::get($endpoint . 'stable/crypto/' . $stock->stock_ticker . '/quote?token=' . $token);
+//                $price = $current_price->json();
+//            }
+//            if($price!==null)
+//            {
+//                $record = Stock::find($stock->id);
+//                if($stock->current_share_price != $price['latestPrice'])
+//                {
+//                    $record->update([
+//                        'current_share_price' => $price['latestPrice'],
+//                    ]);
+                    $totalpchange = (($currentPrice/$stock->ave_cost)-1)*100;
                     if(($totalpchange < 0 && $totalpchange >= -1) || ($totalpchange <= -4 && $totalpchange >= -6) || ($totalpchange <=-9 && $totalpchange >= -10))
                     {
                         $details = [
@@ -69,8 +98,8 @@ class UpdateStockPriceNotification implements ShouldQueue
                             }
                         }
                     }
-                }
-            }
+//                }
+//            }
         }
     }
 }

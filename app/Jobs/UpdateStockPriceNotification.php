@@ -44,8 +44,8 @@ class UpdateStockPriceNotification implements ShouldQueue
             }
             else
             {
-                $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
-                $endpoint = 'https://sandbox.iexapis.com/';
+                $token = env('IEX_CLOUD_KEY', null);
+                $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                 $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
                 $price = $current_price->json();
                 if($price == null)

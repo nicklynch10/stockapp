@@ -439,11 +439,16 @@
 </style>
 <script type="text/javascript" id="scriptid" class="selectpicker" src="/js/animated.js"></script>
 <script>
-    $(':input').bind('keypress', function(e) {
-        $(this).delay(1000).queue(function() {
-            window.location.reload(true);
+    $("#mytable").bind("DOMSubtreeModified", function() {
+        $(this).delay(1000).queue(function(){
             $('.displayprocess').hide();
+            window.location.reload(true);
             $('.processing').text("Processing...");
+            var newurl = window.location.href;
+            if (oldurl === newurl){
+                $('.displayprocess').hide();
+                $('.processing').text("Processing...");
+            }
         });
     });
 </script>

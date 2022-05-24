@@ -20,6 +20,7 @@ class Stock extends Model
         'sector',
         'market_cap',
         'current_share_price',
+        'currentpriceupdate_date',
         'issuetype',
         'tags',
         'ticker_logo',

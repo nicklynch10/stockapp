@@ -85,7 +85,7 @@
                                 @if($company['companyName'])
                                     <div class="">
                                         <label><b>Company Name :</b></label>
-                                        <span>{{ $company['companyName'] }}</span>
+                                        <span id="mytable">{{ $company['companyName'] }}</span>
                                     </div>
                                 @endif
 
@@ -126,9 +126,10 @@
                         </div>
                     </div>
                     <div class="col-start-5 col-span-8 bg-white shadow-2xl overflow-auto border-b border-gray-200 sm: rounded-lg table-align progressbar ">
-                        <div class="px-4 py-10 mx-auto md:py-12 ml-20">
+                        <div class="px-4 py-10 mx-auto md:py-12">
                             <div class="">
-                                <table>
+                                @if($ticker != "" & count($correlations)>0)
+                                <table class="displayprocess">
                                     <tbody class="bg-white divide-y divide-gray-200 ">
                                     <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                                         <td class=""></td>
@@ -216,6 +217,12 @@
                                     </tr>
                                     </tbody>
                                 </table>
+                                <h2 class="processing font-semibold text-lg font-medium text-gray-900"></h2>
+                                @else
+                                    <div class="text-center">
+                                        <h2 class="font-semibold text-lg font-medium text-gray-900">No data found in this stock</h2>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -255,7 +262,6 @@
 
             @if($ticker != "" & count($correlations)>0)
                 @foreach($correlations->slice(0, 20) as $result)
-
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" class="dataChange" data-label="Stock Ticker">{{$result->factor->name}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->correlation}}</td>
@@ -433,20 +439,12 @@
 </style>
 <script type="text/javascript" id="scriptid" class="selectpicker" src="/js/animated.js"></script>
 <script>
-    $("#mytable").bind("DOMSubtreeModified", function() {
-        $(this).delay(1000).queue(function(){
-            window.location.reload();
-            // $(".progressbar").hide()
-            //
-            //     .ajaxStart(function() {
-            //         $(this).show();
-            //     })
-            //     .ajaxStop(function() {
-            //         $(this).hide();
-            //     })
-            // ;
+    $(':input').bind('keypress', function(e) {
+        $(this).delay(1000).queue(function() {
+            window.location.reload(true);
+            $('.displayprocess').hide();
+            $('.processing').text("Processing...");
         });
     });
-
 </script>
 </div>

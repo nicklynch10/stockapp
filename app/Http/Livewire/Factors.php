@@ -67,7 +67,10 @@ class Factors extends Component
 
         foreach ($this->factors as $f) {
             $FC = $SI->compareToFactor($f);
-            $this->correlations->push($FC);
+            if($FC!==null)
+            {
+                $this->correlations->push($FC);
+            }
         }
     }
 }

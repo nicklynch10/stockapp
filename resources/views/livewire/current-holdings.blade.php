@@ -160,10 +160,10 @@
                                     if (strpos($string, "http") === 0) {
                                         $logoUrl = $curr->ticker_logo;
                                     } else {
-                                        $logoUrl = 'https://storage.googleapis.com/iex/api/logos/'.$curr->stock_ticker.'.png';
+                                        $logoUrl = 'https://ui-avatars.com/api/?name='.$curr->stock_ticker.'&color=7F9CF5&background=EBF4FF';
                                     }
                                     ?>
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ isset($curr->ticker_logo) ? $logoUrl : Auth::user()->profile_photo_url }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
+                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
                                     <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                         <a class=" cursor-pointer whitespace-normal " wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a>
                                     </h5>

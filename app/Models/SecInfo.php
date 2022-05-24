@@ -232,50 +232,33 @@ class SecInfo extends Model
     public function compareToFactor($factor)
     {
         $factor = Factor::find($factor["id"]);
-
         //checks if the comparison has already been made within [30] days
         $SC_old = FactorCompare::all()->where('ticker', $this->ticker)->where('factor_id', $factor->id)->first();
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
             return $SC_old;
         }
-
-
-
         $this->getIEXData();
-        //dd($factor);
-
-        //dd($factor, $factor->date_data);
-        if (!isset($factor->date_data)|| !isset($this->date_data)) {
-            dd("no dates on factor compare", $factor, $this);
+        if((isset($factor->date_data) || isset($this->date_data)) && ($factor->getDateData()->first() == $this->getDateData()->first() || $factor->getChangeData()->count() == $this->getDateData()->count()))
+        {
+            $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
+            $multiplier = 1/3; // adjusts so it is closer to bounds.
+            $cor = $p;
+            if ($p>0) {
+                $cor = $cor**($multiplier);
+            } else {
+                $cor = -1*((-1*$cor)**($multiplier));
+            }
+            $SC = new FactorCompare();
+            $SC->SI()->associate($this);
+            $SC->factor()->associate($factor);
+            $SC->ticker = $this->ticker;
+            $SC->factor_name = $factor->name;
+            $SC->correlation = $cor;
+            $SC->range = $this->range;
+            $SC->amount = $this->getChangeData()->count();
+            $SC->save();
+            return $SC;
         }
-
-        if ($factor->getDateData()->first() != $this->getDateData()->first()) {
-            dd("Factor dates did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
-        } elseif ($factor->getChangeData()->count() != $this->getChangeData()->count()) {
-            dd("size did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
-        }
-
-        $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
-
-        $multiplier = 1/3; // adjusts so it is closer to bounds.
-        $cor = $p;
-        if ($p>0) {
-            $cor = $cor**($multiplier);
-        } else {
-            $cor = -1*((-1*$cor)**($multiplier));
-        }
-
-        $SC = new FactorCompare();
-        $SC->SI()->associate($this);
-        $SC->factor()->associate($factor);
-        $SC->ticker = $this->ticker;
-        $SC->factor_name = $factor->name;
-        $SC->correlation = $cor;
-        $SC->range = $this->range;
-        $SC->amount = $this->getChangeData()->count();
-        $SC->save();
-
-        return $SC;
     }
 
 

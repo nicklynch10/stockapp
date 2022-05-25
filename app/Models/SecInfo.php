@@ -433,7 +433,7 @@ class SecInfo extends Model
     {
         $regression = new LeastSquares();
         $regression->train($prices1, $prices2);
-        dd($regression);
+//        dd($regression);
         //return $regression->getCoefficients()[0];
     }
 

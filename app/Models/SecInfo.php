@@ -340,22 +340,22 @@ class SecInfo extends Model
     public function addExistingPeers()
     {
         $new = $this->getPeerData();
-//        $random = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
-//        //dd($random->first(), $random->random(), $random->last());
-//        foreach ($random as $SC) {
-//            if (!$new->contains($SC->ticker1)) {
-//                $new->push($SC->ticker1);
-//            }
-//        }
-//
-//
-//        $random = SecCompare::all()->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
-//        //dd($random->first(), $random->random(), $random->last());
-//        foreach ($random as $SC) {
-//            if (!$new->contains($SC->ticker2)) {
-//                $new->push($SC->ticker2);
-//            }
-//        }
+        $random = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
+        //dd($random->first(), $random->random(), $random->last());
+        foreach ($random as $SC) {
+            if (!$new->contains($SC->ticker1)) {
+                $new->push($SC->ticker1);
+            }
+        }
+
+
+        $random = SecCompare::all()->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
+        //dd($random->first(), $random->random(), $random->last());
+        foreach ($random as $SC) {
+            if (!$new->contains($SC->ticker2)) {
+                $new->push($SC->ticker2);
+            }
+        }
 
 
         $this->peer_data = json_encode($new->toArray());

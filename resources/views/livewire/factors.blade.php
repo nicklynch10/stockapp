@@ -49,7 +49,6 @@
                     @endforeach
                 @endif
             </div>
-
         </div>
 
         <div class="mt-5 md:mt-0 md:col-span-2">
@@ -146,7 +145,6 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-
                                     <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                                         <td class=""></td>
                                         <td> <label><b>Growth </b></label></td>

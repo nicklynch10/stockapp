@@ -86,7 +86,7 @@
                                                             ${{ number_format($s->ave_cost,2) }}
                                                         </p>
                                                         <p class="text-sm font-sans break-words font-light text-grey-dark">
-                                                            {{ $s->share_number }} @if($s->share_number>9) Shares @else Share @endif
+                                                            {{round($s->share_number, 2)  }} @if($s->share_number>9) Shares @else Share @endif
                                                         </p>
                                                     </div>
                                                 </div>

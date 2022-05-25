@@ -34,6 +34,7 @@ class SecInfo extends Model
     {
         $this->token = env('IEX_CLOUD_KEY', null);
         $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
+        ini_set('max_execution_time',180);
     }
 
 

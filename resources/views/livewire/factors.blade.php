@@ -83,10 +83,11 @@
                                     $tag = $company ? $company['tags'] : []
                                 @endphp
                                 @if($company !== null)
+
                                     @if($company['companyName'])
                                         <div class="">
                                             <label><b>Company Name :</b></label>
-                                            <span id="mytable">{{ $company['companyName'] }}</span>
+                                            <span >{{ $company['companyName'] }}</span>
                                         </div>
                                     @endif
 
@@ -132,7 +133,7 @@
                     <div class="col-start-5 col-span-8 bg-white shadow-2xl overflow-auto border-b border-gray-200 sm: rounded-lg table-align progressbar ">
                         <div class="px-4 py-10 mx-auto md:py-12">
                             @if($ticker != "" & count($correlations)>0)
-                                <table class="displayprocess">
+                                <table class="displayprocess" id ="">
                                     <tbody class="bg-white divide-y divide-gray-200 ">
                                     <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
                                         <td class=""></td>
@@ -245,7 +246,7 @@
         </div>
     </div>
     <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10 hidden">
-        <table>
+        <table id="mytable">
             <thead class="bg-gray-300">
             <tr>
                 <th
@@ -442,11 +443,13 @@
 
     $("#mytable").bind("DOMSubtreeModified", function() {
         $(this).delay(1000).queue(function(){
+
             $('.displayprocess').hide();
             window.location.reload(true);
             $('.processing').text("Processing...");
             var newurl = window.location.href;
             if (oldurl === newurl){
+
                 $('.displayprocess').hide();
                 $('.processing').text("Processing...");
             }

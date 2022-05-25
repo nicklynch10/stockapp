@@ -3,12 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\UpdateStockPriceNotification;
-use App\Models\Stock;
-use App\Models\User;
-use App\Notifications\Currentportfoliochange;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 
 class UpdateStockPrice extends Command
 {
@@ -43,6 +38,6 @@ class UpdateStockPrice extends Command
      */
     public function handle()
     {
-        dispatch(new UpdateStockPriceNotification());
+        dispatch(new UpdateStockPriceNotification())->delay(now()->addSeconds(2));
     }
 }

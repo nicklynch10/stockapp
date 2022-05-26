@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('update:stockprice')->hourly()->timezone('America/New_York');
+         $schedule->command('update:stockprice')->everyThirtyMinutes()->timezone('America/New_York');
          $schedule->command('log:clear')->everyMinute()->timezone('America/New_York');
     }
 

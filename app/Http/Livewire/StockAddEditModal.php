@@ -235,6 +235,7 @@ class StockAddEditModal extends Component
             $this->openModal();
         } else {
             $this->closeModal();
+            $this->emit('AveClose',1);
         }
         $this->emit('stockData');
         $this->resetInputFields();
@@ -279,6 +280,7 @@ class StockAddEditModal extends Component
         $logo_url = $logo->json();
         $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
 //        $this->tickerLogo = '';
+        $this->emit('AveClose',0);
         $this->openModal();
     }
     public function openModal()
@@ -300,7 +302,10 @@ class StockAddEditModal extends Component
         $this->emit('stockDelete',$id);
     }
 
-    public function changeaveprice($id){
-        $this->avepricereadonly = $id;
+    public function changeaveprice($id)
+    {
+        $this->openmodalval = 0;
+//        $this->emit();
+//        $this->avepricereadonly = $id;
     }
 }

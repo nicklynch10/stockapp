@@ -1,42 +1,56 @@
 <div>
     <link rel="stylesheet" type="text/css" href="/css/animated.css" />
 
+
     <div class="">
         <x-jet-section-title>
             <x-slot name="title"></x-slot>
             <x-slot name="description"></x-slot>
 
         </x-jet-section-title>
+        <div class="flex justify-center overflow-auto">
+            <img src="/images/logo.png" class="logo" style="height: 40px;">
+        </div>
+        <div class="flex justify-center mt-6 lg:text-lg overflow-auto  ">
+            <span>Stock Analysis And Screening tool for investors in USA.</span>
+        </div>
+        <div class=" justify-center mt-1">
+            <div class="nosubmit ">
+                <input wire:model.debounce.2000ms="ticker" class="nosubmit lg:ml-96  text-lg lg:px-8 sm:px-8 py-2 w-1/4"
+                       type="ticker" placeholder="Enter Ticker..." id="tickerbar">
+                <x-jet-input-error for="ticker" class="mt-2"/>
+            </div>
+        </div>
 
 
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <div class="profile-page mx-auto p-2">
-                <div class="grid grid-cols-12 w-full flex justify-center">
-                    <div class="col-start-1 col-span-4 bg-white overflow-hidden lg:px-24">
-                        <div class="md:col-span-1 flex justify-between">
-                            <div class="px-8 sm:px-0">
-                                <h2 class="font-semibold text-lg font-medium text-gray-900">Find Underlying Return Information</h2>
-                                <p class="mt-1 text-sm text-gray-600">
-                                    TaxGhost can help to find underlying return information
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-start-5 col-span-8 bg-white overflow-hidden ">
-                        <div class="container mx-auto md:py-12">
-                            <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
-                            <input wire:model.debounce.2000ms="ticker"
-                                   type="ticker"
-                                   id="tickerbar"
-                                   autocomplete="off"
-                                   placeholder="Enter Ticker..."
-                                   class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-2/4 sm:mr-0 "
-                                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
-                            <x-jet-input-error for="ticker" class="mt-2" />
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="profile-page mx-auto p-2">--}}
+{{--                <div class="grid grid-cols-12 w-full flex justify-center">--}}
+{{--                    <div class="col-start-1 col-span-4 bg-white overflow-hidden lg:px-24">--}}
+{{--                        <div class="md:col-span-1 flex justify-between">--}}
+{{--                            <div class="px-8 sm:px-0">--}}
+{{--                                <h2 class="font-semibold text-lg font-medium text-gray-900">Find Underlying Return Information</h2>--}}
+{{--                                <p class="mt-1 text-sm text-gray-600">--}}
+{{--                                    TaxGhost can help to find underlying return information--}}
+{{--                                </p>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-start-5 col-span-8 bg-white overflow-hidden ">--}}
+{{--                        <div class="container mx-auto md:py-12">--}}
+{{--                            <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />--}}
+{{--                            <input wire:model.debounce.2000ms="ticker"--}}
+{{--                                   type="ticker"--}}
+{{--                                   id="tickerbar"--}}
+{{--                                   autocomplete="off"--}}
+{{--                                   placeholder="Enter Ticker..."--}}
+{{--                                   class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-2/4 sm:mr-0 "--}}
+{{--                                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">--}}
+{{--                            <x-jet-input-error for="ticker" class="mt-2" />--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
 
             <div class="flow-root">
@@ -53,8 +67,8 @@
 
         <div class="mt-5 md:mt-0 md:col-span-2">
             <div class="profile-page mx-auto p-2">
-                <div class="grid grid-cols-12 w-full flex justify-center">
-                    <div class="col-start-1 col-span-4 mr-3 bg-white shadow-2xl rounded-md overflow-hidden">
+                <div class="grid grid-cols-12 w-full flex justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
+                    <div class="col-start-1 col-span-4 mr-3 bg-white shadow-2xl rounded-md xs:mb-2">
                         <div class=" flex justify-center mt-4 mx-6">
                             @php
                                 $token = env('IEX_CLOUD_KEY', null);
@@ -72,6 +86,178 @@
                             <img src="{{ $logoUrl }}" class="h-24 w-24 rounded-full object-contain hover:bg-gray-100 h-16">
                             {{--                        <img src="{{ isset($logoUrl) ? $logoUrl : 'https://ui-avatars.com/api/?name=UBS&color=7F9CF5&background=EBF4FF' }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">--}}
                         </div>
+                        <style>
+                            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
+                            .blind.left-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                right: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                            }
+
+                            .blind.right-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                left: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                                right: auto;
+                            }
+
+                            .blinds.right-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                left: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                                right: auto;
+                            }
+                            .blinds.left-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                right: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                            }
+
+
+                            .blindsLow.left-demo:before {
+                                content: "";
+                                background-image:url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                right: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                            }
+
+                            .blindsLow.right-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                left: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                                right: auto;
+                            }
+
+
+                            .blindsLagging.left-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                right: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                            }
+                            .blindsLagging.right-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                left: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                                right: auto;
+                            }
+
+                            .blindsFixed.left-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                right: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                            }
+                            .blindsFixed.right-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                left: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                                right: auto;
+                            }
+
+
+                            .blindsEmerging.left-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                right: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                            }
+                            .blindsEmerging.right-demo:before {
+                                content: "";
+                                background-image: url({{ $logoUrl }});
+                                background-size: 33px 33px;
+                                background-repeat: no-repeat;
+                                position: absolute;
+                                left: -33px;
+                                top: 0;
+                                display: block;
+                                min-width: 33px;
+                                min-height: 33px;
+                                right: auto;
+                            }
+                            input.nosubmit {
+                                border: 1px solid #246ab2;
+                                width: 30%;
+                                margin-left: 35%;
+                                padding: 9px 4px 9px 40px;
+                                background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
+                            }
+
+                        </style>
                         <div class="text-center">
                             <div class="flex flex-col justify-between p-4 leading-8">
                                 @php
@@ -129,8 +315,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-start-5 col-span-8 bg-white shadow-2xl overflow-auto border-b border-gray-200 sm: rounded-lg table-align progressbar ">
-                        <div class="px-4 py-10 mx-auto md:py-12">
+                    <div class="col-start-5 col-span-8 bg-white shadow-2xl overflow-auto border-b border-gray-200 sm:rounded-lg table-align progressbar ">
+                        <div class="px-4 py-10 mx-auto md:py-12 xs:flex-col xs:flex xs:text-center xs:justify-center">
                             @if($ticker != "" & count($correlations)>0)
                                 <table class="displayprocess" id ="">
                                     <tbody class="bg-white divide-y divide-gray-200 ">
@@ -270,184 +456,16 @@
         </table>
     </div>
 </div>
-<style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
-
-    .blind.left-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        right: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-    }
-
-    .blind.right-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-        right: auto;
-    }
-
-    .blinds.right-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-        right: auto;
-    }
-    .blinds.left-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        right: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-    }
-
-
-    .blindsLow.left-demo:before {
-        content: "";
-        background-image:url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        right: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-    }
-
-    .blindsLow.right-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-        right: auto;
-    }
-
-
-    .blindsLagging.left-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        right: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-    }
-    .blindsLagging.right-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-        right: auto;
-    }
-
-    .blindsFixed.left-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        right: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-    }
-    .blindsFixed.right-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-        right: auto;
-    }
-
-
-    .blindsEmerging.left-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        right: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-    }
-    .blindsEmerging.right-demo:before {
-        content: "";
-        background-image: url({{ $logoUrl }});
-        background-size: 33px 33px;
-        background-repeat: no-repeat;
-        position: absolute;
-        left: -33px;
-        top: 0;
-        display: block;
-        min-width: 33px;
-        min-height: 33px;
-        right: auto;
-    }
-
-</style>
 <script type="text/javascript" id="scriptid" class="selectpicker" src="/js/animated.js"></script>
 <script>
-    var oldurl = window.location.href;
-
+    var oldurl = window.location.href
     $("#mytable").bind("DOMSubtreeModified", function() {
         $(this).delay(1000).queue(function(){
-
             $('.displayprocess').hide();
             window.location.reload(true);
             $('.processing').text("Processing...");
             var newurl = window.location.href;
             if (oldurl === newurl){
-
                 $('.displayprocess').hide();
                 $('.processing').text("Processing...");
             }

@@ -13,7 +13,7 @@
                 {{ __('Yes') }}
             </x-jet-button>
 
-            <x-jet-danger-button class="ml-2"  wire:click="closeAveNoModal(1)" wire:loading.attr="disabled">
+            <x-jet-danger-button class="ml-2"  wire:click="closeAveNoModal()" wire:loading.attr="disabled">
                 {{ __('No') }}
             </x-jet-danger-button>
         </x-slot>

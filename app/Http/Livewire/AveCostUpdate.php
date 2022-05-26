@@ -8,7 +8,7 @@ class AveCostUpdate extends Component
 {
     public $openmodalval=0;
     public $isAveOpen=false;
-    protected $listeners = ['AveModal'=>'openAveModal',];
+    protected $listeners = ['AveModal'=>'openAveModal','AveClose' => 'closeAveModal'];
 
     public function render()
     {
@@ -28,11 +28,11 @@ class AveCostUpdate extends Component
         $this->isAveOpen = false;
     }
 
-    public function closeAveNoModal($id)
+    public function closeAveNoModal()
     {
-        $this->openmodalval=$id;
-        $this->avepricereadonly=$id;
-        $this->emit('changeaveprice',$id);
+        $this->openmodalval=0;
+        $this->avepricereadonly=0;
+//        $this->emit('changeaveprice',$id);
         $this->isAveOpen = false;
     }
 }

@@ -24,34 +24,6 @@
 
 
         <div class="mt-5 md:mt-0 md:col-span-2">
-{{--            <div class="profile-page mx-auto p-2">--}}
-{{--                <div class="grid grid-cols-12 w-full flex justify-center">--}}
-{{--                    <div class="col-start-1 col-span-4 bg-white overflow-hidden lg:px-24">--}}
-{{--                        <div class="md:col-span-1 flex justify-between">--}}
-{{--                            <div class="px-8 sm:px-0">--}}
-{{--                                <h2 class="font-semibold text-lg font-medium text-gray-900">Find Underlying Return Information</h2>--}}
-{{--                                <p class="mt-1 text-sm text-gray-600">--}}
-{{--                                    TaxGhost can help to find underlying return information--}}
-{{--                                </p>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-start-5 col-span-8 bg-white overflow-hidden ">--}}
-{{--                        <div class="container mx-auto md:py-12">--}}
-{{--                            <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />--}}
-{{--                            <input wire:model.debounce.2000ms="ticker"--}}
-{{--                                   type="ticker"--}}
-{{--                                   id="tickerbar"--}}
-{{--                                   autocomplete="off"--}}
-{{--                                   placeholder="Enter Ticker..."--}}
-{{--                                   class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-2/4 sm:mr-0 "--}}
-{{--                                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">--}}
-{{--                            <x-jet-input-error for="ticker" class="mt-2" />--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
 
             <div class="flow-root">
                 @if($ticker != "" & count($correlations)>0)
@@ -253,8 +225,9 @@
                                 border: 1px solid #246ab2;
                                 width: 30%;
                                 margin-left: 35%;
-                                padding: 9px 4px 9px 40px;
+                                padding: 9px 4px 9px 10px;
                                 background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
+                                background-position: 95% 50%;
                             }
 
                         </style>

@@ -14,12 +14,13 @@
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="ticker" value="{{ __('Enter Ticker to Compare') }}" />
             <input wire:model.debounce.2000ms="ticker"
-           type="ticker"
-           id="tickerbar"
-           autocomplete="off"
-           placeholder="Enter Ticker..."
-           class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0"
-           style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
+                   type="ticker"
+                   id="tickerbar"
+                   autocomplete="off"
+                   placeholder="Enter Ticker..."
+                   class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0 "
+                   style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
+            <span class="mdl-badge material-icons count_icon fa fa-search" id="search_icon"></span>
             <x-jet-input-error for="ticker" class="mt-2" />
         </div>
     </x-slot>

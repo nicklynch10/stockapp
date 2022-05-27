@@ -23,12 +23,12 @@
             </div>
             <div>
                 <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus placeholder="Enter Email"/>
             </div>
 
             <div class="mt-4">
                 <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full password-field" type="password" name="password" required autocomplete="current-password" />
+                <x-jet-input id="password" class="block mt-1 w-full password-field" type="password" name="password" required autocomplete="current-password" placeholder="Enter Password"/>
                 <span toggle=".password-field" class="fa fa-fw fa-eye field-icon toggle-password float-right -mt-8 mr-3"></span>
             </div>
 

@@ -64,7 +64,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Purchase Price (per Share) :</b></label>
-                            <input type="text" id="average_cost" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" @if($this->openmodalval==0) wire:click="$emit('AveModal')" @endif wire:model="average_cost">
+                            <input type="text" id="average_cost" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" @if($this->openmodalval==0) wire:click="$emit('AveModal')" @endif wire:model="average_cost">
                             @error('average_cost') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
@@ -157,5 +157,23 @@
         @endif
     </x-slot>
 </x-jet-dialog-modal>
+<script>
+    // $( "#average_cost" ).blur(function() {
+    //     this.value = parseFloat(this.value).toFixed(2);
+    // });
+    $("#average_cost").keyup(function(){
+        var num = parseFloat($(this).val());
+        if ( num >= 99999.99)
+        {
+            $(this).val("99999.99");
+        }
+        var number = ($(this).val().split('.'));
+        if (number[1] && number[1].length > 2)
+        {
+            var salary = parseFloat($("#average_cost").val());
+            $("#average_cost").val( salary.toFixed(2));
+        }
+    });
+</script>
 
 

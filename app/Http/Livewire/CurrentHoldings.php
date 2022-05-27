@@ -52,8 +52,13 @@ class CurrentHoldings extends Component
 
     public function sort($column)
     {
-        $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
-        $this->sortColumn = $column;
+        if($column != 0){
+            $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
+            $this->sortColumn = $column;
+        }
+        else{
+            $this->sortColumn = 'stock_ticker';
+        }
         return $this->fetchData();
     }
 

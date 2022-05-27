@@ -21,7 +21,7 @@
 
                             <div class="grid grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 @foreach($stocks as $s)
-                                    @if($s->share_number!=0)
+                                    @if(round($s->share_number,2)!=0 && round($s->share_number,2)!=0.00)
                                         @php
                                             $companyname=explode('-',$s->security_name)
                                         @endphp

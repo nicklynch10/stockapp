@@ -271,28 +271,25 @@
 
                                     @if($company['companyName'])
                                         <div class="">
-                                            <label><b>Company Name :</b></label>
                                             <span >{{ $company['companyName'] }}</span>
                                         </div>
                                     @endif
 
                                     @if($company['sector'])
                                         <div class="flow-root">
-                                            <label><b>Sector :</b></label>
                                             <span>{{ $company['sector'] }}</span>
                                         </div>
                                     @endif
 
                                     @if($company['issueType'])
                                         <div class="flow-root">
-                                            <label><b>Type :</b></label>
                                             <span>{{ convertType($company['issueType'], true) }}</span>
                                         </div>
                                     @endif
 
                                     @if($tag)
                                         <div class="flow-root">
-                                            <label><b>Tags :</b></label>
+                                            <label><b>Tags: </b></label>
                                             @if(isset($tag))
                                                 @foreach($tag as $t)
                                                     <span>[ {{ $t }} ] </span>
@@ -304,7 +301,7 @@
                                     @if($company['description'])
                                         <div class="grid grid-cols-12  w-full flex ">
                                             <div class="col-span-12 leading-5">
-                                                <label><b>Company Description :</b></label>
+                                                <label><b>Company Description:</b></label>
                                                 <span>{{ $company['description'] }}</span>
                                             </div>
                                         </div>

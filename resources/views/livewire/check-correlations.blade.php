@@ -83,7 +83,7 @@
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-             @if(count($correlations)>0)
+             @if($ticker != "" & count($correlations)>0)
                 @foreach($correlations->sortByDesc("correlation")->slice(0, 500) as $result)
                     @if($result && isset($result->ticker2))
                         <tr>
@@ -97,21 +97,10 @@
                         </tr>
                     @endif
                 @endforeach
-             @else
-                 <tr>
-                     <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900 " colspan="7" data-label="Stock Ticker">Not Find Similar Stocks & ETFs</th>
-                 </tr>
              @endif
         </tbody>
     </table>
-
 </div>
-
-
 <div>
-
-
-
         </div>
-
 </div>

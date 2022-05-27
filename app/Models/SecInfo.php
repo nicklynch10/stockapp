@@ -34,7 +34,6 @@ class SecInfo extends Model
     {
         $this->token = env('IEX_CLOUD_KEY', null);
         $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
-        ini_set('max_execution_time',180);
     }
 
 
@@ -174,7 +173,7 @@ class SecInfo extends Model
     {
         $debug = $this->debug;
         //checks if the comparison has already been made within [30] days
-        $SC_old = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
+        $SC_old = SecCompare::where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
 
         //dd($ticker);
         if ($debug) {
@@ -234,7 +233,7 @@ class SecInfo extends Model
     {
         $factor = Factor::find($factor["id"]);
         //checks if the comparison has already been made within [30] days
-        $SC_old = FactorCompare::all()->where('ticker', $this->ticker)->where('factor_id', $factor->id)->first();
+        $SC_old = FactorCompare::where('ticker', $this->ticker)->where('factor_id', $factor->id)->first();
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
             return $SC_old;
         }
@@ -340,7 +339,7 @@ class SecInfo extends Model
     public function addExistingPeers()
     {
         $new = $this->getPeerData();
-        $random = SecCompare::all()->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
+        $random = SecCompare::where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker)->get();
         //dd($random->first(), $random->random(), $random->last());
         foreach ($random as $SC) {
             if (!$new->contains($SC->ticker1)) {
@@ -349,7 +348,7 @@ class SecInfo extends Model
         }
 
 
-        $random = SecCompare::all()->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
+        $random = SecCompare::where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker)->get();
         //dd($random->first(), $random->random(), $random->last());
         foreach ($random as $SC) {
             if (!$new->contains($SC->ticker2)) {
@@ -369,7 +368,7 @@ class SecInfo extends Model
 
         $new = $this->getPeerData();
         // filters through all data and chooses only ones that have been updated within [30] days
-        $random = SecInfo::all()->where('ticker', "<>", $this->ticker)->filter(function ($value, $key) use ($new) {
+        $random = SecInfo::where('ticker', "<>", $this->ticker)->get()->filter(function ($value, $key) use ($new) {
             if ($value->updated_at < now()->addDays(-30)) {
                 return false;
             }

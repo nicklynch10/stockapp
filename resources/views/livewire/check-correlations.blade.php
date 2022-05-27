@@ -28,7 +28,7 @@
         <x-jet-action-message class="mr-3" on="saved">
             {{ __('searching...') }}
         </x-jet-action-message>
-<!-- 
+<!--
         <x-jet-button>
             {{ __('Search!') }}
         </x-jet-button> -->
@@ -44,13 +44,13 @@
             @else
             {{ __('Show ETFs Only') }}
             @endif
-                
+
             </a>
     </div>
 
 <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10">
 
-    
+
 
     <table>
         <thead class="bg-gray-300">
@@ -83,11 +83,10 @@
             </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-
-             @if($ticker != "" & count($correlations)>0)
-            @foreach($correlations->sortByDesc("correlation")->slice(0, 500) as $result)
-                @if($result && isset($result->ticker2))
-                    <tr>
+             @if(count($correlations)>0)
+                @foreach($correlations->sortByDesc("correlation")->slice(0, 500) as $result)
+                    @if($result && isset($result->ticker2))
+                        <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{$result->ticker2}} <br> {{$result->SI2->company_name}}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->correlation*100,0)}}%</td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->calced_beta,2)}} / {{number_format($result->SI2->beta,2)}}</td>
@@ -96,21 +95,22 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">@if($result->SI2->peRatio >0){{number_format($result->SI2->peRatio,2)}}@else N/A @endif</td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900" data-label="Stock Ticker">{{number_format($result->SI2->year1ChangePercent*100,2)}}%</td>
                         </tr>
-                @endif
-            @endforeach
-        @endif
-       
-                   
-               
+                    @endif
+                @endforeach
+             @else
+                 <tr>
+                     <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900 " colspan="7" data-label="Stock Ticker">Not Find Similar Stocks & ETFs</th>
+                 </tr>
+             @endif
         </tbody>
     </table>
-    
+
 </div>
 
 
 <div>
 
-   
+
 
         </div>
 

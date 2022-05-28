@@ -70,6 +70,11 @@ Route::get('schedule-run', function () {
     dd('Schedule Run');
 });
 
+Route::get('storage-link', function () {
+    Artisan::call('storage:link');
+    dd('Storage Link');
+});
+
 // ** run-seeder/StockSeeder ** //
 Route::get('run-seeder/{class}', function ($class) {
     Artisan::call("db:seed", array('--class'=>$class));

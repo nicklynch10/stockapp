@@ -60,6 +60,9 @@ class StockSellModal extends Component
 
     public function openSellModal()
     {
+        $this->resetValidation('share_price');
+        $this->resetValidation('share_sold');
+        $this->resetValidation('date_of_purchase');
         $this->issellOpen = true;
     }
 

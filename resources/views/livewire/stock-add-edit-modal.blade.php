@@ -174,6 +174,12 @@
             $("#average_cost").val( salary.toFixed(2));
         }
     });
+
+    $("#share_number").on("input", function() {
+        if (/^0/.test(this.value)) {
+            this.value = this.value.replace(/^0/, "")
+        }
+    });
 </script>
 
 

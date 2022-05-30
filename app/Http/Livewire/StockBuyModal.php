@@ -115,6 +115,9 @@ class StockBuyModal extends Component
 
     public function openBuyModal()
     {
+        $this->resetValidation('average_cost');
+        $this->resetValidation('share_number');
+        $this->resetValidation('date_of_purchase');
         $this->isbuyOpen = true;
     }
 

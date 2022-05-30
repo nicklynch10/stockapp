@@ -20,7 +20,7 @@
     <body>
         <div class="font-sans text-gray-900 antialiased">
             <x-jet-banner />
-            @if(request()->routeIs('factors')) @include('guest-menu') @endif
+            @if(request()->routeIs('factors') || request()->routeIs('correlation-check')) @include('guest-menu') @endif
             @if (isset($header))
                 <header class="bg-white shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

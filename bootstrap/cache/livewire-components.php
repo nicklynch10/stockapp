@@ -8,6 +8,7 @@
   'factors' => 'App\\Http\\Livewire\\Factors',
   'historical-trades' => 'App\\Http\\Livewire\\HistoricalTrades',
   'mark-notification' => 'App\\Http\\Livewire\\MarkNotification',
+  'optimize' => 'App\\Http\\Livewire\\Optimize',
   'overview' => 'App\\Http\\Livewire\\Overview',
   'portfolio' => 'App\\Http\\Livewire\\Portfolio',
   'stock-add-edit-modal' => 'App\\Http\\Livewire\\StockAddEditModal',
@@ -17,5 +18,4 @@
   'stock-sell-modal' => 'App\\Http\\Livewire\\StockSellModal',
   'stock-share-sell' => 'App\\Http\\Livewire\\StockShareSell',
   'stocks' => 'App\\Http\\Livewire\\Stocks',
-  'test' => 'App\\Http\\Livewire\\Test',
 );

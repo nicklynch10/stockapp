@@ -1,7 +1,23 @@
 <div>
+<style>
+    .visually-hidden{
+        position: absolute!important;
+        width: 1px!important;
+        height: 1px!important;
+        padding: 0!important;
+        margin: -1px!important;
+        overflow: hidden!important;
+        clip: rect(0,0,0,0)!important;
+        white-space: nowrap!important;
+        border: 0!important;
+    }
+    .spinner-border {
+        vertical-align: -0.125em;
+        border: 0.25em solid;
+        border-right-color: transparent;
+    }
+</style>
 <x-jet-form-section submit="">
-
-
     <x-slot name="title">
         {{ __('Find Similar Stocks & ETFs') }}
     </x-slot>
@@ -38,21 +54,23 @@
 </x-jet-form-section>
 
 
-<div class="flex justify-between items-center w-full m-2 p-2">
-          <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer">
-            @if($etfs)
-            {{ __('Show Stocks Only') }}
-            @else
-            {{ __('Show ETFs Only') }}
-            @endif
-
-            </a>
+<div class="flex justify-between items-center w-full m-2 p-2" id="buttons">
+      <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer">
+        @if($etfs)
+        {{ __('Show Stocks Only') }}
+        @else
+        {{ __('Show ETFs Only') }}
+        @endif
+        </a>
+</div>
+<div class="flex justify-center items-center spinner hidden mt-4" id="spinner">
+    <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-black spinner"
+         id="spinner" role="status" aria-hidden="true">
+        <span class="visually-hidden">.</span>
     </div>
+</div>
 
 <div class="shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align mt-10">
-
-
-
     <table>
         <thead class="bg-gray-300">
             <tr>
@@ -105,3 +123,11 @@
 <div>
         </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).on('click', '#buttons', function () {
+        console.log("hello");
+        $('#spinner').show();
+        $(this).hide();
+    });
+</script>

@@ -11484,11 +11484,18 @@ table a {
         font-size: 1.875rem;
         line-height: 2.25rem
     }
+    .lg\:w-1\/4 {
+        width: 25%
+    }
 }
 
 @media (min-width: 1280px) and (max-width: 1025px){
     .xl\:top-0 {
         top: 0
+    }
+
+    .xs\:w-auto {
+        width: auto
     }
 
     .xl\:mx-32 {

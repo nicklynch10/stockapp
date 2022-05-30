@@ -16,7 +16,7 @@
         </div>
         <div class=" justify-center mt-1">
             <div class="nosubmit ">
-                <input wire:model.debounce.2000ms="ticker" class="nosubmit lg:ml-96  text-lg lg:px-8 sm:px-8 py-2 w-1/4"
+                <input wire:model.debounce.2000ms="ticker"  class="nosubmit lg:ml-120  text-lg lg:px-8 sm:px-8 py-2 lg:w-1/4 sm:w-2/4 xs:w-auto xs:ml-1"
                        type="ticker" placeholder="Enter Ticker..." id="tickerbar">
                 <x-jet-input-error for="ticker" class="mt-2"/>
             </div>
@@ -225,8 +225,8 @@
                             }
                             input.nosubmit {
                                 border: 1px solid #246ab2;
-                                width: 30%;
-                                margin-left: 35%;
+                                /*width: 30%;*/
+                                /*margin-left: 35%;*/
                                 padding: 9px 4px 9px 10px;
                                 background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
                                 background-position: 95% 50%;

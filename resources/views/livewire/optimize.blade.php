@@ -67,7 +67,7 @@
                                                                                     </p>
                                                                                 </div>
                                                                                 <div class="inline-flex items-center text-sm">
-                                                                                    <p class="break-all text-green-700">{{ $tl['dloss']*40/100 }}</p>
+                                                                                    <p class="break-all text-green-700">{{ number_format($tl['dloss']*40/100,2) }}</p>
                                                                                 </div>
                                                                             </div>
                                                                         </li>

@@ -40,6 +40,9 @@
                     <x-jet-nav-link href="{{ route('portfolio') }}" :active="request()->routeIs('portfolio')">
                         {{ __('Portfolio') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
+                        {{ __('Optimize') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                         {{ __('Accounts') }}
                     </x-jet-nav-link>
@@ -185,6 +188,9 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('portfolio') }}" :active="request()->routeIs('portfolio')">
                 {{ __('Portfolio') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
+                {{ __('Optimize') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                 {{ __('Accounts') }}

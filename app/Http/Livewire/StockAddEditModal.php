@@ -66,11 +66,9 @@ class StockAddEditModal extends Component
             $this->tickerLogo='';
         }
         if ($this->tickerorcompany != null && $this->average_cost == null) {
-            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)->orWhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')
-                ->first();
+            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)->orWhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')->first();
             if (!$this->companyname) {
-                $this->companyname = MutualFunds::where('symbol', $this->tickerorcompany)->orWhere('name', 'like', '%' . $this->tickerorcompany . '%')
-                    ->first();
+                $this->companyname = MutualFunds::where('symbol', $this->tickerorcompany)->orWhere('name', 'like', '%' . $this->tickerorcompany . '%')->first();
                 if(!$this->companyname)
                 {
                     $this->cryptoData = CryptoCurrency::where('crypto_symbol',$this->tickerorcompany)->orWhere('crypto_name', 'like', '%' . $this->tickerorcompany . '%')->first();
@@ -283,6 +281,7 @@ class StockAddEditModal extends Component
         $this->emit('AveClose',0);
         $this->openModal();
     }
+
     public function openModal()
     {
         $this->resetValidation('average_cost');

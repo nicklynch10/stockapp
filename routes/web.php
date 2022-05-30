@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Livewire\Optimize;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
@@ -51,6 +52,7 @@ Route::get('help', function () {
 })->name('help');
 Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
+Route::get('optimize', Optimize::class, )->middleware(['auth:sanctum', 'verified'])->name('optimize');
 Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
 
 

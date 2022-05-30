@@ -19,12 +19,13 @@ class Optimize extends Component
     {
         $optimizeLoss = [];
         $topLoss = [];
-        $totalSell = 0;
-        $totalBuy = 0;
+
         $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('stock.user_id', Auth::user()->id)->get();
         foreach ($stock as $st)
         {
             $transaction = Transaction::where('stock_id', $st->id)->get();
+            $totalSell = 0;
+            $totalBuy = 0;
             foreach ($transaction as $t)
             {
                 if($t->type == 0)
@@ -36,10 +37,11 @@ class Optimize extends Component
                     $totalSell = $t->stock * $t->share_price;
                 }
             }
-            if($totalSell!=0 && $totalBuy!=0 && $totalBuy > $totalSell)
+
+            if($totalSell!=0 && $totalBuy > $totalSell)
             {
                 $dLoss = abs($totalSell - $totalBuy);
-                $pLoss = abs(($totalSell/$totalBuy)*100);
+                $pLoss = $totalSell;
                 array_push($topLoss,["id" => $st->id,"dloss" => $dLoss, 'ploss' => $pLoss]);
                 arsort($topLoss);
                 array_push($optimizeLoss,$st);

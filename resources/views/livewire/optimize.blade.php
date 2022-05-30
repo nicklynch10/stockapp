@@ -10,11 +10,11 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                            <div class="grid grid-cols-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-5 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 @if(isset($optimizeLoss) && count($optimizeLoss)>0)
                                     @foreach($optimizeLoss as $opt)
-                                        @foreach($toploss as $tl)
-                                            @if($tl['id'] == $opt->id)
+                                        @foreach($toploss as $key=>$tl)
+                                            @if($key<=4 && $tl['id'] == $opt->id)
                                             <div class="m-2">
                                                 <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                                     <div class="mt-3 my-1">

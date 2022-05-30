@@ -13,7 +13,7 @@
                             <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 @if(isset($optimizeLoss) && count($optimizeLoss)>0)
                                     @foreach($optimizeLoss as $opt)
-                                        @foreach($toploss as $$tl)
+                                        @foreach($toploss as $tl)
                                             @if($tl['id'] == $opt->id)
                                             <div class="m-2">
                                                 <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
@@ -81,6 +81,8 @@
                                             @endif
                                         @endforeach
                                     @endforeach
+                                @else
+                                    <h2 class="text-lg text-center">Not fount any optimize stock data</h2>
                                 @endif
                             </div>
                         </div>

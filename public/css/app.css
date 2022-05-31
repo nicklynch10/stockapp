@@ -11240,6 +11240,10 @@ table a {
         margin-top: 0
     }
 
+    .lg\:ml-48 {
+        margin-left: 44rem
+    }
+
     .lg\:mt-1 {
         margin-top: .25rem
     }

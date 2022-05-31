@@ -16,7 +16,7 @@
         </div>
         <div class=" justify-center mt-1">
             <div class="nosubmit ">
-                <input wire:model.debounce.2000ms="ticker"  class="nosubmit lg:ml-120  text-lg lg:px-8 sm:px-8 py-2 lg:w-1/4 sm:w-2/4 xs:w-auto xs:ml-1"
+                <input wire:model.debounce.2000ms="ticker"  class="nosubmit lg:ml-120  text-lg lg:ml-48 lg:px-8 sm:px-8 py-2 lg:w-1/4 sm:w-2/4 xs:w-auto xs:ml-1"
                        type="ticker" placeholder="Enter Ticker..." id="tickerbar">
                 <x-jet-input-error for="ticker" class="mt-2"/>
             </div>
@@ -231,6 +231,25 @@
                                 background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E") no-repeat 13px center;
                                 background-position: 95% 50%;
                             }
+                            @keyframes spinner {
+                                to {transform: rotate(360deg);}
+                            }
+
+                            .spinner:before {
+                                content: '';
+                                box-sizing: border-box;
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                width:30px;
+                                height: 30px;
+                                margin-top: 40px;
+                                /*margin-left: -10px;*/
+                                border-radius: 50%;
+                                border: 2px solid #ccc;
+                                border-top-color: #000;
+                                animation: spinner .6s linear infinite;
+                            }
 
                         </style>
                         <div class="text-center">
@@ -264,9 +283,10 @@
 
                                     @if($tag)
                                         <div class="flow-root">
-                                            <label><b>Tags: </b></label>
+{{--                                            <label><b>Tags: </b></label>--}}
                                             @if(isset($tag))
                                                 @foreach($tag as $t)
+                                                    {{ $loop->first ? '' : ', ' }}
                                                     <span>[ {{ $t }} ] </span>
                                                 @endforeach
                                             @endif
@@ -276,7 +296,7 @@
                                     @if($company['description'])
                                         <div class="grid grid-cols-12  w-full flex ">
                                             <div class="col-span-12 leading-5">
-                                                <label><b>Company Description:</b></label>
+{{--                                                <label><b>Company Description:</b></label>--}}
                                                 <span>{{ $company['description'] }}</span>
                                             </div>
                                         </div>
@@ -435,11 +455,12 @@
         $(this).delay(1000).queue(function(){
             $('.displayprocess').hide();
             window.location.reload(true);
-            $('.processing').text("Processing...");
+
+            $('.processing').addClass('spinner');
             var newurl = window.location.href;
             if (oldurl === newurl){
                 $('.displayprocess').hide();
-                $('.processing').text("Processing...");
+                $('.processing').addClass('spinner');
             }
         });
     });

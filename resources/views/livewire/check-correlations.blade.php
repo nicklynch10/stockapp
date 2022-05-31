@@ -72,8 +72,8 @@
 
 <div class="shadow overflow-auto border-b border-gray-200 sm: rounded-lg table-align mt-10">
     <table>
-        <thead class="bg-gray-300 xs:hidden">
-        <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
+        <thead class="bg-gray-300">
+        <tr>
             <th
                 class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">Stock Ticker / Name
             </th>
@@ -107,24 +107,23 @@
         @if($ticker != "" & count($correlations)>0)
             @foreach($correlations->sortByDesc("correlation")->slice(0, 500) as $result)
                 @if($result && isset($result->ticker2))
-                    <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
-                        <td data-label="Stock Ticker / Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$result->ticker2}}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{$result->ticker2}}
                             <br> {{$result->SI2->company_name}}</td>
-                        <td data-label="Correlation @if($ticker != "")
-                            with {{$ticker}}@endif" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{number_format($result->correlation*100,0)}}
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->correlation*100,0)}}
                             %
                         </td>
-                        <td data-label="Beta (S&P 500)" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{number_format($result->SI2->calced_beta,2)}}
+                        <td data-label="Beta (S&P 500)" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->SI2->calced_beta,2)}}
                             / {{number_format($result->SI2->beta,2)}}</td>
-                        <td data-label="Dividend Yield" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{number_format($result->SI2->div_yield*100,2)}}
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->SI2->div_yield*100,2)}}
                             %
                         </td>
-                        <td data-label="Market Cap / Assets Under Management" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">
                             ${{number_format($result->SI2->marketcap/1000,0)}}M
                         </td>
-                        <td data-label="PE Ratio" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">@if($result->SI2->peRatio >0){{number_format($result->SI2->peRatio,2)}}@else
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">@if($result->SI2->peRatio >0){{number_format($result->SI2->peRatio,2)}}@else
                                 N/A @endif</td>
-                        <td data-label="1 Year % Change" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{number_format($result->SI2->year1ChangePercent*100,2)}}
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->SI2->year1ChangePercent*100,2)}}
                             %
                         </td>
                     </tr>

@@ -4,10 +4,7 @@
         {{ __('Compnay Detail') }}
         <button wire:click="editStock({{$this->stock_id}})" class="float-right"><i class="fa fa-edit"></i></button>
     </x-slot>
-
-
     <x-slot name="content">
-
         <!-- Role -->
         <div class="col-span-6 lg:col-span-4">
             <div class="mb-4">
@@ -27,7 +24,7 @@
             @if($this->issuetype)
                 <div class="mb-4">
                     <label for="issuetype" class="block text-gray-700 font-bold mb-2"><b>Issue Type:</b></label>
-                    <label>{{$this->issuetype}}</label>
+                    <label>{{convertType($this->issuetype)}}</label>
                 </div>
             @endif
             @if($this->sector)

@@ -110,7 +110,8 @@
                         </div>
                         <div class="mb-4">
                             <label for="sector" class="block text-gray-700 text-sm font-bold mb-2"><b>Issue Type:</b></label>
-                            <input type="text" readonly id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Issue Type" wire:model="issuetype">
+                            <input type="text" readonly id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Issue Type" value="{{ convertType($this->issuetype) }}">
+                            <input type="text" readonly hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Issue Type" wire:model="issuetype">
                             <input type="text" hidden class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Issue Type" wire:model="tags">
                             @error('issuetype') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
@@ -137,7 +138,7 @@
             </x-jet-secondary-button>
 
         @elseif($currentStep == 2)
-            <x-jet-button class="mr-2 bg-red-600 hover:bg-red-500" wire:click="back(1)" wire:loading.attr="disabled">
+            <x-jet-button class="mr-2 bg-blue-600 hover:bg-blue-600" wire:click="back(1)" wire:loading.attr="disabled">
                 {{ __('Back') }}
             </x-jet-button>
 

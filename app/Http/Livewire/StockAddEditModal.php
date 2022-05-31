@@ -91,7 +91,7 @@ class StockAddEditModal extends Component
                     $this->stock_ticker = $this->companyname ? $company['symbol'] : $this->companyname['ticker'];
                     $this->description = $company ? $company['description'] : null;
                     $this->sector = $company ? $company['sector'] : null;
-                    $this->issuetype = $company ? convertType($company['issueType']) : null;
+                    $this->issuetype = $company ? $company['issueType'] : null;
                     $this->tags = $company ? json_encode($company['tags']) : null;
                     $this->security_name = $company ? $company['securityName'] : null;
                     $current_price = Http::get($endpoint . 'stable/stock/' . $this->data . '/quote?token=' . $token);
@@ -262,7 +262,7 @@ class StockAddEditModal extends Component
         $this->description = $company ? $company['description'] : $stock->description;
         $this->sector = $company ? $company['sector'] : $stock->sector;
         $this->current_share_price = $price ? $price['latestPrice'] : ($cryprice ? $cryprice['latestPrice'] : $stock->current_share_price);
-        $this->issuetype=convertType($stock->issuetype);
+        $this->issuetype=$stock->issuetype;
         $this->tags = json_encode($company ? $company['tags'] : $stock->tags);
         $this->openmodalval=0;
         $this->avepricereadonly=0;

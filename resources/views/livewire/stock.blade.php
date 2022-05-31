@@ -80,7 +80,7 @@
                                                             {{ $s->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$s->company_name }}
                                                         </p>
                                                         <p class="pb-2 text-sm font-sans break-words font-light text-grey-dark italic sm:text-xs">
-                                                            {{ $s->issuetype }}
+                                                            {{ convertType($s->issuetype) }}
                                                         </p>
                                                         <p class="pb-1 text-sm font-sans break-words font-light text-green-600">
                                                             ${{ number_format($s->ave_cost,2) }}

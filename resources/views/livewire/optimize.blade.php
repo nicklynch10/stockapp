@@ -14,7 +14,7 @@
                                 @if(isset($optimizeLoss) && count($optimizeLoss)>0)
                                     @foreach($optimizeLoss as $opt)
                                         @foreach($toploss as $key=>$tl)
-                                            @if($key<=4 && $tl['id'] == $opt->id)
+                                            @if($tl['id'] == $opt->id)
                                             <div class="m-2">
                                                 <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                                     <div class="mt-3 my-1">
@@ -67,7 +67,7 @@
                                                                                     </p>
                                                                                 </div>
                                                                                 <div class="inline-flex items-center text-sm">
-                                                                                    <p class="break-all text-green-700">{{ number_format($tl['dloss']*40/100,2) }}</p>
+                                                                                    <p class="break-all text-green-700">(${{ number_format($tl['dloss']*40/100,2) }})</p>
                                                                                 </div>
                                                                             </div>
                                                                         </li>

@@ -38,10 +38,10 @@ class Optimize extends Component
                 }
             }
 
-            if($totalSell!=0 && $totalBuy > $totalSell)
+            if($totalBuy!=0 && $totalBuy > $totalSell)
             {
                 $dLoss = abs($totalSell - $totalBuy);
-                $pLoss = $totalSell;
+                $pLoss = abs(($totalSell/$totalBuy)*100);
                 array_push($topLoss,["id" => $st->id,"dloss" => $dLoss, 'ploss' => $pLoss]);
                 arsort($topLoss);
                 array_push($optimizeLoss,$st);

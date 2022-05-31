@@ -9,7 +9,19 @@ use Livewire\Component;
 class CompanyDetailModal extends Component
 {
     public $isCompanyOpen = 0;
-    public $stock_id,$stock_ticker,$company_name,$description,$sector,$market_cap,$alltags,$current_share_price,$average_cost,$share_number,$issuetype,$share_price,$date_of_purchase;
+    public $stock_id;
+    public $stock_ticker;
+    public $company_name;
+    public $description;
+    public $sector;
+    public $market_cap;
+    public $alltags;
+    public $current_share_price;
+    public $average_cost;
+    public $share_number;
+    public $issuetype;
+    public $share_price;
+    public $date_of_purchase;
     protected $listeners = ['company' => 'companyDetail','closeCompany' => 'closeCompanyModal'];
 
 
@@ -40,7 +52,7 @@ class CompanyDetailModal extends Component
         $tickerdata = Stock::findOrFail($stockticker);
         $this->stock_id = $tickerdata->id;
         $this->stock_ticker = $tickerdata->stock_ticker;
-        $this->company_name = $tickerdata->security_name;
+        $this->company_name = $tickerdata->company_name;
         $this->description = $tickerdata->description;
         $this->sector = $tickerdata->sector;
         $this->market_cap = $tickerdata->market_cap;

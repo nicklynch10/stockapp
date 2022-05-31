@@ -33,7 +33,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('overview') }}">
-                        <img src="/images/logo.png" class="logo">
+                        <img src="/images/logo2.png" class="logo">
                     </a>
                 </div>
             </div>

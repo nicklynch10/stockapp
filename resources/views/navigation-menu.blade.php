@@ -27,7 +27,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('overview') }}">
-                        <img src="/images/logo.png" class="logo">
+                        <img src="/images/logo2.png" class="logo">
 {{--                        <x-jet-application-mark class="block h-9 w-auto" />--}}
                     </a>
                 </div>

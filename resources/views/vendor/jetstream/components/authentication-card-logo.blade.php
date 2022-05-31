@@ -20,5 +20,5 @@
     }
 </style>
 <a href="/">
-    <img src="/images/logo.png" class="logo">
+    <img src="/images/logo2.png" class="logo">
 </a>

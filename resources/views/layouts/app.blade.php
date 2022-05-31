@@ -8,7 +8,7 @@
         <title>TaxGhost | Investment Tax Harvesting Platform</title>
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-        <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+        <link rel="icon" type="image/x-icon" href="/images/ghost.png">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css">

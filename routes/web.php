@@ -29,64 +29,62 @@ use App\Http\Controllers\FactorController;
 */
 
 Route::get('/', function () {
-    return "Hello";
-
-//    return view('auth.login');
+    return view('auth.login');
 });
 
 
-//Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker', [HomeController::class,'addTicker'])->name('addticker');// Add ticker in database
-//Route::middleware(['auth:sanctum', 'verified'])->get('/addMutualFunds', [HomeController::class,'addMutualFunds'])->name('addmutualfunds');// Add mutual funds in database
-//Route::middleware(['auth:sanctum', 'verified'])->get('/addCryptoCurrency', [HomeController::class,'addCryptoCurrency'])->name('addcryptocurrency');// Add mutual funds in database
-//
-//
-//Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//    return view('dashboard');
-//})->name('dashboard');
-//
-//
-//Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
-//Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-//
-//
-//Route::get('help', function () {
-//    return view('support.help');
-//})->name('help');
-//Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
-//Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
-//Route::get('optimize', Optimize::class, )->middleware(['auth:sanctum', 'verified'])->name('optimize');
-//Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
-//
-//
-//
-//Route::get('notifications', [NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
-//Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
-//
-//
-//// ** Migration Routes ** //
-//Route::get('/migrate', function () {
-//    Artisan::call('migrate');
-//    dd('migrated!');
-//});
-//
-//Route::get('schedule-run', function () {
-//    Artisan::call('schedule:run');
-//    dd('Schedule Run');
-//});
-//
-//Route::get('storage-link', function () {
-//    Artisan::call('storage:link');
-//    dd('Storage Link');
-//});
-//
-//// ** run-seeder/StockSeeder ** //
-//Route::get('run-seeder/{class}', function ($class) {
-//    Artisan::call("db:seed", array('--class'=>$class));
-//    dd('Run Seeder');
-//});
-//
-//
-//// ** NL Routes ** //
-//Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
-//Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
-//Route::get('factors', [FactorController::class, 'factors'])->name('factors');
+Route::middleware(['auth:sanctum', 'verified'])->get('/addTicker', [HomeController::class,'addTicker'])->name('addticker');// Add ticker in database
+Route::middleware(['auth:sanctum', 'verified'])->get('/addMutualFunds', [HomeController::class,'addMutualFunds'])->name('addmutualfunds');// Add mutual funds in database
+Route::middleware(['auth:sanctum', 'verified'])->get('/addCryptoCurrency', [HomeController::class,'addCryptoCurrency'])->name('addcryptocurrency');// Add mutual funds in database
+
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
+
+Route::get('help', function () {
+    return view('support.help');
+})->name('help');
+Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
+Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
+Route::get('optimize', Optimize::class, )->middleware(['auth:sanctum', 'verified'])->name('optimize');
+Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
+
+
+
+Route::get('notifications', [NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
+Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
+
+
+// ** Migration Routes ** //
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+    dd('migrated!');
+});
+
+Route::get('schedule-run', function () {
+    Artisan::call('schedule:run');
+    dd('Schedule Run');
+});
+
+Route::get('storage-link', function () {
+    Artisan::call('storage:link');
+    dd('Storage Link');
+});
+
+// ** run-seeder/StockSeeder ** //
+Route::get('run-seeder/{class}', function ($class) {
+    Artisan::call("db:seed", array('--class'=>$class));
+    dd('Run Seeder');
+});
+
+
+// ** NL Routes ** //
+Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
+Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
+Route::get('factors', [FactorController::class, 'factors'])->name('factors');

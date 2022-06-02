@@ -50,7 +50,7 @@ class CheckCorrelations extends Component
             }
 
             $stock->addExistingPeers();
-            $stock->addRandomPeers(100);
+            $stock->addRandomPeers(50);
             // echo "<br> Done with existing peers";
             // print_r($stock->getPeerData());
             $this->comps = $stock->getPeerData();

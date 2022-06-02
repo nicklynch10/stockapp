@@ -113,7 +113,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->correlation*100,0)}}
                             %
                         </td>
-                        <td data-label="Beta (S&P 500)" class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->SI2->calced_beta,2)}}
+                        <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->SI2->calced_beta,2)}}
                             / {{number_format($result->SI2->beta,2)}}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-gray-900">{{number_format($result->SI2->div_yield*100,2)}}
                             %

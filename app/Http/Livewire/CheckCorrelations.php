@@ -38,7 +38,6 @@ class CheckCorrelations extends Component
     public function updatedTicker()
     {
         $stock = getTicker($this->ticker);
-        if($stock->IEXpeer_data) {
             if ($this->is_first_load) {
                 // prevents loading on the first load. THis was causing timeout errors
                 $this->is_first_load = false;
@@ -63,11 +62,11 @@ class CheckCorrelations extends Component
                 $SI1 = $SC->SI2;
                 if ($SC->correlation > 0) {
                     // adds to the list only if they find correlation data
-                    if ($this->etfs && getTicker($p)->type == "et") {
+                    if ($this->etfs && getTicker($p)->type == "ETF") {
                         // if etf toggle is true and type is etf, then adds to list
                         $stocks->push($SI1);
                         $cors->push($SC);
-                    } elseif (!$this->etfs && getTicker($p)->type != "et") {
+                    } elseif (!$this->etfs && getTicker($p)->type != "ETF") {
                         // if etf toggle is false and type is not etf, then adds to list
                         $stocks->push($SI1);
                         $cors->push($SC);
@@ -76,7 +75,6 @@ class CheckCorrelations extends Component
             }
             $this->correlations = $cors;
             $this->stocks = $stocks;
-        }
     }
 
     public function doNothing()

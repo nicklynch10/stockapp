@@ -262,7 +262,7 @@ class SecInfo extends Model
     }
 
 
-    public function pullIEXPeers()
+    public function pullIEXPeers($peerData = [])
     {
         if (!$this->IEXpeer_data) {
 
@@ -288,11 +288,17 @@ class SecInfo extends Model
         //     }
         // }
 
+        if($peerData){
+            $new = $peerData;
+        }else{
+            $new = $this->getPeerData();  // starts with existing peer data and adds new ones
+        }
+
         // cleans the peer data for valid peers only
-        $new = $this->getPeerData();  // starts with existing peer data and adds new ones
         $new2 = collect([]);
         $SCs = collect([]);
         foreach ($new as $p) {
+
             $SC = $this->compareToTicker($p);
             if (isset($SC->correlation) && $SC->correlation != 0 && !$new2->contains($p) && $SC->ticker1 != $SC->ticker2) {
                 $new2->push($p);
@@ -339,26 +345,23 @@ class SecInfo extends Model
     public function addExistingPeers()
     {
         $new = $this->getPeerData();
-        $random = SecCompare::where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker)->get();
-        //dd($random->first(), $random->random(), $random->last());
-        foreach ($random as $SC) {
-            if (!$new->contains($SC->ticker1)) {
-                $new->push($SC->ticker1);
+        $secCompares = SecCompare::where(function ($q){
+            $q->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
+        })->orWhere(function ($q){
+            $q->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
+        })->get();
+
+        foreach ($secCompares as $secCompare) {
+            if (!$new->contains($secCompare->ticker1)) {
+                $new->push($secCompare->ticker1);
+            }
+            elseif(!$new->contains($secCompare->ticker2)) {
+                $new->push($secCompare->ticker2);
             }
         }
-
-
-        $random = SecCompare::where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker)->get();
-        //dd($random->first(), $random->random(), $random->last());
-        foreach ($random as $SC) {
-            if (!$new->contains($SC->ticker2)) {
-                $new->push($SC->ticker2);
-            }
-        }
-
 
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers();
+        $this->pullIEXPeers($new);
     }
 
 
@@ -368,7 +371,7 @@ class SecInfo extends Model
 
         $new = $this->getPeerData();
         // filters through all data and chooses only ones that have been updated within [30] days
-        $random = SecInfo::where('ticker', "<>", $this->ticker)->get()->filter(function ($value, $key) use ($new) {
+        $random = \App\Models\SecInfo::where('ticker', "<>", $this->ticker)->get()->filter(function ($value, $key) use ($new) {
             if ($value->updated_at < now()->addDays(-30)) {
                 return false;
             }

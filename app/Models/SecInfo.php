@@ -320,7 +320,7 @@ class SecInfo extends Model
 
     public function addRelatedPeers()
     {
-        $this->pullIEXPeers();
+//        $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
         if(count($new)>0)
@@ -336,7 +336,7 @@ class SecInfo extends Model
             }
             $this->peer_data = json_encode($new->toArray());
         }
-        $this->pullIEXPeers();
+        $this->pullIEXPeers($new);
     }
 
 
@@ -348,7 +348,6 @@ class SecInfo extends Model
         })->orWhere(function ($q){
             $q->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
         })->get();
-
         foreach ($secCompares as $secCompare) {
             if (!$new->contains($secCompare->ticker1)) {
                 $new->push($secCompare->ticker1);

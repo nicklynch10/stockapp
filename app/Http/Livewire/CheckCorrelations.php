@@ -38,6 +38,8 @@ class CheckCorrelations extends Component
     public function updatedTicker()
     {
         $stock = getTicker($this->ticker);
+        if($stock->info_data)
+        {
             if ($this->is_first_load) {
                 // prevents loading on the first load. THis was causing timeout errors
                 $this->is_first_load = false;
@@ -75,6 +77,7 @@ class CheckCorrelations extends Component
             }
             $this->correlations = $cors;
             $this->stocks = $stocks;
+        }
     }
 
     public function doNothing()

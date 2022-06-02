@@ -36,8 +36,6 @@ class SecInfo extends Model
         $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
     }
 
-
-
     public function getIEXData()
     {
         $debug = $this->debug;

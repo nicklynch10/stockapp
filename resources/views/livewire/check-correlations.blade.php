@@ -127,8 +127,17 @@
                             %
                         </td>
                     </tr>
+                @else
+                    <tr>
+                        <th class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">No data found</th>
+                    </tr>
+                    @break
                 @endif
             @endforeach
+        @else
+            <tr>
+                <th colspan="7" class="px-4 py-2 cursor-pointer px-6 py-3 max-w-[3.23rem]">No data found</th>
+            </tr>
         @endif
         </tbody>
     </table>

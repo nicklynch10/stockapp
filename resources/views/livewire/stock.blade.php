@@ -1,12 +1,8 @@
 
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{__('Portfolio')}}
-    </h2>
-</x-slot>
+
 
 <main class="p-0 m-0 flex-grow ">
-    <div class="mx-auto px-4 py-2 md:py-12">
+    <div class="mx-auto px-4 py-2 md:py-12 pt-10">
         <div class="grid grid-cols-12 gap-2">
             <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
@@ -20,6 +16,7 @@
                             </div>
 
                             <div class="grid grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                                @if(count($stocks)>0)
                                 @foreach($stocks as $s)
                                     @if(round($s->share_number,2)!=0 && round($s->share_number,2)!=0.00)
                                         @php
@@ -86,7 +83,7 @@
                                                             ${{ number_format($s->ave_cost,2) }}
                                                         </p>
                                                         <p class="text-sm font-sans break-words font-light text-grey-dark">
-                                                            {{round($s->share_number, 2)  }} @if($s->share_number>9) Shares @else Share @endif
+                                                            {{round($s->share_number, 2)  }} @if($s->share_number>1) Shares @else Share @endif
                                                         </p>
                                                     </div>
                                                 </div>
@@ -102,6 +99,9 @@
                                         </div>
                                     @endif
                                 @endforeach
+                                @else
+                                    <div class="pt-3 text-lg text-center text-black"><i class="fa fa-chart-line"></i> No Stock Found</div>
+                                @endif
                             </div>
                         </div>
                     </div>

@@ -261,8 +261,8 @@
                                     $company = $symbol->json();
                                     $tag = $company ? $company['tags'] : []
                                 @endphp
-                                @if($company !== null)
 
+                                @if($company !== null)
                                     @if($company['companyName'])
                                         <div class="">
                                             <span >{{ $company['companyName'] }}</span>
@@ -277,7 +277,7 @@
 
                                     @if($company['issueType'])
                                         <div class="flow-root">
-                                            <span>{{ convertType($company['issueType'], true) }}</span>
+                                            <span>{{ convertType($company['issueType']) }}</span>
                                         </div>
                                     @endif
 
@@ -287,7 +287,7 @@
                                             @if(isset($tag))
                                                 @foreach($tag as $t)
                                                     {{ $loop->first ? '' : ', ' }}
-                                                    <span>[ {{ $t }} ] </span>
+                                                    <span> {{ $t }} </span>
                                                 @endforeach
                                             @endif
                                         </div>

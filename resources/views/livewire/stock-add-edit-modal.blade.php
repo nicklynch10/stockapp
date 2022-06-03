@@ -74,11 +74,16 @@
                         </div>
                         <div class="mb-4">
                             <label for="account_type" class="block text-gray-700 text-sm font-bold mb-2"><b>Select Account:</b></label>
-                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="account_type">
-                                @foreach($account as $acc)
-                                    <option value="{{$acc->id}}">{{$acc->account_type}}</option>
-                                @endforeach
-                            </select>
+                            @if(count($account)>0)
+                                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" wire:model="account_type">
+                                    @foreach($account as $acc)
+                                        <option hidden>Select Account</option>
+                                        <option value="{{$acc->id}}">{{$acc->account_type}}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <p class="text-red-700">Please first <a class="cursor-pointer text-blue-600 underline" href="{{ route('account') }}">Add your Account</a></p>
+                            @endif
                             @error('account_type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">

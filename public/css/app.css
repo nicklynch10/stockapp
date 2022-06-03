@@ -2146,6 +2146,8 @@ table a {
     border-top-left-radius: .375rem
 }
 
+.border
+
 .border-0 {
     border-width: 0
 }
@@ -2196,6 +2198,18 @@ table a {
 
 .border-dashed {
     border-style: dashed
+}
+
+.border-dash{
+    border : 1px dashed #0000006e;
+}
+
+.custome-border{
+    border: 1px solid #e8eef4;
+    border-radius: 5px;
+    padding: 5px 6px;
+    background-color: #a9c1d773;
+    font-family: emoji;
 }
 
 .border-transparent {

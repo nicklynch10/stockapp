@@ -43,6 +43,12 @@
                     <x-jet-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                         {{ __('Optimize') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">
+                        {{ __('Factors') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">
+                        {{ __('Stocks Comparable') }}
+                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                         {{ __('Accounts') }}
                     </x-jet-nav-link>
@@ -191,6 +197,12 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                 {{ __('Optimize') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">
+                {{ __('Factors') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">
+                {{ __('Stocks Comparable') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                 {{ __('Accounts') }}

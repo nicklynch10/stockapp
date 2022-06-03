@@ -359,7 +359,6 @@ class Account extends Component
             'account_name' => $this->account_name,
             'account_brokerage' => $this->account_brokerage,
             'commission' => $this->commission,
-            'set_default'=>0,
         ]);
 
         $this->dispatchBrowserEvent('alert', [
@@ -385,7 +384,6 @@ class Account extends Component
     {
         $data = Accounts::where('id', $id)->first();
         if ($data['set_default'] == 1) {
-            Accounts::find($id)->delete();
             $allData = Accounts::where('user_id', Auth::user()->id)->where('id', '!=', $id)->first();
             if ($allData) {
                 $allData->update([
@@ -401,6 +399,7 @@ class Account extends Component
                     'message' => 'Account Deleted Successfully.<br> Please make a new account if you wish to continue.'
                 ]);
             }
+            Accounts::find($id)->delete();
         } else {
             Accounts::find($id)->delete();
             $this->dispatchBrowserEvent('alert', [
@@ -435,5 +434,4 @@ class Account extends Component
             'message' => 'Account Set As Default'
         ]);
     }
-
 }

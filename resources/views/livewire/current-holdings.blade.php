@@ -168,9 +168,9 @@
                                         <a class=" cursor-pointer whitespace-normal " wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a>
                                     </h5>
                                     <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
-                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} Shares</p>
-                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis : ${{ number_format($curr->ave_cost,2) }}</p>
-                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price : ${{ number_format($curr->current_share_price,2) }}</p>
+                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} @if($curr->share_number>1) Shares @else Share @endif</p>
+                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis: ${{ number_format($curr->ave_cost,2) }}</p>
+                                    <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price: ${{ number_format($curr->current_share_price,2) }}</p>
                                 </div>
                                 <div class="flex flex-col justify-between p-4 leading-normal">
                                     <div class="flow-root">

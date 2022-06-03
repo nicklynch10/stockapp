@@ -20,7 +20,7 @@
                 @error('company_name') <span class="text-red-500">{{ $message }}</span>@enderror
             </div>
             <div class="mb-4">
-                <label for="share_number" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Number of {{ $this->share_number > 9 ? "Shares" : "Share" }}:</b></label>
+                <label for="share_number" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Number of {{ $this->share_number > 1 ? "Shares" : "Share" }}:</b></label>
                 <label>{{round($this->share_number,2)}}</label>
             </div>
             <div class="mb-4">

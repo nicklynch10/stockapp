@@ -87,7 +87,7 @@ class StockAddEditModal extends Component
                     $this->data = $this->companyname['ticker'] ? $this->companyname['ticker'] : $this->companyname['symbol'];
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
                     $company = $symbol->json();
-                    $this->company_name = $company ? $company['companyName'] : $this->companyname['ticker_company'];
+                    $this->company_name = $this->companyname['ticker'] ? $this->companyname['ticker_company'] : $this->companyname['name'];
                     $this->stock_ticker = $this->companyname ? $company['symbol'] : $this->companyname['ticker'];
                     $this->description = $company ? $company['description'] : null;
                     $this->sector = $company ? $company['sector'] : null;
@@ -136,8 +136,9 @@ class StockAddEditModal extends Component
             'average_cost' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_number' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'date_of_purchase' => 'required',
-            'company_name' => 'required'
-        ],['company_name.required' => 'No Company Found Please Enter Valid Company Name']);
+            'company_name' => 'required',
+            'account_type' => 'required',
+        ],['company_name.required' => 'No Company Found Please Enter Valid Company Name','account_type.required' => 'Please select account' ]);
 
         $this->currentStep = 2;
     }
@@ -187,6 +188,7 @@ class StockAddEditModal extends Component
             'average_cost' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'share_number' => 'required|numeric|min:0|regex:/^[0-9]+/|not_in:0',
             'date_of_purchase' => 'required',
+            'account_type' => 'required',
         ]);
         $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($this->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
         $insertid=Stock::updateOrCreate(['id' => $this->stock_id], [
@@ -262,7 +264,7 @@ class StockAddEditModal extends Component
         $this->description = $company ? $company['description'] : $stock->description;
         $this->sector = $company ? $company['sector'] : $stock->sector;
         $this->current_share_price = $price ? $price['latestPrice'] : ($cryprice ? $cryprice['latestPrice'] : $stock->current_share_price);
-        $this->issuetype=$stock->issuetype;
+        $this->issuetype=$company ? $company['issueType'] : $stock->issuetype;
         $this->tags = json_encode($company ? $company['tags'] : $stock->tags);
         $this->openmodalval=0;
         $this->avepricereadonly=0;

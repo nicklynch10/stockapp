@@ -19,7 +19,7 @@
                 border-right-color: transparent;
             }
 
-            .hidden {
+            .displaynone {
                 display: none;
             }
         </style>
@@ -42,7 +42,7 @@
                            placeholder="Enter Ticker..."
                            class="focus:outline-none border-gray-200 p-1 py-2 w-2/4 sm:w-3/4 sm:mr-0 "
                            style="border-top:none; border-left: none; border-right: none; border-bottom: 2px solid #d1d5da; padding-bottom: 5px">
-                    <span class="mdl-badge material-icons count_icon fa fa-search" wire:loading.class="hidden"
+                    <span class="mdl-badge material-icons count_icon fa fa-search" wire:loading.class="displaynone"
                           wire:target="ticker" id="search_icon"></span>
                     <x-jet-input-error for="ticker" class="mt-2"/>
                     <div wire:loading.delay.shortest wire:target="ticker">

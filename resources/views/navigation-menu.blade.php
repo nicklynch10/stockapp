@@ -47,7 +47,7 @@
                         {{ __('Factors') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">
-                        {{ __('Stocks Comparable') }}
+                        {{ __('Stocks Compare') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                         {{ __('Accounts') }}
@@ -202,7 +202,7 @@
                 {{ __('Factors') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">
-                {{ __('Stocks Comparable') }}
+                {{ __('Stocks Compare') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                 {{ __('Accounts') }}

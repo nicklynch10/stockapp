@@ -132,8 +132,8 @@
         <select wire:change="sort($event.target.value)" class="shadow appearance-none border mb-3 w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             <option value="0">Sort By</option>
             <option value="stock_ticker">Stock Ticker</option>
-            <option value="company_name">company_name</option>
-            <option value="share_number">share_number</option>
+            <option value="company_name">Company Name</option>
+            <option value="share_number">Share Number</option>
             <option value="ave_cost">Cost Basis</option>
             <option value="current_share_price">Share Price</option>
             <option value="dchange">$ Change</option>

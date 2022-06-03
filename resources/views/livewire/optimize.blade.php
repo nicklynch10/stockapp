@@ -4,6 +4,37 @@
     </h2>
 </x-slot>
 <main class="p-0 m-0 flex-grow ">
+    <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
+        <div class="flex flex-col bg-gray-200 sm:rounded-lg px-4 py-4 col-start-4 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="w-full mb-5">
+                        <h2 class="font-semibold text-lg text-gray-800 leading-tight">
+                            {{ __('Trades') }}
+                        </h2>
+                        <h2 class="pt-2 text-2xl">{{ count($toploss) }} of trades listed</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Box1  --}}
+
+        <div class="flex flex-col bg-green-100 sm:rounded-lg px-4 py-4 col-start-8 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="w-full mb-5">
+                        <h2 class="font-semibold text-lg text-gray-800 leading-tight">
+                            {{ __('Harvestable Losses') }}
+                        </h2>
+                        <h2 class="pt-2 text-2xl">{{$this->harvestableLosses<0?"($".(number_format(abs($this->harvestableLosses),2)).")":"$".number_format($this->harvestableLosses,2)}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Box2  --}}
+
+    </div>
     <div class="mx-auto px-4 py-2 md:py-12">
         <div class="grid grid-cols-12 gap-2">
             <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
@@ -31,9 +62,9 @@
                                                                 <a class=" cursor-pointer whitespace-normal" >{{ $tl["ticker"] }}</a>
                                                             </h5>
                                                             <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $tl["company_name"] }}</p>
-                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ \Carbon\Carbon::createFromTimestamp(strtotime($tl["dateofpurchase"]))->format('F jS, Y') }}</p>
+{{--                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ \Carbon\Carbon::createFromTimestamp(strtotime($tl["dateofpurchase"]))->format('F jS, Y') }}</p>--}}
                                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $tl["long_term_gain"] }}</p>
-                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Account: {{ $tl["account"] }}	</p>
+                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $tl["account"] }}	</p>
                                                         </div>
                                                         <div class="flex flex-col justify-between p-4 leading-normal">
                                                             <div class="flow-root">
@@ -78,9 +109,9 @@
                                                             </div>
                                                             <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
                                                                 <p class="border-dash w-60"></p>
-                                                                <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable stocks</p>
+                                                                <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks / ETFs</p>
                                                                 <div class="flex-row w-60">
-                                                                    <span class="custome-border">AAPL</span>
+                                                                    <a href="{{ route('portfolio') }}"><span class="custome-border">AAPL</span></a>
                                                                     <span class="custome-border">GOOGL</span>
                                                                     <span class="custome-border">SPY</span>
                                                                     <span class="custome-border">QQQ</span>

@@ -14,10 +14,26 @@ class Optimize extends Component
     public $totalSell = 0;
     public $dLoss = 0;
     public $pLoss = 0;
+    public $box3;
+    public $nagative = 0;
+    public $harvestableLosses = 0;
     public $potentialSavings = 0;
 
     public function render()
     {
+        $box3=Stock::join('view_stock_update','view_stock_update.stock_id','stock.id')->where('user_id',Auth::user()->id)->get();
+        $nagative=0;
+        foreach($box3 as $b3)
+        {
+            if($b3->current_total_value-$b3->total_cost<0)
+            {
+                //Box4
+                $nagative+=abs($b3->current_total_value-$b3->total_cost);
+            }
+        }
+        $this->harvestableLosses=$nagative;
+
+
         $topLoss = [];
 
         $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->get();

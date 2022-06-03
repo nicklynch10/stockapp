@@ -208,8 +208,7 @@
                                                                 </p>
                                                             </div>
                                                             <div class="inline-flex items-center break-all text-sm">
-                                                                <p class="break-all">{{number_format($result->correlation*100,0)}}
-                                                                    %</p>
+                                                                <p class="break-all">{{number_format($result->correlation*100,0)}}%</p>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -233,8 +232,7 @@
                                                                 </p>
                                                             </div>
                                                             <div class="inline-flex items-center break-all text-sm">
-                                                                <p class="break-all">{{number_format($result->SI2->div_yield*100,2)}}
-                                                                    %</p>
+                                                                <p class="break-all">{{number_format($result->SI2->div_yield*100,2)}}%</p>
                                                             </div>
                                                         </div>
                                                     </li>

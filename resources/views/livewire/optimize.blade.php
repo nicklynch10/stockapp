@@ -112,9 +112,9 @@
                                                                 <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks / ETFs</p>
                                                                 <div class="flex-row w-60">
                                                                     <a href="{{ route('portfolio') }}"><span class="custome-border">AAPL</span></a>
-                                                                    <span class="custome-border">GOOGL</span>
-                                                                    <span class="custome-border">SPY</span>
-                                                                    <span class="custome-border">QQQ</span>
+                                                                    <a href="{{ route('portfolio') }}"><span class="custome-border">GOOGL</span></a>
+                                                                    <a href="{{ route('portfolio') }}"><span class="custome-border">SPY</span></a>
+                                                                    <a href="{{ route('portfolio') }}"><span class="custome-border">QQQ</span></a>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -176,7 +176,7 @@
                             class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 xl:grid-cols-1 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4 w-full mt-2 ">
 
                             @if($ticker != "" & count($correlations)>0)
-                                @foreach($correlations->sortByDesc("correlation")->slice(0, 500) as $result)
+                                @foreach($correlations->sortByDesc("correlation")->slice(0, 500)->unique() as $result)
                                     @if($result && isset($result->ticker2))
                                         <div class="m-2 relative">
                                             <div

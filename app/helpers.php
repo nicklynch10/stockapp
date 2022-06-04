@@ -87,3 +87,19 @@ if (!function_exists('convertType')) {
         }
     }
 }
+
+
+function appLogo($default = false, $user = null)
+{
+    return url("/images/logo2.png");
+}
+
+function appName($default = false, $user = null)
+{
+    return "TaxGhost";
+}
+
+function appFavicon($default = false, $user = null)
+{
+    return "/images/ghost.png";
+}

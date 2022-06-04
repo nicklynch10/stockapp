@@ -74,6 +74,7 @@
                 {{ $slot }}
             </main>
         </div>
+        @include("layouts.footer")
         @stack('modals')
         @livewireScripts
     </body>

@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: stock-app2
+    environment: null
     group_suffix: null
 environment-defaults:
   stock-app2:

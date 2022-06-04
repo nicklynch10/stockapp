@@ -29,7 +29,7 @@ use App\Http\Controllers\FactorController;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('home.home');
 });
 
 
@@ -88,3 +88,20 @@ Route::get('run-seeder/{class}', function ($class) {
 Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
 Route::get('factors', [FactorController::class, 'factors'])->name('factors');
+
+
+// new home routes //
+Route::get('/rewards-process', function () {
+    return view('home.rewards-process');
+});
+// Route::get('/analytics', function () {
+//     return view('home.analytics');
+// });
+Route::get('/home', function () {
+    return view('home.home');
+});
+
+
+Route::get('/test2', function () {
+    return view('home.test');
+});

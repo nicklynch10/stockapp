@@ -4,8 +4,8 @@ branch-defaults:
     group_suffix: null
 environment-defaults:
   stock-app2:
-    branch: master
-    repository: origin
+    branch: null
+    repository: null
 global:
   application_name: stock-app
   branch: null

@@ -19,8 +19,8 @@
             </h2>
         </x-slot>
         <div>
-                @livewire('check-correlations')
-                <x-jet-section-border />
+            @livewire('check-correlations')
+            <x-jet-section-border />
         </div>
     </x-guest-layout>
 @endauth

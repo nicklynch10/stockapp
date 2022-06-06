@@ -230,6 +230,7 @@ class SecInfo extends Model
     public function compareToFactor($factor)
     {
         $factor = Factor::find($factor["id"]);
+
         //checks if the comparison has already been made within [30] days
         $SC_old = FactorCompare::where('ticker', $this->ticker)->where('factor_id', $factor->id)->first();
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
@@ -260,7 +261,7 @@ class SecInfo extends Model
     }
 
 
-    public function pullIEXPeers($peerData = [])
+    public function pullIEXPeers()
     {
         if (!$this->IEXpeer_data) {
 
@@ -286,11 +287,11 @@ class SecInfo extends Model
         //     }
         // }
 
-        if($peerData){
-            $new = $peerData;
-        }else{
+//        if($peerData){
+//            $new = $peerData;
+//        }else{
             $new = $this->getPeerData();  // starts with existing peer data and adds new ones
-        }
+//        }
 
         // cleans the peer data for valid peers only
         $new2 = collect([]);
@@ -320,7 +321,7 @@ class SecInfo extends Model
 
     public function addRelatedPeers()
     {
-//        $this->pullIEXPeers();
+        $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
         if(count($new)>0)
@@ -336,7 +337,7 @@ class SecInfo extends Model
             }
             $this->peer_data = json_encode($new->toArray());
         }
-        $this->pullIEXPeers($new);
+        $this->pullIEXPeers();
     }
 
 
@@ -358,7 +359,7 @@ class SecInfo extends Model
         }
 
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers($new);
+        $this->pullIEXPeers();
     }
 
 

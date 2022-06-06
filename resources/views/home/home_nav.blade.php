@@ -1,4 +1,33 @@
 <header class="bg-white Navbar js-nav" role="navigation">
+    <style type="text/css">
+        .ps_color1_background {
+            background: #22c55e;
+        }
+
+        .Button {
+            background-color: #22c55e;
+        }
+
+        .Button--stroke {
+            background-color: #F472B6;
+            color: white;
+            border: 2px solid #F472B6;
+        }
+
+        .homeFeaturedLogos__img {
+            width: 80%;
+        }
+
+        .NavbarMain__tabWrap:hover {
+            color: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .NavbarMobile__topBar {
+            background-color: white;
+            border-bottom: 3px solid #3B82F6;
+        }
+    </style>
     <div class="Navbar__container js-nav-main">
         <div class="NavbarMain">
             <div class="NavbarMain__left NavbarMain__wrapper NavbarMain__wrapper--left js-nav-logo">

@@ -1625,6 +1625,10 @@ select {
     width: 100%
 }
 
+.factor-width{
+    width:560px;
+}
+
 .w-max {
     width: -webkit-max-content;
     width: -moz-max-content;
@@ -2210,6 +2214,19 @@ table a {
     padding: 5px 6px;
     background-color: #a9c1d773;
     font-family: emoji;
+}
+
+.top-2\.5 {
+    top: .625rem
+}
+.text-md{
+    font-size: 1rem;
+}
+.right-5 {
+    right: 1.25rem
+}
+.bottom-2\.5 {
+    right: .625rem
 }
 
 .border-transparent {

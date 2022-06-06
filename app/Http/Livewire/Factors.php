@@ -22,7 +22,6 @@ class Factors extends Component
     {
         return view('livewire.factors');
     }
-
     public function mount()
     {
         $this->factors = collect($this->factors);

@@ -186,7 +186,7 @@
                         <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-3 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
                             <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12" src="/home images/3.png" data-src="/home images/3.png"
                              style="">
-                            
+
 
                         </div>
 
@@ -373,33 +373,33 @@ Take advantage of tax optimization suggestions not typically provided by robo-ad
 
     <!-- ///////////////////////// Nick Css -->
     <style type="text/css">
-        .ps_color1_background {
-            background: #22c55e;
-        }
+        /*.ps_color1_background {*/
+        /*    background: #22c55e;*/
+        /*}*/
 
-        .Button {
-            background-color: #22c55e;
-        }
+        /*.Button {*/
+        /*    background-color: #22c55e;*/
+        /*}*/
 
-         .Button--stroke {
-            background-color: #F472B6;
-            color: white;
-            border: 2px solid #F472B6;
-        }
+        /* .Button--stroke {*/
+        /*    background-color: #F472B6;*/
+        /*    color: white;*/
+        /*    border: 2px solid #F472B6;*/
+        /*}*/
 
-        .homeFeaturedLogos__img {
-            width: 80%;
-        }
+        /*.homeFeaturedLogos__img {*/
+        /*    width: 80%;*/
+        /*}*/
 
-        .NavbarMain__tabWrap:hover {
-            color: #22c55e;
-            border-color: #22c55e;
-        }
+        /*.NavbarMain__tabWrap:hover {*/
+        /*    color: #22c55e;*/
+        /*    border-color: #22c55e;*/
+        /*}*/
 
-        .NavbarMobile__topBar {
-            background-color: white;
-            border-bottom: 3px solid #3B82F6;
-        }
+        /*.NavbarMobile__topBar {*/
+        /*    background-color: white;*/
+        /*    border-bottom: 3px solid #3B82F6;*/
+        /*}*/
 
 
         /*.ps-home-1405__bgContainer {

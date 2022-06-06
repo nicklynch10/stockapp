@@ -1,15 +1,15 @@
 <x-guest-layout>
-    <x-jet-authentication-card>
-        <x-slot name="logo">
-            <x-jet-authentication-card-logo />
-        </x-slot>
+    <x-jet-authentication-card style="background-image: url('/images/blue-rounded.png');background-size: cover">
 
+        <x-slot name="logo">
+
+        </x-slot>
         <x-jet-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
             <div class="flex justify-center my-2 text-xl font-bold">
-                <h4 class="text-xl font-semibold mt-1 mb-3 pb-1">{{ __('Sign Up') }}</h4>
+                <x-jet-authentication-card-logo />
             </div>
             <div class="mt-4">
                 <label for="first_name" class="block font-medium text-gray-700">{{ __('First Name') }} <span class="text-red-700 font-bold">*</span></label>

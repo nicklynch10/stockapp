@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <x-jet-authentication-card>
+    <x-jet-authentication-card style="background-image: url('/images/green-rounded.png');background-size: cover">
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+{{--            <x-jet-authentication-card-logo />--}}
         </x-slot>
         <x-jet-validation-errors class="mb-4" />
 
@@ -12,7 +12,7 @@
         @endif
 
         <div class="flex justify-center my-2 text-xl font-bold">
-            <h4 class="text-xl font-semibold mt-1 mb-3 pb-1">{{ __('Log in to TaxGhost') }}</h4>
+            <x-jet-authentication-card-logo /><br>
         </div>
         <form method="POST" action="{{ route('login') }}">
             @csrf

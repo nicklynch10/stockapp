@@ -5,21 +5,21 @@
 </x-slot>
 <main class="p-0 m-0 flex-grow ">
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
-        <div class="flex flex-col bg-gray-200 sm:rounded-lg px-4 py-4 col-start-4 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
+        <div class="flex flex-col bg-yellow-200 sm:rounded-lg px-4 py-4 col-start-4 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5">
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
-                            {{ __('Trades') }}
+                            {{ __('Potential Trades') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{ count($toploss) }} of trades listed</h2>
+                        <h2 class="pt-2 text-2xl">{{ count($toploss) }}</h2>
                     </div>
                 </div>
             </div>
         </div>
         {{-- Box1  --}}
 
-        <div class="flex flex-col bg-green-100 sm:rounded-lg px-4 py-4 col-start-8 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
+        <div class="flex flex-col bg-green-300 sm:rounded-lg px-4 py-4 col-start-8 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5">
@@ -41,7 +41,7 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="grid grid-cols-5 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-5 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                            <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 @if(isset($toploss) && count($toploss)>0)
                                     @foreach($toploss as $key=>$tl)
                                         <div class="m-2">
@@ -59,7 +59,7 @@
                                                             @endphp
                                                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
                                                             <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
-                                                                <a class=" cursor-pointer whitespace-normal" >{{ $tl["ticker"] }}</a>
+                                                                <a class="whitespace-normal" >{{ $tl["ticker"] }}</a>
                                                             </h5>
                                                             <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $tl["company_name"] }}</p>
 {{--                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ \Carbon\Carbon::createFromTimestamp(strtotime($tl["dateofpurchase"]))->format('F jS, Y') }}</p>--}}

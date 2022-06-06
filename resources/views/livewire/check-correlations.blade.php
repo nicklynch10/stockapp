@@ -188,6 +188,15 @@
                                                                             </div>
                                                                         </div>
                                                                     </li>
+                                                                    @php
+                                                                        $this->token = env('IEX_CLOUD_KEY', null);
+                                                                        $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                                                                        $url = ($this->endpoint . 'stable/stock/'.$result->ticker2.'/stats?token=' . $this->token);
+                                                                        $data = Http::get($url);
+                                                                        $stats = $data->json()
+
+                                                                    @endphp
+                                                                    @if($stats!='')
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
@@ -200,15 +209,9 @@
                                                                                 </p>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                @php
-                                                                                $this->token = env('IEX_CLOUD_KEY', null);
-                                                                                $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                                                                                $url = ($this->endpoint . 'stable/stock/'.$result->ticker2.'/stats?token=' . $this->token);
-                                                                                $data = Http::get($url);
-                                                                                $stats = $data->json();
-                                                                                @endphp
+
                                                                                 <p class="break-all text-green-700">
-                                                                                    @if( $stats['peRatio']>0)
+                                                                                    @if($stats!='')
                                                                                         {{number_format( $stats['peRatio'],2)}}
                                                                                     @else
                                                                                         N/A
@@ -217,6 +220,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </li>
+                                                                    @endif
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">

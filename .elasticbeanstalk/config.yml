@@ -1,11 +1,11 @@
 branch-defaults:
   master:
-    environment: null
+    environment: stock-app2
     group_suffix: null
 environment-defaults:
   stock-app2:
-    branch: null
-    repository: null
+    branch: master
+    repository: origin
 global:
   application_name: stock-app
   branch: null

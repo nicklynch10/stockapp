@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Stock;
-//use App\Models\SecInfo;
+use App\Models\SecInfo;
 use App\Models\SecCompare;
 use App\Models\StockTicker;
 use App\Models\Factor;
@@ -261,7 +261,7 @@ class SecInfo extends Model
     }
 
 
-    public function pullIEXPeers()
+    public function pullIEXPeers($peerData=[])
     {
         if (!$this->IEXpeer_data) {
 
@@ -287,11 +287,17 @@ class SecInfo extends Model
         //     }
         // }
 
+        if($peerData){
+            $new = $peerData;
+        }else{
+            $new = $this->getPeerData();  // starts with existing peer data and adds new ones
+        }
+
         // cleans the peer data for valid peers only
-        $new = $this->getPeerData();  // starts with existing peer data and adds new ones
         $new2 = collect([]);
         $SCs = collect([]);
         foreach ($new as $p) {
+
             $SC = $this->compareToTicker($p);
             if (isset($SC->correlation) && $SC->correlation != 0 && !$new2->contains($p) && $SC->ticker1 != $SC->ticker2) {
                 $new2->push($p);
@@ -315,7 +321,7 @@ class SecInfo extends Model
 
     public function addRelatedPeers()
     {
-        $this->pullIEXPeers();
+//        $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
         if(count($new)>0)
@@ -331,7 +337,7 @@ class SecInfo extends Model
             }
             $this->peer_data = json_encode($new->toArray());
         }
-        $this->pullIEXPeers();
+        $this->pullIEXPeers($new);
     }
 
 

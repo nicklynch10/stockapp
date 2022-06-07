@@ -94,7 +94,6 @@
                                 $logoUrl = $tickerLogo;;
                                 } else {
                                 $logoUrl = 'https://ui-avatars.com/api/?name='.$this->ticker.'&color=7F9CF5&background=EBF4FF';
-                                dd($logoUrl);
                                 }
                             @endphp
                             @if(count($correlations)>0)

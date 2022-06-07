@@ -92,7 +92,7 @@ class StockBuyModal extends Component
             'current_total_value'=>($this->current_share_price*$this->share_number),
             'total_cost'=>($this->average_cost*$this->share_number),
             'total_gain_loss'=>0,
-            'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+            'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." days held" : "Short / ".$diff->format("%d")." days held",
         ]);
         $lastBuyInsertedID = $buyInsertid->id;
         Transaction::Create([

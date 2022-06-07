@@ -89,7 +89,7 @@ class StockFactory extends Factory
             'current_total_value' => ($current_share_price*$share_number),
             'total_cost' => ($ave_cost*$share_number),
             'total_gain_loss' => ($current_share_price*$share_number)-($ave_cost*$share_number),
-            'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+            'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." days held" : "Short / ".$diff->format("%d")." days held",
             'ticker_logo' => $tickerLogo,
         ]);
     }

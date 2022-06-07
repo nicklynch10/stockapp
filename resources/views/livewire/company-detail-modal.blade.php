@@ -3,6 +3,7 @@
     <x-slot name="title">
         {{ __('Company Detail') }}
 {{--        <button wire:click="editStock({{$this->stock_id}})" class="justify-end float-right"><i class="fa fa-edit"></i></button>--}}
+        @if($this->stock_id)
         <div class="justify-end">
             <div class="right-2" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
                 <div @click="open = ! open">
@@ -42,6 +43,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </x-slot>
     <x-slot name="content">
         <!-- Role -->

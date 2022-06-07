@@ -13,8 +13,8 @@ if (!function_exists('getTicker')) {
         if (!$SI1) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
-            $SI1->getIEXData();
         }
+        $SI1->getIEXData();
         //$SI1->save();
         return $SI1;
     }

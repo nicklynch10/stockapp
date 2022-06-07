@@ -62,7 +62,7 @@ class CurrentHoldingsUpdate implements ShouldQueue
                         'current_total_value' => $current_total_value,
                         'total_cost' => $total_cost,
                         'total_gain_loss' => $gain,
-                        'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+                        'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->format("%d")." days held" : "Short / ".$diff->format("%d")." days held",
                     ]);
                 }
             }

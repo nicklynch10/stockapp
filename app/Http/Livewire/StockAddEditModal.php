@@ -96,6 +96,7 @@ class StockAddEditModal extends Component
                     $this->security_name = $company ? $company['securityName'] : null;
                     $current_price = Http::get($endpoint . 'stable/stock/' . $this->data . '/quote?token=' . $token);
                     $price = $current_price->json();
+                    dd($price);
                     $this->current_share_price = $price ? $price['latestPrice'] : '';
                     $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
                     $logo = Http::get($endpoint . 'stable/stock/' . $this->data . '/logo?token=' . $token);
@@ -212,7 +213,7 @@ class StockAddEditModal extends Component
             'current_total_value' => ($this->current_share_price*$this->share_number),
             'total_cost' => ($this->average_cost*$this->share_number),
             'total_gain_loss' => ($this->current_share_price*$this->share_number)-($this->average_cost*$this->share_number),
-            'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." Days held" : "Short / ".$diff->format("%d")." Days held",
+            'total_long_term_gains' => $diff->format("%a")>366 ? "Long / " .$diff->format("%d")." days held" : "Short / ".$diff->format("%d")." days held",
             'ticker_logo' => $this->tickerLogo,
         ]);
         $lastInsertedID = $insertid->id;

@@ -168,7 +168,7 @@
                                                                                 </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <p class="break-all text-red-700">{{number_format($result->SI2->div_yield*100,2).'%'}}</p>
+                                                                                <span class="break-all text-red-700">{{number_format($result->SI2->div_yield*100,2).'%'}}</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>

@@ -140,10 +140,10 @@
                                                             <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                                 <a class="whitespace-normal">{{$result->ticker2}}</a>
                                                             </h5>
-                                                            <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</p>
-                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark"> <span class="font-bold">~{{number_format($result->correlation*100,0).'%'}}</span><br>
+                                                            <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
+                                                            <span class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark"> <span class="font-bold">~{{number_format($result->correlation*100,0).'%'}}</span><br>
                                                                 Correlation  with <br> {{$ticker}}
-                                                            </p>
+                                                            </span>
                                                         </div>
                                                         <div class="flex flex-col justify-between p-4 leading-normal" style="width: 255px">
                                                             <div class="flow-root">
@@ -151,21 +151,21 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
                                                                                     Beta (S&P 500):
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center break-all text-sm">
-                                                                                <p class="break-all text-red-700">{{number_format($result->SI2->calced_beta,2)}}</p>
+                                                                                <span class="break-all text-red-700">{{number_format($result->SI2->calced_beta,2)}}</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
                                                                                     Dividend Yield
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
                                                                                 <p class="break-all text-red-700">{{number_format($result->SI2->div_yield*100,2).'%'}}</p>
@@ -175,16 +175,16 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
                                                                                     @if($etfs)
                                                                                         Assets Under Management(AUM):
                                                                                     @else
                                                                                         Market Cap:
                                                                                     @endif
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <p class="break-all text-green-700">${{number_format($result->SI2->marketcap/1000,0).''.'M'}}</p>
+                                                                                <span class="break-all text-green-700">${{number_format($result->SI2->marketcap/1000,0).''.'M'}}</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -200,23 +200,23 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
                                                                                     @if($etfs)
                                                                                         Expense Ratio:
                                                                                     @else
                                                                                         PE Ratio:
                                                                                     @endif
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
 
-                                                                                <p class="break-all text-green-700">
+                                                                                <span class="break-all text-green-700">
                                                                                     @if($stats!='')
                                                                                         {{number_format( $stats['peRatio'],2)}}
                                                                                     @else
                                                                                         N/A
                                                                                     @endif
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -224,14 +224,14 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
                                                                                     1 Year % Change:
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <p class="break-all text-green-700">
+                                                                                <span class="break-all text-green-700">
                                                                                     {{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}}
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                         </div>
                                                                     </li>

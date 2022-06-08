@@ -60,7 +60,7 @@ class Account extends Component
             "user": {
                 "client_user_id": "unique_user_id"
                 },
-            "products": ["auth"]}';
+            "products": ["investments"]}';
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);

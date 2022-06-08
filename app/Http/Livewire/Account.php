@@ -39,9 +39,10 @@ class Account extends Component
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
         $client_name = env('PLAID_CLIENT_NAME');
+        $plaid_url = env('PLAID_URL');
         if($client_id && $secret && $client_name)
         {
-            $url = "https://sandbox.plaid.com/link/token/create";
+            $url = "https://".$plaid_url."/link/token/create";
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_POST, true);
@@ -59,7 +60,7 @@ class Account extends Component
             "user": {
                 "client_user_id": "unique_user_id"
                 },
-            "products": ["investments"]}';
+            "products": ["auth"]}';
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
@@ -76,8 +77,9 @@ class Account extends Component
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
+        $plaid_url = env('PLAID_URL');
 
-        $url = "https://sandbox.plaid.com/item/public_token/exchange";
+        $url = "https://".$plaid_url."/item/public_token/exchange";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -105,8 +107,9 @@ class Account extends Component
         $tokens = $token;
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
+        $plaid_url = env('PLAID_URL');
 
-        $url = "https://sandbox.plaid.com/investments/holdings/get";
+        $url = "https://".$plaid_url."/investments/holdings/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);
@@ -203,8 +206,10 @@ class Account extends Component
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
+        $plaid_url = env('PLAID_URL');
+
         $beforeDate = date('Y-m-d', strtotime('-10 year'));
-        $url = "https://sandbox.plaid.com/investments/transactions/get";
+        $url = "https://".$plaid_url."/investments/transactions/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_POST, true);

@@ -152,7 +152,7 @@
             </x-jet-secondary-button>
 
             <x-jet-button class="ml-2" wire:click="store()" wire:loading.attr="disabled">
-                {{ __('Save') }}
+                {{ __('Buy') }}
             </x-jet-button>
 
             @if($this->stock_id)

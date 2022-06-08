@@ -23,6 +23,41 @@
             .displaynone {
                 display: none;
             }
+            .bar-main-container {
+                margin: 10px auto;
+                width: 300px;
+                height: 50px;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+                font-family: sans-serif;
+                font-weight: normal;
+                font-size: 0.8em;
+            }
+
+            .bar-container {
+                -webkit-border-radius: 12px;
+                -moz-border-radius: 12px;
+                border-radius: 12px;
+                height: 15px;
+                background: #da1919 50%;
+                width: 100%;
+                overflow: hidden;
+            }
+
+            .bar {
+                float: left;
+                background: #008000FF 50%;
+                height: 100%;
+                -webkit-border-radius: 10px 0px 0px 10px;
+                -moz-border-radius: 12px 0px 0px 12px;
+                border-radius: 12px 0px 0px 12px;
+                -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+                filter: alpha(opacity=100);
+                -moz-opacity: 1;
+                -khtml-opacity: 1;
+                opacity: 1;
+            }
 
         </style>
         <x-jet-form-section submit="">
@@ -53,16 +88,7 @@
 
                     </div>
                 </div>
-                <div class="col-span-4 sm:col-span-4">
-                <a wire:click="showETFs"
-                   class="bg-green-300 inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer"
-                   id="buttons">
-                    @if($etfs)
-                        {{ __('Show Stocks Only') }}
-                    @else
-                        {{ __('Show ETFs Only') }}
-                    @endif
-                </a></div>
+
             </x-slot>
 
             <x-slot name="actions">
@@ -77,12 +103,6 @@
 
         </x-jet-form-section>
 
-        <div class="flex justify-center items-center spinner hidden mt-4" id="spinner">
-            <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 spinner"
-                 id="spinner" role="status" aria-hidden="true">
-                <span class="visually-hidden">.</span>
-            </div>
-        </div>
     </div>
 
     <div class="max-w-full mx-auto sm:px-6 lg:px-8">
@@ -90,36 +110,33 @@
             <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5 overflow-hidden">
-                        <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
+                        <div class="flex justify-between items-center w-full border-b-2 border-gray-300 mb-2">
+                            @php
+                                $SC_old = \App\Models\StockTicker::where('ticker', $this->ticker)->first();
+                                $company =$SC_old['ticker_company'];
+                            @endphp
                             @if($etfs)
-                                <h2 class="text-xl font-black">Your Comparable ETFs</h2>
+                                <h2 class="text-xl font-black">Comparable ETFs to [{{$company}}]</h2>
                             @else
-                                <h2 class="text-xl font-black">Your Comparable Stocks</h2>
+                                <h2 class="text-xl font-black">Comparable Stocks to [{{$company}}]</h2>
                             @endif
-                            <select wire:change="" class="shadow appearance-none border mb-3 w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option>Sort By</option>
-                                <option>Stock Ticker</option>
-                                <option>Company Name</option>
-                                <option>Correlation With Ticker</option>
-                                <option>Beta (S&P 500)</option>
-                                <option>Dividend Yield</option>
-                                <option>@if($etfs)
-                                        Assets Under Management(AUM)
-                                    @else
-                                        Market Cap
-                                    @endif</option>
-                                <option>@if($etfs)
-                                        Expense Ratio
-                                    @else
-                                        PE Ratio
-                                    @endif</option>
-                                <option>1 Year % Change</option>
-                            </select>
+                            <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 mb-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer" id="buttons">
+                                @if($etfs)
+                                    {{ __('Show Stocks Only') }}
+                                @else
+                                    {{ __('Show ETFs Only') }}
+                                @endif
+                            </a>
+                            <div class="flex justify-center items-center spinner hidden mt-2 mb-2 mr-5" id="spinner">
+                                <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 spinner"
+                                     id="spinner" role="status" aria-hidden="true">
+                                    <span class="visually-hidden">.</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full">
-
+                        <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full">
                             @if($ticker != "" & count($correlations)>0)
-                                @foreach($correlations->sortByDesc("correlation")->slice(0, 500)->take(30) as $result)
+                                @foreach($correlations->sortByDesc("correlation")->slice(0, 500)->unique()->take(30) as $result)
                                     @if($result && isset($result->ticker2))
                                         <div class="m-2">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
@@ -131,18 +148,21 @@
                                                                 if (strpos($string, "http") === 0) {
                                                                     $logoUrl = $result['ticker2'];
                                                                 } else {
-                                                                    $logoUrl = 'https://ui-avatars.com/api/?name='.$result["ticker2"].'&color=7F9CF5&background=EBF4FF';
+                                                                    $logoUrl = 'https://ui-avatars.com/api/?name='.$result->ticker2.'&color=7F9CF5&background=EBF4FF';
                                                                 }
+                                                              //  dd($result)
                                                             @endphp
+
                                                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                                                 <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+
                                                             </h5>
                                                             <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                                 <a class="whitespace-normal">{{$result->ticker2}}</a>
                                                             </h5>
                                                             <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
                                                             <span class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark"> <span class="font-bold">~{{number_format($result->correlation*100,0).'%'}}</span><br>
-                                                                Correlation  with <br> {{$ticker}}
+                                                                Correlation  with  {{$ticker}}
                                                             </span>
                                                         </div>
                                                         <div class="flex flex-col justify-between p-4 leading-normal" style="width: 255px">
@@ -156,7 +176,7 @@
                                                                                 </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center break-all text-sm">
-                                                                                <span class="break-all text-red-700">{{number_format($result->SI2->calced_beta,2)}}</span>
+                                                                                <span class="break-all text-black">{{number_format($result->SI2->calced_beta,2)}}</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -164,11 +184,11 @@
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
                                                                                 <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                    Dividend Yield
+                                                                                    Dividend Yield:
                                                                                 </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <span class="break-all text-red-700">{{number_format($result->SI2->div_yield*100,2).'%'}}</span>
+                                                                                <span class="break-all text-black">{{number_format($result->SI2->div_yield*100,2).'%'}}</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -177,7 +197,7 @@
                                                                             <div class="flex-1 min-w-0">
                                                                                 <span class="text-sm font-medium text-black-900 truncate dark:text-white">
                                                                                     @if($etfs)
-                                                                                        Assets Under Management(AUM):
+                                                                                        AUM:
                                                                                     @else
                                                                                         Market Cap:
                                                                                     @endif
@@ -189,37 +209,40 @@
                                                                         </div>
                                                                     </li>
                                                                     @php
-                                                                        $this->token = env('IEX_CLOUD_KEY', null);
-                                                                        $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                                                                        $url = ($this->endpoint . 'stable/stock/'.$result->ticker2.'/stats?token=' . $this->token);
+                                                                        $this->token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
+                                                                        $this->endpoint = 'https://sandbox.iexapis.com/';
+                                                                        $url = ($this->endpoint . 'stable/stock/'.$result->ticker2.'/quote?token=' . $this->token);
                                                                         $data = Http::get($url);
-                                                                        $stats = $data->json()
-
+                                                                        $stats = $data->json();
                                                                     @endphp
                                                                     @if($stats!='')
-                                                                    <li class="py-1 sm:py-4">
-                                                                        <div class="flex items-center space-x-4">
-                                                                            <div class="flex-1 min-w-0">
-                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                    @if($etfs)
-                                                                                        Expense Ratio:
-                                                                                    @else
-                                                                                        PE Ratio:
-                                                                                    @endif
-                                                                                </span>
-                                                                            </div>
-                                                                            <div class="inline-flex items-center text-sm">
+                                                                        <li class="py-1 sm:py-4">
+                                                                            <div class="flex items-center space-x-4">
+                                                                                <div class="flex-1 min-w-0">
+                                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                        @if($etfs)
+                                                                                            Expense Ratio:
+                                                                                        @else
+                                                                                            PE Ratio:
+                                                                                        @endif
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div class="inline-flex items-center text-sm">
 
-                                                                                <span class="break-all text-green-700">
-                                                                                    @if($stats!='')
-                                                                                        {{number_format( $stats['peRatio'],2)}}
-                                                                                    @else
-                                                                                        N/A
-                                                                                    @endif
-                                                                                </span>
+                                                                                    <span class="break-all text-green-700">
+                                                                                        @if($stats!='')
+                                                                                            {{--                                                                                        @if($stats['peRatio'])--}}
+                                                                                            {{number_format( $stats['peRatio'],2)}}%
+                                                                                            {{--                                                                                        @else--}}
+                                                                                            {{--                                                                                            0.05%--}}
+                                                                                            {{--                                                                                        @endif--}}
+                                                                                        @else
+                                                                                            N/A
+                                                                                        @endif
+                                                                                    </span>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </li>
+                                                                        </li>
                                                                     @endif
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
@@ -229,7 +252,7 @@
                                                                                 </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <span class="break-all text-green-700">
+                                                                                <span class="break-all {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">
                                                                                     {{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}}
                                                                                 </span>
                                                                             </div>
@@ -239,6 +262,19 @@
                                                             </div>
 
                                                         </div>
+                                                        <div class="py-1 sm:py-4">
+                                                            <div class="flex items-center space-x-4">
+                                                                <div id="bar-1" class="bar-main-container azure mt-8">
+                                                                    <div class="hidden bar-percentage" data-percentage="{{(int)$stats['iexClose']}}"></div>
+                                                                    <span>{{'$'.($stats['week52High'])}}</span>
+                                                                    <span class="float-right">{{'$'.($stats['week52Low'])}}</span>
+                                                                    <div class="bar-container">
+                                                                        <div class="bar"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,21 +293,92 @@
             </div>
         </div>
     </div>
+    <script id="scriptid">
+        $(document).on('click', '#buttons', function () {
+            $('#spinner').show();
+            $(this).hide();
+        });
+        $('#search_button').on('click', function () {
+            $('#search_button').hide();
+            $('#spinner_icon').show();
+            $(this).hide();
+            console.log('hhdhgfd')
+        });
+        $('.bar-percentage[data-percentage]').each(function () {
+            var progress = $(this);
+            let duration = 1000;
+            var percentage = Math.ceil($(this).attr('data-percentage'));
+            if (percentage > '700') {
 
+                if (percentage > '1000') {
+                    $({countNum: 0}).animate({countNum: percentage/100}, {
+                        duration: duration,
+                        easing: 'linear',
+                        step: function () {
+                            // What todo on every count
+                            var pct = Math.floor(this.countNum);
+
+                            progress.text(pct) && progress.siblings().children().css('width', pct);
+                        }
+                    });
+                }
+                $({countNum: 0}).animate({countNum: percentage/10}, {
+                    duration: duration,
+                    easing: 'linear',
+                    step: function () {
+                        // What todo on every count
+                        var pct = Math.floor(this.countNum);
+
+                        progress.text(pct) && progress.siblings().children().css('width', pct);
+                    }
+                });
+
+            } else if(percentage < '700'){
+                $({countNum: 0}).animate({countNum: percentage}, {
+                    duration: duration,
+                    easing: 'linear',
+                    step: function () {
+                        // What todo on every count
+                        var pct = Math.floor(this.countNum);
+
+                        progress.text(pct) && progress.siblings().children().css('width', pct);
+                    }
+                });
+            }
+
+        });
+
+    </script>
 </div>
-
+<script src="https://code.jquery.com/jquery.min.js" type="text/javascript"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(document).on('click', '#buttons', function () {
-        console.log("hello");
-        $('#spinner').show();
-        $(this).hide();
-    });
-    $('#search_button').on('click', function () {
-        console.log("hello");
-        $('#search_button').hide();
-        $('#spinner_icon').show();
-        $(this).hide();
-    });
-</script>
 
+<script>
+    $('#buttons').on('click', function () {
+        $('#scriptid').remove();
+        function AddNewExternalScriptToThisPage(ExternalScriptURLPath) {
+            var headID = document.getElementsByTagName("head")[0];
+            var newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            newScript.src = ExternalScriptURLPath;
+            newScript.onload = scriptHasLoadedContinue;
+            headID.appendChild(newScript);
+        }
+        // var getscript=  $.getScript('progress.js');
+        // console.log(getscript);
+    });
+    $('#search_button').on('click',function (){
+        $('#scriptid').remove();
+        function AddNewExternalScriptToThisPage(ExternalScriptURLPath) {
+            var headID = document.getElementsByTagName("head")[0];
+            var newScript = document.createElement('script');
+            newScript.type = 'text/javascript';
+            newScript.src = ExternalScriptURLPath;
+            newScript.onload = scriptHasLoadedContinue;
+            headID.appendChild(newScript);
+        }
+
+    });
+
+
+</script>

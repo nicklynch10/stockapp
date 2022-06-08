@@ -101,7 +101,7 @@
                                                                                 </p>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <p class="break-all text-green-700">(${{ number_format($tl['potentialSavings'],2) }})</p>
+                                                                                <p class="break-all text-green-700">${{ number_format($tl['potentialSavings'],2) }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </li>

@@ -74,7 +74,7 @@
         </x-jet-secondary-button>
 
         <x-jet-button class="ml-2" wire:click="addbuy()" wire:loading.attr="disabled">
-            {{ __('Save') }}
+            {{ __('Buy') }}
         </x-jet-button>
     </x-slot>
 </x-jet-dialog-modal>

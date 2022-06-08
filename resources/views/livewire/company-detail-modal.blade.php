@@ -1,7 +1,7 @@
 {{-- Company Detail Modal --}}
 <x-jet-dialog-modal wire:model="isCompanyOpen">
     <x-slot name="title">
-        {{ __('Company Detail') }}
+        {{ __('Company Details') }}
 {{--        <button wire:click="editStock({{$this->stock_id}})" class="justify-end float-right"><i class="fa fa-edit"></i></button>--}}
         @if($this->stock_id)
         <div class="justify-end">

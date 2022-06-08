@@ -127,7 +127,6 @@ class Account extends Component
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
-
         foreach ($data->accounts as $ac)
         {
             if($ac->type == "investment")
@@ -174,7 +173,7 @@ class Account extends Component
                                 $insertid=Stock::Create([
                                     'user_id'=>Auth::user()->id,
                                     'stock_ticker' => $se->ticker_symbol,
-                                    'ave_cost' => $hold->cost_basis,
+                                    'ave_cost' => $hold->cost_basis!=null ? $hold->cost_basis : 0,
                                     'share_number' => $hold->quantity,
                                     'date_of_purchase' => date('Y-m-d'),
                                     'account_id' => $getAccountId->id,
@@ -208,7 +207,7 @@ class Account extends Component
         $secret = env('PLAID_SECRET');
         $plaid_url = env('PLAID_URL');
 
-        $beforeDate = date('Y-m-d', strtotime('-10 year'));
+        $beforeDate = date('Y-01-01', strtotime('-6 year'));
         $url = "https://".$plaid_url."/investments/transactions/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);

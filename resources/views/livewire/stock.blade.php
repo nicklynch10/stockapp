@@ -9,7 +9,7 @@
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
                             <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
-                                <h2 class="text-xl font-black">Your Stocks Portfolio</h2>
+                                <h2 class="text-xl font-black">Your Portfolio</h2>
                                 <div class="inline-flex items-center space-x-2">
                                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
                                 </div>
@@ -43,9 +43,18 @@
                                                          @click="open = false" style="display: none;">
                                                         <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white">
                                                             <div>
+                                                                <a class="border border-gray-100 cursor-pointer text-sm text-black block px-2 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out truncate "
+                                                                   style="border-top: none" wire:click="sell({{ $s->id }})">
+                                                                    {{ __('Sell Stock') }}
+                                                                </a>
+
+                                                                <a class="border border-gray-100 cursor-pointer text-sm text-blue-500 block px-2 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out truncate "
+                                                                   style="border-top: none" wire:click="buy({{ $s->id }})">
+                                                                    {{ __('Buy Stock') }}
+                                                                </a>
+
                                                                 <a class="border border-gray-100 cursor-pointer text-sm text-green-500 block px-2 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out truncate "
-                                                                   style="border-top: none"
-                                                                   wire:click="editStock({{ $s->id }})">
+                                                                   style="border-top: none" wire:click="editStock({{ $s->id }})">
                                                                     {{ __('Edit Stock') }}
                                                                 </a>
 
@@ -87,14 +96,14 @@
                                                         </p>
                                                     </div>
                                                 </div>
-                                                <div class="text-center text-sm mt-3 border-gray-200 border-t -my-2 p-2 text-gray-600">
-                                                    <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="sell({{ $s->id }})">
-                                                        Sell
-                                                    </button>
-                                                    <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="buy({{ $s->id }})">
-                                                        Buy
-                                                    </button>
-                                                </div>
+{{--                                                <div class="text-center text-sm mt-3 border-gray-200 border-t -my-2 p-2 text-gray-600">--}}
+{{--                                                    <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="sell({{ $s->id }})">--}}
+{{--                                                        Sell--}}
+{{--                                                    </button>--}}
+{{--                                                    <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="buy({{ $s->id }})">--}}
+{{--                                                        Buy--}}
+{{--                                                    </button>--}}
+{{--                                                </div>--}}
                                             </div>
                                         </div>
                                     @endif

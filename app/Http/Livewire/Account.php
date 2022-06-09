@@ -170,14 +170,32 @@ class Account extends Component
                             $checkStock = Stock::where(['stock_ticker' => $se->ticker_symbol , 'security_id' => $hold->security_id,'user_id' => Auth::user()->id])->first();
                             if(!isset($checkStock))
                             {
+                                $key = env('IEX_CLOUD_KEY', null);
+                                $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                                $current_price = Http::get($endpoint . 'stable/stock/' . $se->ticker_symbol . '/quote?token=' . $key);
+                                $price = $current_price->json();
+                                if($price == null)
+                                {
+                                    $current_price = Http::get($endpoint . 'stable/crypto/' . $se->ticker_symbol . '/quote?token=' . $key);
+                                    $price = $current_price->json();
+                                    $currebtPrice = $price['latestPrice'];
+                                    $companyname = $price['companyName'];
+                                }
+                                else
+                                {
+                                    $currebtPrice = $price['latestPrice'];
+                                    $companyname = $price['companyName'];
+                                }
                                 $insertid=Stock::Create([
-                                    'user_id'=>Auth::user()->id,
+                                    'user_id' => Auth::user()->id,
                                     'stock_ticker' => $se->ticker_symbol,
-                                    'ave_cost' => $hold->cost_basis!=null ? $hold->cost_basis : 0,
+                                    'ave_cost' => $hold->cost_basis!=null ? $hold->cost_basis/$hold->quantity : 0,
                                     'share_number' => $hold->quantity,
                                     'date_of_purchase' => date('Y-m-d'),
                                     'account_id' => $getAccountId->id,
                                     'security_id' => $hold->security_id,
+                                    'current_share_price' => $currebtPrice ? $currebtPrice : 0,
+                                    'company_name' => $companyname ? $companyname : null,
                                 ]);
                                 $lastInsertedID = $insertid->id;
 
@@ -186,7 +204,7 @@ class Account extends Component
                                     'type' => 0,
                                     'ticker_name' =>  $se->ticker_symbol,
                                     'stock' =>  $hold->quantity,
-                                    'share_price' => $hold->cost_basis,
+                                    'share_price' => $hold->cost_basis!=null ? $hold->cost_basis/$hold->quantity : 0,
                                     'user_id' => Auth::user()->id,
                                     'date_of_transaction' => date('Y-m-d'),
                                     'plaid_investment_transaction_id' => $hold->security_id,
@@ -244,23 +262,23 @@ class Account extends Component
                 {
                     if($inv->type == "sell")
                     {
-                        if(abs($inv->quantity) > $stock->share_number){
-                            //
-                        }
-                        else{
+//                        if(abs($inv->quantity) > $stock->share_number){
+//                            //
+//                        }
+//                        else{
                             $transactionCheck = Transaction::where(['type' => 1,'plaid_investment_transaction_id' => $inv->security_id, 'user_id' => Auth::user()->id,'stock' => $inv->quantity])->first();
                             $stockCheck = Stock::where(['security_id' => $inv->security_id,'user_id' => Auth::user()->id])->first();
                             if($stockCheck != null && $transactionCheck==null)
                             {
                                 if($stock->id){
                                     Transaction::create([
-                                        'stock_id'=>$stock->id,
-                                        'type'=>1,
-                                        'ticker_name'=>$stock->stock_ticker,
-                                        'stock'=>abs($inv->quantity),
-                                        'share_price'=>$inv->price,
-                                        'user_id'=>Auth::user()->id,
-                                        'date_of_transaction'=>$inv->date,
+                                        'stock_id' => $stock->id,
+                                        'type' => 1,
+                                        'ticker_name' => $stock->stock_ticker,
+                                        'stock' => abs($inv->quantity),
+                                        'share_price' => $inv->price!=null ? $inv->price/$inv->quantity : 0,
+                                        'user_id' => Auth::user()->id,
+                                        'date_of_transaction' => $inv->date,
                                         'plaid_investment_transaction_id' => $inv->security_id,
                                     ]);
 
@@ -268,25 +286,43 @@ class Account extends Component
                                     $final_stock=$current_stock->share_number-abs($inv->quantity);
                                     $record = Stock::find($stock->id);
                                     $record->update([
-                                        'share_number'=>$final_stock,
+                                        'share_number' => $final_stock,
                                     ]);
                                 }
                             }
-                        }
+//                        }
                     }
                     elseif ($inv->type == "buy")
                     {
                         $stockCheck = Stock::where(['security_id' => $inv->security_id,'user_id' => Auth::user()->id,'share_number' => $inv->quantity])->first();
                         if($stockCheck == null)
                         {
+                            $key = env('IEX_CLOUD_KEY', null);
+                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                            $current_price = Http::get($endpoint . 'stable/stock/' . $se->ticker_symbol . '/quote?token=' . $key);
+                            $price = $current_price->json();
+                            if($price == null)
+                            {
+                                $current_price = Http::get($endpoint . 'stable/crypto/' . $se->ticker_symbol . '/quote?token=' . $key);
+                                $price = $current_price->json();
+                                $currebtPrice = $price['latestPrice'];
+                                $companyname = $price['companyName'];
+                            }
+                            else
+                            {
+                                $currebtPrice = $price['latestPrice'];
+                                $companyname = $price['companyName'];
+                            }
                             $insertid=Stock::Create([
                                 'user_id'=>Auth::user()->id,
                                 'stock_ticker' => $stock->stock_ticker,
-                                'ave_cost' => $inv->price,
+                                'ave_cost' =>  $inv->price!=null ? $inv->price/$inv->quantity : 0,
                                 'share_number' => $inv->quantity,
                                 'date_of_purchase' => $inv->date,
                                 'account_id' => $stock->account_id,
                                 'security_id' => $inv->security_id,
+                                'current_share_price' => $currebtPrice ? $currebtPrice : 0,
+                                'company_name' => $companyname ? $companyname : null,
                             ]);
                             $lastInsertedID = $insertid->id;
 
@@ -295,12 +331,25 @@ class Account extends Component
                                 'type' => 0,
                                 'ticker_name' =>  $stock->stock_ticker,
                                 'stock' =>  $inv->quantity,
-                                'share_price' => $inv->price,
+                                'share_price' => $inv->price!=null ? $inv->price/$inv->quantity : 0,
                                 'user_id' => Auth::user()->id,
-                                'date_of_transaction' => date('Y-m-d'),
+                                'date_of_transaction' => $inv->date,
                                 'plaid_investment_transaction_id' => $inv->security_id,
                             ]);
                             array_push($InsertedID,$lastInsertedID);
+                        }
+                        else
+                        {
+                            $stockData = Stock::find($stockCheck['id']);
+                            $stockData->update([
+                                'date_of_purchase' => $inv->date,
+                            ]);
+
+                            $trans = Transaction::where(['stock_id' => $stockCheck['id'], 'type' => 0])->first();
+                            $transData = Transaction::find($trans['id']);
+                            $transData->update([
+                                'date_of_transaction' => $inv->date,
+                            ]);
                         }
                     }
                 }

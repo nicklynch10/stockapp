@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Models\Stock;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 
 class updatelatestprice extends Command
 {
@@ -54,6 +56,7 @@ class updatelatestprice extends Command
                 if ($stock->current_share_price != $price['latestPrice']) {
                     $record->update([
                         'current_share_price' => $price['latestPrice'],
+                        'company_name' => $price['companyName'],
                         'currentpriceupdate_date' => Carbon::now()->toDateTimeString(),
                     ]);
                 }

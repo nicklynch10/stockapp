@@ -4,6 +4,42 @@
     </h2>
 </x-slot>
 <main class="p-0 m-0 flex-grow ">
+    <style>
+        .wrapper{
+            width: 100%;
+            height: 100px;
+            background-color: #fff;
+            display: grid;
+            place-items: center;
+
+        }
+        .pulse-spinner{
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            background-color: #15803d;
+        }
+        .pulse-spinner::after{
+            content: "";
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #15803d;
+            z-index: 1;
+            position: absolute;
+            animation: pulse 1s ease       infinite;
+        }
+        @keyframes pulse {
+            from{
+                transform: scale(1);
+                opacity: 1;
+            }
+            to{
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
 
         {{-- Box1  --}}

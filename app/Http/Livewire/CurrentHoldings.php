@@ -30,24 +30,33 @@ class CurrentHoldings extends Component
     public $pchange;
     public $result;
     protected $listeners = ['currentHolings' => 'render'];
+    public bool $loadData = false;
 
 
-    public function company($id)
+    public function init()
     {
-        $this->emit('company', $id);
+        $this->loadData = true;
     }
 
     public function render()
     {
-        $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
-        foreach ($this->currstock as $st) {
-            $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
-            $result = Stock::find($st->id);
-            $result->update([
-                'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
-            ]);
+        try {
+            if ($this->loadData) {
+                $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
+                foreach ($this->currstock as $st) {
+                    $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
+                    $result = Stock::find($st->id);
+                    $result->update([
+                        'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
+                    ]);
+                }
+                $currentholding = $this->fetchData();
+            }
+            return view('livewire.current-holdings')->with('currentholding',$currentholding);
+        }catch(\Exception $e)
+        {
+            return view('livewire.current-holdings');
         }
-        return view('livewire.current-holdings', ['currentholding'=>$this->fetchData()]);
     }
 
     public function sort($column)
@@ -71,5 +80,10 @@ class CurrentHoldings extends Component
         when($this->sortColumn && $this->sortDirection, function ($q) {
             $q->orderBy($this->sortColumn, $this->sortDirection);
         })->paginate();
+    }
+
+    public function company($id)
+    {
+        $this->emit('company', $id);
     }
 }

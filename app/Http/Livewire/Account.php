@@ -196,6 +196,7 @@ class Account extends Component
                                     'security_id' => $hold->security_id,
                                     'current_share_price' => $currebtPrice ? $currebtPrice : 0,
                                     'company_name' => $companyname ? $companyname : null,
+                                    'issuetype' => $se->type == 'etf' ? 'et' :null,
                                 ]);
                                 $lastInsertedID = $insertid->id;
 
@@ -323,6 +324,7 @@ class Account extends Component
                                 'security_id' => $inv->security_id,
                                 'current_share_price' => $currebtPrice ? $currebtPrice : 0,
                                 'company_name' => $companyname ? $companyname : null,
+                                'issuetype' => $inv->type == 'etf' ? 'et' :null,
                             ]);
                             $lastInsertedID = $insertid->id;
 

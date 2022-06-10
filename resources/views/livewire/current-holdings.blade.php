@@ -33,21 +33,29 @@
                                             $string = $curr->ticker_logo;
                                             if (strpos($string, "http") === 0) {
                                                 $logoUrl = $curr->ticker_logo;
-                                            } else {
-                                                $logoUrl = 'https://ui-avatars.com/api/?name='.$curr->stock_ticker.'&color=7F9CF5&background=EBF4FF';
                                             }
                                             ?>
-                                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
+                                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                @if(isset($logourl))
+                                                    <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                @else
+                                                    @php
+                                                        $count= strlen($curr->stock_ticker)
+                                                    @endphp
+                                                    <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                                        <span class="break-all">{{$curr->stock_ticker}}</span>
+                                                    </div>
+                                                @endif
+                                            </h5>
                                         </div>
                                         <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
                                             <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                 <a class=" cursor-pointer whitespace-normal " wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a>
                                             </h5>
                                             <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
-                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} @if($curr->share_number>1) Shares @else Share @endif</p>
+                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} @if($curr->share_number == 1) Share @else Shares @endif</p>
                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis: ${{ number_format($curr->ave_cost,2) }}</p>
                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price: ${{ number_format($curr->current_share_price,2) }}</p>
-
                                         </div>
                                         <div class="flex flex-col justify-between p-4 leading-normal">
                                             <div class="flow-root">

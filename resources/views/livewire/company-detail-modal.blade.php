@@ -49,9 +49,24 @@
         <!-- Role -->
         <div class="col-span-6 lg:col-span-4">
             <div class="mb-4">
-                <div class="rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
-                    {{$this->stock_ticker}}
-                </div>
+                <?php
+                $string = $this->tickerLogo;
+                if (strpos($string, "http") === 0) {
+                    $logoUrl = $this->tickerLogo;
+                }
+                ?>
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    @if(isset($logourl))
+                        <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                    @else
+                        @php
+                            $count= strlen($this->stock_ticker);
+                        @endphp
+                        <div class="{{ $count>7 ? "text-sm w-24 h-24" : "text-sm w-16 h-16" }} rounded-full text-center border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center flex-shrink-0 mx-auto">
+                            <span class="break-all">{{$this->stock_ticker}}</span>
+                        </div>
+                    @endif
+                </h5>
                 <div class="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
                     <p class="font-bold">{{$this->stock_ticker}}</p>
                     <p class="text-sm text-gray-700 mt-1 italic">{{$this->company_name}}</p>
@@ -61,7 +76,7 @@
                     @endif
 
                     @if($this->share_number)
-                        <p class="text-sm text-gray-700 mt-1">{{round($this->share_number, 2)  }} @if($this->share_number>1) Shares @else Share @endif</p>
+                        <p class="text-sm text-gray-700 mt-1">{{round($this->share_number, 2)  }} @if($this->share_number == 1) Share @else Shares @endif</p>
                     @endif
 
                     @if($this->current_share_price)

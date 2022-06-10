@@ -178,13 +178,13 @@ class Account extends Component
                                 {
                                     $current_price = Http::get($endpoint . 'stable/crypto/' . $se->ticker_symbol . '/quote?token=' . $key);
                                     $price = $current_price->json();
-                                    $currebtPrice = $price['latestPrice'];
-                                    $companyname = $price['companyName'];
+                                    $currebtPrice = $price ? $price['latestPrice'] :0;
+                                    $companyname = $price ? $price['companyName'] : null ;
                                 }
                                 else
                                 {
-                                    $currebtPrice = $price['latestPrice'];
-                                    $companyname = $price['companyName'];
+                                    $currebtPrice = $price ? $price['latestPrice'] : 0;
+                                    $companyname = $price ? $price['companyName'] : null;
                                 }
                                 $insertid=Stock::Create([
                                     'user_id' => Auth::user()->id,
@@ -300,19 +300,19 @@ class Account extends Component
                         {
                             $key = env('IEX_CLOUD_KEY', null);
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                            $current_price = Http::get($endpoint . 'stable/stock/' . $se->ticker_symbol . '/quote?token=' . $key);
+                            $current_price = Http::get($endpoint . 'stable/stock/' . $stock->ticker_symbol . '/quote?token=' . $key);
                             $price = $current_price->json();
                             if($price == null)
                             {
-                                $current_price = Http::get($endpoint . 'stable/crypto/' . $se->ticker_symbol . '/quote?token=' . $key);
+                                $current_price = Http::get($endpoint . 'stable/crypto/' . $stock->ticker_symbol . '/quote?token=' . $key);
                                 $price = $current_price->json();
-                                $currebtPrice = $price['latestPrice'];
-                                $companyname = $price['companyName'];
+                                $currebtPrice = $price ? $price['latestPrice'] : 0;
+                                $companyname = $price ? $price['companyName'] : null;
                             }
                             else
                             {
-                                $currebtPrice = $price['latestPrice'];
-                                $companyname = $price['companyName'];
+                                $currebtPrice = $price ? $price['latestPrice'] : 0;
+                                $companyname = $price['companyName'] ? $price['companyName'] : null;
                             }
                             $insertid=Stock::Create([
                                 'user_id'=>Auth::user()->id,
@@ -346,7 +346,6 @@ class Account extends Component
                             $stockData->update([
                                 'date_of_purchase' => $inv->date,
                             ]);
-
                             $trans = Transaction::where(['stock_id' => $stockCheck['id'], 'type' => 0])->first();
                             $transData = Transaction::find($trans['id']);
                             $transData->update([

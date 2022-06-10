@@ -72,11 +72,18 @@
                                                         $string = $s->ticker_logo;
                                                         if (strpos($string, "http") === 0) {
                                                             $logoUrl = $s->ticker_logo;
-                                                        } else {
-                                                            $logoUrl = 'https://ui-avatars.com/api/?name='.$s->stock_ticker.'&color=7F9CF5&background=EBF4FF';
                                                         }
                                                         ?>
-                                                        <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                        @if(isset($logourl))
+                                                            <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                        @else
+                                                            @php
+                                                                $count= strlen($s->stock_ticker)
+                                                            @endphp
+                                                            <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                                                <span class="break-all">{{$s->stock_ticker}}</span>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="text-center p-1 mt-1">
                                                         <a class="cursor-pointer pb-2 text-black break-words font-black hover:bg-gray-100 xs:text-lg bold font-sans hover:bg-gray-100" wire:click="company({{ $s->id }})">
@@ -92,7 +99,7 @@
                                                             ${{ number_format($s->ave_cost,2) }}
                                                         </p>
                                                         <p class="text-sm font-sans break-words font-light text-grey-dark">
-                                                            {{round($s->share_number, 2)  }} @if($s->share_number>1) Shares @else Share @endif
+                                                            {{round($s->share_number, 2)  }} @if($s->share_number == 1) Share @else Shares @endif
                                                         </p>
                                                     </div>
                                                 </div>

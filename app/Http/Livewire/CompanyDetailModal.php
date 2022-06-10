@@ -23,6 +23,7 @@ class CompanyDetailModal extends Component
     public $issuetype;
     public $share_price;
     public $date_of_purchase;
+    public $tickerLogo;
     protected $listeners = ['company' => 'companyDetail','closeCompany' => 'closeCompanyModal'];
 
 
@@ -65,6 +66,7 @@ class CompanyDetailModal extends Component
             $this->share_number = $tickerdata->share_number;
             $this->issuetype = $tickerdata->issuetype;
             $this->share_price = '';
+            $this->tickerLogo = $tickerdata->ticker_logo;
             $this->date_of_purchase = Carbon::parse($tickerdata->date_of_purchase)->format('Y-m-d');
         }
         else

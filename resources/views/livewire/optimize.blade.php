@@ -41,7 +41,7 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                            <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full">
                                 @if(isset($toploss) && count($toploss)>0)
                                     @foreach($toploss as $key=>$tl)
                                         <div class="m-2">
@@ -53,11 +53,20 @@
                                                                 $string = $tl['ticker_logo'];
                                                                 if (strpos($string, "http") === 0) {
                                                                     $logoUrl = $tl['ticker_logo'];
-                                                                } else {
-                                                                    $logoUrl = 'https://ui-avatars.com/api/?name='.$tl["ticker"].'&color=7F9CF5&background=EBF4FF';
                                                                 }
                                                             @endphp
-                                                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16"></h5>
+                                                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                                @if(isset($logourl))
+                                                                    <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                                @else
+                                                                    @php
+                                                                        $count= strlen($tl["ticker"])
+                                                                    @endphp
+                                                                    <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                                                        <span class="break-all">{{$tl["ticker"]}}</span>
+                                                                    </div>
+                                                                @endif
+                                                            </h5>
                                                             <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                                 <a class="whitespace-normal" >{{ $tl["ticker"] }}</a>
                                                             </h5>

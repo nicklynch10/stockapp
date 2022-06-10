@@ -25,15 +25,17 @@ class CreateNewUser implements CreatesNewUsers
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => [
-                $this->passwordRules(),
-                'different:current_password',
-                'min:8',             // must be at least 10 characters in length
-                'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
-            ],
+//            'password' => [
+//                $this->passwordRules(),
+//                'different:current_password',
+//                'min:8',             // must be at least 10 characters in length
+//                'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+//            ],
             'password_confirmation'=> 'required_with:password|same:password',
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
-        ],['password.regex' => 'The Password should be combination of alphanumeric and special character'])->validate();
+        ],
+//            ['password.regex' => 'The Password should be combination of alphanumeric and special character']
+        )->validate();
 
         $insert= User::create([
             'name' => $input['first_name']." ".$input['last_name'],

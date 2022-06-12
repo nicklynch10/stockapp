@@ -9,7 +9,7 @@ use App\Console\Commands\updatestockprice;
 
 class Kernel extends ConsoleKernel
 {
-   // public $timezone='America/New_York';
+    // public $timezone='America/New_York';
     protected $commands=[
         updatestockprice::class,
         LogClear::class,
@@ -24,9 +24,10 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('update:stockprice')->daily()->timezone('America/New_York');
-         $schedule->command('log:clear')->everyMinute()->timezone('America/New_York');
-         $schedule->command('stock:updatelatestprice')->dailyAt('13:00')->timezone('America/New_York');
+        $schedule->command('update:stockprice')->daily()->timezone('America/New_York');
+        $schedule->command('log:clear')->everyMinute()->timezone('America/New_York');
+        $schedule->command('stock:updatelatestprice')->dailyAt('13:00')->timezone('America/New_York');
+        $schedule->command('send:test-email')->everyMinute()->timezone('America/New_York');
     }
 
     /**

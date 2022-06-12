@@ -16,6 +16,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SecInfoController;
 use App\Http\Controllers\SecCompareController;
 use App\Http\Controllers\FactorController;
+use App\Mail\TestEmail;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,4 +105,9 @@ Route::get('/home', function () {
 
 Route::get('/test2', function () {
     return view('home.test');
+});
+
+
+Route::get('/test-email', function () {
+    Mail::to('nick@taxghost.com')->send(new TestEmail());
 });

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Jobs\CurrentHoldingsUpdate;
 use App\Models\ViewStockUpdate;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\Stock;
@@ -53,7 +54,7 @@ class CurrentHoldings extends Component
                 $currentholding = $this->fetchData();
             }
             return view('livewire.current-holdings')->with('currentholding',$currentholding);
-        }catch(\Exception $e)
+        }catch(Exception $e)
         {
             return view('livewire.current-holdings');
         }
@@ -79,7 +80,7 @@ class CurrentHoldings extends Component
         })->
         when($this->sortColumn && $this->sortDirection, function ($q) {
             $q->orderBy($this->sortColumn, $this->sortDirection);
-        })->paginate();
+        })->get();
     }
 
     public function company($id)

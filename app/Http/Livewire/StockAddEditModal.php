@@ -123,6 +123,7 @@ class StockAddEditModal extends Component
                 $this->average_cost = '';
                 $this->share_number = '';
                 $this->tickerLogo='';
+                $this->type = '';
             }
         }
         $this->emit('stockData');

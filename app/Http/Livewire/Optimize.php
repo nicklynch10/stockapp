@@ -44,6 +44,7 @@ class Optimize extends Component
             $totalPbuy = $st->current_share_price;
             $totalPSell = $st->ave_cost;
             $transaction = Transaction::where('stock_id',$st->id)->get();
+
             foreach ($transaction as $t)
             {
                 if($t->type == 0)
@@ -58,13 +59,13 @@ class Optimize extends Component
             }
             if($totalBuy!=0 && $totalBuy > $totalSell)
             {
-                $dLoss = abs($totalSell - $totalBuy)*$totalShare;
+                $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
                 $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
-                $potentialSavings = $dLoss*40/100;
+                $potentialSavings = $dLosss*40/100;
                 array_push($topLoss,
                     [
                         "id" => $st->id,
-                        "dloss" => $dLoss,
+                        "dloss" => $dLosss,
                         "ploss" => $pLoss,
                         "potentialSavings" => $potentialSavings,
                         "ticker" => $st->stock_ticker,

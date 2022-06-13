@@ -359,7 +359,7 @@ class SecInfo extends Model
         }
 
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers();
+        $this->pullIEXPeers($new);
     }
 
 
@@ -393,7 +393,7 @@ class SecInfo extends Model
         }
 
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers();
+        $this->pullIEXPeers($new);
     }
 
     public function getChangeData()

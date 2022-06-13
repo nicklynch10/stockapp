@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use Capsule\Request;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 
@@ -10,7 +12,7 @@ class FactorDetail extends Component
 {
     public $correlations = [];
     public $factors = [];
-    public $ticker;
+    public $ticker = "TSLA";
     public $company;
     public $description;
     public $sector;
@@ -74,8 +76,13 @@ class FactorDetail extends Component
                 $this->updatedTicker();
                 $this->dispatchBrowserEvent('contentChanged');
             }
-            return view('livewire.factor-detail');
-        }catch(\Exception $e)
+            if($this->ticker != null){
+                return view('livewire.factor-detail');
+            }
+            else{
+                return view('livewire.analyze-compare');
+            }
+        }catch(Exception $e)
         {
             return view('livewire.factor-detail');
         }
@@ -84,17 +91,16 @@ class FactorDetail extends Component
 
     public function updatedTicker()
     {
-        $SI = getTicker($this->ticker);
+        $stock = getTicker($this->ticker);
         $this->correlations = collect([]);
         foreach ($this->factors as $f) {
-            $FC = $SI->compareToFactor($f);
+            $FC = $stock->compareToFactor($f);
             if ($FC !== null) {
                 //                dd($this->correlations->push($FC));
                 $this->correlations->push($FC);
             }
         }
 
-        $stock = getTicker($this->ticker);
         if ($stock->info_data) {
             if ($this->is_first_load) {
                 // prevents loading on the first load. THis was causing timeout errors

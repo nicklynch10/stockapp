@@ -43,6 +43,8 @@
                 </div>
             </div>
         </div>
+        @else
+            <button wire:click="closeCompanyModal()" class="float-right"><i class="fa fa-close"></i></button>
         @endif
     </x-slot>
     <x-slot name="content">

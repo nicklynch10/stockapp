@@ -32,32 +32,36 @@ class CurrentHoldings extends Component
     public $result;
     protected $listeners = ['currentHolings' => 'render'];
     public bool $loadData = false;
-
+    public $sortBy;
 
     public function init()
     {
         $this->loadData = true;
     }
+    public function mount()
+    {
+        $this->sortBy = "";
+    }
 
     public function render()
     {
-        try {
-            if ($this->loadData) {
-                $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
-                foreach ($this->currstock as $st) {
-                    $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
-                    $result = Stock::find($st->id);
-                    $result->update([
-                        'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
-                    ]);
-                }
-                $currentholding = $this->fetchData();
-            }
-            return view('livewire.current-holdings')->with('currentholding',$currentholding);
-        }catch(Exception $e)
-        {
-            return view('livewire.current-holdings');
+        $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
+        foreach ($this->currstock as $st) {
+            $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
+            $result = Stock::find($st->id);
+            $result->update([
+                'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
+            ]);
         }
+        if($this->sortBy)
+        {
+            $currentholding = ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')->where('stock.user_id', Auth::user()->id)->where('stock.account_id',$this->sortBy)->get();
+        }
+        else
+        {
+            $currentholding = $this->fetchData();
+        }
+        return view('livewire.current-holdings')->with('currentholding',$currentholding);
     }
 
     public function sort($column)

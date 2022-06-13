@@ -2,29 +2,25 @@
     <x-app-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Find Underlying Return Information') }}
+                {{ __('Find the Best Comparable Stocks/ETFs') }}
             </h2>
         </x-slot>
 
         <div>
-            <div class="mx-auto px-4 py-10 md:py-5">
-                @livewire('factors')
-            </div>
+            @livewire('factor-detail',['tickerData' => $ticker])
+            <x-jet-section-border />
         </div>
     </x-app-layout>
 @else
     <x-guest-layout>
         <x-slot name="header">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Find Underlying Return Information') }}
+                {{ __('Find the Best Comparable Stocks/ETFs') }}
             </h2>
         </x-slot>
-
         <div>
-            <div class="mx-auto px-4 py-10 md:py-5">
-                @livewire('factors')
-            </div>
+            @livewire('factor-detail',['tickerData' => $ticker])
+            <x-jet-section-border />
         </div>
     </x-guest-layout>
 @endauth
-

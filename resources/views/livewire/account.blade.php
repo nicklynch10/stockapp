@@ -166,7 +166,6 @@
             env:"development",
             token: '{{ $this->token }}',
             onSuccess: (public_token, metadata) => {
-                console.log(public_token);
                 Livewire.emit('getAccessToken',public_token);
             },
             onLoad: () => {},

@@ -60,22 +60,34 @@ class Stocks extends Component
     public $gettransaction;
     public $companyname;
     public $buyInsertid;
-    public $lastBuyInsertedID;
+    public $sortBy;
 
 
     public $openmodalval=0;
     public $avepricereadonly=0;
     protected $listeners=['edit' => 'edit','stockData' => 'render'];
-//'sharesell' => 'sharesellopen'
+
+
+    public function mount()
+    {
+        $this->sortBy = "";
+    }
 
     public function render()
     {
-        $this->stocks=Stock::where('user_id', Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->orderBy('created_at', 'DESC')->get();
+        if ($this->sortBy) {
+            $this->stocks=Stock::where('user_id', Auth::user()->id)->where('account_id',$this->sortBy)->orderBy('account_id', 'DESC')->orderBy('created_at', 'DESC')->get();
+        }else{
+            $this->stocks=Stock::where('user_id', Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->orderBy('created_at', 'DESC')->get();
+        }
         $this->gettransaction = Transaction::all();
         $this->account = Account::where('user_id', Auth::user()->id)->get();
         $this->emit('historicaldata');
+
         return view('livewire.stock');
+
     }
+
 
     public function create()
     {

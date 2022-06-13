@@ -10592,7 +10592,7 @@ table a {
         padding-bottom: 1rem
     }
 
-    .sm\:pl-6 {
+            .sm\:pl-6 {
         padding-left: 1.5rem
     }
 
@@ -11797,4 +11797,20 @@ table a {
     .\32xl\:grid-cols-4 {
         grid-template-columns:repeat(4, minmax(0, 1fr))
     }
+}
+.sm\:ml-20 {
+    margin-left: 5rem
+}
+.sm\:ml-30 {
+    margin-left: 8rem
+}
+.sm\:mr-20 {
+    margin-right: 6rem
+}
+.pl-12 {
+    padding-left: 3rem
+}
+.xs\:px-12{
+    padding-left:  3rem;
+    padding-right: 3rem;
 }

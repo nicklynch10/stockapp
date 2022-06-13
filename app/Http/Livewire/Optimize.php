@@ -81,5 +81,4 @@ class Optimize extends Component
         }
         return view('livewire.optimize',['toploss' => $topLoss]);
     }
-
 }

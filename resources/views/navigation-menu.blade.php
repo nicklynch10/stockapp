@@ -43,11 +43,14 @@
                     <x-jet-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                         {{ __('Optimize') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">
-                        {{ __('Factors') }}
-                    </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">
-                        {{ __('Stocks Compare') }}
+{{--                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
+{{--                        {{ __('Factors') }}--}}
+{{--                    </x-jet-nav-link>--}}
+{{--                    <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
+{{--                        {{ __('Stocks Compare') }}--}}
+{{--                    </x-jet-nav-link>--}}
+                    <x-jet-nav-link href="{{ route('analyze-compare') }}" :active="request()->routeIs('analyze-compare')">
+                        {{ __('Analyze & Compare') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                         {{ __('Accounts') }}
@@ -198,11 +201,14 @@
             <x-jet-responsive-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                 {{ __('Optimize') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">
-                {{ __('Factors') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">
-                {{ __('Stocks Compare') }}
+{{--            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
+{{--                {{ __('Factors') }}--}}
+{{--            </x-jet-responsive-nav-link>--}}
+{{--            <x-jet-responsive-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
+{{--                {{ __('Stocks Compare') }}--}}
+{{--            </x-jet-responsive-nav-link>--}}
+            <x-jet-responsive-nav-link href="{{ route('analyze-compare') }}" :active="request()->routeIs('analyze-compare')">
+                {{ __('Analyze & Compare') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('account') }}" :active="request()->routeIs('account')">
                 {{ __('Accounts') }}

@@ -157,17 +157,14 @@
 
                         </ul>
                     </div>
-
-
+{{--                    <div class="ps_nav_tab_wrap ps_nav_open_drop_push">--}}
+{{--                        <a class="NavbarMain__tab" href="/check-for-comps">Find Similar Stocks</a>--}}
+{{--                    </div>--}}
+{{--                    <div class="ps_nav_tab_wrap ps_nav_open_drop_push">--}}
+{{--                        <a class="NavbarMain__tab" href="/factors">Factor Analysis</a>--}}
+{{--                    </div> --}}
                     <div class="ps_nav_tab_wrap ps_nav_open_drop_push">
-                        <a class="NavbarMain__tab" href="/check-for-comps">Find Similar Stocks</a>
-
-                    </div>
-
-
-                              <div class="ps_nav_tab_wrap ps_nav_open_drop_push">
-                        <a class="NavbarMain__tab" href="/factors">Factor Analysis</a>
-
+                        <a class="NavbarMain__tab" href="/analyze-compare">Analyze & Compare</a>
                     </div>
 
 

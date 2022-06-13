@@ -11,6 +11,12 @@
                             <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
                                 <h2 class="text-xl font-black">Your Portfolio</h2>
                                 <div class="inline-flex items-center space-x-2">
+                                    <select  wire:model="sortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        <option value="">Sort By Account</option>
+                                       @foreach($this->account as $account)
+                                        <option value="{{$account->id}}">{{$account->account_type}}</option>
+                                        @endforeach
+                                    </select>
                                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
                                 </div>
                             </div>

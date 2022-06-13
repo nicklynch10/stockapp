@@ -112,8 +112,10 @@
                     <div class="w-full mb-5 overflow-hidden">
                         <div class="flex justify-between items-center w-full border-b-2 border-gray-300 mb-2">
                             @php
-                                $SC_old = \App\Models\StockTicker::where('ticker', $this->ticker)->first();
-                                $company =$SC_old['ticker_company'];
+                                $SC_old = \App\Models\StockTicker::where('ticker', $this->ticker);
+                                if($SC_old) $SC_old = $SC_old->first();
+                                $company = "Not Available";
+                                //$SC_old['ticker_company'] ?: "Not Available";
                             @endphp
                             @if($etfs)
                                 <h2 class="text-xl font-black">Comparable ETFs to [{{$company}}]</h2>

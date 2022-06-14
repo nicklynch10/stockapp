@@ -5,6 +5,7 @@ use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\FactordetailController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Livewire\Optimize;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
@@ -92,7 +93,7 @@ Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
 //Route::get('factors', [FactorController::class, 'factors'])->name('factors');
 Route::get('analyze-compare', [AnalyzeCompareController::class, 'factors'])->name('analyze-compare');
-Route::any('factordetail', [FactordetailController::class, 'view'])->name('factordetail');
+Route::get('analyze', [FactordetailController::class, 'view'])->name('analyze');
 
 
 // new home routes //

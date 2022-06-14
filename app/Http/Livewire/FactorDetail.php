@@ -2,8 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Stock;
+use App\Models\StockTicker;
 use Capsule\Request;
 use Exception;
+use http\QueryString;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -31,9 +34,18 @@ class FactorDetail extends Component
         $this->loadData = true;
     }
 
-    public function mount($tickerData)
+    public function mount()
     {
-        $this->ticker = $tickerData;
+        $this->ticker = $_GET['Ticker'];
+        $stockdata = StockTicker::where('ticker',$this->ticker)->first();
+        if($stockdata == null)
+        {
+            $this->ticker = "TSLA";
+        }
+        else
+        {
+            $this->ticker = $_GET['Ticker'];
+        }
     }
 
     public function render()
@@ -76,12 +88,7 @@ class FactorDetail extends Component
                 $this->updatedTicker();
                 $this->dispatchBrowserEvent('contentChanged');
             }
-            if($this->ticker != null){
-                return view('livewire.factor-detail');
-            }
-            else{
-                return view('livewire.analyze-compare');
-            }
+            return view('livewire.factor-detail');
         }catch(Exception $e)
         {
             return view('livewire.factor-detail');

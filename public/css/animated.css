@@ -1,9 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
 
 .wrapper {
-    margin: 18px 138px 10px;
+    /*margin: 18px 138px 10px;*/
+    margin: 18px 88px 18px;
     height: 35px;
-    width: 512px;
+    /*width: 512px;*/
+    width: 415px;
     background: linear-gradient(to right, #da1919 50%, #008000FF 50%);
     border: 1px solid black;
     box-sizing: border-box;
@@ -363,8 +365,10 @@
 }
 .ruler li {
     padding-left: 1cm;
-    width: 194px;
-    margin: 0.64em 1.8em 0.36em;
+    /*width: 194px;*/
+    /*margin: 0.64em 1.8em 0.36em;*/
+    width: 136px;
+    margin: 0.64em 1.5em 0.36em;
     text-align: center;
     /*position: relative;*/
     text-shadow: 1px 1px hsl(60, 60%, 84%);

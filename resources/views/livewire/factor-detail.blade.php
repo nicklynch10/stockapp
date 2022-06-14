@@ -99,7 +99,6 @@
             right: auto;
         }
 
-
         .blindsLagging.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
@@ -237,26 +236,26 @@
 
     </style>
     <div class="mt-12">
-        <div class="grid grid-cols-3 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center ">
-            @php
-                $token = env('IEX_CLOUD_KEY', null);
-                $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-                $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
-                $company = $symbol->json();
-                $tag = $company ? $company['tags'] : []
-            @endphp
-            <div class="col-start-1 col-span-2 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+        <div class="grid grid-cols-2 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
+            <div class="col-start-1 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+                @php
+                    $token = env('IEX_CLOUD_KEY', null);
+                    $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
+                    $company = $symbol->json();
+                    $tag = $company ? $company['tags'] : []
+                @endphp
                 <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24 ">
-                    <div class="mt-8 mb-4">
+                    <div class="mt-8 mb-4 flex justify-between">
                         @if($company['companyName'])
                             <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
-                             {{$this->ticker}}
+                             {{$this->ticker}} <br> <span class="text-blue-500 font-bold text-2xl">{{ $company['companyName'] }}</span>
                             </span>
                         @endif
                         @php
-                            $this->token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
-                            $this->endpoint = 'https://sandbox.iexapis.com/';
-                            $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $this->token);
+                            $token = env('IEX_CLOUD_KEY', null);
+                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                            $url = ($endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $token);
                             $data = Http::get($url);
                             $stats = $data->json()
                         @endphp
@@ -266,43 +265,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-1">
-                    <div class="inline-block ml-12 mr-4 ">
-                        <span class="text-blue-500 font-bold text-2xl ml-30 sm:ml-10 lg:ml-24">
-                            {{ $company['companyName'] }}
-                        </span>
-                    </div>
-                </div>
-                <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8">
+                <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
                     <div class="grid  gap-2 sm:grid-cols-2 lg:grid-cols-3 md:grid-cols-1 xl:grid-cols-3 xs:flex-col xs:flex xs:text-center xs:justify-center mr-1">
-                        <div class="col-span-1 box-content border-1 bg-gray-100">
-                            <span class="float-left ml-4 font-bold sm:m-2 md:ml-2 lg:ml-10 sm:ml-10 xs:ml-8 ">Market Cap:</span>
-                            <span class="float-right  sm:m-2 lg:mr-10 ">${{  round(($stats['marketCap']/1000000), 2)}}</span>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">Market Cap:</span>
+                            <span class="xs:m-3">${{  round(($stats['marketCap']/1000000), 2)}}</span>
                         </div>
-                        <div class="col-span-1 box-content border-1 bg-gray-100">
-                            <span class="float-left ml-4 font-bold sm:m-2 md:ml-2 lg:ml-10">Current Price:</span>
-                            <span class="float-right sm:m-2 lg:mr-10 ">{{ $stats['latestPrice'] }}</span>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">Current Price:</span>
+                            <span class="xs:m-3">{{ $stats['latestPrice'] }}</span>
                         </div>
-                        <div class="col-span-1 box-content border-1 bg-gray-100">
-                            <span class="float-left ml-4 font-bold sm:m-2 md:ml-2 lg:ml-10">High/Low:</span>
-                            <span class="float-right sm:m-2 lg:mr-10 ">${{ $stats['high'].'/'.'$'.$stats['low'] }}</span>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">High/Low:</span>
+                            <span class="xs:m-3">${{ $stats['high'].'/'.'$'.$stats['low'] }}</span>
                         </div>
 
-                        <div class="col-span-1 box-content border-1 bg-gray-100">
-                            <span class="float-left ml-4 font-bold sm:m-2 md:ml-2 lg:ml-10">Stock PE:</span>
-                            <span class="float-right sm:m-2 lg:mr-10 ">{{$stats['peRatio']}} </span>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">Stock PE:</span>
+                            <span class="xs:m-3">{{$stats['peRatio']}} </span>
                         </div>
                         @if($company['sector'])
-                            <div class="col-span-1 box-content border-1 bg-gray-100">
-                                <span class="float-left ml-4 font-bold sm:m-2 md:ml-2 lg:ml-10">Sector:</span>
-                                <span class="float-right sm:m-2 lg:mr-10 ">{{ $company['sector'] }} </span>
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">Sector:</span>
+                                <span class="xs:m-3">{{ $company['sector'] }} </span>
                             </div>
                         @endif
-                        <div class="col-span-1 box-content border-1 bg-gray-100">
-                            <span class="float-left ml-4 font-bold sm:m-2 md:ml-2 lg:ml-10">Issue Type</span>
-                            <span class="float-right sm:m-2 lg:mr-10 ">{{ convertType($company['issueType']) }}</span>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">Issue Type</span>
+                            <span class="xs:m-3">{{ convertType($company['issueType']) }}</span>
                         </div>
-                        <div class="col-span-2 box-content border-1 sm:m-2 lg:mr-10 ">
+                        <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">
                             <span class="float-left ml-4 font-bold md:ml-2 lg:ml-10">Tags:</span>
                             @if(isset($tag))
                                 <span class=" md:ml-2 lg:ml-10">
@@ -314,119 +306,128 @@
                             @endif
                         </div>
                         @if($company['description'])
-                        <div class="col-span-3 box-content border-1  sm:m-2">
-                            <span class="float-left ml-4 font-bold md:ml-2 lg:ml-10">Company Description:</span>
-                            <p class="md:ml-2 lg:ml-10">{{ $company['description'] }}</p>
-                        </div>
+                            <div class="col-span-3 box-content border-1  sm:m-2">
+                                <span class="float-left ml-4 font-bold md:ml-2 lg:ml-10">Company Description: </span>
+                                <p class="md:ml-2 lg:ml-10">{{ $company['description'] }}</p>
+                            </div>
                         @endif
                     </div>
                 </div>
-                <div wire:init="init" class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 mb-5 progressbar xs:ml-8">
-                    @if ($loadData)
-                        <div class="col-start-5 col-span-8 bg-white border-b border-gray-200 sm:rounded-lg table-align progressbar ">
-                            <div class="px-4 py-10 mx-auto md:py-12 xs:flex-col xs:flex xs:text-center xs:justify-center w-full">
-                                @if($ticker != "" & count($correlations)>0)
-                                    <table class="displayprocess" id="">
-                                        <tbody class="bg-white divide-y divide-gray-200 ">
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td class=""></td>
-                                            <td class=""></td>
-                                            <td class="mr-10">
-                                                <div class="ruler-container">
-                                                    <ul class="ruler" data-items="3" ></ul>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td class=""></td>
-                                            <td><label><b>Growth </b></label></td>
-                                            <td class="">
-                                                <div class="wrapper mb-5">
-                                                    <div class='blind right' id="blindRight"></div>
-                                                    <div class='blind left' id="blindLeft"></div>
-                                                </div>
-                                            </td>
-                                            <td><label><b>Value </b></label></td>
-                                            <td class=""></td>
-                                        </tr>
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td></td>
-                                            <td><label><b>Small Cap </b></label></td>
-                                            <td class="">
-                                                <div class="wrapper">
-                                                    <div class='blinds right' id="SmallRight"></div>
-                                                    <div class='blinds left' id="SmallLeft"></div>
-                                                </div>
-                                            </td>
-                                            <td><label><b>Large Cap</b></label></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td></td>
-                                            <td><label><b>Emerging </b></label></td>
-                                            <td class="">
-                                                <div class="wrapper">
-                                                    <div class='blindsEmerging right' id="EmergingRight"></div>
-                                                    <div class='blindsEmerging left' id="EmergingLeft"></div>
-                                                </div>
-                                            </td>
-                                            <td><label><b>Developed</b></label></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td></td>
-                                            <td><label><b>Lagging </b></label></td>
-                                            <td>
-                                                <div class="wrapper">
-                                                    <div class='blindsLagging right' id="LaggingRight"></div>
-                                                    <div class='blindsLagging left' id="LaggingLeft"></div>
-                                                </div>
-                                            </td>
-                                            <td><label><b>Momentum</b></label></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td></td>
-                                            <td><label><b>Low Volatility </b></label></td>
-                                            <td>
-                                                <div class="wrapper mb-5">
-                                                    <div class='blindsLow right' id="LowRight"></div>
-                                                    <div class='blindsLow left' id="LowLeft"></div>
-                                                </div>
-                                            </td>
-                                            <td><label><b>High Volatility </b></label></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                            <td></td>
-                                            <td><label><b>Fixed Income </b></label></td>
-                                            <td>
-                                                <div class="wrapper mb-5">
-                                                    <div class='blindsFixed right' id="FixedRight"></div>
-                                                    <div class='blindsFixed left' id="FixedLeft"></div>
-                                                </div>
-                                            </td>
-                                            <td><label><b>Equities </b></label></td>
-                                            <td></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <h2 class="font-semibold text-lg font-medium text-gray-900 processing"></h2>
-                                @else
-                                    <div class="text-center">
-                                        <h2 class="font-semibold text-lg font-medium text-gray-900 processing ">No data found in this stock</h2>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    @else
-                        Loading data...
-                    @endif
+            </div>
+
+            <div class="col-start-2 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+                <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
+                    <div wire:init="init" class="px-4 py-10 mx-auto md:py-12 xs:flex-col xs:flex xs:text-center xs:justify-center w-full">
+                        @if ($loadData)
+                            @if($ticker != "" & count($correlations)>0)
+                                <table class="displayprocess" id="">
+                                    <tbody class="bg-white divide-y divide-gray-200 ">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td class=""></td>
+                                        <td class=""></td>
+                                        <td class="mr-10">
+                                            <div class="ruler-container">
+                                                <ul class="ruler" data-items="3" ></ul>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td class=""></td>
+                                        <td><label><b>Growth </b></label></td>
+                                        <td class="">
+                                            <div class="wrapper mb-5">
+                                                <div class='blind right' id="blindRight"></div>
+                                                <div class='blind left' id="blindLeft"></div>
+                                            </div>
+                                        </td>
+                                        <td><label><b>Value </b></label></td>
+                                        <td class=""></td>
+                                    </tr>
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td></td>
+                                        <td><label><b>Small Cap </b></label></td>
+                                        <td class="">
+                                            <div class="wrapper">
+                                                <div class='blinds right' id="SmallRight"></div>
+                                                <div class='blinds left' id="SmallLeft"></div>
+                                            </div>
+                                        </td>
+                                        <td><label><b>Large Cap</b></label></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td></td>
+                                        <td><label><b>Emerging </b></label></td>
+                                        <td class="">
+                                            <div class="wrapper">
+                                                <div class='blindsEmerging right' id="EmergingRight"></div>
+                                                <div class='blindsEmerging left' id="EmergingLeft"></div>
+                                            </div>
+                                        </td>
+                                        <td><label><b>Developed</b></label></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td></td>
+                                        <td><label><b>Lagging </b></label></td>
+                                        <td>
+                                            <div class="wrapper">
+                                                <div class='blindsLagging right' id="LaggingRight"></div>
+                                                <div class='blindsLagging left' id="LaggingLeft"></div>
+                                            </div>
+                                        </td>
+                                        <td><label><b>Momentum</b></label></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td></td>
+                                        <td><label><b>Low Volatility </b></label></td>
+                                        <td>
+                                            <div class="wrapper mb-5">
+                                                <div class='blindsLow right' id="LowRight"></div>
+                                                <div class='blindsLow left' id="LowLeft"></div>
+                                            </div>
+                                        </td>
+                                        <td><label><b>High Volatility </b></label></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                        <td></td>
+                                        <td><label><b>Fixed Income </b></label></td>
+                                        <td>
+                                            <div class="wrapper mb-5">
+                                                <div class='blindsFixed right' id="FixedRight"></div>
+                                                <div class='blindsFixed left' id="FixedLeft"></div>
+                                            </div>
+                                        </td>
+                                        <td><label><b>Equities </b></label></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <h2 class="font-semibold text-lg font-medium text-gray-900 processing"></h2>
+                            @else
+                                <div class="text-center">
+                                    <h2 class="font-semibold text-lg font-medium text-gray-900 processing ">No data found in this stock</h2>
+                                </div>
+                            @endif
+                        @else
+                            <button type="button" class="align-middle inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                Loading Data....
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
-            <div class="col-start-3 col-span-1 mx-auto sm:px-6 lg:px-8 bg-white shadow-2xl rounded">
+        </div>
+
+
+
+        <div class="grid grid-cols-1 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center m-2">
+            <div class="col-start-1 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center w-full border-b-2 border-gray-300 mb-2 mt-6">
                     @php
                         use App\Models\StockTicker;$SC_old = StockTicker::where('ticker', $this->ticker)->first();
@@ -454,7 +455,7 @@
                         </div>
                     </div>
                 </div>
-                <div wire:init="init" class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 xl:grid-cols-1 lg:grid-cols-1 p-2 overflow-y-auto overflow-x-hidden flex items-center w-2/4 w-full" style="max-height: 145vh;">
+                <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden flex items-center w-2/4 w-full">
                     @if ($loadData)
                         @if($ticker != "" & count($correlation)>0)
                             @foreach($correlation->sortByDesc("correlation")->slice(0, 500)->unique()->take(30) as $result)
@@ -477,10 +478,10 @@
                                                         </h5>
                                                         <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
                                                         <span class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">
-                                                            <span
-                                                                class="font-bold">~{{number_format($result->correlation*100,0).'%'}}</span><br>
-                                                            Correlation with {{$ticker}}
-                                                        </span>
+                                                    <span
+                                                        class="font-bold">~{{number_format($result->correlation*100,0).'%'}}</span><br>
+                                                    Correlation with {{$ticker}}
+                                                </span>
                                                     </div>
                                                     <div class="flex flex-col justify-between p-4 leading-normal" style="width: 255px">
                                                         <div class="flow-root">
@@ -488,9 +489,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                Beta (S&P 500):
-                                                                            </span>
+                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        Beta (S&P 500):
+                                                                    </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center break-all text-sm">
                                                                             <span class="break-all text-black">{{number_format($result->SI2->calced_beta,2)}}</span>
@@ -500,9 +501,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                Dividend Yield:
-                                                                            </span>
+                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        Dividend Yield:
+                                                                    </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
                                                                             <span class="break-all text-black">{{number_format($result->SI2->div_yield*100,2).'%'}}</span>
@@ -512,13 +513,13 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                @if($etfs)
-                                                                                    AUM:
-                                                                                @else
-                                                                                    Market Cap:
-                                                                                @endif
-                                                                            </span>
+                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        @if($etfs)
+                                                                            AUM:
+                                                                        @else
+                                                                            Market Cap:
+                                                                        @endif
+                                                                    </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
                                                                             <span class="break-all text-green-700">${{number_format($result->SI2->marketcap/1000,0).''.'M'}}</span>
@@ -526,9 +527,9 @@
                                                                     </div>
                                                                 </li>
                                                                 @php
-                                                                    $this->token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
-                                                                    $this->endpoint = 'https://sandbox.iexapis.com/';
-                                                                    $url = ($this->endpoint . 'stable/stock/'.$result->ticker2.'/quote?token=' . $this->token);
+                                                                    $token = env('IEX_CLOUD_KEY', null);
+                                                                    $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                                                                    $url = ($endpoint . 'stable/stock/'.$result->ticker2.'/quote?token=' . $token);
                                                                     $data = Http::get($url);
                                                                     $stats = $data->json()
                                                                 @endphp
@@ -536,23 +537,23 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                    @if($etfs)
-                                                                                        Expense Ratio:
-                                                                                    @else
-                                                                                        PE Ratio:
-                                                                                    @endif
-                                                                                </span>
+                                                                        <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                            @if($etfs)
+                                                                                Expense Ratio:
+                                                                            @else
+                                                                                PE Ratio:
+                                                                            @endif
+                                                                        </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
 
-                                                                                <span class="break-all text-green-700">
-                                                                                    @if($stats!='')
-                                                                                        {{number_format( $stats['peRatio'],2)}}%
-                                                                                    @else
-                                                                                        N/A
-                                                                                    @endif
-                                                                                </span>
+                                                                        <span class="break-all text-green-700">
+                                                                            @if($stats!='')
+                                                                                {{number_format( $stats['peRatio'],2)}}%
+                                                                            @else
+                                                                                N/A
+                                                                            @endif
+                                                                        </span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -560,9 +561,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                1 Year % Change:
-                                                                            </span>
+                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        1 Year % Change:
+                                                                    </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
                                                                             <span class="break-all {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">{{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}} </span>
@@ -591,9 +592,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                                Current Price:
-                                                                            </span>
+                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        Current Price:
+                                                                    </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center break-all text-sm">
                                                                             <span class="break-all text-black">${{($stats['latestPrice'])}}</span>
@@ -616,13 +617,16 @@
                             @endforeach
                         @endif
                     @else
-                        Loading data...
+                        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Loading Data....
+                        </button>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="mt-5 md:mt-0 md:col-span-2">
 
+        <div class="mt-5 md:mt-0 md:col-span-2">
             <div class="flow-root">
                 @if($ticker != "" & count($correlations)>0)
                     @foreach($correlations->slice(0, 20) as $key => $result)

@@ -32,16 +32,6 @@ class CurrentHoldings extends Component
     public $result;
     protected $listeners = ['currentHolings' => 'render'];
     public bool $loadData = false;
-    public $sortBy;
-
-    public function init()
-    {
-        $this->loadData = true;
-    }
-    public function mount()
-    {
-        $this->sortBy = "";
-    }
 
     public function render()
     {
@@ -53,15 +43,16 @@ class CurrentHoldings extends Component
                 'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
             ]);
         }
-        if($this->sortBy)
-        {
-            $currentholding = ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')->where('stock.user_id', Auth::user()->id)->where('stock.account_id',$this->sortBy)->get();
-        }
-        else
-        {
-            $currentholding = $this->fetchData();
-        }
-        return view('livewire.current-holdings')->with('currentholding',$currentholding);
+        return view('livewire.current-holdings',['currentholding' => $this->fetchData()]);
+    }
+
+    public function sortByAccount($accountid)
+    {
+        $this->currentholding = ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
+            ->join('stock','stock.id','view_stock_update.stock_id')
+            ->where('stock.user_id', Auth::user()->id)
+            ->where('stock.account_id',$accountid)
+            ->get();
     }
 
     public function sort($column)
@@ -78,13 +69,15 @@ class CurrentHoldings extends Component
 
     public function fetchData()
     {
-        return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')->where('stock.user_id', Auth::user()->id)->
-        when($this->search, function ($q) {
-            $q->where('company_name', 'like', "$this->search%");
-        })->
-        when($this->sortColumn && $this->sortDirection, function ($q) {
-            $q->orderBy($this->sortColumn, $this->sortDirection);
-        })->get();
+        return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')
+                ->where('stock.user_id', Auth::user()->id)
+                ->when($this->search, function ($q) {
+                    $q->where('company_name', 'like', "$this->search%");
+                })
+                ->when($this->sortColumn && $this->sortDirection, function ($q) {
+                    $q->orderBy($this->sortColumn, $this->sortDirection);
+                })
+            ->get();
     }
 
     public function company($id)

@@ -1,6 +1,3 @@
-
-
-
 <main class="p-0 m-0 flex-grow ">
     <div class="mx-auto px-4 py-2 md:py-12 pt-10">
         <div class="grid grid-cols-12 gap-2">
@@ -8,15 +5,20 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
-                                <h2 class="text-xl font-black">Your Portfolio</h2>
+                            <div class="grid border-b-2 border-gray-300 grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-8 xl:grid-cols-8 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                                <div class="flex justify-between items-center w-full">
+                                    <h2 class="text-xl font-black">Your Portfolio</h2>
+                                </div>
+                                <div></div><div></div><div></div><div></div><div></div>
                                 <div class="inline-flex items-center space-x-2">
                                     <select  wire:model="sortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                         <option value="">Filter By Account</option>
-                                       @foreach($this->account as $account)
-                                        <option value="{{$account->id}}">{{$account->account_name}}</option>
+                                        @foreach($this->account as $account)
+                                            <option value="{{$account->id}}">{{$account->account_name}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div class="text-center">
                                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
                                 </div>
                             </div>

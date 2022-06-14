@@ -30,6 +30,7 @@ class CurrentHoldings extends Component
     public $dchange;
     public $pchange;
     public $result;
+    public $accountId;
     protected $listeners = ['currentHolings' => 'render'];
     public bool $loadData = false;
 
@@ -48,28 +49,45 @@ class CurrentHoldings extends Component
 
     public function sortByAccount($accountid)
     {
-        $this->currentholding = ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
+         return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
             ->join('stock','stock.id','view_stock_update.stock_id')
             ->where('stock.user_id', Auth::user()->id)
             ->where('stock.account_id',$accountid)
             ->get();
     }
 
-    public function sort($column)
+    public function sort($column,$accountId)
     {
-        if($column != 0){
-            $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
-            $this->sortColumn = $column;
+        if($column!='')
+        {
+            if($column != 0){
+                $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
+                $this->sortColumn = $column;
+            }
+            else{
+                $this->sortColumn = 'stock_ticker';
+            }
         }
-        else{
-            $this->sortColumn = 'stock_ticker';
+        else
+        {
+            return $this->accountId = $accountId;
         }
         return $this->fetchData();
     }
 
     public function fetchData()
     {
-        return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')
+        if($this->accountId)
+        {
+            return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
+                ->join('stock','stock.id','view_stock_update.stock_id')
+                ->where('stock.user_id', Auth::user()->id)
+                ->where('stock.account_id',$this->accountId)
+                ->get();
+        }
+        else
+        {
+            return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')
                 ->where('stock.user_id', Auth::user()->id)
                 ->when($this->search, function ($q) {
                     $q->where('company_name', 'like', "$this->search%");
@@ -77,7 +95,8 @@ class CurrentHoldings extends Component
                 ->when($this->sortColumn && $this->sortDirection, function ($q) {
                     $q->orderBy($this->sortColumn, $this->sortDirection);
                 })
-            ->get();
+                ->get();
+        }
     }
 
     public function company($id)

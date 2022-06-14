@@ -1,27 +1,32 @@
 <div>
-    <div class="flex justify-between items-center w-full border-b-2 border-gray-300">
-        <h2 class="text-xl font-black">Current Holdings</h2>
+    <div class="grid border-b-2 border-gray-300 grid-cols-6 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+        <div class="flex justify-between items-center w-full">
+            <h2 class="text-xl font-black">Current Holdings</h2>
+        </div>
+        <div></div><div></div><div></div>
         <div class="inline-flex items-center space-x-2">
-             <select wire:change="sort($event.target.value)" class="shadow appearance-none border mb-3 w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                 <option value="0">Sort By</option>
-                 <option value="stock_ticker">Stock Ticker</option>
-                 <option value="company_name">Company Name</option>
-                 <option value="share_number">Share Number</option>
-                 <option value="ave_cost">Cost Basis</option>
-                 <option value="current_share_price">Share Price</option>
-                 <option value="dchange">$ Change</option>
-                 <option value="pchange">% Change</option>
-                 <option value="current_total_value">Market Value</option>
-                 <option value="total_cost">Total Cost</option>
-                 <option value="total_gain_loss">Total Gain / (Loss)</option>
-                 <option value="total_long_term_gains">Tax Classification</option>
-             </select>
-             <select  wire:change="sortByAccount(event.target.value)" class="shadow appearance-none border w-60 mb-3 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                 <option value="">Filter By Account</option>
-                 @foreach(\App\Models\Account::where('user_id',Auth()->user()->id)->get() as $account)
-                     <option value="{{$account->id}}">{{$account->account_name}}</option>
-                 @endforeach
-             </select>
+            <select wire:change="sort($event.target.value,'')" class="shadow appearance-none border mb-3 w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="0">Sort By</option>
+                <option value="stock_ticker">Stock Ticker</option>
+                <option value="company_name">Company Name</option>
+                <option value="share_number">Share Number</option>
+                <option value="ave_cost">Cost Basis</option>
+                <option value="current_share_price">Share Price</option>
+                <option value="dchange">$ Change</option>
+                <option value="pchange">% Change</option>
+                <option value="current_total_value">Market Value</option>
+                <option value="total_cost">Total Cost</option>
+                <option value="total_gain_loss">Total Gain / (Loss)</option>
+                <option value="total_long_term_gains">Tax Classification</option>
+            </select>
+        </div>
+        <div class="inline-flex items-center space-x-2">
+            <select  wire:change="sort('',$event.target.value)" class="shadow appearance-none border w-60 mb-3 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Filter By Account</option>
+                @foreach(\App\Models\Account::where('user_id',Auth()->user()->id)->get() as $account)
+                    <option value="{{$account->id}}">{{$account->account_name}}</option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div>

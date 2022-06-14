@@ -333,7 +333,7 @@
                                         <td></td>
                                         <td></td>
                                     </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
                                         <td class=""></td>
                                         <td><label><b>Growth </b></label></td>
                                         <td class="">
@@ -345,7 +345,7 @@
                                         <td><label><b>Value </b></label></td>
                                         <td class=""></td>
                                     </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
                                         <td></td>
                                         <td><label><b>Small Cap </b></label></td>
                                         <td class="">
@@ -357,7 +357,7 @@
                                         <td><label><b>Large Cap</b></label></td>
                                         <td></td>
                                     </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
                                         <td></td>
                                         <td><label><b>Emerging </b></label></td>
                                         <td class="">
@@ -369,7 +369,7 @@
                                         <td><label><b>Developed</b></label></td>
                                         <td></td>
                                     </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
                                         <td></td>
                                         <td><label><b>Lagging </b></label></td>
                                         <td>
@@ -381,7 +381,7 @@
                                         <td><label><b>Momentum</b></label></td>
                                         <td></td>
                                     </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
                                         <td></td>
                                         <td><label><b>Low Volatility </b></label></td>
                                         <td>
@@ -393,7 +393,7 @@
                                         <td><label><b>High Volatility </b></label></td>
                                         <td></td>
                                     </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
+                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center   ">
                                         <td></td>
                                         <td><label><b>Fixed Income </b></label></td>
                                         <td>

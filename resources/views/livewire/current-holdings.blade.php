@@ -1,5 +1,5 @@
 <div>
-    <div class="grid border-b-2 border-gray-300 grid-cols-6 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-6 xl:grid-cols-6 lg:grid-cols-6 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+    <div class="grid border-b-2 border-gray-300 grid-cols-6 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-6 lg:grid-cols-6 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
         <div class="flex justify-between items-center w-full">
             <h2 class="text-xl font-black">Current Holdings</h2>
         </div>

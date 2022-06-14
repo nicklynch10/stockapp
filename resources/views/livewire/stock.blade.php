@@ -5,7 +5,7 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="grid border-b-2 border-gray-300 grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-8 xl:grid-cols-8 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+                            <div class="grid border-b-2 border-gray-300 grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 xl:grid-cols-8 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 <div class="flex justify-between items-center w-full">
                                     <h2 class="text-xl font-black">Your Portfolio</h2>
                                 </div>

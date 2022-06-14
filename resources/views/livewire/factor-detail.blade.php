@@ -236,8 +236,8 @@
 
     </style>
     <div class="mt-12">
-        <div class="grid grid-cols-2 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
-            <div class="col-start-1 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+        <div class="grid grid-cols-2 xs:grid-cols-1 lg:gap-2 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
+            <div class="col-start-1 md:col-end-12 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 @php
                     $token = env('IEX_CLOUD_KEY', null);
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
@@ -245,7 +245,7 @@
                     $company = $symbol->json();
                     $tag = $company ? $company['tags'] : []
                 @endphp
-                <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24 ">
+                <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24">
                     <div class="mt-8 mb-4 flex justify-between">
                         @if($company['companyName'])
                             <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
@@ -266,7 +266,7 @@
                     </div>
                 </div>
                 <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
-                    <div class="grid  gap-2 sm:grid-cols-2 lg:grid-cols-3 md:grid-cols-1 xl:grid-cols-3 xs:flex-col xs:flex xs:text-center xs:justify-center mr-1">
+                    <div class="grid  gap-2 xs:flex-col xs:flex xs:text-center xs:justify-center mr-1">
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Market Cap:</span>
                             <span class="xs:m-3">${{  round(($stats['marketCap']/1000000), 2)}}</span>
@@ -315,7 +315,7 @@
                 </div>
             </div>
 
-            <div class="col-start-2 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+            <div class="col-start-2 md:col-start-1 md:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
                     <div wire:init="init" class="px-4 py-10 mx-auto md:py-12 xs:flex-col xs:flex xs:text-center xs:justify-center w-full">
                         @if ($loadData)
@@ -455,7 +455,7 @@
                         </div>
                     </div>
                 </div>
-                <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-1 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden flex items-center w-2/4 w-full">
+                <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden flex items-center w-2/4 w-full">
                     @if ($loadData)
                         @if($ticker != "" & count($correlation)>0)
                             @foreach($correlation->sortByDesc("correlation")->slice(0, 500)->unique()->take(30) as $result)

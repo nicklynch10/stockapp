@@ -907,6 +907,10 @@ select {
     grid-column-start: 12
 }
 
+.col-end-12 {
+    grid-column-end: 12
+}
+
 .col-end-2 {
     grid-column-end: 2
 }
@@ -10650,6 +10654,10 @@ table a {
         grid-column: span 8/span 8
     }
 
+    .md\:col-start-1 {
+        grid-column-start: 1
+    }
+
     .md\:col-start-2 {
         grid-column-start: 2
     }
@@ -10668,6 +10676,10 @@ table a {
 
     .md\:col-start-10 {
         grid-column-start: 10
+    }
+
+    .md\:col-end-12 {
+        grid-column-start: 12
     }
 
     .md\:m-0 {
@@ -11521,6 +11533,9 @@ table a {
     }
     .lg\:w-1\/4 {
         width: 25%
+    }
+    .lg\:gap-2 {
+        gap: .5rem
     }
 }
 

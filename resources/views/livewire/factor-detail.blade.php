@@ -247,11 +247,25 @@
                 @endphp
                 <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24">
                     <div class="mt-8 mb-4 flex justify-between">
-                        @if($company['companyName'])
-                            <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
-                             {{$this->ticker}} <br> <span class="text-blue-500 font-bold text-2xl">{{ $company['companyName'] }}</span>
-                            </span>
-                        @endif
+                        <div class="inline-flex">
+                            <h5 class="mb-2 tracking-tight text-gray-900 dark:text-white float-left">
+                                @php
+                                    $count= strlen($this->ticker)
+                                @endphp
+                                <div
+                                    class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                    <span class="break-all">{{$this->ticker}}</span>
+                                </div>
+                            </h5>
+                            <div>
+                                @if($company['companyName'])
+                                    <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
+                                {{$this->ticker}} <br>
+                                    <span class="text-blue-500 font-bold text-2xl sm:ml-10">{{ $company['companyName'] }}</span>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
                         @php
                             $token = env('IEX_CLOUD_KEY', null);
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);
@@ -260,8 +274,8 @@
                             $stats = $data->json()
                         @endphp
                         <div class="float-right grid-rows-2 mr-10 ">
-                            <span class="row-span-1 font-bold text-xl ">${{$stats['latestPrice']}}</span><br/>
-                            <span class="row-span-2 text-gray-700 text-sm">{{$stats['latestTime']}}-ClosePrice</span>
+                            <span class="row-span-1 font-bold text-xl ">${{ number_format(($stats['latestPrice']),2,'.',',')}}</span><br/>
+                            <span class="row-span-2 text-gray-700 text-sm">{{$stats['latestTime']}}-Close</span>
                         </div>
                     </div>
                 </div>
@@ -269,46 +283,45 @@
                     <div class="grid  gap-2 xs:flex-col xs:flex xs:text-center xs:justify-center mr-1">
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Market Cap:</span>
-                            <span class="xs:m-3">${{  round(($stats['marketCap']/1000000), 2)}}</span>
+                            <span class="xs:m-3 mb-3">${{(number_format(($stats['marketCap']/1000000),2,'.', ','))}}</span>
                         </div>
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Current Price:</span>
-                            <span class="xs:m-3">{{ $stats['latestPrice'] }}</span>
+                            <span class="xs:m-3 mb-3">${{ number_format(($stats['latestPrice']),2,'.',',') }}</span>
                         </div>
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">High/Low:</span>
-                            <span class="xs:m-3">${{ $stats['high'].'/'.'$'.$stats['low'] }}</span>
+                            <span class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
                         </div>
 
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Stock PE:</span>
-                            <span class="xs:m-3">{{$stats['peRatio']}} </span>
+                            <span class="xs:m-3 mb-3">{{$stats['peRatio']}} </span>
                         </div>
                         @if($company['sector'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                                 <span class="font-bold xs:m-3 my-3">Sector:</span>
-                                <span class="xs:m-3">{{ $company['sector'] }} </span>
+                                <span class="xs:m-3 mb-3">{{ $company['sector'] }} </span>
                             </div>
                         @endif
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Issue Type</span>
-                            <span class="xs:m-3">{{ convertType($company['issueType']) }}</span>
+                            <span class="xs:m-3 mb-3">{{ convertType($company['issueType']) }}</span>
                         </div>
                         <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">
-                            <span class="float-left ml-4 font-bold md:ml-2 lg:ml-10">Tags:</span>
                             @if(isset($tag))
-                                <span class=" md:ml-2 lg:ml-10">
-                                    @foreach($tag as $t)
-                                        {{ $loop->first ? '' : ', ' }}
-                                        {{ $t }}
-                                    @endforeach
-                                </span>
+                                @foreach($tag as $t)
+                                    <div class="mr-2 my-2 inline-block">
+                                        <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                                            {{ $t }}
+                                        </div>
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
                         @if($company['description'])
                             <div class="col-span-3 box-content border-1  sm:m-2">
-                                <span class="float-left ml-4 font-bold md:ml-2 lg:ml-10">Company Description: </span>
-                                <p class="md:ml-2 lg:ml-10">{{ $company['description'] }}</p>
+                                <p>{{ $company['description'] }}</p>
                             </div>
                         @endif
                     </div>
@@ -316,6 +329,11 @@
             </div>
 
             <div class="col-start-2 md:col-start-1 md:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+                <div class="flex justify-between items-center ml-3 mb-5 mt-8 pl-4 ">
+                    <h2 class="text-2xl font-black">Factor Analysis <br>
+                        <span class="font-bold text-lg">TaxGhost can help identify similar stocks & ETFs so you can tax loss harvest effectively</span>
+                    </h2>
+                </div>
                 <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
                     <div wire:init="init" class="px-4 py-10 mx-auto md:py-12 xs:flex-col xs:flex xs:text-center xs:justify-center w-full">
                         @if ($loadData)
@@ -477,11 +495,6 @@
                                                             <a class="whitespace-normal">{{$result->ticker2}}</a>
                                                         </h5>
                                                         <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
-                                                        <span class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">
-                                                    <span
-                                                        class="font-bold">~{{number_format($result->correlation*100,0).'%'}}</span><br>
-                                                    Correlation with {{$ticker}}
-                                                </span>
                                                     </div>
                                                     <div class="flex flex-col justify-between p-4 leading-normal" style="width: 255px">
                                                         <div class="flow-root">
@@ -489,12 +502,30 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        Beta (S&P 500):
+                                                                    <span
+                                                                        class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        Correlation with {{$ticker}}:
                                                                     </span>
                                                                         </div>
-                                                                        <div class="inline-flex items-center break-all text-sm">
-                                                                            <span class="break-all text-black">{{number_format($result->SI2->calced_beta,2)}}</span>
+                                                                        <div
+                                                                            class="inline-flex items-center break-all text-sm">
+                                                                            <span
+                                                                                class="break-all text-black">~{{number_format($result->correlation*100,0).'%'}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="py-1 sm:py-4">
+                                                                    <div class="flex items-center space-x-4">
+                                                                        <div class="flex-1 min-w-0">
+                                                                    <span
+                                                                        class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        Beta:
+                                                                    </span>
+                                                                        </div>
+                                                                        <div
+                                                                            class="inline-flex items-center break-all text-sm">
+                                                                            <span
+                                                                                class="break-all text-black">{{number_format($result->SI2->beta,2)}}</span>
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -570,6 +601,21 @@
                                                                         </div>
                                                                     </div>
                                                                 </li>
+                                                                <li class="py-1 sm:py-4">
+                                                                    <div class="flex items-center space-x-4">
+                                                                        <div class="flex-1 min-w-0">
+                                                                    <span
+                                                                        class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                        Current Price:
+                                                                    </span>
+                                                                        </div>
+                                                                        <div
+                                                                            class="inline-flex items-center break-all text-sm">
+                                                                            <span
+                                                                                class="break-all text-black">${{($stats['latestPrice'])}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -578,26 +624,25 @@
                                                             <div id="bar-1" class="bar-main-container azure mt-8">
                                                                 <div class="hidden bar-percentage"
                                                                      data-percentage="{{(int)$stats['iexClose']}}"></div>
-                                                                <span class="float-left">Low {{'$'.($stats['week52Low'])}}</span>
-                                                                <span class="float-right">High {{'$'.($stats['week52High'])}}</span>
+                                                                <span
+                                                                    class="float-left"> {{'$'.($stats['week52Low'])}}</span>
+                                                                <span
+                                                                    class="float-right"> {{'$'.($stats['week52High'])}}</span>
                                                                 <div class="bar-container">
                                                                     <div class="bar"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="flex flex-col justify-between p-4 leading-normal" style="width: 255px">
+                                                    <div class="flex flex-col justify-between leading-normal" style="width: 255px">
                                                         <div class="flow-root">
                                                             <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
-                                                                        <div class="flex-1 min-w-0">
-                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        Current Price:
-                                                                    </span>
-                                                                        </div>
                                                                         <div class="inline-flex items-center break-all text-sm">
-                                                                            <span class="break-all text-black">${{($stats['latestPrice'])}}</span>
+                                                                            @foreach(json_decode($result->SI2['company_tags']) as $g)
+                                                                                <span class="break-all text-black">{{ $g }},</span>
+                                                                            @endforeach
                                                                         </div>
                                                                     </div>
                                                                 </li>

@@ -305,7 +305,7 @@
                             </div>
                         @endif
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Issue Type</span>
+                            <span class="font-bold xs:m-3 my-3">Issue Type:</span>
                             <span class="xs:m-3 mb-3">{{ convertType($company['issueType']) }}</span>
                         </div>
                         <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">

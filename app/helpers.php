@@ -89,6 +89,17 @@ if (!function_exists('convertType')) {
 }
 
 
+
+// Match the tage in Analyze & compare page
+if(!function_exists('sorted')){
+    function sorted($s) {
+        $a = str_split($s);
+        sort($a);
+        return implode($a);
+    }
+}
+
+
 function appLogo($default = false, $user = null)
 {
     return url("/images/logo2.png");

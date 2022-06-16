@@ -104,21 +104,13 @@
                                                             {{ convertType($s->issuetype) }}
                                                         </p>
                                                         <p class="pb-1 text-sm font-sans break-words font-light text-green-600">
-                                                            ${{ number_format($s->ave_cost,2) }}
+                                                            ${{ number_format($s->ave_cost,2) * round($s->share_number, 2) }}
                                                         </p>
                                                         <p class="text-sm font-sans break-words font-light text-grey-dark">
                                                             {{round($s->share_number, 2)  }} @if($s->share_number == 1) Share @else Shares @endif
                                                         </p>
                                                     </div>
                                                 </div>
-{{--                                                <div class="text-center text-sm mt-3 border-gray-200 border-t -my-2 p-2 text-gray-600">--}}
-{{--                                                    <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="sell({{ $s->id }})">--}}
-{{--                                                        Sell--}}
-{{--                                                    </button>--}}
-{{--                                                    <button type="submit" class="inline-flex items-center bg-green-800 border border-transparent rounded-full font-black text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition py-1 px-2" wire:click="buy({{ $s->id }})">--}}
-{{--                                                        Buy--}}
-{{--                                                    </button>--}}
-{{--                                                </div>--}}
                                             </div>
                                         </div>
                                     @endif

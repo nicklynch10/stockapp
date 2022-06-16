@@ -260,7 +260,7 @@ class StockAddEditModal extends Component
         $this->tickerorcompany=$stock->stock_ticker;
         $this->stock_ticker = $stock->stock_ticker;
         $this->companyname = $stock->stock_ticker;
-        $this->company_name = $company ? $company['companyName'] : ($cryprice['companyName'] ? $cryprice['companyName'] : $stock->company_name);
+        $this->company_name = $company ? $company['companyName'] : ($cryprice ? $cryprice['companyName'] : $stock->company_name);
         $this->security_name = $company ? $company['securityName'] : $stock->security_name;
         $this->description = $company ? $company['description'] : $stock->description;
         $this->sector = $company ? $company['sector'] : $stock->sector;

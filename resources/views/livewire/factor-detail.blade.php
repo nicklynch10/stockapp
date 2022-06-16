@@ -200,7 +200,7 @@
 
         .bar-main-container {
             margin: 10px auto;
-            width: 300px;
+            width: 60%;
             height: 50px;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
@@ -215,14 +215,14 @@
             -moz-border-radius: 12px;
             border-radius: 12px;
             height: 15px;
-            background: #008000FF 50%;
+            background: #da1919 50%;
             width: 100%;
             overflow: hidden;
         }
 
         .bar {
             float: left;
-            background: #da1919 50%;
+            background: #008000FF 50%;
             height: 100%;
             -webkit-border-radius: 10px 0px 0px 10px;
             -moz-border-radius: 12px 0px 0px 12px;
@@ -243,7 +243,8 @@
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
                     $company = $symbol->json();
-                    $tag = $company ? $company['tags'] : []
+                    $tag = $company ? $company['tags'] : [];
+                    $companyname=explode('-',$company['securityName'])
                 @endphp
                 <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24">
                     <div class="mt-8 mb-4 flex justify-between">
@@ -254,21 +255,21 @@
                                 @endphp
                                 <div
                                     class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
-                                    <span class="break-all">{{$this->ticker}}</span>
+                                    <span class="break-all">{{strtoupper($this->ticker)}}</span>
                                 </div>
                             </h5>
                             <div>
                                 @if($company['companyName'])
-                                    <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
-                                {{$this->ticker}} <br>
-                                    <span class="text-blue-500 font-bold text-2xl sm:ml-10">{{ $company['companyName'] }}</span>
+                                <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
+                                        {{strtoupper($this->ticker)}} <br>
+                                    <span class="text-blue-500 font-bold text-2xl sm:ml-10"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
                                 </span>
                                 @endif
                             </div>
                         </div>
                         @php
-                            $token = env('IEX_CLOUD_KEY', null);
-                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                            $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
+                            $endpoint = 'https://sandbox.iexapis.com/';
                             $url = ($endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $token);
                             $data = Http::get($url);
                             $stats = $data->json()
@@ -283,7 +284,7 @@
                     <div class="grid  gap-2 xs:flex-col xs:flex xs:text-center xs:justify-center mr-1">
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Market Cap:</span>
-                            <span class="xs:m-3 mb-3">${{(number_format(($stats['marketCap']/1000000),2,'.', ','))}}</span>
+                            <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
                         </div>
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Current Price:</span>
@@ -296,7 +297,7 @@
 
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Stock PE:</span>
-                            <span class="xs:m-3 mb-3">{{$stats['peRatio']}} </span>
+                            <span class="xs:m-3 mb-3">{{number_format( $stats['peRatio'],2)}} </span>
                         </div>
                         @if($company['sector'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
@@ -473,87 +474,94 @@
                         </div>
                     </div>
                 </div>
-                <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden flex items-center w-2/4 w-full">
+
+                <div  wire:init="init" class="grid grid-cols-2 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                     @if ($loadData)
                         @if($ticker != "" & count($correlation)>0)
                             @foreach($correlation->sortByDesc("correlation")->slice(0, 500)->unique()->take(30) as $result)
                                 @if($result && isset($result->ticker2))
                                     <div class="m-2">
-                                        <div class="h-full rounded bg-white bg-gray-50 px-1 py-2 self-start flex flex-col border justify-between rounded-xl " style="min-width: 100px; ">
+                                        <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                             <div class="mt-3 my-1">
-                                                <div class="flex flex-col items-center xs:flex-col xl:flex-col md:flex-col ">
-                                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
-                                                        <h5 class="mb-2 tracking-tight text-gray-900 dark:text-white">
-                                                            @php
-                                                                $count= strlen($result->ticker2)
-                                                            @endphp
-                                                            <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
-                                                                <span class="break-all">{{$result->ticker2}}</span>
-                                                            </div>
+                                                <div class="flex flex-row items-center xs:flex-col xl:flex-col md:flex-col">
+                                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center w-1/2">
+                                                        <?php
+                                                        $string = $result->ticker2;
+                                                        if (strpos($string, "http") === 0) {
+                                                            $logoUrl = $result->ticker2;
+                                                        }
+                                                        ?>
+                                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                                            @if(isset($logourl))
+                                                                <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
+                                                            @else
+
+                                                                @php
+                                                                    $count= strlen($result->ticker2)
+                                                                @endphp
+                                                                <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                                                    <span class="break-all">{{strtoupper($result->ticker2)}}</span>
+                                                                </div>
+                                                            @endif
                                                         </h5>
                                                         <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
-                                                            <a class="whitespace-normal">{{$result->ticker2}}</a>
+                                                            <a class=" cursor-pointer whitespace-normal ">{{$result->ticker2}}</a>
                                                         </h5>
-                                                        <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
+                                                        <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</p>
+
                                                     </div>
-                                                    <div class="flex flex-col justify-between p-4 leading-normal" style="width: 255px">
+                                                    <div class="flex flex-col justify-between p-4 leading-normal w-1/2">
                                                         <div class="flow-root">
                                                             <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                    <span
-                                                                        class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        Correlation with {{$ticker}}:
-                                                                    </span>
+                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                Correlation with {{$ticker}}:
+                                                                            </p>
                                                                         </div>
-                                                                        <div
-                                                                            class="inline-flex items-center break-all text-sm">
-                                                                            <span
-                                                                                class="break-all text-black">~{{number_format($result->correlation*100,0).'%'}}</span>
+                                                                        <div class="inline-flex items-center break-all text-sm">
+                                                                            <p class="break-all">~{{number_format($result->correlation*100,0).'%'}}</p>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                    <span
-                                                                        class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        Beta:
-                                                                    </span>
-                                                                        </div>
-                                                                        <div
-                                                                            class="inline-flex items-center break-all text-sm">
-                                                                            <span
-                                                                                class="break-all text-black">{{number_format($result->SI2->beta,2)}}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="py-1 sm:py-4">
-                                                                    <div class="flex items-center space-x-4">
-                                                                        <div class="flex-1 min-w-0">
-                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        Dividend Yield:
-                                                                    </span>
+                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                Beta:
+                                                                            </p>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
-                                                                            <span class="break-all text-black">{{number_format($result->SI2->div_yield*100,2).'%'}}</span>
+                                                                            {{number_format($result->SI2->beta,2)}}
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        @if($etfs)
-                                                                            AUM:
-                                                                        @else
-                                                                            Market Cap:
-                                                                        @endif
-                                                                    </span>
+                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                Dividend Yield:
+                                                                            </p>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
-                                                                            <span class="break-all text-green-700">${{number_format($result->SI2->marketcap/1000,0).''.'M'}}</span>
+                                                                            {{number_format($result->SI2->div_yield*100,2).'%'}}
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="py-1 sm:py-4">
+                                                                    <div class="flex items-center space-x-4">
+                                                                        <div class="flex-1 min-w-0">
+                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                @if($etfs)
+                                                                                    AUM:
+                                                                                @else
+                                                                                    Market Cap:
+                                                                                @endif
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="inline-flex items-center text-sm text-green-700">
+                                                                            ${{number_format($result->SI2->marketcap/1000,0).'M'}}
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -563,86 +571,39 @@
                                                                     $url = ($endpoint . 'stable/stock/'.$result->ticker2.'/quote?token=' . $token);
                                                                     $data = Http::get($url);
                                                                     $stats = $data->json()
+
                                                                 @endphp
                                                                 @if($stats!='')
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                        <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                            @if($etfs)
-                                                                                Expense Ratio:
-                                                                            @else
-                                                                                PE Ratio:
-                                                                            @endif
-                                                                        </span>
+                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                    @if($etfs)
+                                                                                        Expense Ratio:
+                                                                                    @else
+                                                                                        PE Ratio:
+                                                                                    @endif
+                                                                                </p>
                                                                             </div>
-                                                                            <div class="inline-flex items-center text-sm">
-
-                                                                        <span class="break-all text-green-700">
-                                                                            @if($stats!='')
-                                                                                {{number_format( $stats['peRatio'],2)}}%
-                                                                            @else
-                                                                                N/A
-                                                                            @endif
-                                                                        </span>
+                                                                            <div class="inline-flex items-center text-sm text-green-700">
+                                                                                @if($stats!='')
+                                                                                    {{number_format( $stats['peRatio'],2)}}
+                                                                                @else
+                                                                                    N/A
+                                                                                @endif
                                                                             </div>
                                                                         </div>
                                                                     </li>
                                                                 @endif
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
-                                                                        <div class="flex-1 min-w-0">
-                                                                    <span class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        1 Year % Change:
-                                                                    </span>
+                                                                        <div class="flex-1">
+                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                1 Year % Change:
+                                                                            </p>
                                                                         </div>
-                                                                        <div class="inline-flex items-center text-sm">
-                                                                            <span class="break-all {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">{{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}} </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="py-1 sm:py-4">
-                                                                    <div class="flex items-center space-x-4">
-                                                                        <div class="flex-1 min-w-0">
-                                                                    <span
-                                                                        class="text-sm font-medium text-black-900 truncate dark:text-white">
-                                                                        Current Price:
-                                                                    </span>
-                                                                        </div>
-                                                                        <div
-                                                                            class="inline-flex items-center break-all text-sm">
-                                                                            <span
-                                                                                class="break-all text-black">${{($stats['latestPrice'])}}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="py-1 sm:py-4">
-                                                        <div class="flex items-center space-x-4">
-                                                            <div id="bar-1" class="bar-main-container azure mt-8">
-                                                                <div class="hidden bar-percentage"
-                                                                     data-percentage="{{(int)$stats['iexClose']}}"></div>
-                                                                <span
-                                                                    class="float-left"> {{'$'.($stats['week52Low'])}}</span>
-                                                                <span
-                                                                    class="float-right"> {{'$'.($stats['week52High'])}}</span>
-                                                                <div class="bar-container">
-                                                                    <div class="bar"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex flex-col justify-between leading-normal" style="width: 255px">
-                                                        <div class="flow-root">
-                                                            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                                                <li class="py-1 sm:py-4">
-                                                                    <div class="flex items-center space-x-4">
-                                                                        <div class="inline-flex items-center break-all text-sm">
-                                                                            @foreach(json_decode($result->SI2['company_tags']) as $g)
-                                                                                <span class="break-all text-black">{{ $g }},</span>
-                                                                            @endforeach
+                                                                        <div class="inline-flex items-center text-sm text-right {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">
+                                                                            {{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}}
                                                                         </div>
                                                                     </div>
                                                                 </li>
@@ -651,6 +612,42 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="py-1 sm:py-4">
+                                                <div class="flex items-center space-x-4">
+                                                    <div
+                                                        class="items-center break-words text-center text-sm mx-10 ">
+                                                        @php
+                                                            $data = $tag
+                                                        @endphp
+                                                        @foreach(json_decode($result->SI2['company_tags']) as $g)
+                                                            @php
+                                                                $con = $g;
+                                                                $inarr = in_array(sorted($con), array_map("sorted", $data))
+                                                            @endphp
+                                                            <div class="mr-2 my-2 inline-block">
+                                                                <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                                                                    {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="py-1 sm:py-4">
+                                                <div class="flex items-center space-x-4">
+                                                    <div id="bar-1" class="bar-main-container azure mt-8">
+                                                        <div class="hidden bar-percentage"
+                                                             data-percentage="{{(int)$stats['iexClose']}}"></div>
+                                                        <span class="float-left">{{'$'.number_format(($stats['week52Low']),2,'.',',')}}</span>
+                                                        <span class="float-right">{{'$'.number_format(($stats['week52High']),2,'.',',')}}</span>
+                                                        <div class="bar-container">
+                                                            <div class="bar"></div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 @elseif(!isset($result->ticker2))
@@ -668,6 +665,8 @@
                         </button>
                     @endif
                 </div>
+
+
             </div>
         </div>
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\AnalyzeCompareController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\FactordetailController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\SubmitPlaidDataController;
 use App\Http\Livewire\Optimize;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +95,7 @@ Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correla
 //Route::get('factors', [FactorController::class, 'factors'])->name('factors');
 Route::get('analyze-compare', [AnalyzeCompareController::class, 'factors'])->name('analyze-compare');
 Route::get('analyze', [FactordetailController::class, 'view'])->name('analyze');
+Route::post('submitPlaidData',[SubmitPlaidDataController::class,'submitPlaidData'])->name('submitPlaidData');
 
 
 // new home routes //

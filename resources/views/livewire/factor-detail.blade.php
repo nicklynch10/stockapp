@@ -236,7 +236,7 @@
 
     </style>
     <div class="mt-12">
-        <div class="grid grid-cols-2 xs:grid-cols-1 lg:gap-2 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
+        <div class="grid gap-4 grid-cols-2 xs:grid-cols-1 lg:gap-2 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
             <div class="col-start-1 md:col-end-12 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 @php
                     $token = env('IEX_CLOUD_KEY', null);
@@ -475,7 +475,7 @@
                     </div>
                 </div>
 
-                <div  wire:init="init" class="grid grid-cols-2 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
+                <div  wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                     @if ($loadData)
                         @if($ticker != "" & count($correlation)>0)
                             @foreach($correlation->sortByDesc("correlation")->slice(0, 500)->unique()->take(30) as $result)
@@ -484,7 +484,7 @@
                                         <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                             <div class="mt-3 my-1">
                                                 <div class="flex flex-row items-center xs:flex-col xl:flex-col md:flex-col">
-                                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center w-1/2">
+                                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center w-full">
                                                         <?php
                                                         $string = $result->ticker2;
                                                         if (strpos($string, "http") === 0) {
@@ -510,13 +510,13 @@
                                                         <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</p>
 
                                                     </div>
-                                                    <div class="flex flex-col justify-between p-4 leading-normal w-1/2">
+                                                    <div class="flex flex-col justify-between leading-normal w-3/4">
                                                         <div class="flow-root">
                                                             <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 Correlation with {{$ticker}}:
                                                                             </p>
                                                                         </div>
@@ -528,7 +528,7 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 Beta:
                                                                             </p>
                                                                         </div>
@@ -540,7 +540,7 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 Dividend Yield:
                                                                             </p>
                                                                         </div>
@@ -552,7 +552,7 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 @if($etfs)
                                                                                     AUM:
                                                                                 @else
@@ -577,7 +577,7 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                                <p class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                     @if($etfs)
                                                                                         Expense Ratio:
                                                                                     @else
@@ -598,7 +598,7 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1">
-                                                                            <p class="text-sm font-medium text-black-900 truncate dark:text-white">
+                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 1 Year % Change:
                                                                             </p>
                                                                         </div>
@@ -624,7 +624,7 @@
                                                                 $con = $g;
                                                                 $inarr = in_array(sorted($con), array_map("sorted", $data))
                                                             @endphp
-                                                            <div class="mr-2 my-2 inline-block">
+                                                            <div class="mr-2 mb-2 inline-block">
                                                                 <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                                                     {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
                                                                 </div>

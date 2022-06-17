@@ -22,18 +22,18 @@
         }
     </style>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex lg:justify-between xl:justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('overview') }}">
                         <img src="/images/logo2.png" class="logo" style="height: 30px;width: 165px;">
-{{--                        <x-jet-application-mark class="block h-9 w-auto" />--}}
+                        {{--                        <x-jet-application-mark class="block h-9 w-auto" />--}}
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px xl:ml-10 lg:ml-10 sm:flex xl:flex md:flex">
                     <x-jet-nav-link href="{{ route('overview') }}" :active="request()->routeIs('overview')">
                         {{ __('Overview') }}
                     </x-jet-nav-link>
@@ -43,12 +43,12 @@
                     <x-jet-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                         {{ __('Optimize') }}
                     </x-jet-nav-link>
-{{--                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
-{{--                        {{ __('Factors') }}--}}
-{{--                    </x-jet-nav-link>--}}
-{{--                    <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
-{{--                        {{ __('Stocks Compare') }}--}}
-{{--                    </x-jet-nav-link>--}}
+                    {{--                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
+                    {{--                        {{ __('Factors') }}--}}
+                    {{--                    </x-jet-nav-link>--}}
+                    {{--                    <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
+                    {{--                        {{ __('Stocks Compare') }}--}}
+                    {{--                    </x-jet-nav-link>--}}
                     <x-jet-nav-link href="{{ route('analyze-compare') }}" :active="request()->routeIs('analyze-compare')">
                         {{ __('Analyze & Compare') }}
                     </x-jet-nav-link>
@@ -58,7 +58,8 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            {{--            <div class="hidden sm:flex sm:items-center sm:ml-6  ">--}}
+            <div class="hidden lg:flex lg:items-center lg:ml-1 xl:flex xl:items-center sm:flex sm:items-center md:flex md:items-center">
                 <livewire:mark-notification />
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
@@ -111,7 +112,7 @@
                     </div>
                 @endif
 
-                <!-- Settings Dropdown -->
+            <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -163,7 +164,7 @@
                                 @csrf
 
                                 <x-jet-dropdown-link href="{{ route('logout') }}"
-                                         onclick="event.preventDefault();
+                                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-jet-dropdown-link>
@@ -171,13 +172,13 @@
                         </x-slot>
                     </x-jet-dropdown>
                 </div>
-{{--                <div class="ml-3 relative">--}}
-{{--                    <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>--}}
-{{--                </div>--}}
+                {{--                <div class="ml-3 relative">--}}
+                {{--                    <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>--}}
+                {{--                </div>--}}
             </div>
 
             <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden">
+            <div class="-mr-2 flex items-center sm:hidden xl:hidden md:hidden  ml-auto">
                 <livewire:mark-notification />
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -186,11 +187,30 @@
                     </svg>
                 </button>
             </div>
+
+            {{--            <div class="-mr-2 flex items-center lg:hidden">--}}
+            {{--                <livewire:mark-notification/>--}}
+            {{--                <button @click="open = ! open"--}}
+            {{--                        class="inline-flex items-center justify-center p-2 rounded-md --}}{{--hover:text-white hover:bg-blue-500--}}{{-- focus:outline-none --}}{{--focus:bg-blue-500--}}{{-- --}}{{--focus:text-white--}}{{-- transition duration-150 ease-in-out"--}}
+            {{--                        :class="{'text-white': open, 'bg-blue-500': open, 'text-gray-600': !open}"--}}
+            {{--                >--}}
+            {{--                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">--}}
+            {{--                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"--}}
+            {{--                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"--}}
+            {{--                              d="M4 6h16M4 12h16M4 18h16"/>--}}
+            {{--                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden"--}}
+            {{--                              stroke-linecap="round"--}}
+            {{--                              stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>--}}
+            {{--                    </svg>--}}
+            {{--                </button>--}}
+            {{--            </div>--}}
+
+
         </div>
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden  md:hidden ">
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('overview') }}" :active="request()->routeIs('overview')">
                 {{ __('Overview') }}
@@ -201,12 +221,12 @@
             <x-jet-responsive-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                 {{ __('Optimize') }}
             </x-jet-responsive-nav-link>
-{{--            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
-{{--                {{ __('Factors') }}--}}
-{{--            </x-jet-responsive-nav-link>--}}
-{{--            <x-jet-responsive-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
-{{--                {{ __('Stocks Compare') }}--}}
-{{--            </x-jet-responsive-nav-link>--}}
+            {{--            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
+            {{--                {{ __('Factors') }}--}}
+            {{--            </x-jet-responsive-nav-link>--}}
+            {{--            <x-jet-responsive-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
+            {{--                {{ __('Stocks Compare') }}--}}
+            {{--            </x-jet-responsive-nav-link>--}}
             <x-jet-responsive-nav-link href="{{ route('analyze-compare') }}" :active="request()->routeIs('analyze-compare')">
                 {{ __('Analyze & Compare') }}
             </x-jet-responsive-nav-link>
@@ -218,7 +238,7 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
-            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="shrink-0 mr-3">
                         <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                     </div>
@@ -250,12 +270,12 @@
                     </x-jet-responsive-nav-link>
                 @endif
 
-                <!-- Authentication -->
+            <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
                     <x-jet-responsive-nav-link href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
+                                               onclick="event.preventDefault();
                                     this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-jet-responsive-nav-link>
@@ -292,9 +312,9 @@
                     @endforeach
                 @endif
             </div>
-{{--            <div class="ml-3 relative">--}}
-{{--                <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>--}}
-{{--            </div>--}}
+            {{--            <div class="ml-3 relative">--}}
+            {{--                <x-jet-button wire:click="" class="py-2 px-4 my-3 " id="" >{{__('Benefits of Tax Loss Harvesting') }}</x-jet-button>--}}
+            {{--            </div>--}}
 
         </div>
     </div>

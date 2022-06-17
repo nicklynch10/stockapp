@@ -1,36 +1,44 @@
 <div>
-    <div class="grid border-b-2 border-gray-300 grid-cols-6 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-6 lg:grid-cols-6 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
-        <div class="flex justify-between items-center w-full">
+    <div class="border-b-2 border-gray-300">
+        <div class="flex justify-between">
             <h2 class="text-xl font-black">Current Holdings</h2>
-        </div>
-        <div></div><div></div><div></div>
-        <div class="inline-flex items-center space-x-2">
-            <select wire:change="sort($event.target.value,'')" class="shadow appearance-none border mb-3 w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="0">Sort By</option>
-                <option value="stock_ticker">Stock Ticker</option>
-                <option value="company_name">Company Name</option>
-                <option value="share_number">Share Number</option>
-                <option value="ave_cost">Cost Basis</option>
-                <option value="current_share_price">Share Price</option>
-                <option value="dchange">$ Change</option>
-                <option value="pchange">% Change</option>
-                <option value="current_total_value">Market Value</option>
-                <option value="total_cost">Total Cost</option>
-                <option value="total_gain_loss">Total Gain / (Loss)</option>
-                <option value="total_long_term_gains">Tax Classification</option>
-            </select>
-        </div>
-        <div class="inline-flex items-center space-x-2">
-            <select  wire:change="sort('',$event.target.value)" class="shadow appearance-none border w-60 mb-3 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                <option value="">Filter By Account</option>
-                @foreach(\App\Models\Account::where('user_id',Auth()->user()->id)->get() as $account)
-                    <option value="{{$account->id}}">{{$account->account_name}}</option>
-                @endforeach
-            </select>
+            <div class="xl:flex sm:flex md:flex space-x-3 items-center">
+                <label class="block font-medium text-sm text-gray-700 xs:ml-2 webkit-stroke-thick">
+                    <select wire:change="sort($event.target.value)" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ml-3 my-1 w-40 sm:w-38 md:w-28 lg:w-44">
+                        <option value="0">Sort By</option>
+                        <option value="stock_ticker">Stock Ticker</option>
+                        <option value="company_name">Company Name</option>
+                        <option value="share_number">Share Number</option>
+                        <option value="ave_cost">Cost Basis</option>
+                        <option value="current_share_price">Share Price</option>
+                        <option value="dchange">$ Change</option>
+                        <option value="pchange">% Change</option>
+                        <option value="current_total_value">Market Value</option>
+                        <option value="total_cost">Total Cost</option>
+                        <option value="total_gain_loss">Total Gain / (Loss)</option>
+                        <option value="total_long_term_gains">Tax Classification</option>
+                    </select>
+                </label>
+
+                <label class="block font-medium text-sm text-gray-700">
+                    <select wire:model="accountFilter" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm xs:ml-1 ml-3 my-1 w-40 sm:w-38 md:w-28 lg:w-44">
+                        <option value="">Filter By Account</option>
+                        @foreach($this->account as $account)
+                            <button
+                                class='inline-flex items-center justify-center px-3 py-2 bg-blue-300 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 disabled:opacity-25 mx-auto mt-5 focus:outline-none'
+                                style="max-width: 230px; width: 100%;"
+                                wire:click="teamButtonClick({{ $account->id }})">
+                                {{$account->account_name}}
+                            </button>
+                            <option value="{{ $account->id }}">{{ $account->account_name }}</option>
+                        @endforeach
+                    </select>
+                </label>
+            </div>
         </div>
     </div>
     <div>
-        <div class="grid grid-cols-3 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+        <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
             @forelse($currentholding as $curr)
                 @php
                     $companyname=explode('-',$curr->security_name)
@@ -39,7 +47,7 @@
                     <div class="m-2">
                         <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                             <div class="mt-3 my-1">
-                                <div class="flex flex-row items-center xs:flex-col xl:flex-col md:flex-col">
+                                <div class="flex flex-row items-center xs:flex-col lg:flex-col md:flex-col">
                                     <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 115px">
                                         <?php
                                         $string = $curr->ticker_logo;
@@ -64,7 +72,7 @@
                                         <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                             <a class=" cursor-pointer whitespace-normal " wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a>
                                         </h5>
-                                        <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
+                                        <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs px-5">{{ $curr->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$curr->company_name }}</p>
                                         <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $curr->share_number }} @if($curr->share_number == 1) Share @else Shares @endif</p>
                                         <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis: ${{ number_format($curr->ave_cost,2) }}</p>
                                         <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price: ${{ number_format($curr->current_share_price,2) }}</p>

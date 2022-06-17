@@ -1154,7 +1154,9 @@ select {
 .mt-16 {
     margin-top: 4rem
 }
-
+.mt-20{
+    margin-top:6.75rem;
+}
 .mt-32 {
     margin-top: 8rem
 }
@@ -1362,6 +1364,10 @@ select {
 
 .ml-20 {
     margin-left: 5rem
+}
+
+.ml-10 {
+    margin-left: 2.5rem
 }
 
 .ml-auto {
@@ -1620,7 +1626,9 @@ select {
 .w-4\/6 {
     width: 66.666667%
 }
-
+.w-6\/12 {
+    width: 20.666667%
+}
 .w-11\/12 {
     width: 91.666667%
 }
@@ -1855,6 +1863,10 @@ select {
 
 .grid-cols-3 {
     grid-template-columns:repeat(3, minmax(0, 1fr))
+}
+
+.grid-cols-4 {
+    grid-template-columns:repeat(4, minmax(0, 1fr))
 }
 
 .grid-cols-6 {
@@ -10163,7 +10175,7 @@ table a {
     }
 }
 
-@media (min-width: 640px) {
+@media (min-width: 640px) and (max-width: 770px) {
     .sm\:col-span-1 {
         grid-column: span 1/span 1
     }
@@ -10188,12 +10200,32 @@ table a {
         grid-column: span 12/span 12
     }
 
+    .sm\:col-start-1 {
+        grid-column-start: 1
+    }
+
+    .sm\:col-start-2 {
+        grid-column-start: 2
+    }
+
     .sm\:col-start-3 {
         grid-column-start: 3
     }
 
     .sm\:col-start-6 {
         grid-column-start: 6
+    }
+
+    .sm\:col-start-8 {
+        grid-column-start: 8
+    }
+
+    .sm\:col-start-9 {
+        grid-column-start: 9
+    }
+
+    .sm\:col-start-10 {
+        grid-column-start: 10
     }
 
     .sm\:m-0 {
@@ -10352,6 +10384,10 @@ table a {
 
     .sm\:flex {
         display: flex
+    }
+
+    .sm\:flex-wrap {
+        flex-wrap: wrap
     }
 
     .sm\:flex-col {
@@ -10600,7 +10636,7 @@ table a {
         padding-bottom: 1rem
     }
 
-            .sm\:pl-6 {
+    .sm\:pl-6 {
         padding-left: 1.5rem
     }
 
@@ -10648,6 +10684,10 @@ table a {
 
     .md\:col-span-2 {
         grid-column: span 2/span 2
+    }
+
+    .md\:col-span-4 {
+        grid-column: span 4/span 4
     }
 
     .md\:col-span-6 {
@@ -11201,7 +11241,7 @@ table a {
 
 
 
-@media (min-width: 1300px){
+@media (min-width: 1300px) and (max-width: 1700px){
     .lg\:col-span-1 {
         grid-column: span 1/span 1
     }
@@ -11349,6 +11389,14 @@ table a {
 
     .lg\:ml-96 {
         margin-left: 24rem
+    }
+
+    .lg\:ml-5 {
+        margin-right: 1.25rem
+    }
+
+    .lg\:justify-between {
+        justify-content: space-between
     }
 
     .lg\:block {
@@ -11543,7 +11591,34 @@ table a {
     }
 }
 
-@media (min-width: 1280px) and (max-width: 1025px){
+@media (min-width: 1500px) {
+
+    .xl\:col-span-1 {
+        grid-column: span 1/span 1
+    }
+    .xl\:hidden {
+        display: none
+    }
+    .xl\:col-span-2 {
+        grid-column: span 2/span 2
+    }
+
+    .xl\:col-span-3 {
+        grid-column: span 3/span 3
+    }
+
+    .xl\:col-span-4 {
+        grid-column: span 4/span 4
+    }
+
+    .xl\:col-span-6 {
+        grid-column: span 6/span 6
+    }
+
+    .xl\:col-span-12 {
+        grid-column: span 12/span 12
+    }
+
     .xl\:top-0 {
         top: 0
     }
@@ -11570,6 +11645,14 @@ table a {
         margin-top: -12rem
     }
 
+    .xl\:mr-5{
+        margin-right: 1.25rem
+    }
+
+    .xl\:ml-5{
+        margin-right: 1.25rem
+    }
+
     .xl\:ml-10 {
         margin-left: 2.5rem
     }
@@ -11584,6 +11667,14 @@ table a {
 
     .xl\:w-4\/5 {
         width: 80%
+    }
+
+    .xl\:justify-between {
+        justify-content: space-between
+    }
+
+    .xl\:grid-cols-8 {
+        grid-template-columns:repeat(8, minmax(0, 1fr))
     }
 
     .xl\:grid-cols-3 {
@@ -11623,10 +11714,53 @@ table a {
         flex-direction: column;
     }
 
+    .xl\:block {
+        display: block
+    }
+
+    .xl\:flex {
+        display: flex
+    }
+    .xl\:flex-row {
+        flex-direction: row;
+    }
+    .xl\:items-center {
+        align-items: center
+    }
+    .xs\:grid {
+        display: grid
+    }
+
+    .xs\:flex-col{
+        flex-direction: column;
+    }
+
+    .xs\:flex-wrap{
+        flex-wrap: wrap;
+    }
+
+    .xs\:justify-center{
+        justify-content: center;
+    }
+    xs\:grid-cols-1 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .xs\:grid-cols-2 {
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+
+    .xs\:grid-cols-3 {
+        grid-template-columns:repeat(3, minmax(0, 1fr));
+    }
 }
 
 
 @media (max-width: 700px) and (min-width: 320px){
+    .xs\:col-span-1 {
+        grid-column: span 1/span 1
+    }
+
     .xs\:col-span-8 {
         grid-column: span 8/span 8
     }
@@ -11829,7 +11963,7 @@ table a {
 .pl-12 {
     padding-left: 3rem
 }
-.xs\:px-12{
+.xs\:px-12 {
     padding-left:  3rem;
     padding-right: 3rem;
 }

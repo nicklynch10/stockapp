@@ -9,14 +9,15 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\Stock;
+use App\Models\Account;
 use App\Models\Transaction;
 use Livewire\Component;
 
 class CurrentHoldings extends Component
 {
     public $search;
-    public $sortColumn;
-    public $sortDirection;
+    public $sortColumn = "current_total_value";
+    public $sortDirection = "desc";
     public $currstock;
     public $current;
     public $buy;
@@ -31,8 +32,14 @@ class CurrentHoldings extends Component
     public $pchange;
     public $result;
     public $accountId;
+    public $accountFilter;
     protected $listeners = ['currentHolings' => 'render'];
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'accountFilter' => ['except' => ''],
+    ];
     public bool $loadData = false;
+
 
     public function render()
     {
@@ -44,59 +51,37 @@ class CurrentHoldings extends Component
                 'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
             ]);
         }
+        $this->account = Account::where('user_id', Auth::user()->id)->get();
         return view('livewire.current-holdings',['currentholding' => $this->fetchData()]);
     }
 
-    public function sortByAccount($accountid)
-    {
-         return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
-            ->join('stock','stock.id','view_stock_update.stock_id')
-            ->where('stock.user_id', Auth::user()->id)
-            ->where('stock.account_id',$accountid)
-            ->get();
-    }
 
-    public function sort($column,$accountId)
+    public function sort($column)
     {
-        if($column!='')
-        {
-            if($column != 0){
-                $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
-                $this->sortColumn = $column;
-            }
-            else{
-                $this->sortColumn = 'stock_ticker';
-            }
+        if($column != 0){
+            $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
+            $this->sortColumn = $column;
         }
-        else
-        {
-            return $this->accountId = $accountId;
+        else{
+            $this->sortColumn = 'stock_ticker';
         }
         return $this->fetchData();
     }
 
     public function fetchData()
     {
-        if($this->accountId)
-        {
-            return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
-                ->join('stock','stock.id','view_stock_update.stock_id')
-                ->where('stock.user_id', Auth::user()->id)
-                ->where('stock.account_id',$this->accountId)
-                ->get();
-        }
-        else
-        {
-            return ViewStockUpdate::select('view_stock_update.*','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')
-                ->where('stock.user_id', Auth::user()->id)
-                ->when($this->search, function ($q) {
-                    $q->where('company_name', 'like', "$this->search%");
-                })
-                ->when($this->sortColumn && $this->sortDirection, function ($q) {
-                    $q->orderBy($this->sortColumn, $this->sortDirection);
-                })
-                ->get();
-        }
+        return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')
+            ->where('stock.user_id', Auth::user()->id)
+            ->when($this->search, function ($q) {
+                $q->where('company_name', 'like', "$this->search%");
+            })
+            ->when($this->accountFilter, function ($q) {
+                $q->where('account_id', $this->accountFilter);
+            })
+            ->when($this->sortColumn && $this->sortDirection, function ($q) {
+                $q->orderBy($this->sortColumn, $this->sortDirection);
+            })
+            ->get();
     }
 
     public function company($id)

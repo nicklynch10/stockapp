@@ -5,7 +5,7 @@
 </x-slot>
 <main class="p-0 m-0 flex-grow ">
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
-        <div class="flex flex-col bg-yellow-200 sm:rounded-lg px-4 py-4 col-start-4 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
+        <div class="flex flex-col bg-yellow-200 sm:rounded-lg px-4 py-4 col-start-1 col-span-4 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5">
@@ -19,7 +19,7 @@
         </div>
         {{-- Box1  --}}
 
-        <div class="flex flex-col bg-green-300 sm:rounded-lg px-4 py-4 col-start-8 col-span-2 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
+        <div class="flex flex-col bg-green-300 sm:rounded-lg px-4 py-4 col-start-5 col-span-4 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5">
@@ -31,7 +31,6 @@
                 </div>
             </div>
         </div>
-
         {{-- Box2  --}}
 
     </div>
@@ -71,7 +70,7 @@
                                                                 <a class="whitespace-normal" >{{ $tl["ticker"] }}</a>
                                                             </h5>
                                                             <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $tl["company_name"] }}</p>
-{{--                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ \Carbon\Carbon::createFromTimestamp(strtotime($tl["dateofpurchase"]))->format('F jS, Y') }}</p>--}}
+                                                            {{--                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ \Carbon\Carbon::createFromTimestamp(strtotime($tl["dateofpurchase"]))->format('F jS, Y') }}</p>--}}
                                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $tl["long_term_gain"] }}</p>
                                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $tl["account"] }}	</p>
                                                         </div>

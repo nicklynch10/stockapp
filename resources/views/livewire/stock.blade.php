@@ -104,7 +104,7 @@
                                                             {{ convertType($s->issuetype) }}
                                                         </p>
                                                         <p class="pb-1 text-sm font-sans break-words font-light text-green-600">
-                                                            ${{ number_format($s->ave_cost,2)}}
+                                                            ${{ number_format($s->ave_cost * $s->share_number,2)}}
 {{--                                                            ${{ number_format((int)$s->ave_cost,2) * round((int)$s->share_number, 2) }}--}}
                                                         </p>
                                                         <p class="text-sm font-sans break-words font-light text-grey-dark">

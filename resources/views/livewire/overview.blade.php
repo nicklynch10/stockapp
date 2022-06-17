@@ -180,7 +180,7 @@
     @livewire('ave-cost-update')
     {{--  End Ave price update confirmation  --}}
 
-    @livewire('stock-share-sell');
+    @livewire('stock-share-sell')
 
     {{-- Stock Buy Modal  --}}
     @livewire('stock-buy-modal')

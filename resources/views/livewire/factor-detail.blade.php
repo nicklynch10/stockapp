@@ -236,7 +236,7 @@
 
     </style>
     <div class="mt-12">
-        <div class="grid gap-4 grid-cols-2 xs:grid-cols-1 lg:gap-2 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
+        <div class="grid gap-4 sm:gap-0.5 grid-cols-2 xs:grid-cols-1 lg:gap-2 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
             <div class="col-start-1 md:col-end-12 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 @php
                     $token = env('IEX_CLOUD_KEY', null);
@@ -260,9 +260,9 @@
                             </h5>
                             <div>
                                 @if($company['companyName'])
-                                <span class="text-4xl font-bold  sm:ml-10 lg:ml-10">
+                                <span class="lg:text-4xl xs:text-lg sm:text-xl font-bold  sm:ml-10 lg:ml-10">
                                         {{strtoupper($this->ticker)}} <br>
-                                    <span class="text-blue-500 font-bold text-2xl sm:ml-10"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
+                                    <span class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-10"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
                                 </span>
                                 @endif
                             </div>
@@ -281,7 +281,7 @@
                     </div>
                 </div>
                 <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
-                    <div class="grid  gap-2 xs:flex-col xs:flex xs:text-center xs:justify-center mr-1">
+                    <div class="grid  gap-2 xs:flex-col xs:flex xs:text-center mr-1">
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Market Cap:</span>
                             <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>

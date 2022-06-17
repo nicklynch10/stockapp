@@ -11727,32 +11727,6 @@ table a {
     .xl\:items-center {
         align-items: center
     }
-    .xs\:grid {
-        display: grid
-    }
-
-    .xs\:flex-col{
-        flex-direction: column;
-    }
-
-    .xs\:flex-wrap{
-        flex-wrap: wrap;
-    }
-
-    .xs\:justify-center{
-        justify-content: center;
-    }
-    xs\:grid-cols-1 {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-
-    .xs\:grid-cols-2 {
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-    }
-
-    .xs\:grid-cols-3 {
-        grid-template-columns:repeat(3, minmax(0, 1fr));
-    }
 }
 
 
@@ -11890,6 +11864,17 @@ table a {
     .xs\:py-10{
         padding-bottom: 10px;
         padding-top: 10px
+    }
+    xs\:grid-cols-1 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .xs\:grid-cols-2 {
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+
+    .xs\:grid-cols-3 {
+        grid-template-columns:repeat(3, minmax(0, 1fr));
     }
 
     table td:before {

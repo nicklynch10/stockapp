@@ -40,7 +40,7 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full">
+                            <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                 @if(isset($toploss) && count($toploss)>0)
                                     @foreach($toploss as $key=>$tl)
                                         <div class="m-2">
@@ -141,6 +141,12 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
     {{--  Company Detail  --}}
     @livewire('company-detail-modal')
     {{-- End Company detail  --}}

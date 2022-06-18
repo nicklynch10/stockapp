@@ -38,7 +38,7 @@
         </div>
     </div>
     <div>
-        <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-4 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
+        <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
             @forelse($currentholding as $curr)
                 @php
                     $companyname=explode('-',$curr->security_name)
@@ -68,7 +68,7 @@
                                             @endif
                                         </h5>
                                     </div>
-                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
+                                    <div class="flex flex-col justify-between leading-normal align items-center" style="width: 255px">
                                         <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                             <a class=" cursor-pointer whitespace-normal " wire:click="company({{ $curr->id }})">{{ $curr->stock_ticker }}</a>
                                         </h5>
@@ -77,7 +77,7 @@
                                         <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis: ${{ number_format($curr->ave_cost,2) }}</p>
                                         <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price: ${{ number_format($curr->current_share_price,2) }}</p>
                                     </div>
-                                    <div class="flex flex-col justify-between p-4 leading-normal">
+                                    <div class="flex flex-col justify-between leading-normal">
                                         <div class="flow-root">
                                             <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                                                 <li class="py-1 sm:py-4">

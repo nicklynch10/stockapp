@@ -36,7 +36,7 @@ class FactorDetail extends Component
 
     public function mount()
     {
-        $this->ticker = $_GET['Ticker'];
+        $this->ticker = $_GET['ticker'];
         $stockdata = StockTicker::where('ticker',$this->ticker)->first();
         if($stockdata == null)
         {
@@ -44,7 +44,7 @@ class FactorDetail extends Component
         }
         else
         {
-            $this->ticker = $_GET['Ticker'];
+            $this->ticker = $_GET['ticker'];
         }
     }
 

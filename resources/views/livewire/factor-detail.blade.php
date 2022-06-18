@@ -235,9 +235,43 @@
         }
 
     </style>
-    <div class="mt-12">
-        <div class="grid gap-4 sm:gap-0.5 grid-cols-2 xs:grid-cols-1 lg:gap-2 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
-            <div class="col-start-1 md:col-end-12 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+    <div class="mt-8">
+        <div class="mb-3">
+            <x-jet-section-title>
+                <x-slot name="title"></x-slot>
+                <x-slot name="description"></x-slot>
+            </x-jet-section-title>
+            <div class="flex justify-center overflow-auto">
+                <img src="/images/logo2.png" class="logo" style="height: 40px;">
+            </div>
+            <div class="flex justify-center mt-6 lg:text-lg overflow-auto  ">
+                <span>Stock Analysis And Screening tool for investors in USA.</span>
+            </div>
+            <div class="flex justify-center mt-6 lg:text-lg overflow-auto">
+                <div class="factor-width">
+                    <form action="{{route('analyze')}}" method="get">
+                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+                        <div class="relative">
+                            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                            <input type="text" value="{{ $this->ticker }}" name="ticker" id="default-search" class="inline p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""  placeholder="Enter Ticker...">
+
+                            <button type="submit" class="absolute top-2.5 bottom-2.5 bg-green-600 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="search_button">Search</button>
+                            <button disabled="" type="button" class="hidden absolute right-2 top-2.5 bottom-2.5 bg-green-600 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="spinner_icon" >
+                                <svg role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"></path>
+                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
+                                </svg>
+                                Loading...
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="grid sm:gap-0.5 md:gap-6 grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xs:grid-cols-1 xl:gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
+            <div class="col-start-1 md:col-end-6 lg:col-end-6 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 @php
                     $token = env('IEX_CLOUD_KEY', null);
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
@@ -248,7 +282,7 @@
                 @endphp
                 <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24">
                     <div class="mt-8 mb-4 flex justify-between">
-                        <div class="inline-flex">
+                        <div class="inline-flex items-center">
                             <h5 class="mb-2 tracking-tight text-gray-900 dark:text-white float-left">
                                 @php
                                     $count= strlen($this->ticker)
@@ -258,9 +292,9 @@
                                     <span class="break-all">{{strtoupper($this->ticker)}}</span>
                                 </div>
                             </h5>
-                            <div>
+                            <div class="ml-2">
                                 @if($company['companyName'])
-                                <span class="lg:text-4xl xs:text-lg sm:text-xl font-bold  sm:ml-10 lg:ml-10">
+                                <span class="lg:text-4xl xs:text-lg sm:text-xl font-bold">
                                         {{strtoupper($this->ticker)}} <br>
                                     <span class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-10"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
                                 </span>
@@ -268,8 +302,8 @@
                             </div>
                         </div>
                         @php
-                            $token = 'Tpk_c360aba9efce48ac94879b6d2b51d6bb';
-                            $endpoint = 'https://sandbox.iexapis.com/';
+                            $token = env('IEX_CLOUD_KEY', null);
+                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                             $url = ($endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $token);
                             $data = Http::get($url);
                             $stats = $data->json()
@@ -286,10 +320,12 @@
                             <span class="font-bold xs:m-3 my-3">Market Cap:</span>
                             <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
                         </div>
+
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Current Price:</span>
                             <span class="xs:m-3 mb-3">${{ number_format(($stats['latestPrice']),2,'.',',') }}</span>
                         </div>
+
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">High/Low:</span>
                             <span class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
@@ -299,6 +335,7 @@
                             <span class="font-bold xs:m-3 my-3">Stock PE:</span>
                             <span class="xs:m-3 mb-3">{{number_format( $stats['peRatio'],2)}} </span>
                         </div>
+
                         @if($company['sector'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                                 <span class="font-bold xs:m-3 my-3">Sector:</span>
@@ -329,7 +366,7 @@
                 </div>
             </div>
 
-            <div class="col-start-2 md:col-start-1 md:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+            <div class="col-start-2 md:col-end-6 lg:col-end-6 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center ml-3 mb-5 mt-8 pl-4 ">
                     <h2 class="text-2xl font-black">Factor Analysis <br>
                         <span class="font-bold text-lg">TaxGhost can help identify similar stocks & ETFs so you can tax loss harvest effectively</span>
@@ -475,7 +512,7 @@
                     </div>
                 </div>
 
-                <div  wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
+                <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                     @if ($loadData)
                         @if($ticker != "" & count($correlation)>0)
                             @foreach($correlation->sortByDesc("correlation")->slice(0, 500)->unique()->take(30) as $result)
@@ -483,54 +520,52 @@
                                     <div class="m-2">
                                         <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                             <div class="mt-3 my-1">
-                                                <div class="flex flex-row items-center xs:flex-col xl:flex-col md:flex-col">
-                                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center w-full">
-                                                        <?php
-                                                        $string = $result->ticker2;
-                                                        if (strpos($string, "http") === 0) {
-                                                            $logoUrl = $result->ticker2;
-                                                        }
-                                                        ?>
+                                                <div class="flex flex-row items-center xs:flex-col">
+                                                    <div class="flex flex-col justify-between p-4 leading-normal align items-center xs:w-full md:w-2/5 xl:w-2/5" style="background: #f3f4f6">
+                                                        @php
+                                                            $string = $result->ticker2;
+                                                            if (strpos($string, "http") === 0) {
+                                                                $logoUrl = $result->ticker2;
+                                                            }
+                                                        @endphp
                                                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                                             @if(isset($logourl))
                                                                 <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                             @else
-
                                                                 @php
                                                                     $count= strlen($result->ticker2)
                                                                 @endphp
-                                                                <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                                                <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-white flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
                                                                     <span class="break-all">{{strtoupper($result->ticker2)}}</span>
                                                                 </div>
                                                             @endif
                                                         </h5>
                                                         <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
-                                                            <a class=" cursor-pointer whitespace-normal ">{{$result->ticker2}}</a>
+                                                            <a class=" cursor-pointer whitespace-normal">{{ $result->ticker2 }}</a>
                                                         </h5>
-                                                        <p class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</p>
-
+                                                        <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
                                                     </div>
-                                                    <div class="flex flex-col justify-between leading-normal w-3/4">
+                                                    <div class="flex flex-col justify-between leading-normal xs:w-full md:pl-3 xl:pl-15 md:w-3/5 xl:w-3/5">
                                                         <div class="flow-root">
-                                                            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                                            <ul role="list" class="divide-y divide-gray-200 m-2 dark:divide-gray-700">
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 Correlation with {{$ticker}}:
-                                                                            </p>
+                                                                            </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center break-all text-sm">
-                                                                            <p class="break-all">~{{number_format($result->correlation*100,0).'%'}}</p>
+                                                                            <span class="break-all">~{{number_format($result->correlation*100,0).'%'}}</span>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 Beta:
-                                                                            </p>
+                                                                            </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
                                                                             {{number_format($result->SI2->beta,2)}}
@@ -540,9 +575,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 Dividend Yield:
-                                                                            </p>
+                                                                            </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm">
                                                                             {{number_format($result->SI2->div_yield*100,2).'%'}}
@@ -552,13 +587,13 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 @if($etfs)
                                                                                     AUM:
                                                                                 @else
                                                                                     Market Cap:
                                                                                 @endif
-                                                                            </p>
+                                                                            </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm text-green-700">
                                                                             ${{number_format($result->SI2->marketcap/1000,0).'M'}}
@@ -577,13 +612,13 @@
                                                                     <li class="py-1 sm:py-4">
                                                                         <div class="flex items-center space-x-4">
                                                                             <div class="flex-1 min-w-0">
-                                                                                <p class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                                <span class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                     @if($etfs)
                                                                                         Expense Ratio:
                                                                                     @else
                                                                                         PE Ratio:
                                                                                     @endif
-                                                                                </p>
+                                                                                </span>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm text-green-700">
                                                                                 @if($stats!='')
@@ -598,9 +633,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1">
-                                                                            <p class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
                                                                                 1 Year % Change:
-                                                                            </p>
+                                                                            </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm text-right {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">
                                                                             {{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}}
@@ -615,7 +650,7 @@
                                             <div class="py-1 sm:py-4">
                                                 <div class="flex items-center space-x-4">
                                                     <div
-                                                        class="items-center break-words text-center text-sm mx-10 ">
+                                                        class="items-center break-words text-center text-sm">
                                                         @php
                                                             $data = $tag
                                                         @endphp
@@ -624,7 +659,7 @@
                                                                 $con = $g;
                                                                 $inarr = in_array(sorted($con), array_map("sorted", $data))
                                                             @endphp
-                                                            <div class="mr-2 mb-2 inline-block">
+                                                            <div class="mr-1 mb-1 inline-block">
                                                                 <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                                                     {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
                                                                 </div>
@@ -643,11 +678,9 @@
                                                         <div class="bar-container">
                                                             <div class="bar"></div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 @elseif(!isset($result->ticker2))
@@ -665,8 +698,6 @@
                         </button>
                     @endif
                 </div>
-
-
             </div>
         </div>
 

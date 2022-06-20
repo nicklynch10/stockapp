@@ -27,7 +27,7 @@ if (!function_exists('getFactor')) {
         //creates an Factor from a ticker
         // will not create if exists already
 
-        $f = Factor::all()->where("ticker1", $ticker1)->where("ticker2", $ticker2)->where("operator", $operator)->first();
+        $f = Factor::where("ticker1",$ticker1)->where("ticker2",$ticker2)->orderBy('id','desc')->first();
         if (!$f) {
             $f = new Factor();
             $f->create($ticker1, $ticker2);

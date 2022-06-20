@@ -11994,3 +11994,35 @@ table a {
     padding-left:  3rem;
     padding-right: 3rem;
 }
+
+
+
+@media (min-width: 640px) {
+    .sm\:max-w-msm {
+        max-width: 24rem
+    }
+
+    .sm\:max-w-mmd {
+        max-width: 28rem
+    }
+
+    .sm\:max-w-mlg {
+        max-width: 32rem
+    }
+
+    .sm\:max-w-mxl {
+        max-width: 36rem
+    }
+
+    .sm\:max-w-m2xl {
+        max-width: 42rem
+    }
+
+    .sm\:max-w-m3xl {
+        max-width: 85rem
+    }
+    .sm\:mx-mauto {
+        margin-left: auto;
+        margin-right: auto
+    }
+}

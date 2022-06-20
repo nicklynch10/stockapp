@@ -20,7 +20,7 @@
         .blind.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             right: -33px;
@@ -33,7 +33,7 @@
         .blind.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 41px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -47,7 +47,7 @@
         .blinds.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 41px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -61,7 +61,7 @@
         .blinds.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             right: -33px;
@@ -75,7 +75,7 @@
         .blindsLow.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             right: -33px;
@@ -88,7 +88,7 @@
         .blindsLow.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 41px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -102,7 +102,7 @@
         .blindsLagging.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             right: -33px;
@@ -115,7 +115,7 @@
         .blindsLagging.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 41px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -129,7 +129,7 @@
         .blindsFixed.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             right: -33px;
@@ -142,7 +142,7 @@
         .blindsFixed.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 41px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -157,7 +157,7 @@
         .blindsEmerging.left-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             right: -33px;
@@ -170,7 +170,7 @@
         .blindsEmerging.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 33px 33px;
+            background-size: 41px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -199,8 +199,8 @@
         }
 
         .bar-main-container {
-            margin: 10px auto;
-            width: 60%;
+            margin: 18px auto 0px auto;
+            width: 70%;
             height: 50px;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
@@ -234,6 +234,36 @@
             opacity: 1;
         }
 
+        .to-brand-green-dark {
+             --tw-gradient-to: #33a34d;
+        }
+        .from-brand-tango {
+            --tw-gradient-from: #ed7b1c;
+            --tw-gradient-stops: var(--tw-gradient-from),var(--tw-gradient-to,rgb(237 123 28/0));
+        }
+        .bg-gradient-to-r{
+            background-image:linear-gradient(to right,var(--tw-gradient-stops));
+        }
+        .bg-black {
+            --tw-bg-opacity: 1;
+            background-color: rgb(0 0 0/var(--tw-bg-opacity));
+        }
+        .transform {
+            transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+        }
+        .rotate-45 {
+            --tw-rotate: 45deg;
+        }
+        .origin-bottom-left {
+            transform-origin: bottom left;
+        }
+        .w-2 {
+            width: 0.5rem;
+        }
+        .h-2 {
+            height: 0.5rem;
+        }
+
     </style>
     <div class="mt-8">
         <div class="mb-3">
@@ -244,7 +274,7 @@
             <div class="flex justify-center overflow-auto">
                 <img src="/images/logo2.png" class="logo" style="height: 40px;">
             </div>
-            <div class="flex justify-center mt-6 lg:text-lg overflow-auto  ">
+            <div class="flex justify-center mt-6 lg:text-lg">
                 <span>Stock Analysis And Screening tool for investors in USA.</span>
             </div>
             <div class="flex justify-center mt-6 lg:text-lg overflow-auto">
@@ -671,12 +701,51 @@
                                             <div class="py-1 sm:py-4">
                                                 <div class="flex items-center space-x-4">
                                                     <div id="bar-1" class="bar-main-container azure mt-8">
-                                                        <div class="hidden bar-percentage"
-                                                             data-percentage="{{(int)$stats['iexClose']}}"></div>
-                                                        <span class="float-left">{{'$'.number_format(($stats['week52Low']),2,'.',',')}}</span>
-                                                        <span class="float-right">{{'$'.number_format(($stats['week52High']),2,'.',',')}}</span>
-                                                        <div class="bar-container">
-                                                            <div class="bar"></div>
+                                                        <div class="">
+                                                            <div
+                                                                class="flex flex-col w-full items-center justify-center">
+                                                                <div class="flex justify-between items-center w-full">
+                                                                    <div
+                                                                        class="text-sm font-semibold">{{'$'.number_format(($stats['week52Low']),2,'.',',')}}</div>
+                                                                    <div
+                                                                        class="text-sm font-medium text-brand-grey-base text-center">
+                                                                        52-Week Price Range
+                                                                    </div>
+                                                                    <div
+                                                                        class="text-sm font-semibold">{{'$'.number_format(($stats['week52High']),2,'.',',')}}</div>
+                                                                </div>
+                                                                <div
+                                                                    class="flex w-full h-1 bg-gradient-to-r from-brand-tango to-brand-green-dark rounded-lg"></div>
+                                                                <div class="w-full relative">
+                                                                    @php
+                                                                        $val = ceil((int)$stats['iexClose']);
+                                                                        if($val > 700)
+                                                                        {
+                                                                           if($val > 1000)
+                                                                           {
+                                                                               $left = (int)$stats['iexClose']/1000;
+                                                                           }
+                                                                           else
+                                                                           {
+                                                                               $left = (int)$stats['iexClose']/100;
+                                                                           }
+                                                                        }
+                                                                        elseif($val >100)
+                                                                        {
+                                                                            $left = (int)$stats['iexClose']/10;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            $left = (int)$stats['iexClose'];
+                                                                        }
+                                                                    @endphp
+                                                                    <div class="w-4 overflow-hidden absolute"
+                                                                         style="left:{{$left}}%">
+                                                                        <div
+                                                                            class=" h-2 w-2 bg-black rotate-45 transform origin-bottom-left"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

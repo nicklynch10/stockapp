@@ -48,7 +48,7 @@ class CurrentHoldings extends Component
             $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
             $result = Stock::find($st->id);
             $result->update([
-                'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." days held" : "Short / ".$diff->days." days held",
+                'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." day held" : "Short / ".$diff->days." day held",
             ]);
         }
         $this->account = Account::where('user_id', Auth::user()->id)->get();

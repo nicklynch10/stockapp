@@ -7,7 +7,7 @@
         <div class="flex justify-center overflow-auto">
             <img src="/images/logo2.png" class="logo" style="height: 40px;">
         </div>
-        <div class="flex justify-center mt-6 lg:text-lg overflow-auto  ">
+        <div class="flex justify-center mt-6 lg:text-lg">
             <span>Stock Analysis And Screening tool for investors in USA.</span>
         </div>
         <div class="flex justify-center mt-6 lg:text-lg overflow-auto">

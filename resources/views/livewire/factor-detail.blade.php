@@ -336,7 +336,7 @@
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                             $url = ($endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $token);
                             $data = Http::get($url);
-                            $stats = $data->json()
+                            $stats = $data->json();
                         @endphp
                         <div class="float-right grid-rows-2 mr-10 ">
                             <span class="row-span-1 font-bold text-xl ">${{ number_format(($stats['latestPrice']),2,'.',',')}}</span><br/>
@@ -375,6 +375,24 @@
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Issue Type:</span>
                             <span class="xs:m-3 mb-3">{{ convertType($company['issueType']) }}</span>
+                        </div>
+                        @php
+                            $token = env('IEX_CLOUD_KEY', null);
+                            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
+                            $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/stats?token=' . $token);
+                            $stats = $symbol->json();
+                        @endphp
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">Beta:</span>
+                            <span class="xs:m-3 mb-3">{{ number_format($stats['beta'], 2) }}</span>
+                        </div>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">Dividend Yield:</span>
+                            <span class="xs:m-3 mb-3">{{ number_format($stats['dividendYield']*100, 2) }}%</span>
+                        </div>
+                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                            <span class="font-bold xs:m-3 my-3">1 Year % Change:</span>
+                            <span class="xs:m-3 mb-3">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2) : "(".number_format($stats['year1ChangePercent']*100, 2) .")"  }}%</span>
                         </div>
                         <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">
                             @if(isset($tag))
@@ -691,7 +709,7 @@
                                                             @endphp
                                                             <div class="mr-1 mb-1 inline-block">
                                                                 <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                                                                    {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
+                                                                    {!! $inarr == true ? "<b style='color: #15803d'>".$g."</b>" : "".$g."" !!}
                                                                 </div>
                                                             </div>
                                                         @endforeach

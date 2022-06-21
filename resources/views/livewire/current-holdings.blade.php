@@ -45,7 +45,7 @@
                 @endphp
                 @if($curr->share_number!=0)
                     <div class="m-2">
-                        <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
+                        <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between px-4" style="min-width: 100px; ">
                             <div class="mt-3 my-1">
                                 <div class="flex flex-row items-center xs:flex-col lg:flex-col md:flex-col">
                                     <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 115px">

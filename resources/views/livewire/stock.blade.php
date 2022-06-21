@@ -165,6 +165,6 @@
     {{--  End Ave price update confirmation  --}}
 
     {{-- Stock Share Sell Confirmation --}}
-    @livewire('stock-share-sell');
+    @livewire('stock-share-sell')
     {{-- End Stock Share Sell Confirmation --}}
 </main>

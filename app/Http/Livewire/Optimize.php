@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Account;
 use App\Models\Stock;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,12 @@ class Optimize extends Component
     public $nagative = 0;
     public $harvestableLosses = 0;
     public $potentialSavings = 0;
+    public $sortBy;
+
+    public function mount()
+    {
+        $this->sortBy = "";
+    }
 
     public function render()
     {
@@ -35,8 +42,12 @@ class Optimize extends Component
 
 
         $topLoss = [];
+        if ($this->sortBy) {
+            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->where('account_id',$this->sortBy)->get();
+        }else{
+            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->get();
+        }
 
-        $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->get();
         foreach ($stock as $st)
         {
             $totalSell = 0;
@@ -79,6 +90,11 @@ class Optimize extends Component
                 array_multisort($psaving, SORT_DESC, $topLoss);
             }
         }
+
+        $this->account = Account::where('user_id', Auth::user()->id)->get();
+
         return view('livewire.optimize',['toploss' => $topLoss]);
     }
+
+
 }

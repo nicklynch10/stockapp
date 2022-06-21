@@ -261,7 +261,7 @@ class SecInfo extends Model
     }
 
 
-    public function pullIEXPeers($peerData=[])
+    public function pullIEXPeers()
     {
         if (!$this->IEXpeer_data) {
 
@@ -287,11 +287,7 @@ class SecInfo extends Model
         //     }
         // }
 
-        if($peerData){
-            $new = $peerData;
-        }else{
-            $new = $this->getPeerData();  // starts with existing peer data and adds new ones
-        }
+        $new = $this->getPeerData();  // starts with existing peer data and adds new ones
 
         // cleans the peer data for valid peers only
         $new2 = collect([]);
@@ -337,7 +333,7 @@ class SecInfo extends Model
             }
             $this->peer_data = json_encode($new->toArray());
         }
-        $this->pullIEXPeers($new);
+        $this->pullIEXPeers();
     }
 
 

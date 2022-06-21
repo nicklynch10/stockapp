@@ -39,6 +39,14 @@
             <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="inline-flex items-center space-x-2 float-right">
+                            <select  wire:model="sortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Filter By Account</option>
+                                @foreach($this->account as $account)
+                                    <option value="{{$account->id}}">{{$account->account_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
                             <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                 @if(isset($toploss) && count($toploss)>0)
@@ -141,12 +149,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
     {{--  Company Detail  --}}
     @livewire('company-detail-modal')
     {{-- End Company detail  --}}

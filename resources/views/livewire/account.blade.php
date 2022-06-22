@@ -27,8 +27,6 @@
                         Link accounts using Plaid
                     </button>
 
-                    <x-jet-button wire:click="get_institutions()" class="py-2 px-4 my-3" id="add">{{__('Auto refresh plaid transaction') }}</x-jet-button>
-
 {{--                   <x-jet-button class="py-2 px-4 my-3" id="add">{{__('Auto refresh plaid transaction') }}</x-jet-button>--}}
                     <div class="account shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
                         <table>
@@ -332,7 +330,7 @@
 {{--    development--}}
     <script>
         linkHandler = Plaid.create({
-            env:"sandbox",
+            env:"development",
             token: '{{ $this->token }}',
             onSuccess: (public_token, metadata) => {
                 Livewire.emit('getAccessToken',public_token);

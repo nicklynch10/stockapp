@@ -6,6 +6,7 @@ use App\Models\SecCompare;
 use App\Models\Stock;
 use App\Models\StockTicker;
 use App\Models\Transaction;
+use Capsule\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -15,6 +16,9 @@ use App\Models\Account as Accounts;
 class Account extends Component
 {
     public $isOpen = 0;
+    public $isOpenPlaid = 0;
+    public $isLoading = 0;
+    public $isLoadingVal = 0;
     public $user_id;
     public $account_type;
     public $account_name;
@@ -32,6 +36,7 @@ class Account extends Component
     public $beforeDate;
     public $message;
     public $accounts;
+    public $InsertedID = [];
     protected $listeners = ['getToken' => 'render', 'getAccessToken' => 'getAccessToken'];
 
     public function render()
@@ -199,7 +204,7 @@ class Account extends Component
                                     'issuetype' => $se->type == 'etf' ? 'et' :null,
                                 ]);
                                 $lastInsertedID = $insertid->id;
-
+                                array_push($this->InsertedID,$lastInsertedID);
                                 Transaction::Create([
                                     'stock_id' => $lastInsertedID,
                                     'type' => 0,
@@ -253,7 +258,6 @@ class Account extends Component
     public function addInvestment($data)
     {
         $response = $data;
-        $InsertedID = [];
         $getStock = Stock::where('user_id',Auth::user()->id)->get();
         foreach ($getStock as $stock)
         {
@@ -267,30 +271,30 @@ class Account extends Component
 //                            //
 //                        }
 //                        else{
-                            $transactionCheck = Transaction::where(['type' => 1,'plaid_investment_transaction_id' => $inv->security_id, 'user_id' => Auth::user()->id,'stock' => $inv->quantity])->first();
-                            $stockCheck = Stock::where(['security_id' => $inv->security_id,'user_id' => Auth::user()->id])->first();
-                            if($stockCheck != null && $transactionCheck==null)
-                            {
-                                if($stock->id){
-                                    Transaction::create([
-                                        'stock_id' => $stock->id,
-                                        'type' => 1,
-                                        'ticker_name' => $stock->stock_ticker,
-                                        'stock' => abs($inv->quantity),
-                                        'share_price' => $inv->price!=null ? $inv->price/$inv->quantity : 0,
-                                        'user_id' => Auth::user()->id,
-                                        'date_of_transaction' => $inv->date,
-                                        'plaid_investment_transaction_id' => $inv->security_id,
-                                    ]);
+                        $transactionCheck = Transaction::where(['type' => 1,'plaid_investment_transaction_id' => $inv->security_id, 'user_id' => Auth::user()->id,'stock' => $inv->quantity])->first();
+                        $stockCheck = Stock::where(['security_id' => $inv->security_id,'user_id' => Auth::user()->id])->first();
+                        if($stockCheck != null && $transactionCheck==null)
+                        {
+                            if($stock->id){
+                                Transaction::create([
+                                    'stock_id' => $stock->id,
+                                    'type' => 1,
+                                    'ticker_name' => $stock->stock_ticker,
+                                    'stock' => abs($inv->quantity),
+                                    'share_price' => $inv->price!=null ? $inv->price/$inv->quantity : 0,
+                                    'user_id' => Auth::user()->id,
+                                    'date_of_transaction' => $inv->date,
+                                    'plaid_investment_transaction_id' => $inv->security_id,
+                                ]);
 
-                                    $current_stock=Stock::select('share_number')->where('id',$stock->id)->first();
-                                    $final_stock=$current_stock->share_number-abs($inv->quantity);
-                                    $record = Stock::find($stock->id);
-                                    $record->update([
-                                        'share_number' => $final_stock,
-                                    ]);
-                                }
+                                $current_stock=Stock::select('share_number')->where('id',$stock->id)->first();
+                                $final_stock=$current_stock->share_number-abs($inv->quantity);
+                                $record = Stock::find($stock->id);
+                                $record->update([
+                                    'share_number' => $final_stock,
+                                ]);
                             }
+                        }
 //                        }
                     }
                     elseif ($inv->type == "buy")
@@ -338,7 +342,7 @@ class Account extends Component
                                 'date_of_transaction' => $inv->date,
                                 'plaid_investment_transaction_id' => $inv->security_id,
                             ]);
-                            array_push($InsertedID,$lastInsertedID);
+                            array_push($this->InsertedID,$lastInsertedID);
                         }
                         else
                         {
@@ -356,12 +360,14 @@ class Account extends Component
                 }
             }
         }
-        if(count($InsertedID)>0)
+        if(count($this->InsertedID)>0)
         {
-            $this->dispatchBrowserEvent('alert', [
-                'type' => 'success',
-                'message' => 'Plaid All Accounts And There Holdings Synch with TaxGhost Successfully',
-            ]);
+            $this->isloading();
+            $this->openPlaidDataModal($this->InsertedID);
+//            $this->dispatchBrowserEvent('alert', [
+//                'type' => 'success',
+//                'message' => 'Plaid All Accounts And There Holdings Synch with TaxGhost Successfully',
+//            ]);
         }
         else
         {
@@ -487,5 +493,49 @@ class Account extends Component
             'type' => 'success',
             'message' => 'Account Set As Default'
         ]);
+    }
+
+    public $inputs = [];
+    public function openPlaidDataModal($InsertedID)
+    {
+        foreach($InsertedID as $a)
+        {
+            $stock = Stock::where('id', $a)->first();
+            if(!($stock['stock_ticker'] && $stock['share_number'] && $stock['ave_cost'] && $stock['company_name'] &&
+                $stock['current_share_price'] && $stock['issuetype'] ))
+            {
+                $data = [
+                    'id' => $stock['id'],
+                    'stock_ticker' => $stock['stock_ticker'],
+                    'share_number' => $stock['share_number'],
+                    'ave_cost' => $stock['ave_cost'],
+                    'company_name' => $stock['company_name'],
+                    'current_share_price' => $stock['current_share_price'],
+                    'issuetype' => $stock['issuetype'],
+                ];
+                array_push($this->inputs ,$data);
+            }
+        }
+    }
+
+    public function openplaidmodal()
+    {
+        $this->isLoading = false;
+        $this->isOpenPlaid = true;
+    }
+
+    public function isloading()
+    {
+        $this->isLoading = true;
+    }
+
+    public function closeIsLoading()
+    {
+        $this->isLoading = false;
+    }
+
+    public function isClosePlaid()
+    {
+        $this->isOpenPlaid = false;
     }
 }

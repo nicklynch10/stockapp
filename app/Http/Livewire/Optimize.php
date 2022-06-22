@@ -56,20 +56,20 @@ class Optimize extends Component
             $totalPSell = $st->ave_cost;
             $transaction = Transaction::where('stock_id',$st->id)->get();
 
-            foreach ($transaction as $t)
-            {
-                if($t->type == 0)
-                {
-                    $totalBuy = $t->share_price;
-                    $totalShare = $t->stock;
-                }
-                elseif ($t->type == 1)
-                {
-                    $totalSell = $t->share_price;
-                }
-            }
-            if($totalBuy!=0 && $totalBuy > $totalSell)
-            {
+//            foreach ($transaction as $t)
+//            {
+//                if($t->type == 0)
+//                {
+//                    $totalBuy = $t->share_price;
+//                    $totalShare = $t->stock;
+//                }
+//                elseif ($t->type == 1)
+//                {
+//                    $totalSell = $t->share_price;
+//                }
+//            }
+//            if($totalBuy!=0 && $totalBuy > $totalSell)
+//            {
                 $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
                 $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
                 $potentialSavings = $dLosss*40/100;
@@ -85,10 +85,11 @@ class Optimize extends Component
                         "long_term_gain" => $st->total_long_term_gains,
                         "ticker_logo" => $st->ticker_logo,
                         "account" => $st->account_name,
+                        "share_number" => $st->share_number,
                     ]);
                 $psaving = array_column($topLoss, 'potentialSavings');
                 array_multisort($psaving, SORT_DESC, $topLoss);
-            }
+//            }
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();

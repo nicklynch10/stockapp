@@ -4,6 +4,47 @@
     </h2>
 </x-slot>
 <main class="p-0 m-0 flex-grow ">
+    <style>
+        .circleBase {
+            border-radius: 50%;
+        }
+        .circle1 {
+            width: 20px;
+            height: 20px;
+            background: #FDE14DFF;
+            border: 1px solid #FDE14DFF;
+        }
+        .circle2 {
+            width: 20px;
+            height: 20px;
+            background: red;
+            border: 1px solid red;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            right: 105%;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
     <div class="container mx-auto px-4 py-10 md:py-12 grid grid-cols-12 gap-2">
         <div class="flex flex-col bg-yellow-200 sm:rounded-lg px-4 py-4 col-start-1 col-span-4 sm:col-span-4 xs:col-span-12 xs:col-start-2 rounded-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
@@ -54,6 +95,26 @@
                                         <div class="m-2">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                                 <div class="mt-3 my-1">
+                                                    <div class="flex flex-col float-right xs:flex-col xl:flex-col md:flex-col">
+                                                        @if($tl['share_number'] == 0)
+                                                            @php
+                                                                $todaydate = \Carbon\Carbon::now()->format('Y-m-d');
+                                                                $beforeDate = date('Y-m-d', strtotime('-31 day'));
+                                                                $selldate = App\Models\Transaction::where(['stock_id' => $tl['id'], 'type' => 1])->first();
+                                                            @endphp
+                                                            @if($selldate != null)
+                                                                @if(($selldate['date_of_transaction'] <= $todaydate) && ($selldate['date_of_transaction'] >= $beforeDate))
+                                                                    <div class="circleBase circle2 tooltip">
+                                                                        <span class="tooltiptext">You sold this security within 30 days. Purchasing it again would likely trigger a wash sale</span>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        @else
+                                                            <div class="circleBase circle1 tooltip">
+                                                                <span class="tooltiptext">You currently own shares of this security</span>
+                                                            </div>
+                                                         @endif
+                                                    </div>
                                                     <div class="flex flex-col items-center xs:flex-col xl:flex-col md:flex-col">
                                                         <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
                                                             @php

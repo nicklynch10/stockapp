@@ -28,40 +28,109 @@
                     </button>
 
 {{--                   <x-jet-button class="py-2 px-4 my-3" id="add">{{__('Auto refresh plaid transaction') }}</x-jet-button>--}}
-                    <div class="account shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
-                        <table>
+                    <div class="xs:hidden shadow overflow-hidden border-b border-gray-200 sm: rounded-lg table-align">
+                        <table  class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-300 xs:hidden">
                             <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
-                                <th class="px-6 py-4">Set as Default</th>
-                                <th class="px-6 py-4">Account Name</th>
-                                <th class="px-6 py-4">Account Type</th>
-                                <th class="px-6 py-4">Account Brokerage</th>
-                                <th class="px-6 py-4">Commission Rate per Share</th>
-                                <th class="px-6 py-4">Date Created</th>
-                                <th class="px-6 py-4">Action</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Set as Default</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Account Name</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Account Type</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Account Brokerage</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Commission Rate per Share</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Date Created</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Action</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                             @forelse($this->account as $acc)
-                                <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black xs:mb-2 xs:border-r-11">
-                                    <td data-label="Set as Default" class="px-6 py-4 whitespace-nowrap text-center text-gray-90 xs:text-right xs:block xs:text-xs"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
-                                    <td data-label="Account Name" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 accountnameorder xs:text-right xs:block xs:text-xs">{{$acc->account_name}}</td>
-                                    <td data-label="Account Type" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_type}}</td>
-                                    <td data-label="Account Brokerage" class="px-6 py-4 text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{$acc->account_brokerage}}</td>
-                                    <td data-label="Commission Rate per Share" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>
-                                    <td data-label="Date Created" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
-                                    <td data-label="Action" class="px-6 py-4 whitespace-nowrap text-center text-gray-900 xs:text-right xs:block xs:text-xs">
+                                <tr class="">
+                                    <td  class="px-6 py-4 whitespace-nowrap"><input type="checkbox" class="shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline" {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})"></td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 ">{{$acc->account_name}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 ">{{$acc->account_type}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{$acc->account_brokerage}}</td>
+                                    <td  class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">
                                         <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
                                     </td>
                                 </tr>
                             @empty
-                                <tr class="xs:bg-white xs:flex xs:flex-col xs:border-2-solid-black">
-                                    <th class="px-6 py-4 whitespace-nowrap text-center text-gray-900" colspan="8">No Account Found</th>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap" colspan="100%">
+                                        <div class="flex items-center justify-center text-gray-600 h-16 opacity-50 text-md">
+                                            <span class="mr-3"><i class="fa fa-envelope"></i></span>
+                                            <span class="text-lg">No Account Found</span>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforelse
                             </tbody>
                         </table>
                     </div>
+                        <div class="col-span-12 block xl:hidden lg:hidden md:hidden sm:hidden overflow-auto">
+                            @forelse($this->account as $acc)
+                                <table class="mb-4 " style="border: 2px solid #00000073 ;">
+                                    <tbody class="flex-1">
+
+                                    <tr class="xs:border-2-solid-black xs:mb-2 xs:border-r-11" style="background: #00c80696;">
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Account Name</td>
+                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
+                                            <p class="mr-5">{{$acc->account_name}}</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Set as Default</td>
+                                        <td class="text-right text-sm">
+                                            <input type="checkbox" class="mr-5 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                   {{$acc->set_default==1?"checked disabled":""}} wire:click="set_default({{$acc->id}})">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Account Type</td>
+                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
+                                            <p class="mr-5">{{$acc->account_type}}</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Account Brokerage</td>
+                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
+                                            <p class="mr-5"> {{$acc->account_brokerage}}</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Commission Rate per Share</td>
+                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
+                                            <p class="mr-5">${{number_format($acc->commission,2)}}</p>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Date Created</td>
+                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
+                                            <p class="mr-5">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</p>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Action</td>
+                                        <td class="text-right truncate mr" style="font-size: 0.750rem;line-height: 1.25rem;">
+                                            <p class="mr-5">
+                                                <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            @empty
+                                <tr>
+                                    <th class="text-center px-6 py-4" colspan="8"><i class="fa fa-chart-line"></i>No Account Found</th>
+                                </tr>
+                            @endforelse
+                        </div>
                     <div id="account"></div>
                 </div>
             </div>

@@ -180,6 +180,7 @@
             min-height: 33px;
             right: auto;
         }
+
         .visually-hidden {
             position: absolute !important;
             width: 1px !important;
@@ -235,31 +236,39 @@
         }
 
         .to-brand-green-dark {
-             --tw-gradient-to: #33a34d;
+            --tw-gradient-to: #33a34d;
         }
+
         .from-brand-tango {
             --tw-gradient-from: #ed7b1c;
-            --tw-gradient-stops: var(--tw-gradient-from),var(--tw-gradient-to,rgb(237 123 28/0));
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(237 123 28/0));
         }
-        .bg-gradient-to-r{
-            background-image:linear-gradient(to right,var(--tw-gradient-stops));
+
+        .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--tw-gradient-stops));
         }
+
         .bg-black {
             --tw-bg-opacity: 1;
             background-color: rgb(0 0 0/var(--tw-bg-opacity));
         }
+
         .transform {
-            transform: translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
         }
+
         .rotate-45 {
             --tw-rotate: 45deg;
         }
+
         .origin-bottom-left {
             transform-origin: bottom left;
         }
+
         .w-2 {
             width: 0.5rem;
         }
+
         .h-2 {
             height: 0.5rem;
         }
@@ -274,24 +283,41 @@
             <div class="flex justify-center overflow-auto">
                 <img src="/images/logo2.png" class="logo" style="height: 40px;">
             </div>
-            <div class="flex justify-center mt-6 lg:text-lg">
+            <div class="flex justify-center mt-6 lg:text-lg xs:mx-4">
                 <span>Stock Analysis And Screening tool for investors in USA.</span>
             </div>
-            <div class="flex justify-center mt-6 lg:text-lg overflow-auto">
+            <div class="flex justify-center mt-6 lg:text-lg overflow-auto xs:mx-4">
                 <div class="factor-width">
                     <form action="{{route('analyze')}}" method="get">
-                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+                        <label for="default-search"
+                               class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
                         <div class="relative">
                             <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor"
+                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
                             </div>
-                            <input type="text" value="{{ $this->ticker }}" name="ticker" id="default-search" class="inline p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""  placeholder="Enter Ticker...">
+                            <input type="text" value="{{ $this->ticker }}" name="ticker" id="default-search"
+                                   class="inline p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   required="" placeholder="Enter Ticker...">
 
-                            <button type="submit" class="absolute top-2.5 bottom-2.5 bg-green-600 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="search_button">Search</button>
-                            <button disabled="" type="button" class="hidden absolute right-2 top-2.5 bottom-2.5 bg-green-600 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" id="spinner_icon" >
-                                <svg role="status" class="inline w-4 h-4 mr-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"></path>
-                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"></path>
+                            <button type="submit"
+                                    class="absolute top-2.5 bottom-2.5 bg-green-600 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    id="search_button">Search
+                            </button>
+                            <button disabled="" type="button"
+                                    class="hidden absolute right-2 top-2.5 bottom-2.5 bg-green-600 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    id="spinner_icon">
+                                <svg role="status" class="inline w-4 h-4 mr-3 text-white animate-spin"
+                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="#E5E7EB"></path>
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentColor"></path>
                                 </svg>
                                 Loading...
                             </button>
@@ -300,8 +326,10 @@
                 </div>
             </div>
         </div>
-        <div class="grid sm:gap-0.5 md:gap-6 grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xs:grid-cols-1 xl:gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center">
-            <div class="col-start-1 md:col-end-6 lg:col-end-6 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+        <div
+            class="grid sm:gap-0.5 md:gap-2 grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 xs:grid-cols-1 sm:grid-cols-1 xl:gap-4 justify-center sm:flex-wrap xs:text-center xs:justify-center">
+            <div
+                class="col-start-1 xs:col-start-2 md:col-end-6 lg:col-end-6 xs:col-end-12 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 @php
                     $token = env('IEX_CLOUD_KEY', null);
                     $endpoint = env('IEX_CLOUD_ENDPOINT', null);
@@ -310,7 +338,8 @@
                     $tag = $company ? $company['tags'] : [];
                     $companyname=explode('-',$company['securityName'])
                 @endphp
-                <div class="col-start-1 col-span-2  pl-8 xs:flex-col xs:flex xs:text-center xs:justify-center sm:ml-10 xs:ml-8 xs:px-3 lg:ml-24">
+                <div
+                    class="col-start-1 col-span-2  sm:pl-0 md:pl-1 xl:pl-10 lg:pl-10 sm:flex-col  xs:flex-col xs:flex sm:text-center xs:text-center sm:flex sm:flex-wrap sm:justify-center xs:justify-center sm:ml-5 xs:ml-8 xs:px-3 lg:ml-24">
                     <div class="mt-8 mb-4 flex justify-between">
                         <div class="inline-flex items-center">
                             <h5 class="mb-2 tracking-tight text-gray-900 dark:text-white float-left">
@@ -322,11 +351,12 @@
                                     <span class="break-all">{{strtoupper($this->ticker)}}</span>
                                 </div>
                             </h5>
-                            <div class="ml-2">
+                            <div class="lg:ml-1 xl:ml-5 xs:ml-1 sm:ml-0 md:ml-5">
                                 @if($company['companyName'])
-                                <span class="lg:text-4xl xs:text-lg sm:text-xl font-bold">
+                                    <span class="lg:text-4xl xs:text-lg xl:text-xl sm:text-xl font-bold">
                                         {{strtoupper($this->ticker)}} <br>
-                                    <span class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-10"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
+                                    <span
+                                        class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-5"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
                                 </span>
                                 @endif
                             </div>
@@ -339,13 +369,16 @@
                             $stats = $data->json();
                         @endphp
                         <div class="float-right grid-rows-2 mr-10 ">
-                            <span class="row-span-1 font-bold text-xl ">${{ number_format(($stats['latestPrice']),2,'.',',')}}</span><br/>
+                            <span
+                                class="row-span-1 font-bold text-xl ">${{ number_format(($stats['latestPrice']),2,'.',',')}}</span><br/>
                             <span class="row-span-2 text-gray-700 text-sm">{{$stats['latestTime']}}-Close</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
-                    <div class="grid  gap-2 xs:flex-col xs:flex xs:text-center mr-1">
+                <div
+                    class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
+                    <div
+                        class="grid  gap-2 xs:flex-col xs:flex xs:text-center mr-1 sm:flex-col sm:flex lg:text-center sm:text-center lg:text-center md:text-center md:flex md:flex-col">
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Market Cap:</span>
                             <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
@@ -358,7 +391,8 @@
 
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">High/Low:</span>
-                            <span class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
+                            <span
+                                class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
                         </div>
 
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
@@ -398,7 +432,8 @@
                             @if(isset($tag))
                                 @foreach($tag as $t)
                                     <div class="mr-2 my-2 inline-block">
-                                        <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                                        <div
+                                            class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                             {{ $t }}
                                         </div>
                                     </div>
@@ -414,121 +449,142 @@
                 </div>
             </div>
 
-            <div class="col-start-2 md:col-end-6 lg:col-end-6 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+            <div
+                class="col-start-2 md:col-end-6 lg:col-end-6 xs:flex-col xs:flex sm:flex-col sm:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center ml-3 mb-5 mt-8 pl-4 ">
                     <h2 class="text-2xl font-black">Factor Analysis <br>
                         <span class="font-bold text-lg">TaxGhost can help identify similar stocks & ETFs so you can tax loss harvest effectively</span>
                     </h2>
                 </div>
-                <div class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
-                    <div wire:init="init" class="px-4 py-10 mx-auto md:py-12 xs:flex-col xs:flex xs:text-center xs:justify-center w-full">
-                        @if ($loadData)
-                            @if($ticker != "" & count($correlations)>0)
-                                <table class="displayprocess" id="">
-                                    <tbody class="bg-white divide-y divide-gray-200 ">
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2">
-                                        <td class=""></td>
-                                        <td class=""></td>
-                                        <td class="mr-10">
-                                            <div class="ruler-container">
-                                                <ul class="ruler" data-items="3" ></ul>
-                                            </div>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
-                                        <td class=""></td>
-                                        <td><label><b>Growth </b></label></td>
-                                        <td class="">
-                                            <div class="wrapper mb-5">
-                                                <div class='blind right' id="blindRight"></div>
-                                                <div class='blind left' id="blindLeft"></div>
-                                            </div>
-                                        </td>
-                                        <td><label><b>Value </b></label></td>
-                                        <td class=""></td>
-                                    </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
-                                        <td></td>
-                                        <td><label><b>Small Cap </b></label></td>
-                                        <td class="">
-                                            <div class="wrapper">
-                                                <div class='blinds right' id="SmallRight"></div>
-                                                <div class='blinds left' id="SmallLeft"></div>
-                                            </div>
-                                        </td>
-                                        <td><label><b>Large Cap</b></label></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
-                                        <td></td>
-                                        <td><label><b>Emerging </b></label></td>
-                                        <td class="">
-                                            <div class="wrapper">
-                                                <div class='blindsEmerging right' id="EmergingRight"></div>
-                                                <div class='blindsEmerging left' id="EmergingLeft"></div>
-                                            </div>
-                                        </td>
-                                        <td><label><b>Developed</b></label></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
-                                        <td></td>
-                                        <td><label><b>Lagging </b></label></td>
-                                        <td>
-                                            <div class="wrapper">
-                                                <div class='blindsLagging right' id="LaggingRight"></div>
-                                                <div class='blindsLagging left' id="LaggingLeft"></div>
-                                            </div>
-                                        </td>
-                                        <td><label><b>Momentum</b></label></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center">
-                                        <td></td>
-                                        <td><label><b>Low Volatility </b></label></td>
-                                        <td>
-                                            <div class="wrapper mb-5">
-                                                <div class='blindsLow right' id="LowRight"></div>
-                                                <div class='blindsLow left' id="LowLeft"></div>
-                                            </div>
-                                        </td>
-                                        <td><label><b>High Volatility </b></label></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr class="mt:flex mt:flex-col mt:border-2-solid-black mt:border-r-11 mt:mb-2 text-center   ">
-                                        <td></td>
-                                        <td><label><b>Fixed Income </b></label></td>
-                                        <td>
-                                            <div class="wrapper mb-5">
-                                                <div class='blindsFixed right' id="FixedRight"></div>
-                                                <div class='blindsFixed left' id="FixedLeft"></div>
-                                            </div>
-                                        </td>
-                                        <td><label><b>Equities </b></label></td>
-                                        <td></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <h2 class="font-semibold text-lg font-medium text-gray-900 processing"></h2>
-                            @else
-                                <div class="text-center">
-                                    <h2 class="font-semibold text-lg font-medium text-gray-900 processing ">No data found in this stock</h2>
+                <div wire:init="init"
+                     class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
+                    @if ($loadData)
+                        @if($ticker != "" & count($correlations)>0)
+                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2  md:flex md:flex-col  xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b></b></label></div>
                                 </div>
-                            @endif
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <td class="mr-10">
+                                        <div id="bar-1" class="wrapper-ruler mb-5">
+                                            <div class="">
+                                                <div class="flex flex-col w-full items-center justify-center">
+                                                    <div class="flex justify-between items-center w-full">
+                                                        <div class="text-sm font-semibold">-1</div>
+                                                        <div class="text-sm font-medium text-brand-grey-base text-center">0</div>
+                                                        <div class="text-sm font-semibold">1</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b></b></label></div>
+                                </div>
+                            </div><hr/>
+                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2  md:flex md:flex-col  xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Growth </b></label></div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="wrapper mb-5">
+                                        <div class='blind right' id="blindRight"></div>
+                                        <div class='blind left' id="blindLeft"></div>
+                                    </div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Value </b></label></div>
+                                </div>
+                            </div><hr/>
+                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Small Cap </b></label></div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="wrapper mb-5">
+                                        <div class='blinds right' id="SmallRight"></div>
+                                        <div class='blinds left' id="SmallLeft"></div>
+                                    </div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Large Cap </b></label></div>
+                                </div>
+                            </div><hr/>
+                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Emerging </b></label></div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="wrapper mb-5">
+                                        <div class='blindsEmerging right' id="EmergingRight"></div>
+                                        <div class='blindsEmerging left' id="EmergingLeft"></div>
+                                    </div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Developed</b></label></div>
+                                </div>
+                            </div><hr/>
+                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Lagging </b></label></div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="wrapper mb-5">
+                                        <div class='blindsLagging right' id="LaggingRight"></div>
+                                        <div class='blindsLagging left' id="LaggingLeft"></div>
+                                    </div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Momentum </b></label></div>
+                                </div>
+                            </div><hr/>
+                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Low Volatility </b></label></div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="wrapper mb-5">
+                                        <div class='blindsLow right' id="LowRight"></div>
+                                        <div class='blindsLow left' id="LowLeft"></div>
+                                    </div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>High Volatility</b></label></div>
+                                </div>
+                            </div><hr/>
+                            <div class="grid grid-cols-12 xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Fixed Income </b></label></div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="wrapper mb-5">
+                                        <div class='blindsFixed right' id="FixedRight"></div>
+                                        <div class='blindsFixed left' id="FixedLeft"></div>
+                                    </div>
+                                </div>
+                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Equities </b></label></div>
+                                </div>
+                            </div><hr/>
+                            <h2 class="font-semibold text-lg font-medium text-gray-900 processing"></h2>
                         @else
-                            <button type="button" class="align-middle inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                Loading Data....
-                            </button>
+                            <div class="text-center">
+                                <h2 class="font-semibold text-lg font-medium text-gray-900 processing ">No data found in this stock</h2>
+                            </div>
                         @endif
-                    </div>
+                    @else
+                        <button type="button" class="align-middle inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Loading Data....
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
-
-
 
         <div class="grid grid-cols-1 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center m-2">
             <div class="col-start-1 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
@@ -543,9 +599,7 @@
 
                         <h2 class="text-xl font-black">Comparable Stocks to [{{$company}}]</h2>
                     @endif
-                    <a wire:click="showETFs"
-                       class="bg-green-300 inline-flex items-center px-4 py-2 mb-2 bg-white border border-gray-300 mr-2 ml-2 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer"
-                       id="buttons">
+                    <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 mb-2 bg-white border border-gray-300 mr-2 ml-2 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer" id="buttons">
                         @if($etfs)
                             {{ __('Show Stocks') }}<br> {{ __('Only')}}
                         @else
@@ -553,8 +607,7 @@
                         @endif
                     </a>
                     <div class="flex justify-center items-center spinner hidden mt-2 mb-2 mr-5" id="spinner">
-                        <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 spinner"
-                             id="spinner" role="status" aria-hidden="true">
+                        <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 spinner" id="spinner" role="status" aria-hidden="true">
                             <span class="visually-hidden">.</span>
                         </div>
                     </div>
@@ -599,9 +652,7 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
-                                                                                Correlation with {{$ticker}}:
-                                                                            </span>
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">Correlation with {{$ticker}}:</span>
                                                                         </div>
                                                                         <div class="inline-flex items-center break-all text-sm">
                                                                             <span class="break-all">~{{number_format($result->correlation*100,0).'%'}}</span>
@@ -611,25 +662,17 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
-                                                                                Beta:
-                                                                            </span>
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">Beta:</span>
                                                                         </div>
-                                                                        <div class="inline-flex items-center text-sm">
-                                                                            {{number_format($result->SI2->beta,2)}}
-                                                                        </div>
+                                                                        <div class="inline-flex items-center text-sm">{{number_format($result->SI2->beta,2)}}</div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
-                                                                                Dividend Yield:
-                                                                            </span>
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">Dividend Yield:</span>
                                                                         </div>
-                                                                        <div class="inline-flex items-center text-sm">
-                                                                            {{number_format($result->SI2->div_yield*100,2).'%'}}
-                                                                        </div>
+                                                                        <div class="inline-flex items-center text-sm">{{number_format($result->SI2->div_yield*100,2).'%'}}</div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="py-1 sm:py-4">
@@ -643,9 +686,7 @@
                                                                                 @endif
                                                                             </span>
                                                                         </div>
-                                                                        <div class="inline-flex items-center text-sm text-green-700">
-                                                                            ${{number_format($result->SI2->marketcap/1000,0).'M'}}
-                                                                        </div>
+                                                                        <div class="inline-flex items-center text-sm text-green-700">${{number_format($result->SI2->marketcap/1000,0).'M'}}</div>
                                                                     </div>
                                                                 </li>
                                                                 @php
@@ -681,13 +722,9 @@
                                                                 <li class="py-1 sm:py-4">
                                                                     <div class="flex items-center space-x-4">
                                                                         <div class="flex-1">
-                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
-                                                                                1 Year % Change:
-                                                                            </span>
+                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">1 Year % Change:</span>
                                                                         </div>
-                                                                        <div class="inline-flex items-center text-sm text-right {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">
-                                                                            {{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}}
-                                                                        </div>
+                                                                        <div class="inline-flex items-center text-sm text-right {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">{{$result->SI2->year1ChangePercent*100<0?"(".number_format(abs($result->SI2->year1ChangePercent*100),2)."%)":number_format($result->SI2->year1ChangePercent*100,2)."%"}}</div>
                                                                     </div>
                                                                 </li>
                                                             </ul>
@@ -697,8 +734,7 @@
                                             </div>
                                             <div class="py-1 sm:py-4">
                                                 <div class="flex items-center space-x-4">
-                                                    <div
-                                                        class="items-center break-words text-center text-sm">
+                                                    <div class="items-center break-words text-center text-sm">
                                                         @php
                                                             $data = $tag
                                                         @endphp
@@ -708,7 +744,8 @@
                                                                 $inarr = in_array(sorted($con), array_map("sorted", $data))
                                                             @endphp
                                                             <div class="mr-1 mb-1 inline-block">
-                                                                <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
+                                                                <div
+                                                                    class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
                                                                     {!! $inarr == true ? "<b style='color: #15803d'>".$g."</b>" : "".$g."" !!}
                                                                 </div>
                                                             </div>
@@ -720,20 +757,13 @@
                                                 <div class="flex items-center space-x-4">
                                                     <div id="bar-1" class="bar-main-container azure mt-8">
                                                         <div class="">
-                                                            <div
-                                                                class="flex flex-col w-full items-center justify-center">
+                                                            <div class="flex flex-col w-full items-center justify-center">
                                                                 <div class="flex justify-between items-center w-full">
-                                                                    <div
-                                                                        class="text-sm font-semibold">{{'$'.number_format(($stats['week52Low']),2,'.',',')}}</div>
-                                                                    <div
-                                                                        class="text-sm font-medium text-brand-grey-base text-center">
-                                                                        52-Week Price Range
-                                                                    </div>
-                                                                    <div
-                                                                        class="text-sm font-semibold">{{'$'.number_format(($stats['week52High']),2,'.',',')}}</div>
+                                                                    <div class="text-sm font-semibold">{{'$'.number_format(($stats['week52Low']),2,'.',',')}}</div>
+                                                                    <div class="text-sm font-medium text-brand-grey-base text-center">52-Week Price Range</div>
+                                                                    <div class="text-sm font-semibold">{{'$'.number_format(($stats['week52High']),2,'.',',')}}</div>
                                                                 </div>
-                                                                <div
-                                                                    class="flex w-full h-1 bg-gradient-to-r from-brand-tango to-brand-green-dark rounded-lg"></div>
+                                                                <div class="flex w-full h-1 bg-gradient-to-r from-brand-tango to-brand-green-dark rounded-lg"></div>
                                                                 <div class="w-full relative">
                                                                     @php
                                                                         $val = ceil((int)$stats['iexClose']);
@@ -757,10 +787,8 @@
                                                                             $left = (int)$stats['iexClose'];
                                                                         }
                                                                     @endphp
-                                                                    <div class="w-4 overflow-hidden absolute"
-                                                                         style="left:{{$left}}%">
-                                                                        <div
-                                                                            class=" h-2 w-2 bg-black rotate-45 transform origin-bottom-left"></div>
+                                                                    <div class="w-4 overflow-hidden absolute" style="left:{{$left}}%">
+                                                                        <div class=" h-2 w-2 bg-black rotate-45 transform origin-bottom-left"></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -780,7 +808,10 @@
                         @endif
                     @else
                         <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
-                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
                             Loading Data....
                         </button>
                     @endif
@@ -809,7 +840,7 @@
             let currentPercentageState = 0;
             let easing = "cubic-bezier(0.5, 1, 0.89, 1)";
             let duration = 1000;
-            let easeReversal = y => (1 - Math.sqrt((y-1)/-1))
+            let easeReversal = y => (1 - Math.sqrt((y - 1) / -1))
 
 
             function animate(percentage) {
@@ -821,13 +852,13 @@
                 if (!threshold && percentage != 0) {
                     // determine which blind we're animating
                     let blind = percentage < 0 ? "left" : "right";
-                    if (percentage < 0){
+                    if (percentage < 0) {
 
                         $("#blindLeft").addClass("left-demo");
-                        $("#blindLeft").attr("title",parseFloat(percentage).toFixed(2));
-                    }else {
+                        $("#blindLeft").attr("title", parseFloat(percentage).toFixed(2));
+                    } else {
                         $("#blindRight").addClass("right-demo");
-                        $("#blindRight").attr("title",parseFloat(percentage).toFixed(2));
+                        $("#blindRight").attr("title", parseFloat(percentage).toFixed(2));
                     }
                     $(`.blind.${blind}`)[0].animate(
                         [
@@ -836,14 +867,13 @@
                                 easing: easing
                             },
                             {
-                                transform: `translateX(${percentage*100}%)`
+                                transform: `translateX(${percentage * 100}%)`
                             }
                         ],
                         {
                             fill: "forwards",
                             duration: duration
                         }
-
                     );
                 } else {
                     // this happens when we cross the 0 boundry
@@ -855,7 +885,7 @@
                     let delta = currentPercentageState - percentage;
 
                     // find the percentage of that travel that the first blind is responsible for
-                    let firstTravel  = currentPercentageState / delta;
+                    let firstTravel = currentPercentageState / delta;
                     let secondTravel = 1 - firstTravel;
                     // animate the first blind.
                     $(`.blind.${firstBlind}`)[0].animate(
@@ -894,9 +924,9 @@
                             fill: "forwards",
                             duration: duration,
                             // start the iteration where the first should have left off. This should put up where the easing function left off
-                            iterationStart:  easeReversal(firstTravel),
+                            iterationStart: easeReversal(firstTravel),
                             // we only need to carry this aniamtion the rest of the way
-                            iterations: 1- easeReversal(firstTravel),
+                            iterations: 1 - easeReversal(firstTravel),
                             // delay this animation until the first "meets" it
                             delay: duration * easeReversal(firstTravel)
                         }
@@ -928,6 +958,7 @@
                         ruler.append(item.clone().text(i + 1));
                     }
                 });
+
                 // Change the spacing programatically
                 function changeRulerSpacing(spacing) {
                     $(".ruler")
@@ -935,6 +966,7 @@
                         .find("li")
                         .css("padding-left", spacing);
                 }
+
                 changeRulerSpacing("30px");
             });
 
@@ -944,7 +976,7 @@
             let currentPercentageStates = 0;
             let easings = "cubic-bezier(0.5, 1, 0.89, 1)";
             let durations = 1000;
-            let easeReversals = y => (1 - Math.sqrt((y-1)/-1))
+            let easeReversals = y => (1 - Math.sqrt((y - 1) / -1))
 
 
             function animates(percentages) {
@@ -957,13 +989,12 @@
                     // determine which blind we're animating
                     let blinds = percentages < 0 ? "left" : "right";
 
-                    if(percentages < 0)
-                    {
+                    if (percentages < 0) {
                         $("#SmallLeft").addClass("left-demo");
-                        $("#SmallLeft").attr("title",parseFloat(percentages).toFixed(2));
-                    }else {
+                        $("#SmallLeft").attr("title", parseFloat(percentages).toFixed(2));
+                    } else {
                         $("#SmallRight").addClass("right-demo");
-                        $("#SmallRight").attr("title",parseFloat(percentages).toFixed(2));
+                        $("#SmallRight").attr("title", parseFloat(percentages).toFixed(2));
                     }
 
                     $(`.blinds.${blinds}`)[0].animate(
@@ -973,14 +1004,13 @@
                                 easing: easings
                             },
                             {
-                                transform: `translateX(${percentages*100}%)`
+                                transform: `translateX(${percentages * 100}%)`
                             }
                         ],
                         {
                             fill: "forwards",
                             duration: durations
                         }
-
                     );
                 } else {
                     // this happens when we cross the 0 boundry
@@ -991,7 +1021,7 @@
                     // get total travel distance
                     let deltas = currentPercentageStates - percentages;
                     // find the percentage of that travel that the first blind is responsible for
-                    let firstTravels  = currentPercentageStates / deltas;
+                    let firstTravels = currentPercentageStates / deltas;
                     let secondTravels = 1 - firstTravels;
 
 
@@ -1032,9 +1062,9 @@
                             fill: "forwards",
                             duration: durations,
                             // start the iteration where the first should have left off. This should put up where the easing function left off
-                            iterationStart:  easeReversals(firstTravels),
+                            iterationStart: easeReversals(firstTravels),
                             // we only need to carry this aniamtion the rest of the way
-                            iterations: 1- easeReversals(firstTravels),
+                            iterations: 1 - easeReversals(firstTravels),
                             // delay this animation until the first "meets" it
                             delay: duration * easeReversals(firstTravels)
                         }
@@ -1055,7 +1085,7 @@
             let currentPercentageStatesLow = 0;
             let easingsLow = "cubic-bezier(0.5, 1, 0.89, 1)";
             let durationsLow = 1000;
-            let easeReversalsLow = y => (1 - Math.sqrt((y-1)/-1))
+            let easeReversalsLow = y => (1 - Math.sqrt((y - 1) / -1))
 
 
             function animatesLow(percentagesLow) {
@@ -1067,13 +1097,12 @@
                     // determine which blind we're animating
                     let blindsLow = percentagesLow < 0 ? "left" : "right";
 
-                    if(percentagesLow < 0)
-                    {
+                    if (percentagesLow < 0) {
                         $("#LowLeft").addClass("left-demo");
-                        $("#LowLeft").attr("title",parseFloat(percentagesLow).toFixed(2));
-                    }else {
+                        $("#LowLeft").attr("title", parseFloat(percentagesLow).toFixed(2));
+                    } else {
                         $("#LowRight").addClass("right-demo");
-                        $("#LowRight").attr("title",parseFloat(percentagesLow).toFixed(2));
+                        $("#LowRight").attr("title", parseFloat(percentagesLow).toFixed(2));
                     }
 
                     $(`.blindsLow.${blindsLow}`)[0].animate(
@@ -1083,14 +1112,13 @@
                                 easing: easingsLow
                             },
                             {
-                                transform: `translateX(${percentagesLow*100}%)`
+                                transform: `translateX(${percentagesLow * 100}%)`
                             }
                         ],
                         {
                             fill: "forwards",
                             duration: durationsLow
                         }
-
                     );
                 } else {
                     // this happens when we cross the 0 boundry
@@ -1101,7 +1129,7 @@
                     // get total travel distance
                     let deltasLow = currentPercentageStatesLow - percentagesLow;
                     // find the percentage of that travel that the first blind is responsible for
-                    let firstTravelsLow  = currentPercentageStatesLow / deltasLow;
+                    let firstTravelsLow = currentPercentageStatesLow / deltasLow;
                     let secondTravelsLow = 1 - firstTravelsLow;
 
                     // animate the first blind.
@@ -1141,9 +1169,9 @@
                             fill: "forwards",
                             duration: durationsLow,
                             // start the iteration where the first should have left off. This should put up where the easing function left off
-                            iterationStart:  easeReversalsLow(firstTravelsLow),
+                            iterationStart: easeReversalsLow(firstTravelsLow),
                             // we only need to carry this aniamtion the rest of the way
-                            iterations: 1- easeReversalsLow(firstTravelsLow),
+                            iterations: 1 - easeReversalsLow(firstTravelsLow),
                             // delay this animation until the first "meets" it
                             delay: durationsLow * easeReversalsLow(firstTravelsLow)
                         }
@@ -1152,6 +1180,7 @@
                 // save the new value so that the next iteration has a proper from keyframe
                 currentPercentageStatesLow = percentagesLow;
             }
+
             // the following are just binding set ups for the buttons
             $(document).ready(function () {
                 animatesLow($('#Low').val());
@@ -1162,7 +1191,7 @@
             let currentPercentageStatesFixed = 0;
             let easingsFixed = "cubic-bezier(0.5, 1, 0.89, 1)";
             let durationsFixed = 1000;
-            let easeReversalsFixed = y => (1 - Math.sqrt((y-1)/-1))
+            let easeReversalsFixed = y => (1 - Math.sqrt((y - 1) / -1))
 
 
             function animatesFixed(percentagesFixed) {
@@ -1173,13 +1202,12 @@
                 if (!thresholdsFixed && percentagesFixed != 0) {
                     // determine which blind we're animating
                     let blindsFixed = percentagesFixed < 0 ? "left" : "right";
-                    if(percentagesFixed < 0)
-                    {
+                    if (percentagesFixed < 0) {
                         $("#FixedLeft").addClass("left-demo");
-                        $("#FixedLeft").attr("title",parseFloat(percentagesFixed).toFixed(2));
-                    }else {
+                        $("#FixedLeft").attr("title", parseFloat(percentagesFixed).toFixed(2));
+                    } else {
                         $("#FixedRight").addClass("right-demo");
-                        $("#FixedRight").attr("title",parseFloat(percentagesFixed).toFixed(2));
+                        $("#FixedRight").attr("title", parseFloat(percentagesFixed).toFixed(2));
                     }
                     $(`.blindsFixed.${blindsFixed}`)[0].animate(
                         [
@@ -1188,14 +1216,13 @@
                                 easing: easingsFixed
                             },
                             {
-                                transform: `translateX(${percentagesFixed*100}%)`
+                                transform: `translateX(${percentagesFixed * 100}%)`
                             }
                         ],
                         {
                             fill: "forwards",
                             duration: durationsFixed
                         }
-
                     );
                 } else {
                     // this happens when we cross the 0 boundry
@@ -1206,7 +1233,7 @@
                     // get total travel distance
                     let deltasFixed = currentPercentageStatesFixed - percentagesFixed;
                     // find the percentage of that travel that the first blind is responsible for
-                    let firstTravelsFixed  = currentPercentageStatesFixed / deltasFixed;
+                    let firstTravelsFixed = currentPercentageStatesFixed / deltasFixed;
                     let secondTravelsFixed = 1 - firstTravelsFixed;
 
 
@@ -1247,9 +1274,9 @@
                             fill: "forwards",
                             duration: durationsFixed,
                             // start the iteration where the first should have left off. This should put up where the easing function left off
-                            iterationStart:  easeReversalsFixed(firstTravelsFixed),
+                            iterationStart: easeReversalsFixed(firstTravelsFixed),
                             // we only need to carry this aniamtion the rest of the way
-                            iterations: 1- easeReversalsFixed(firstTravelsFixed),
+                            iterations: 1 - easeReversalsFixed(firstTravelsFixed),
                             // delay this animation until the first "meets" it
                             delay: durationFixed * easeReversalsFixed(firstTravelsFixed)
                         }
@@ -1258,6 +1285,7 @@
                 // save the new value so that the next iteration has a proper from keyframe
                 currentPercentageStatesFixed = percentagesFixed;
             }
+
             // the following are just binding set ups for the buttons
             $(document).ready(function () {
                 animatesFixed($('#Fixed').val());
@@ -1271,7 +1299,7 @@
             let currentPercentageStatesLagging = 0;
             let easingsLagging = "cubic-bezier(0.5, 1, 0.89, 1)";
             let durationsLagging = 1000;
-            let easeReversalsLagging = y => (1 - Math.sqrt((y-1)/-1))
+            let easeReversalsLagging = y => (1 - Math.sqrt((y - 1) / -1))
 
 
             function animatesLagging(percentagesLagging) {
@@ -1282,13 +1310,12 @@
                 if (!thresholdsLagging && percentagesLagging != 0) {
                     // determine which blind we're animating
                     let blindsLagging = percentagesLagging < 0 ? "left" : "right";
-                    if(percentagesLagging < 0)
-                    {
+                    if (percentagesLagging < 0) {
                         $("#LaggingLeft").addClass("left-demo");
-                        $("#LaggingLeft").attr("title",parseFloat(percentagesLagging).toFixed(2));
-                    }else {
+                        $("#LaggingLeft").attr("title", parseFloat(percentagesLagging).toFixed(2));
+                    } else {
                         $("#LaggingRight").addClass("right-demo");
-                        $("#LaggingRight").attr("title",parseFloat(percentagesLagging).toFixed(2));
+                        $("#LaggingRight").attr("title", parseFloat(percentagesLagging).toFixed(2));
                     }
                     $(`.blindsLagging.${blindsLagging}`)[0].animate(
                         [
@@ -1297,14 +1324,13 @@
                                 easing: easingsLagging
                             },
                             {
-                                transform: `translateX(${percentagesLagging*100}%)`
+                                transform: `translateX(${percentagesLagging * 100}%)`
                             }
                         ],
                         {
                             fill: "forwards",
                             duration: durationsLagging
                         }
-
                     );
                 } else {
                     // this happens when we cross the 0 boundry
@@ -1315,7 +1341,7 @@
                     // get total travel distance
                     let deltasLagging = currentPercentageStatesLagging - percentagesLagging;
                     // find the percentage of that travel that the first blind is responsible for
-                    let firstTravelsLagging  = currentPercentageStatesLagging / deltasLagging;
+                    let firstTravelsLagging = currentPercentageStatesLagging / deltasLagging;
                     let secondTravelsLagging = 1 - firstTravelsLagging;
 
 
@@ -1356,9 +1382,9 @@
                             fill: "forwards",
                             duration: durationsLagging,
                             // start the iteration where the first should have left off. This should put up where the easing function left off
-                            iterationStart:  easeReversalsLagging(firstTravelsLagging),
+                            iterationStart: easeReversalsLagging(firstTravelsLagging),
                             // we only need to carry this aniamtion the rest of the way
-                            iterations: 1- easeReversalsLagging(firstTravelsLagging),
+                            iterations: 1 - easeReversalsLagging(firstTravelsLagging),
                             // delay this animation until the first "meets" it
                             delay: durationLagging * easeReversalsLagging(firstTravelsLagging)
                         }
@@ -1367,6 +1393,7 @@
                 // save the new value so that the next iteration has a proper from keyframe
                 currentPercentageStatesLagging = percentagesLagging;
             }
+
             // the following are just binding set ups for the buttons
             $(document).ready(function () {
                 animatesLagging($('#Lagging').val());
@@ -1379,7 +1406,7 @@
             let currentPercentageStatesEmerging = 0;
             let easingsEmerging = "cubic-bezier(0.5, 1, 0.89, 1)";
             let durationsEmerging = 1000;
-            let easeReversalsEmerging = y => (1 - Math.sqrt((y-1)/-1))
+            let easeReversalsEmerging = y => (1 - Math.sqrt((y - 1) / -1))
 
 
             function animatesEmerging(percentagesEmerging) {
@@ -1390,13 +1417,12 @@
                 if (!thresholdsEmerging && percentagesEmerging != 0) {
                     // determine which blind we're animating
                     let blindsEmerging = percentagesEmerging < 0 ? "left" : "right";
-                    if(percentagesEmerging < 0)
-                    {
+                    if (percentagesEmerging < 0) {
                         $("#EmergingLeft").addClass("left-demo");
-                        $("#EmergingLeft").attr("title",parseFloat(percentagesEmerging).toFixed(2));
-                    }else {
+                        $("#EmergingLeft").attr("title", parseFloat(percentagesEmerging).toFixed(2));
+                    } else {
                         $("#EmergingRight").addClass("right-demo");
-                        $("#EmergingRight").attr("title",parseFloat(percentagesEmerging).toFixed(2));
+                        $("#EmergingRight").attr("title", parseFloat(percentagesEmerging).toFixed(2));
                     }
                     $(`.blindsEmerging.${blindsEmerging}`)[0].animate(
                         [
@@ -1405,14 +1431,13 @@
                                 easing: easingsEmerging
                             },
                             {
-                                transform: `translateX(${percentagesEmerging*100}%)`
+                                transform: `translateX(${percentagesEmerging * 100}%)`
                             }
                         ],
                         {
                             fill: "forwards",
                             duration: durationsEmerging
                         },
-
                     );
                 } else {
                     // this happens when we cross the 0 boundry
@@ -1423,7 +1448,7 @@
                     // get total travel distance
                     let deltasEmerging = currentPercentageStatesEmerging - percentagesEmerging;
                     // find the percentage of that travel that the first blind is responsible for
-                    let firstTravelsEmerging  = currentPercentageStatesEmerging / deltasEmerging;
+                    let firstTravelsEmerging = currentPercentageStatesEmerging / deltasEmerging;
                     let secondTravelsEmerging = 1 - firstTravelsEmerging;
 
                     // animate the first blind.
@@ -1464,9 +1489,9 @@
                             fill: "forwards",
                             duration: durationsEmerging,
                             // start the iteration where the first should have left off. This should put up where the easing function left off
-                            iterationStart:  easeReversalsEmerging(firstTravelsEmerging),
+                            iterationStart: easeReversalsEmerging(firstTravelsEmerging),
                             // we only need to carry this aniamtion the rest of the way
-                            iterations: 1- easeReversalsEmerging(firstTravelsEmerging),
+                            iterations: 1 - easeReversalsEmerging(firstTravelsEmerging),
                             // delay this animation until the first "meets" it
                             delay: duration * easeReversalsEmerging(firstTravelsEmerging)
                         }
@@ -1475,13 +1500,13 @@
                 // save the new value so that the next iteration has a proper from keyframe
                 currentPercentageStatesEmerging = percentagesEmerging;
             }
+
             // the following are just binding set ups for the buttons
             $(document).ready(function () {
                 animatesEmerging($('#Emerging').val());
             });
 
         });
-
 
 
     </script>
@@ -1552,6 +1577,7 @@
 <script>
     $('#buttons').on('click', function () {
         $('.scriptid').remove();
+
         function AddNewExternalScriptToThisPage(ExternalScriptURLPath) {
             var headID = document.getElementsByTagName("head")[0];
             var newScript = document.createElement('script');
@@ -1562,8 +1588,9 @@
         }
 
     });
-    $('#search_button').on('click',function (){
+    $('#search_button').on('click', function () {
         $('.scriptid').remove();
+
         function AddNewExternalScriptToThisPage(ExternalScriptURLPath) {
             var headID = document.getElementsByTagName("head")[0];
             var newScript = document.createElement('script');

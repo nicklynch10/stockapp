@@ -10132,9 +10132,22 @@ table a {
         grid-column: span 12/span 12
     }
 
+    .xs\:col-start-1 {
+        grid-column-start: 1
+    }
+
+    .xs\:col-start-2 {
+        grid-column-start: 2
+    }
+
     .xs\:col-start-3 {
         grid-column-start: 3
     }
+
+    .xs\:col-start-4 {
+        grid-column-start: 4
+    }
+
 
     .xs\:col-end-3 {
         grid-column-end: 3
@@ -10212,8 +10225,20 @@ table a {
         grid-column-start: 3
     }
 
+    .sm\:col-start-4 {
+        grid-column-start: 4
+    }
+
+    .sm\:col-start-5 {
+        grid-column-start: 5
+    }
+
     .sm\:col-start-6 {
         grid-column-start: 6
+    }
+
+    .sm\:col-start-7 {
+        grid-column-start: 7
     }
 
     .sm\:col-start-8 {
@@ -10226,6 +10251,10 @@ table a {
 
     .sm\:col-start-10 {
         grid-column-start: 10
+    }
+
+    .sm\:col-start-11 {
+        grid-column-start: 11
     }
 
     .sm\:m-0 {
@@ -10500,6 +10529,10 @@ table a {
         --tw-scale-y: 1
     }
 
+    .sm\:grid-cols-1 {
+        grid-template-columns:repeat(1, minmax(0, 1fr))
+    }
+
     .sm\:grid-cols-2 {
         grid-template-columns:repeat(2, minmax(0, 1fr))
     }
@@ -10636,12 +10669,23 @@ table a {
         padding-bottom: 1rem
     }
 
+    .sm\:pl-0 {
+        padding-left: 0
+    }
+    .sm\:pl-4 {
+        padding-left: 1rem
+    }
+
     .sm\:pl-6 {
         padding-left: 1.5rem
     }
 
     .sm\:text-left {
         text-align: left
+    }
+
+    .sm\:text-center {
+        text-align: center
     }
 
     .sm\:text-right {
@@ -10704,6 +10748,14 @@ table a {
 
     .md\:col-start-2 {
         grid-column-start: 2
+    }
+
+    .md\:col-start-3 {
+        grid-column-start: 3
+    }
+
+    .md\:col-start-4 {
+        grid-column-start: 4
     }
 
     .md\:col-start-6 {
@@ -10946,6 +10998,10 @@ table a {
         justify-content: center
     }
 
+    .md\:gap-2 {
+        gap: 0.5rem
+    }
+
     .md\:gap-6 {
         gap: 1.5rem
     }
@@ -11066,6 +11122,10 @@ table a {
 
     .md\:pb-10 {
         padding-bottom: 2.5rem
+    }
+
+    .md\:pl-1 {
+        padding-left: 0.5rem
     }
 
     .md\:pl-3 {
@@ -11273,12 +11333,24 @@ table a {
         grid-column: span 5/span 5
     }
 
+    .lg\:col-start-1 {
+        grid-column-start: 1
+    }
+
     .lg\:col-start-5 {
         grid-column-start: 5
     }
 
     .lg\:col-start-6 {
         grid-column-start: 6
+    }
+
+    .lg\:col-start-7 {
+        grid-column-start: 7
+    }
+
+    .lg\:col-start-8 {
+        grid-column-start: 8
     }
 
     .lg\:m-0 {
@@ -11566,6 +11638,10 @@ table a {
         padding-bottom: 5rem
     }
 
+    .lg\:pl-5 {
+        padding-left: 1.5rem
+    }
+
     .lg\:pl-10 {
         padding-left: 2.5rem
     }
@@ -11616,6 +11692,17 @@ table a {
     .xl\:col-span-1 {
         grid-column: span 1/span 1
     }
+
+    .xl\:col-start-1 {
+        grid-column-start: 1
+    }
+    .xl\:col-start-7 {
+        grid-column-start: 7
+    }
+    .xl\:col-start-8 {
+        grid-column-start:8
+    }
+
     .xl\:hidden {
         display: none
     }
@@ -11639,10 +11726,30 @@ table a {
         grid-column: span 12/span 12
     }
 
+    .xl\:text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem
+    }
+    .xl\:text-xs {
+        font-size: 12px;
+    }
+    .xl\:text-center {
+        text-align: center
+    }
+    .xl\:text-right {
+        text-align: right
+    }
+    .xl\:text-end {
+        text-align: end
+    }
+
     .xl\:top-0 {
         top: 0
     }
-
+    .xl\:mx-28 {
+        margin-left: 7rem;
+        margin-right: 7rem
+    }
 
     .xl\:mx-32 {
         margin-left: 8rem;
@@ -11667,7 +11774,7 @@ table a {
     }
 
     .xl\:ml-5{
-        margin-right: 1.25rem
+        margin-left: 1.25rem
     }
 
     .xl\:ml-10 {
@@ -11757,6 +11864,10 @@ table a {
         gap: 1rem
     }
 
+    .xl\:pl-10 {
+        padding-left: 5rem;
+    }
+
     .xl\:pl-15 {
         padding-left: 15px;
     }
@@ -11826,6 +11937,10 @@ table a {
 
     .xs\:justify-center{
         justify-content: center;
+    }
+
+    .xs\:justify-right{
+        justify-content: right;
     }
 
     .xs\:border-black{
@@ -11932,6 +12047,11 @@ table a {
         margin-top: 10px
     }
 
+    .xs\:mx-4 {
+        margin-left: 1rem;
+        margin-right: 1rem
+    }
+
     .xs\:mx-10{
         margin-left: 10px;
         margin-right: 10px;
@@ -12025,4 +12145,13 @@ table a {
         margin-left: auto;
         margin-right: auto
     }
+}
+.border-center {
+    margin: 0;
+    padding: 0;
+    vertical-align: middle !important;
+}
+
+.pt-24 {
+    padding-top: 6rem
 }

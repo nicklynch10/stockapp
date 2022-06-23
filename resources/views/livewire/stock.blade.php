@@ -5,12 +5,30 @@
                 <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
+{{--                            <div class="grid border-b-2 border-gray-300 grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 xl:grid-cols-8 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">--}}
+{{--                                <div class="flex justify-between items-center w-full">--}}
+{{--                                    <h2 class="text-xl font-black">Your Portfolio</h2>--}}
+{{--                                </div>--}}
+{{--                                <div></div><div></div><div></div><div></div><div></div>--}}
+{{--                                <div class="inline-flex items-center space-x-2">--}}
+{{--                                    <select  wire:model="sortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">--}}
+{{--                                        <option value="">Filter By Account</option>--}}
+{{--                                        @foreach($this->account as $account)--}}
+{{--                                            <option value="{{$account->id}}">{{$account->account_name}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
+{{--                                <div class="text-center">--}}
+{{--                                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
                             <div class="grid border-b-2 border-gray-300 grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 xl:grid-cols-8 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
-                                <div class="flex justify-between items-center w-full">
+                                <div class="col-start-1 col-span-1 sm:flex sm:flex-col sm:col-stat-1 md:col-start-1 flex justify-between items-center w-full">
                                     <h2 class="text-xl font-black">Your Portfolio</h2>
                                 </div>
-                                <div></div><div></div><div></div><div></div><div></div>
-                                <div class="inline-flex items-center space-x-2">
+                                <div
+                                    class="lg:col-start-7 xl:col-start-7 md:col-start-3 col-span-1 xs:col-start-1  inline-flex items-center xs:justify-right">
                                     <select  wire:model="sortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                         <option value="">Filter By Account</option>
                                         @foreach($this->account as $account)
@@ -18,10 +36,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="text-center">
-                                    <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
+                                <div class="lg:col-start-8 xl:col-start-8  md:col-start-4 col-span-1 xs:col-start-1 sm:text-center lg:text-center xl:text-center md:text-center xs:text-right">
+                                    <x-jet-button wire:click="create()" class="py-2 px-3 my-3" id="add">{{__('Buy New Stock') }}</x-jet-button>
                                 </div>
                             </div>
+
 
                             <div class="grid grid-cols-8 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-8 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full " style="max-height: 65vh;">
                                 @if(count($stocks)>0)
@@ -125,7 +144,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col sm:rounded-lg px-4 py-4">
+        <div class="mt-5 flex flex-col sm:rounded-lg px-4 py-4 flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 example">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="w-full mb-5">

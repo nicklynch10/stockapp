@@ -97,7 +97,7 @@ class StockAddEditModal extends Component
                     $current_price = Http::get($endpoint . 'stable/stock/' . $this->data . '/quote?token=' . $token);
                     $price = $current_price->json();
                     $this->current_share_price = $price ? $price['latestPrice'] : '';
-                    $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+                    $this->market_cap = $price ? round(($price['marketCap']/1000), 2) : '';
                     $logo = Http::get($endpoint . 'stable/stock/' . $this->data . '/logo?token=' . $token);
                     $logo_url = $logo->json();
                     $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
@@ -270,7 +270,7 @@ class StockAddEditModal extends Component
         $this->openmodalval=0;
         $this->avepricereadonly=0;
         $this->currentStep=1;
-        $this->market_cap = $price ? round(($price['marketCap']/1000000), 0) : ($stock->market_cap ? round(($stock->market_cap/1000000), 0) : 0);
+        $this->market_cap = $price ? round(($price['marketCap']/1000), 0) : ($stock->market_cap ? round(($stock->market_cap/1000), 0) : 0);
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
         $this->share_price = '';

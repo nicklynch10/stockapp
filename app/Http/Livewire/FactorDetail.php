@@ -25,7 +25,7 @@ class FactorDetail extends Component
 
     public $comps = [];
     public $correlation = [];
-    public $etfs;
+    public $etfs = false;
     public $is_first_load = true;
     public bool $loadData = false;
 
@@ -52,7 +52,7 @@ class FactorDetail extends Component
     {
         try {
             if ($this->loadData) {
-                $this->factors = collect($this->factors);
+                 $this->factors = collect($this->factors);
                 $this->correlations = collect($this->correlations);
 
                 $f = getFactor("VTV", "VUG", "-");
@@ -89,8 +89,7 @@ class FactorDetail extends Component
                 $this->dispatchBrowserEvent('contentChanged');
             }
             return view('livewire.factor-detail');
-        }catch(Exception $e)
-        {
+        }catch(Exception $e){
             return view('livewire.factor-detail');
         }
     }
@@ -120,13 +119,10 @@ class FactorDetail extends Component
 
             $stock->addExistingPeers();
             $stock->addRandomPeers(30);
-            // echo "<br> Done with existing peers";
-            // print_r($stock->getPeerData());
+
             $this->comps = $stock->getPeerData();
             //dd($this->comps);
-
             $cors = collect([]);
-
             foreach ($this->comps as $p) {
                 $SC = $stock->compareToTicker($p);
                 if ($SC->correlation > 0) {
@@ -134,7 +130,8 @@ class FactorDetail extends Component
                     if ($this->etfs && getTicker($p)->type == "ETF") {
                         // if etf toggle is true and type is etf, then adds to list
                         $cors->push($SC);
-                    } elseif (!$this->etfs && getTicker($p)->type != "ETF") {
+                    } elseif (!$this->etfs && getTicker($p)->type != "ETF")
+                    {
                         // if etf toggle is false and type is not etf, then adds to list
                         $cors->push($SC);
                     }
@@ -150,9 +147,10 @@ class FactorDetail extends Component
 
         if ($this->etfs) {
             $this->etfs = false;
-        } else {
+        }
+        else {
             $this->etfs = true;
         }
-        $this->updatedTicker($this->ticker);
+        $this->updatedTicker();
     }
 }

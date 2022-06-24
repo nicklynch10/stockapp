@@ -85,7 +85,7 @@ class CompanyDetailModal extends Component
             $current_price = Http::get($endpoint . 'stable/stock/'.$stockticker.'/quote?token=' . $token);
             $price = $current_price->json();
             $this->current_share_price = $price ? $price['latestPrice'] : '';
-            $this->market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+            $this->market_cap = $price ? round(($price['marketCap']/1000), 2) : '';
             $logo = Http::get($endpoint . 'stable/stock/' . $stockticker . '/logo?token=' . $token);
             $logo_url = $logo->json();
             $this->tickerLogo = $logo_url ? $logo_url['url'] : '';

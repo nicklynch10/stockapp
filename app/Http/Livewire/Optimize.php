@@ -3,6 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Models\Account;
+use App\Models\SecCompare;
+use App\Models\SecInfo;
 use App\Models\Stock;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
@@ -50,46 +52,65 @@ class Optimize extends Component
 
         foreach ($stock as $st)
         {
-            $totalSell = 0;
-            $totalBuy = 0;
+            $sto = [];
+            $et = [];
+            $data = getTicker($st->stock_ticker);
+            if(!$data->getPeerData())
+            {
+                if(!$data->IEXpeer_data){
+                    $data->pullIEXPeers();
+                }else {
+                    $data->addRelatedPeers();
+                }
+                $data->addExistingPeers();
+                $data->addRandomPeers(30);
+            }
+            $this->data = $data->getPeerData();
+            foreach ($this->data as $p) {
+                $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->first();
+                if(isset($SC))
+                {
+                    if ($SC->correlation > 0) {
+                        if (getTicker($p)->type != "ETF") {
+                            if(count($sto)<4)
+                            {
+                                array_push($sto, $SC->ticker2);
+                            }
+                        }
+                        elseif (getTicker($p)->type == "ETF")
+                        {
+                            if(count($et)<4)
+                            {
+                                array_push($et, $SC->ticker2);
+                            }
+                        }
+                    }
+                }
+            }
+
             $totalPbuy = $st->current_share_price;
             $totalPSell = $st->ave_cost;
-            $transaction = Transaction::where('stock_id',$st->id)->get();
-
-//            foreach ($transaction as $t)
-//            {
-//                if($t->type == 0)
-//                {
-//                    $totalBuy = $t->share_price;
-//                    $totalShare = $t->stock;
-//                }
-//                elseif ($t->type == 1)
-//                {
-//                    $totalSell = $t->share_price;
-//                }
-//            }
-//            if($totalBuy!=0 && $totalBuy > $totalSell)
-//            {
-                $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
-                $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
-                $potentialSavings = $dLosss*40/100;
-                array_push($topLoss,
-                    [
-                        "id" => $st->id,
-                        "dloss" => $dLosss,
-                        "ploss" => $pLoss,
-                        "potentialSavings" => $potentialSavings,
-                        "ticker" => $st->stock_ticker,
-                        "company_name" => $st->company_name,
-                        "dateofpurchase" => $st->date_of_purchase,
-                        "long_term_gain" => $st->total_long_term_gains,
-                        "ticker_logo" => $st->ticker_logo,
-                        "account" => $st->account_name,
-                        "share_number" => $st->share_number,
-                    ]);
-                $psaving = array_column($topLoss, 'potentialSavings');
-                array_multisort($psaving, SORT_DESC, $topLoss);
-//            }
+            $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
+            $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
+            $potentialSavings = $dLosss*40/100;
+            array_push($topLoss,
+                [
+                    "id" => $st->id,
+                    "dloss" => $dLosss,
+                    "ploss" => $pLoss,
+                    "potentialSavings" => $potentialSavings,
+                    "ticker" => $st->stock_ticker,
+                    "company_name" => $st->company_name,
+                    "dateofpurchase" => $st->date_of_purchase,
+                    "long_term_gain" => $st->total_long_term_gains,
+                    "ticker_logo" => $st->ticker_logo,
+                    "account" => $st->account_name,
+                    "share_number" => $st->share_number,
+                    "compare_stock" => json_encode($sto),
+                    "compare_eft" => json_encode($et)
+                ]);
+            $psaving = array_column($topLoss, 'potentialSavings');
+            array_multisort($psaving, SORT_DESC, $topLoss);
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();

@@ -92,6 +92,7 @@
                             <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                 @if(isset($toploss) && count($toploss)>0)
                                     @foreach($toploss as $key=>$tl)
+
                                         <div class="m-2">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                                 <div class="mt-3 my-1">
@@ -184,16 +185,27 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
-                                                                <p class="border-dash w-60"></p>
-                                                                <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks / ETFs</p>
-                                                                <div class="flex-row w-60">
-                                                                    <button wire:click="$emit('company','AAPL')"><span class="custome-border">AAPL</span></button>
-                                                                    <button wire:click="$emit('company','GOOGL')"><span class="custome-border">GOOGL</span></button>
-                                                                    <button wire:click="$emit('company','SPY')"><span class="custome-border">SPY</span></button>
-                                                                    <button wire:click="$emit('company','QQQ')"><span class="custome-border">QQQ</span></button>
+                                                            @if($tl['compare_stock'] || $tl['compare_eft'])
+                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
+                                                                    <p class="border-dash w-60"></p>
+                                                                    @if(count(json_decode($tl['compare_stock']))>0)
+                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>
+                                                                        <div class="flex-row w-60 text-center">
+                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)
+                                                                                <button wire:click="$emit('company','AAPL')"><span class="custome-border">{{ $cs }}</span></button>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    @endif
+                                                                    @if(count(json_decode($tl['compare_eft']))>0)
+                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>
+                                                                        <div class="flex-row w-60 text-center">
+                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)
+                                                                                <button wire:click="$emit('company','AAPL')"><span class="custome-border">{{ $ce }}</span></button>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    @endif
                                                                 </div>
-                                                            </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>

@@ -55,36 +55,33 @@ class Optimize extends Component
             $sto = [];
             $et = [];
             $data = getTicker($st->stock_ticker);
-//            if(!$data->getPeerData())
-//            {
-//                if(!$data->IEXpeer_data){
-//                    $data->pullIEXPeers();
-//                }else {
-//                    $data->addRelatedPeers();
-//                }
-//                $data->addExistingPeers();
-//                $data->addRandomPeers(30);
-//            }
             $this->data = $data->getPeerData();
             foreach ($this->data as $p) {
-                $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->first();
-                if(isset($SC))
+                if(count($et) < 4 || count($sto) < 4)
                 {
-                    if ($SC->correlation > 0) {
-                        if (getTicker($p)->type != "ETF") {
-                            if(count($sto)<4)
-                            {
-                                array_push($sto, $SC->ticker2);
+                    $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->first();
+                    if(isset($SC))
+                    {
+                        if ($SC->correlation > 0) {
+                            if (getTicker($p)->type != "ETF") {
+                                if(count($sto)<4)
+                                {
+                                    array_push($sto, $SC->ticker2);
+                                }
                             }
-                        }
-                        elseif (getTicker($p)->type == "ETF")
-                        {
-                            if(count($et)<4)
+                            elseif (getTicker($p)->type == "ETF")
                             {
-                                array_push($et, $SC->ticker2);
+                                if(count($et)<4)
+                                {
+                                    array_push($et, $SC->ticker2);
+                                }
                             }
                         }
                     }
+                }
+                else
+                {
+                    break;
                 }
             }
 

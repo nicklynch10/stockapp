@@ -185,7 +185,7 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @if($tl['compare_stock'] || $tl['compare_eft'])
+                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)
                                                                 <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
                                                                     <p class="border-dash w-60"></p>
                                                                     @if(count(json_decode($tl['compare_stock']))>0)

@@ -55,16 +55,16 @@ class Optimize extends Component
             $sto = [];
             $et = [];
             $data = getTicker($st->stock_ticker);
-            if(!$data->getPeerData())
-            {
-                if(!$data->IEXpeer_data){
-                    $data->pullIEXPeers();
-                }else {
-                    $data->addRelatedPeers();
-                }
-                $data->addExistingPeers();
-                $data->addRandomPeers(30);
-            }
+//            if(!$data->getPeerData())
+//            {
+//                if(!$data->IEXpeer_data){
+//                    $data->pullIEXPeers();
+//                }else {
+//                    $data->addRelatedPeers();
+//                }
+//                $data->addExistingPeers();
+//                $data->addRandomPeers(30);
+//            }
             $this->data = $data->getPeerData();
             foreach ($this->data as $p) {
                 $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->first();

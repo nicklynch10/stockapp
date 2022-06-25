@@ -192,7 +192,7 @@
                                                                         <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>
                                                                         <div class="flex-row w-60 text-center">
                                                                             @foreach(json_decode($tl['compare_stock']) as $cs)
-                                                                                <button wire:click="$emit('company','AAPL')"><span class="custome-border">{{ $cs }}</span></button>
+                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>
                                                                             @endforeach
                                                                         </div>
                                                                     @endif
@@ -200,7 +200,7 @@
                                                                         <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>
                                                                         <div class="flex-row w-60 text-center">
                                                                             @foreach(json_decode($tl['compare_eft']) as $ce)
-                                                                                <button wire:click="$emit('company','AAPL')"><span class="custome-border">{{ $ce }}</span></button>
+                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>
                                                                             @endforeach
                                                                         </div>
                                                                     @endif

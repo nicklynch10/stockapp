@@ -33,7 +33,7 @@
         .blind.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 41px 25px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -47,7 +47,7 @@
         .blinds.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 41px 25px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -88,7 +88,7 @@
         .blindsLow.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 41px 25px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -115,7 +115,7 @@
         .blindsLagging.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 41px 25px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -142,7 +142,7 @@
         .blindsFixed.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 41px 25px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -170,7 +170,7 @@
         .blindsEmerging.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
-            background-size: 41px 25px;
+            background-size: 25px 25px;
             background-repeat: no-repeat;
             position: absolute;
             left: -33px;
@@ -460,125 +460,213 @@
                      class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
                     @if ($loadData)
                         @if($ticker != "" & count($correlations)>0)
-                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2  md:flex md:flex-col  xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2  md:flex md:flex-col  xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center lg:hidden mt:hidden md:hidden">
                                     <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b></b></label></div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <td class="mr-10">
-                                        <div id="bar-1" class="wrapper-ruler mb-5">
-                                            <div class="">
-                                                <div class="flex flex-col w-full items-center justify-center">
-                                                    <div class="flex justify-between items-center w-full">
-                                                        <div class="text-sm font-semibold">-1</div>
-                                                        <div class="text-sm font-medium text-brand-grey-base text-center">0</div>
-                                                        <div class="text-sm font-semibold">1</div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                    <div id="bar-1" class="wrapper-ruler mb-5">
+                                        <div class="">
+                                            <div class="flex flex-col w-full items-center justify-center">
+                                                <div class="flex justify-between items-center w-full">
+                                                    <div class="text-sm font-semibold">-1</div>
+                                                    <div
+                                                        class="text-sm font-medium text-brand-grey-base text-center">
+                                                        0
                                                     </div>
+                                                    <div class="text-sm font-semibold">1</div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </td>
+                                    </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center lg:hidden mt:hidden md:hidden">
                                     <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b></b></label></div>
                                 </div>
-                            </div><hr/>
-                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2  md:flex md:flex-col  xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
+                            </div>
+                            <hr/>
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
                                     <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Growth </b></label></div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Growth </span>
+                                        <span class="text-sm font-semibold ">Value </span>
+                                    </div>
                                     <div class="wrapper mb-5">
                                         <div class='blind right' id="blindRight"></div>
                                         <div class='blind left' id="blindLeft"></div>
                                     </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
                                     <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Value </b></label></div>
                                 </div>
-                            </div><hr/>
-                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Small Cap </b></label></div>
+                            </div>
+
+                            <hr/>
+
+
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Small Cap </b></label>
+                                    </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Small Cap </span>
+                                        <span class="text-sm font-semibold ">Large Cap </span>
+                                    </div>
                                     <div class="wrapper mb-5">
                                         <div class='blinds right' id="SmallRight"></div>
                                         <div class='blinds left' id="SmallLeft"></div>
                                     </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Large Cap </b></label></div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Large Cap </b></label>
+                                    </div>
                                 </div>
-                            </div><hr/>
-                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Emerging </b></label></div>
+                            </div>
+                            <hr/>
+
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Emerging </b></label>
+                                    </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Emerging </span>
+                                        <span class="text-sm font-semibold ">Developed </span>
+                                    </div>
                                     <div class="wrapper mb-5">
                                         <div class='blindsEmerging right' id="EmergingRight"></div>
                                         <div class='blindsEmerging left' id="EmergingLeft"></div>
                                     </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Developed</b></label></div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Developed </b></label>
+                                    </div>
                                 </div>
-                            </div><hr/>
-                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Lagging </b></label></div>
+                            </div>
+                            <hr/>
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Lagging </b></label>
+                                    </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Lagging </span>
+                                        <span class="text-sm font-semibold ">Momentum </span>
+                                    </div>
                                     <div class="wrapper mb-5">
                                         <div class='blindsLagging right' id="LaggingRight"></div>
                                         <div class='blindsLagging left' id="LaggingLeft"></div>
                                     </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Momentum </b></label></div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Momentum </b></label>
+                                    </div>
                                 </div>
-                            </div><hr/>
-                            <div class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Low Volatility </b></label></div>
+                            </div>
+                            <hr/>
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Low
+                                                Volatility </b></label></div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Low Volatility </span>
+                                        <span class="text-sm font-semibold ">High Volatility </span>
+                                    </div>
                                     <div class="wrapper mb-5">
                                         <div class='blindsLow right' id="LowRight"></div>
                                         <div class='blindsLow left' id="LowLeft"></div>
                                     </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>High Volatility</b></label></div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>High
+                                                Volatility </b></label></div>
                                 </div>
-                            </div><hr/>
-                            <div class="grid grid-cols-12 xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Fixed Income </b></label></div>
+                            </div>
+                            <hr/>
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Fixed Income </b></label>
+                                    </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Fixed Income </span>
+                                        <span class="text-sm font-semibold ">Equities </span>
+                                    </div>
                                     <div class="wrapper mb-5">
                                         <div class='blindsFixed right' id="FixedRight"></div>
                                         <div class='blindsFixed left' id="FixedLeft"></div>
                                     </div>
                                 </div>
-                                <div class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Equities </b></label></div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Equities </b></label>
+                                    </div>
                                 </div>
-                            </div><hr/>
+                            </div>
+                            <hr/>
                             <h2 class="font-semibold text-lg font-medium text-gray-900 processing"></h2>
                         @else
                             <div class="text-center">
-                                <h2 class="font-semibold text-lg font-medium text-gray-900 processing ">No data found in this stock</h2>
+                                <h2 class="font-semibold text-lg font-medium text-gray-900 processing ">No data found in
+                                    this
+                                    stock</h2>
                             </div>
                         @endif
                     @else
                         <div class="px-4 py-2 px-6 py-3 text-center font-bold text-lg">
-                            <button type="button" class="align-middle inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
-                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <button type="button"
+                                    class="align-middle inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed"
+                                    disabled="">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
                                 Loading Data....
                             </button>
@@ -623,7 +711,7 @@
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                         <div class="mt-3 my-1">
                                             <div class="flex flex-row items-center xs:flex-col">
-                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center xs:w-full md:w-2/5 xl:w-2/5" style="background: #f3f4f6">
+                                                <div wire:click="$emit('company', '{{ $result->ticker2 }}')" class="flex flex-col cursor-pointer justify-between p-4 leading-normal align items-center xs:w-full md:w-2/5 xl:w-2/5" style="background: #f3f4f6">
                                                     @php
                                                         $string = $result->ticker2;
                                                         if (strpos($string, "http") === 0) {
@@ -687,7 +775,7 @@
                                                                             @endif
                                                                         </span>
                                                                     </div>
-                                                                    <div class="inline-flex items-center text-sm text-green-700">${{number_format($result->SI2->marketcap/1000,0).'M'}}</div>
+                                                                    <div class="inline-flex items-center text-sm text-black">${{number_format($result->SI2->marketcap/1000,0).'M'}}</div>
                                                                 </div>
                                                             </li>
                                                             @php
@@ -710,9 +798,9 @@
                                                                                 @endif
                                                                             </span>
                                                                         </div>
-                                                                        <div class="inline-flex items-center text-sm text-green-700">
+                                                                        <div class="inline-flex items-center text-sm text-black">
                                                                             @if($stats!='')
-                                                                                {{number_format( $stats['peRatio'],2)}}
+                                                                                {{ $stats['peRatio'] < 0 ? "(".number_format( abs($stats['peRatio']),2).")" : number_format( $stats['peRatio'],2) }}
                                                                             @else
                                                                                 N/A
                                                                             @endif
@@ -746,9 +834,8 @@
                                                             $inarr = in_array(sorted($con), array_map("sorted", $data))
                                                         @endphp
                                                         <div class="mr-1 mb-1 inline-block">
-                                                            <div
-                                                                class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
-                                                                {!! $inarr == true ? "<b style='color: #15803d'>".$g."</b>" : "".$g."" !!}
+                                                            <div class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" style="background: {{ $inarr == true ? "#4fed4f47" : "#f3f4f6" }}">
+                                                                {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -840,6 +927,9 @@
                 @endif
             </div>
         </div>
+        {{--  Company Detail  --}}
+        @livewire('company-detail-modal')
+        {{-- End Company detail  --}}
     </div>
 
     {{--    <script type="text/javascript" class="selectpicker scriptid" src="/js/animated.js"></script>--}}

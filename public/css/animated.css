@@ -34,15 +34,14 @@
 
 .blind.right {
     left: 50%;
-    border-left: 1px solid white;
+    /*border-left: 1px solid white;*/
     transform-origin: left top;
     background-color: #008000FF;
     padding: 0 8px;
 
 }
-
 .blind.left {
-    border-right: 1px solid white;
+    /*border-right: 1px solid white;*/
     transform-origin: left top;
     background-color: #da1919;
 
@@ -60,7 +59,7 @@
 
 .blinds.right {
     left: 50%;
-    border-left: 1px solid white;
+    /*border-left: 1px solid white;*/
     transform-origin: left top;
     background-color: #008000FF;
     z-index: 1;
@@ -68,7 +67,7 @@
 }
 
 .blinds.left {
-    border-right: 1px solid white;
+    /*border-right: 1px solid white;*/
     transform-origin: left top;
     background-color: #da1919;
 
@@ -86,7 +85,7 @@
 
 .blindsLow.right {
     left: 50%;
-    border-left: 1px solid white;
+    /*border-left: 1px solid white;*/
     transform-origin: left top;
     background-color: #008000FF;
     z-index: 1;
@@ -94,7 +93,7 @@
 }
 
 .blindsLow.left {
-    border-right: 1px solid white;
+    /*border-right: 1px solid white;*/
     transform-origin: left top;
     background-color: #da1919;
 
@@ -111,7 +110,7 @@
 
 .blindsLagging.right {
     left: 50%;
-    border-left: 1px solid white;
+    /*border-left: 1px solid white;*/
     transform-origin: left top;
     background-color: #008000FF;
     z-index: 1;
@@ -119,7 +118,7 @@
 }
 
 .blindsLagging.left {
-    border-right: 1px solid white;
+    /*border-right: 1px solid white;*/
     transform-origin: left top;
     background-color: #da1919;
 
@@ -136,7 +135,7 @@
 
 .blindsFixed.right {
     left: 50%;
-    border-left: 1px solid white;
+    /*border-left: 1px solid white;*/
     transform-origin: left top;
     background-color: #008000FF;
     z-index: 1;
@@ -144,7 +143,7 @@
 }
 
 .blindsFixed.left {
-    border-right: 1px solid white;
+    /*border-right: 1px solid white;*/
     transform-origin: left top;
     background-color: #da1919;
 
@@ -161,7 +160,7 @@
 
 .blindsEmerging.right {
     left: 50%;
-    border-left: 1px solid white;
+    /*border-left: 1px solid white;*/
     transform-origin: left top;
     background-color: #008000FF;
     z-index: 1;
@@ -169,7 +168,7 @@
 }
 
 .blindsEmerging.left {
-    border-right: 1px solid white;
+    /*border-right: 1px solid white;*/
     transform-origin: left top;
     background-color: #da1919;
 
@@ -183,7 +182,7 @@
 @media (max-width: 700px) and (min-width: 320px){
 
     .wrapper {
-        margin: 18px auto 18px;
+        margin: 0px auto 18px;
         height: 25px;
         width: 80%;
         background: linear-gradient(to right, #da1919 50%, #008000FF 50%);
@@ -271,7 +270,7 @@
 
 @media (max-width: 1400px) and (min-width: 700px) {
     .wrapper {
-        margin: 18px auto 10px;
+        margin: 0px auto 10px;
         height: 25px;
         width: 75%;
         background: linear-gradient(to right, #da1919 50%, #008000FF 50%);

@@ -379,26 +379,34 @@
                     class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
                     <div
                         class="grid  gap-2 xs:flex-col xs:flex xs:text-center mr-1 sm:flex-col sm:flex lg:text-center sm:text-center lg:text-center md:text-center md:flex md:flex-col">
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Market Cap:</span>
-                            <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
-                        </div>
+                        @if($stats['marketCap'])
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">Market Cap:</span>
+                                <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
+                            </div>
+                        @endif
 
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Current Price:</span>
-                            <span class="xs:m-3 mb-3">${{ number_format(($stats['latestPrice']),2,'.',',') }}</span>
-                        </div>
+                        @if($stats['latestPrice'])
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">Current Price:</span>
+                                <span class="xs:m-3 mb-3">${{ number_format(($stats['latestPrice']),2,'.',',') }}</span>
+                            </div>
+                        @endif
 
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">High/Low:</span>
-                            <span
-                                class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
-                        </div>
+                        @if($stats['high'])
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">High/Low:</span>
+                                <span
+                                    class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
+                            </div>
+                        @endif
 
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Stock PE:</span>
-                            <span class="xs:m-3 mb-3">{{number_format( $stats['peRatio'],2)}} </span>
-                        </div>
+                        @if($stats['peRatio'])
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">Stock PE:</span>
+                                <span class="xs:m-3 mb-3">{{number_format( $stats['peRatio'],2)}} </span>
+                            </div>
+                        @endif
 
                         @if($company['sector'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
@@ -406,24 +414,34 @@
                                 <span class="xs:m-3 mb-3">{{ $company['sector'] }} </span>
                             </div>
                         @endif
+
+                        @if($company['issueType'])
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Issue Type:</span>
                             <span class="xs:m-3 mb-3">{{ convertType($company['issueType']) }}</span>
                         </div>
+                        @endif
+
                         @php
                             $token = env('IEX_CLOUD_KEY', null);
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                             $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/stats?token=' . $token);
                             $stats = $symbol->json();
                         @endphp
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Beta:</span>
-                            <span class="xs:m-3 mb-3">{{ number_format($stats['beta'], 2) }}</span>
-                        </div>
+
+                        @if($stats['beta'])
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">Beta:</span>
+                                <span class="xs:m-3 mb-3">{{ number_format($stats['beta'], 2) }}</span>
+                            </div>
+                        @endif
+
+                        @if($stats['dividendYield'])
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">Dividend Yield:</span>
                             <span class="xs:m-3 mb-3">{{ number_format($stats['dividendYield']*100, 2) }}%</span>
                         </div>
+                        @endif
                         <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                             <span class="font-bold xs:m-3 my-3">1 Year % Change:</span>
                             <span class="xs:m-3 mb-3">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2)."%" : "(".abs(number_format($stats['year1ChangePercent']*100, 2)) ."%)"  }}</span>

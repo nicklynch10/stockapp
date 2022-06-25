@@ -336,7 +336,7 @@
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
                     $company = $symbol->json();
                     $tag = $company ? $company['tags'] : [];
-                    $companyname=explode('-',$company['securityName'])
+                    $companyname= $company['companyName'];
                 @endphp
                 <div
                     class="col-start-1 col-span-2  sm:pl-0 md:pl-1 xl:pl-10 lg:pl-10 sm:flex-col  xs:flex-col xs:flex sm:text-center xs:text-center sm:flex sm:flex-wrap sm:justify-center xs:justify-center sm:ml-5 xs:ml-8 xs:px-3 lg:ml-24">
@@ -356,7 +356,7 @@
                                     <span class="lg:text-4xl xs:text-lg xl:text-xl sm:text-xl font-bold">
                                         {{strtoupper($this->ticker)}} <br>
                                     <span
-                                        class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-5"> {{ convertType($company['issueType'])=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$company['companyName']}}</span>
+                                        class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-5"> {{ $company['companyName'] }}</span>
                                 </span>
                                 @endif
                             </div>

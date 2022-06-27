@@ -107,37 +107,50 @@ class FactorDetail extends Component
             }
         }
 
-        if ($stock->info_data) {
-            if ($this->is_first_load) {
-                // prevents loading on the first load. THis was causing timeout errors
-                $this->is_first_load = false;
-            } elseif (!$stock->IEXpeer_data) {
-                $stock->pullIEXPeers();
-            } else {
-                $stock->addRelatedPeers();
+        $relation = getTicker($this->ticker);
+        if ($relation->info_data) {
+            if($relation->peer_data == null && count($relation->peer_data) == 0)
+            {
+                if (!$relation->IEXpeer_data) {
+                    $relation->pullIEXPeers();
+                } else {
+                    $relation->addRelatedPeers();
+                }
+
+                $relation->addExistingPeers();
+                $relation->addRandomPeers(100);
+                // echo "<br> Done with existing peers";
+                // print_r($stock->getPeerData());
+                $this->comps = $relation->getPeerData();
+            }
+            else
+            {
+                $this->comps = $relation->getPeerData();
             }
 
-            $stock->addExistingPeers();
-            $stock->addRandomPeers(30);
-
-            $this->comps = $stock->getPeerData();
             //dd($this->comps);
+            $stocks = collect([]);
             $cors = collect([]);
+
             foreach ($this->comps as $p) {
-                $SC = $stock->compareToTicker($p);
-                if ($SC->correlation > 0) {
+                $SC = $relation->compareToTicker($p);
+                $SI1 = $SC->SI2;
+                if ($SC->correlation>0) {
                     // adds to the list only if they find correlation data
                     if ($this->etfs && getTicker($p)->type == "ETF") {
                         // if etf toggle is true and type is etf, then adds to list
+                        $stocks->push($SI1);
                         $cors->push($SC);
-                    } elseif (!$this->etfs && getTicker($p)->type != "ETF")
-                    {
+                    } elseif (!$this->etfs && getTicker($p)->type != "ETF") {
                         // if etf toggle is false and type is not etf, then adds to list
+                        $stocks->push($SI1);
                         $cors->push($SC);
                     }
                 }
             }
+
             $this->correlation = $cors;
+            $this->stocks = $stocks;
         }
     }
 

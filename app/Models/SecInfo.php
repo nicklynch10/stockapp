@@ -36,6 +36,8 @@ class SecInfo extends Model
         $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
     }
 
+
+
     public function getIEXData()
     {
         $debug = $this->debug;
@@ -236,28 +238,44 @@ class SecInfo extends Model
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
             return $SC_old;
         }
+
+
+
         $this->getIEXData();
-        if((isset($factor->date_data) || isset($this->date_data)) && ($factor->getDateData()->first() == $this->getDateData()->first() || $factor->getChangeData()->count() == $this->getDateData()->count()))
-        {
-            $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
-            $multiplier = 1/3; // adjusts so it is closer to bounds.
-            $cor = $p;
-            if ($p>0) {
-                $cor = $cor**($multiplier);
-            } else {
-                $cor = -1*((-1*$cor)**($multiplier));
-            }
-            $SC = new FactorCompare();
-            $SC->SI()->associate($this);
-            $SC->factor()->associate($factor);
-            $SC->ticker = $this->ticker;
-            $SC->factor_name = $factor->name;
-            $SC->correlation = $cor;
-            $SC->range = $this->range;
-            $SC->amount = $this->getChangeData()->count();
-            $SC->save();
-            return $SC;
+        //dd($factor);
+
+        //dd($factor, $factor->date_data);
+        if (!isset($factor->date_data)|| !isset($this->date_data)) {
+            dd("no dates on factor compare", $factor, $this);
         }
+
+        if ($factor->getDateData()->first() != $this->getDateData()->first()) {
+            dd("Factor dates did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
+        } elseif ($factor->getChangeData()->count() != $this->getChangeData()->count()) {
+            dd("size did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
+        }
+
+        $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
+
+        $multiplier = 1/3; // adjusts so it is closer to bounds.
+        $cor = $p;
+        if ($p>0) {
+            $cor = $cor**($multiplier);
+        } else {
+            $cor = -1*((-1*$cor)**($multiplier));
+        }
+
+        $SC = new FactorCompare();
+        $SC->SI()->associate($this);
+        $SC->factor()->associate($factor);
+        $SC->ticker = $this->ticker;
+        $SC->factor_name = $factor->name;
+        $SC->correlation = $cor;
+        $SC->range = $this->range;
+        $SC->amount = $this->getChangeData()->count();
+        $SC->save();
+
+        return $SC;
     }
 
 
@@ -287,13 +305,11 @@ class SecInfo extends Model
         //     }
         // }
 
-        $new = $this->getPeerData();  // starts with existing peer data and adds new ones
-
         // cleans the peer data for valid peers only
+        $new = $this->getPeerData();  // starts with existing peer data and adds new ones
         $new2 = collect([]);
         $SCs = collect([]);
         foreach ($new as $p) {
-
             $SC = $this->compareToTicker($p);
             if (isset($SC->correlation) && $SC->correlation != 0 && !$new2->contains($p) && $SC->ticker1 != $SC->ticker2) {
                 $new2->push($p);
@@ -317,22 +333,22 @@ class SecInfo extends Model
 
     public function addRelatedPeers()
     {
-//        $this->pullIEXPeers();
+        $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
-        if(count($new)>0)
-        {
-            foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
-                $SI = getTicker($p);
-                $SI->pullIEXPeers();
-
-                // adds new peers in
-                foreach ($SI->getPeerData() as $pp) {
-                    $new->push($pp);
-                }
-            }
-            $this->peer_data = json_encode($new->toArray());
+        if ($this->getPeerData()->count() < 2) {
+            return;
         }
+        foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
+            $SI = getTicker($p);
+            $SI->pullIEXPeers();
+
+            // adds new peers in
+            foreach ($SI->getPeerData() as $pp) {
+                $new->push($pp);
+            }
+        }
+        $this->peer_data = json_encode($new->toArray());
         $this->pullIEXPeers();
     }
 
@@ -354,8 +370,9 @@ class SecInfo extends Model
             }
         }
 
+
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers($new);
+        $this->pullIEXPeers();
     }
 
 
@@ -365,7 +382,7 @@ class SecInfo extends Model
 
         $new = $this->getPeerData();
         // filters through all data and chooses only ones that have been updated within [30] days
-        $random = \App\Models\SecInfo::where('ticker', "<>", $this->ticker)->get()->filter(function ($value, $key) use ($new) {
+        $random = SecInfo::where('ticker', "<>", $this->ticker)->get()->filter(function ($value, $key) use ($new) {
             if ($value->updated_at < now()->addDays(-30)) {
                 return false;
             }
@@ -379,7 +396,7 @@ class SecInfo extends Model
         }
 
         // gets the min of amount found and ones added
-        $amt = min($n, $random->count());
+        $amt = min($n, $random->count()-1);
 
         //adds them into the peer set
         foreach ($random->random($amt) as $SC) {
@@ -389,7 +406,7 @@ class SecInfo extends Model
         }
 
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers($new);
+        $this->pullIEXPeers();
     }
 
     public function getChangeData()
@@ -429,7 +446,7 @@ class SecInfo extends Model
     {
         $regression = new LeastSquares();
         $regression->train($prices1, $prices2);
-//        dd($regression);
+        dd($regression);
         //return $regression->getCoefficients()[0];
     }
 

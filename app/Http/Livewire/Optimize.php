@@ -22,10 +22,19 @@ class Optimize extends Component
     public $harvestableLosses = 0;
     public $potentialSavings = 0;
     public $sortBy;
+    public $perPage = 3;
+    protected $listeners = [
+        'load-more' => 'loadMore'
+    ];
 
     public function mount()
     {
         $this->sortBy = "";
+    }
+
+    public function loadMore()
+    {
+        $this->perPage = $this->perPage + 5;
     }
 
     public function render()
@@ -47,7 +56,7 @@ class Optimize extends Component
         if ($this->sortBy) {
             $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->where('account_id',$this->sortBy)->get();
         }else{
-            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->get();
+            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->paginate($this->perPage);
         }
 
         foreach ($stock as $st)
@@ -55,11 +64,26 @@ class Optimize extends Component
             $sto = [];
             $et = [];
             $data = getTicker($st->stock_ticker);
-            $this->data = $data->getPeerData();
+            if($data['peer_data'] == null)
+            {
+                if (!$data['IEXpeer_data']) {
+                    $data->pullIEXPeers();
+                } else {
+                    $data->addRelatedPeers();
+                }
+
+                $data->addExistingPeers();
+                $data->addRandomPeers(100);
+                $this->data = $data->getPeerData();
+            }
+            else
+            {
+                $this->data = $data->getPeerData();
+            }
             foreach ($this->data as $p) {
                 if(count($et) < 4 || count($sto) < 4)
                 {
-                    $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->first();
+                    $SC = $data->compareToTicker($p);
                     if(isset($SC))
                     {
                         if ($SC->correlation > 0) {
@@ -111,9 +135,6 @@ class Optimize extends Component
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-
         return view('livewire.optimize',['toploss' => $topLoss]);
     }
-
-
 }

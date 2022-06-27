@@ -20,7 +20,23 @@
 
             }
         }
+        .badge {
+            position: relative;
+            top: -10px;
+            right: 3px;
+            padding: 3px 2px;
+            border-radius: 50%;
+            background-color: #00c806;
+            color: white;
+            font-size: 13px;
+            width: 27px;
+            text-align: center;
+        }
     </style>
+    @php
+        use App\Models\Stock;use Illuminate\Support\Facades\Auth;$optimizecount = Stock::where('user_id', Auth::user()->id)->get()
+    @endphp
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex lg:justify-between xl:justify-between h-16">
             <div class="flex">
@@ -31,7 +47,6 @@
                         {{--                        <x-jet-application-mark class="block h-9 w-auto" />--}}
                     </a>
                 </div>
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px xl:ml-10 lg:ml-10 sm:flex xl:flex md:flex">
                     <x-jet-nav-link href="{{ route('overview') }}" :active="request()->routeIs('overview')">
@@ -42,6 +57,7 @@
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                         {{ __('Optimize') }}
+                        <span class="badge">{{ count($optimizecount) }}</span>
                     </x-jet-nav-link>
                     {{--                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
                     {{--                        {{ __('Factors') }}--}}
@@ -220,6 +236,7 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                 {{ __('Optimize') }}
+                <span class="badge">{{ count($optimizecount) }}</span>
             </x-jet-responsive-nav-link>
             {{--            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
             {{--                {{ __('Factors') }}--}}

@@ -404,7 +404,7 @@
                         @if($stats['peRatio'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                                 <span class="font-bold xs:m-3 my-3">Stock PE:</span>
-                                <span class="xs:m-3 mb-3">{{number_format( $stats['peRatio'],2)}} </span>
+                                <span class="xs:m-3 mb-3">{{ $stats['peRatio'] < 0 ? "(".number_format( abs($stats['peRatio']),2).")" : number_format( $stats['peRatio'],2) }} </span>
                             </div>
                         @endif
 
@@ -723,7 +723,7 @@
                 @if ($loadData)
                     @if($ticker != "" & count($correlation)>0)
                     <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
-                        @foreach($correlation as $result)
+                        @foreach($correlation->sortByDesc("correlation") as $result)
                             @if($result && isset($result->ticker2))
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
@@ -751,7 +751,7 @@
                                                     <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                         <a class=" cursor-pointer whitespace-normal">{{ $result->ticker2 }}</a>
                                                     </h5>
-                                                    <span class="mb-1 break-words break-all text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
+                                                    <span class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
                                                 </div>
                                                 <div class="flex flex-col justify-between leading-normal xs:w-full md:pl-3 xl:pl-15 md:w-3/5 xl:w-3/5">
                                                     <div class="flow-root">

@@ -155,7 +155,7 @@
                                                                                 </p>
                                                                             </div>
                                                                             <div class="inline-flex items-center break-all text-sm">
-                                                                                <p class="break-all text-red-700">(${{ number_format($tl['dloss'],2) }})</p>
+                                                                                <p class="break-all text-red-700">(${{ number_format(abs($tl['dloss']),2) }})</p>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -167,7 +167,7 @@
                                                                                 </p>
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
-                                                                                <p class="break-all text-red-700">({{ number_format($tl['ploss'],2) }}%)</p>
+                                                                                <p class="break-all text-red-700">({{ number_format(abs($tl['ploss']),2) }}%)</p>
                                                                             </div>
                                                                         </div>
                                                                     </li>

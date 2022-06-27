@@ -195,17 +195,20 @@ class SecInfo extends Model
             //initialize a SecInfo model
 
             $SI1 = getTicker($ticker);
-            //dd($SI1);
             if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
                 //dd("Sec dates did not match");
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
-            } else {
+            } elseif(!empty($SI1->getChangeData()->toArray()) && !empty($this->getChangeData()->toArray())) {
                 if ($debug) {
                     echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
                 }
                 $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
+            }
+            else
+            {
+                $p = 0;
             }
         }
         $this->save();

@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="col-start-3 sm:col-start-3 col-span-2 sm:col-span-2 mx-1 text-sm text-center py-1 break-words">
-                    <a class="cursor-pointer whitespace-normal text-blue-600" wire:click="company({{ $trad->stock_id }})">{{ $trad->stock_ticker }}</a>
+                    <a class="cursor-pointer whitespace-normal text-blue-600" wire:click="company({{ $trad->stock_id }})">{{ strtoupper($trad->stock_ticker) }}</a>
                 </div>
 
                 <div class="col-start-5 sm:col-start-5 col-span-3 sm:col-span-2 mx-1 text-sm text-center py-1 break-words">
@@ -50,11 +50,13 @@
                 </div>
 
                 <div class="col-start-8 sm:col-start-7 col-span-3 sm:col-span-2  mx-1 text-sm text-center  py-1 break-words" >
-                    <p class="whitespace-normal">{!! $trad->type==0?'Purchased '.round($trad->stock, 2).' '.($trad->stock == 1 ? "Share" : "Shares" ).' of '.$trad->stock_ticker.' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share':'Sold '.$trad->stock.' shares of '.$trad->stock_ticker.' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share'  !!}</p>
+                    <p class="whitespace-normal">{!! $trad->type==0?'Purchased '.round($trad->stock, 2).' '.($trad->stock == 1 ? "Share" : "Shares" ).' of '.strtoupper($trad->stock_ticker).' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share':'Sold '.$trad->stock.' shares of '.strtoupper($trad->stock_ticker).' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share'  !!}</p>
                 </div>
+
                 <div class="col-start-11 sm:col-start-9 col-span-1 sm:col-span-2 mx-1 text-sm text-center  py-1">
                     <p class="@if($taxable < 0) text-red-600 @else text-green-600 @endif">{{$trad->type==1?$taxable<0?"($".number_format(abs($taxable),2).")":"$".number_format($taxable,2):'-'}}</p>
                 </div>
+
                 <div class="col-start-12 sm:col-start-11 col-span-1 sm:col-span-2 mx-1 text-sm text-center py-1">
                     <p class="@if($trad->type == 0) text-red-600 @else text-green-600 @endif">{{ $trad->type==0?'($'.number_format($trad->stock*$trad->share_price,2).")":'$'.number_format($trad->stock*$trad->share_price,2) }}</p>
 

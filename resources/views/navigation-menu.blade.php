@@ -24,13 +24,11 @@
             position: relative;
             top: -10px;
             right: 3px;
-            padding: 3px 2px;
-            border-radius: 50%;
-            background-color: #00c806;
-            color: white;
+            color: #15803d;
             font-size: 13px;
             width: 27px;
             text-align: center;
+            font-weight: bold;
         }
     </style>
     @php

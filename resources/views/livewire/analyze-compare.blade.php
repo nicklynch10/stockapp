@@ -8,7 +8,7 @@
             <img src="/images/logo2.png" class="logo" style="height: 40px;">
         </div>
         <div class="flex justify-center mt-6 lg:text-lg">
-            <span>Stock Analysis And Screening tool for investors in USA.</span>
+            <span>Stock Analysis And Screening Tool</span>
         </div>
         <div class="flex justify-center mt-6 lg:text-lg overflow-auto">
             <div class="factor-width">

@@ -22,7 +22,7 @@ class Optimize extends Component
     public $harvestableLosses = 0;
     public $potentialSavings = 0;
     public $sortBy;
-    public $perPage = 3;
+    public $perPage = 4;
     protected $listeners = [
         'load-more' => 'loadMore'
     ];

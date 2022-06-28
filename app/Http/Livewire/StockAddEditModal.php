@@ -66,64 +66,72 @@ class StockAddEditModal extends Component
             $this->tickerLogo='';
         }
         if ($this->tickerorcompany != null && $this->average_cost == null) {
-            $this->companyname = StockTicker::where('ticker', $this->tickerorcompany)->orWhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')->first();
-            if (!$this->companyname) {
-                $this->companyname = MutualFunds::where('symbol', $this->tickerorcompany)->orWhere('name', 'like', '%' . $this->tickerorcompany . '%')->first();
-                if(!$this->companyname)
-                {
-                    $this->cryptoData = CryptoCurrency::where('crypto_symbol',$this->tickerorcompany)->orWhere('crypto_name', 'like', '%' . $this->tickerorcompany . '%')->first();
-                }
+            $this->stockTicker = StockTicker::where('ticker', $this->tickerorcompany)->orWhere('ticker_company', 'like', '%' . $this->tickerorcompany . '%')->first();
+            $this->mutualFund = MutualFunds::where('symbol', $this->tickerorcompany)->orWhere('name', 'like', '%' . $this->tickerorcompany . '%')->first();
+            $this->crypto = CryptoCurrency::where('crypto_symbol',$this->tickerorcompany)->orWhere('crypto_name', 'like', '%' . $this->tickerorcompany . '%')->first();
+            if(isset($this->stockTicker) || isset($this->mutualFund))
+            {
+                $this->data = $this->stockTicker ? $this->stockTicker['ticker'] : $this->mutualFund['symbol'];
+                $this->type = $this->stockTicker ? 0 : 1;
             }
-            if(isset($this->companyname)) {
-                if ($this->companyname && $this->companyname['ticker'] || $this->companyname['symbol']) {
-                    if($this->companyname['ticker'])
-                    {
-                        $this->type = 0;
-                    }
-                    elseif ($this->companyname['symbol'])
-                    {
-                        $this->type = 1;
-                    }
-                    $this->data = $this->companyname['ticker'] ? $this->companyname['ticker'] : $this->companyname['symbol'];
-                    $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
-                    $company = $symbol->json();
-                    $this->company_name = $this->companyname['ticker'] ? $this->companyname['ticker_company'] : $this->companyname['name'];
-                    $this->stock_ticker = $this->companyname ? $company['symbol'] : $this->companyname['ticker'];
-                    $this->description = $company ? $company['description'] : null;
-                    $this->sector = $company ? $company['sector'] : null;
-                    $this->issuetype = $company ? $company['issueType'] : null;
-                    $this->tags = $company ? json_encode($company['tags']) : null;
-                    $this->security_name = $company ? $company['securityName'] : null;
-                    $current_price = Http::get($endpoint . 'stable/stock/' . $this->data . '/quote?token=' . $token);
-                    $price = $current_price->json();
-                    $this->current_share_price = $price ? $price['latestPrice'] : '';
-                    $this->market_cap = $price ? round(($price['marketCap']/1000), 2) : '';
-                    $logo = Http::get($endpoint . 'stable/stock/' . $this->data . '/logo?token=' . $token);
-                    $logo_url = $logo->json();
-                    $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
-                }
-            }
-            elseif(isset($this->cryptoData)){
-                $current_price = Http::get($endpoint . 'stable/crypto/' . $this->cryptoData['crypto_symbol'] . '/quote?token=' . $token);
-                $price = $current_price->json();
-                $this->current_share_price = $price ? $price['latestPrice'] : '';
-                $this->company_name = $this->cryptoData['crypto_name'];
-                $this->stock_ticker = $this->cryptoData['crypto_symbol'];
+            elseif(isset($this->crypto))
+            {
+                $this->cryptoData = $this->crypto['crypto_symbol'];
                 $this->type = 2;
             }
-            else {
-                $this->company_name = '';
-                $this->stock_ticker = 'No Company Found';
-                $this->description = '';
-                $this->sector = '';
-                $this->issuetype = '';
-                $this->security_name = '';
-                $this->current_share_price = '';
-                $this->market_cap = '';
-                $this->average_cost = '';
-                $this->share_number = '';
-                $this->tickerLogo='';
-                $this->type = '';
+            else
+            {
+                $symbol = Http::get($endpoint . 'stable/stock/'.$this->tickerorcompany.'/company?token=' . $token);
+                $company = $symbol->json();
+                if(isset($company['companyName']))
+                {
+                    $this->data = $this->tickerorcompany;
+                    $this->type = 0;
+                }
+                else
+                {
+                    $this->company_name = '';
+                    $this->stock_ticker = 'No Company Found';
+                    $this->description = '';
+                    $this->sector = '';
+                    $this->issuetype = '';
+                    $this->security_name = '';
+                    $this->current_share_price = '';
+                    $this->market_cap = '';
+                    $this->average_cost = '';
+                    $this->share_number = '';
+                    $this->tickerLogo='';
+                    $this->type = '';
+                }
+            }
+
+            if ($this->data) {
+                $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
+                $company = $symbol->json();
+                $this->company_name = $company['companyName'];
+                $this->stock_ticker = $company['symbol'];
+                $this->description = $company ? $company['description'] : null;
+                $this->sector = $company ? $company['sector'] : null;
+                $this->issuetype = $company ? $company['issueType'] : null;
+                $this->tags = $company ? json_encode($company['tags']) : null;
+                $this->security_name = $company ? $company['securityName'] : null;
+                $current_price = Http::get($endpoint . 'stable/stock/' . $this->data . '/quote?token=' . $token);
+                $price = $current_price->json();
+                $this->current_share_price = $price ? $price['latestPrice'] : '';
+                $this->market_cap = $price ? round(($price['marketCap']/1000), 2) : '';
+                $logo = Http::get($endpoint . 'stable/stock/' . $this->data . '/logo?token=' . $token);
+                $logo_url = $logo->json();
+                $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+            }
+            elseif(isset($this->cryptoData)){
+                $current_price = Http::get($endpoint . 'stable/crypto/' . $this->cryptoData . '/quote?token=' . $token);
+                $price = $current_price->json();
+                if(isset($price))
+                {
+                    $this->current_share_price = $price ? $price['latestPrice'] : '';
+                    $this->company_name = $this->crypto['crypto_name'];
+                    $this->stock_ticker = $this->crypto['crypto_symbol'];
+                }
             }
         }
         $this->emit('stockData');

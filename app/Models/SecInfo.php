@@ -36,8 +36,6 @@ class SecInfo extends Model
         $this->endpoint = env('IEX_CLOUD_ENDPOINT', null);
     }
 
-
-
     public function getIEXData()
     {
         $debug = $this->debug;
@@ -195,20 +193,20 @@ class SecInfo extends Model
             //initialize a SecInfo model
 
             $SI1 = getTicker($ticker);
+            //dd($SI1);
             if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
                 //dd("Sec dates did not match");
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
-            } elseif(!empty($SI1->getChangeData()->toArray()) && !empty($this->getChangeData()->toArray())) {
+            } elseif(empty($SI1->getChangeData()->toArray()) || empty($this->getChangeData()->toArray()))
+            {
+               $p = 0;
+            }else{
                 if ($debug) {
                     echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
                 }
                 $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
-            }
-            else
-            {
-                $p = 0;
             }
         }
         $this->save();
@@ -241,22 +239,7 @@ class SecInfo extends Model
         if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
             return $SC_old;
         }
-
-
-
         $this->getIEXData();
-        //dd($factor);
-
-        //dd($factor, $factor->date_data);
-        if (!isset($factor->date_data)|| !isset($this->date_data)) {
-            dd("no dates on factor compare", $factor, $this);
-        }
-
-        if ($factor->getDateData()->first() != $this->getDateData()->first()) {
-            dd("Factor dates did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
-        } elseif ($factor->getChangeData()->count() != $this->getChangeData()->count()) {
-            dd("size did not match", $factor, $this, $factor->getDateData()->first(), $this->getDateData()->first());
-        }
 
         $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
 
@@ -359,17 +342,20 @@ class SecInfo extends Model
     public function addExistingPeers()
     {
         $new = $this->getPeerData();
-        $secCompares = SecCompare::where(function ($q){
-            $q->where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker);
-        })->orWhere(function ($q){
-            $q->where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker);
-        })->get();
-        foreach ($secCompares as $secCompare) {
-            if (!$new->contains($secCompare->ticker1)) {
-                $new->push($secCompare->ticker1);
+        $random = SecCompare::where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker)->get();
+        //dd($random->first(), $random->random(), $random->last());
+        foreach ($random as $SC) {
+            if (!$new->contains($SC->ticker1)) {
+                $new->push($SC->ticker1);
             }
-            elseif(!$new->contains($secCompare->ticker2)) {
-                $new->push($secCompare->ticker2);
+        }
+
+
+        $random = SecCompare::where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker)->get();
+        //dd($random->first(), $random->random(), $random->last());
+        foreach ($random as $SC) {
+            if (!$new->contains($SC->ticker2)) {
+                $new->push($SC->ticker2);
             }
         }
 
@@ -449,7 +435,6 @@ class SecInfo extends Model
     {
         $regression = new LeastSquares();
         $regression->train($prices1, $prices2);
-        dd($regression);
         //return $regression->getCoefficients()[0];
     }
 

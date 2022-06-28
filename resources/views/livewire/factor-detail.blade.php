@@ -284,7 +284,7 @@
                 <img src="/images/logo2.png" class="logo" style="height: 40px;">
             </div>
             <div class="flex justify-center mt-6 lg:text-lg xs:mx-4">
-                <span>Stock Analysis And Screening tool for investors in USA.</span>
+                <span>Stock Analysis And Screening Tool</span>
             </div>
             <div class="flex justify-center mt-6 lg:text-lg overflow-auto xs:mx-4">
                 <div class="factor-width">
@@ -336,7 +336,7 @@
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
                     $company = $symbol->json();
                     $tag = $company ? $company['tags'] : [];
-                    $companyname= $company['companyName'];
+                    $companyname = $company ? $company['companyName'] : '';
                 @endphp
                 <div
                     class="col-start-1 col-span-2  sm:pl-0 md:pl-1 xl:pl-10 lg:pl-10 sm:flex-col  xs:flex-col xs:flex sm:text-center xs:text-center sm:flex sm:flex-wrap sm:justify-center xs:justify-center sm:ml-5 xs:ml-8 xs:px-3 lg:ml-24">
@@ -352,7 +352,7 @@
                                 </div>
                             </h5>
                             <div class="lg:ml-1 xl:ml-5 xs:ml-1 sm:ml-0 md:ml-5">
-                                @if($company['companyName'])
+                                @if($company != null)
                                     <span class="lg:text-4xl xs:text-lg xl:text-xl sm:text-xl font-bold">
                                         {{strtoupper($this->ticker)}} <br>
                                     <span
@@ -368,58 +368,64 @@
                             $data = Http::get($url);
                             $stats = $data->json();
                         @endphp
-                        <div class="float-right grid-rows-2 mr-10 ">
-                            <span
-                                class="row-span-1 font-bold text-xl ">${{ number_format(($stats['latestPrice']),2,'.',',')}}</span><br/>
-                            <span class="row-span-2 text-gray-700 text-sm">{{$stats['latestTime']}}-Close</span>
-                        </div>
+                        @if($stats != null)
+                            <div class="float-right grid-rows-2 mr-10 ">
+                                <span
+                                    class="row-span-1 font-bold text-xl ">${{ number_format(($stats['latestPrice']),2,'.',',')}}</span><br/>
+                                <span class="row-span-2 text-gray-700 text-sm">{{$stats['latestTime']}}-Close</span>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div
                     class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-20">
                     <div
                         class="grid  gap-2 xs:flex-col xs:flex xs:text-center mr-1 sm:flex-col sm:flex lg:text-center sm:text-center lg:text-center md:text-center md:flex md:flex-col">
-                        @if($stats['marketCap'])
-                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                                <span class="font-bold xs:m-3 my-3">Market Cap:</span>
-                                <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
-                            </div>
+                        @if($stats != null)
+                            @if($stats['marketCap'])
+                                <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                    <span class="font-bold xs:m-3 my-3">Market Cap:</span>
+                                    <span class="xs:m-3 mb-3">${{number_format(($stats['marketCap']/1000000))}}M</span>
+                                </div>
+                            @endif
+
+                            @if($stats['latestPrice'])
+                                <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                    <span class="font-bold xs:m-3 my-3">Current Price:</span>
+                                    <span class="xs:m-3 mb-3">${{ number_format(($stats['latestPrice']),2,'.',',') }}</span>
+                                </div>
+                            @endif
+
+                            @if($stats['high'])
+                                <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                    <span class="font-bold xs:m-3 my-3">52 Week High/Low:</span>
+                                    <span
+                                        class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
+                                </div>
+                            @endif
+
+                            @if($stats['peRatio'])
+                                <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                    <span class="font-bold xs:m-3 my-3">Stock PE:</span>
+                                    <span class="xs:m-3 mb-3">{{ $stats['peRatio'] < 0 ? "(".number_format( abs($stats['peRatio']),2).")" : number_format( $stats['peRatio'],2) }} </span>
+                                </div>
+                            @endif
                         @endif
 
-                        @if($stats['latestPrice'])
-                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                                <span class="font-bold xs:m-3 my-3">Current Price:</span>
-                                <span class="xs:m-3 mb-3">${{ number_format(($stats['latestPrice']),2,'.',',') }}</span>
-                            </div>
-                        @endif
+                        @if($company != null)
+                            @if($company['sector'])
+                                <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                    <span class="font-bold xs:m-3 my-3">Sector:</span>
+                                    <span class="xs:m-3 mb-3">{{ $company['sector'] }} </span>
+                                </div>
+                            @endif
 
-                        @if($stats['high'])
+                            @if($company['issueType'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                                <span class="font-bold xs:m-3 my-3">High/Low:</span>
-                                <span
-                                    class="xs:m-3 mb-3"> ${{ number_format(($stats['high']),2,'.',',').' / '.'$'.number_format(($stats['low']),2,'.',',') }}</span>
+                                <span class="font-bold xs:m-3 my-3">Issue Type:</span>
+                                <span class="xs:m-3 mb-3">{{ convertType($company['issueType']) }}</span>
                             </div>
-                        @endif
-
-                        @if($stats['peRatio'])
-                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                                <span class="font-bold xs:m-3 my-3">Stock PE:</span>
-                                <span class="xs:m-3 mb-3">{{ $stats['peRatio'] < 0 ? "(".number_format( abs($stats['peRatio']),2).")" : number_format( $stats['peRatio'],2) }} </span>
-                            </div>
-                        @endif
-
-                        @if($company['sector'])
-                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                                <span class="font-bold xs:m-3 my-3">Sector:</span>
-                                <span class="xs:m-3 mb-3">{{ $company['sector'] }} </span>
-                            </div>
-                        @endif
-
-                        @if($company['issueType'])
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Issue Type:</span>
-                            <span class="xs:m-3 mb-3">{{ convertType($company['issueType']) }}</span>
-                        </div>
+                            @endif
                         @endif
 
                         @php
@@ -429,23 +435,29 @@
                             $stats = $symbol->json();
                         @endphp
 
-                        @if($stats['beta'])
+                        @if($stats != null)
+                            @if($stats['beta'])
+                                <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                    <span class="font-bold xs:m-3 my-3">Beta:</span>
+                                    <span class="xs:m-3 mb-3">{{ number_format($stats['beta'], 2) }}</span>
+                                </div>
+                            @endif
+
+                            @if($stats['dividendYield'])
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                                <span class="font-bold xs:m-3 my-3">Beta:</span>
-                                <span class="xs:m-3 mb-3">{{ number_format($stats['beta'], 2) }}</span>
+                                <span class="font-bold xs:m-3 my-3">Dividend Yield:</span>
+                                <span class="xs:m-3 mb-3">{{ number_format($stats['dividendYield']*100, 2) }}%</span>
                             </div>
+                            @endif
                         @endif
 
-                        @if($stats['dividendYield'])
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">Dividend Yield:</span>
-                            <span class="xs:m-3 mb-3">{{ number_format($stats['dividendYield']*100, 2) }}%</span>
-                        </div>
+
+                        @if($stats != null)
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+{{--                                <span class="font-bold xs:m-3 my-3">1 Year % Change:</span>--}}
+                                <span class="xs:m-3 mb-3 pt-3 {{ $stats['year1ChangePercent'] > 0 ? "text-green-500" : "text-red-600" }}">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2)."%" : "(".abs(number_format($stats['year1ChangePercent']*100, 2)) ."%)"  }}</span>
+                            </div>
                         @endif
-                        <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-                            <span class="font-bold xs:m-3 my-3">1 Year % Change:</span>
-                            <span class="xs:m-3 mb-3">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2)."%" : "(".abs(number_format($stats['year1ChangePercent']*100, 2)) ."%)"  }}</span>
-                        </div>
                         <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">
                             @if(isset($tag))
                                 @foreach($tag as $t)
@@ -458,7 +470,9 @@
                                 @endforeach
                             @endif
                         </div>
-                        @if($company['description'])
+
+
+                        @if($company && $company['description'])
                             <div class="col-span-3 box-content border-1  sm:m-2">
                                 <p>{{ $company['description'] }}</p>
                             </div>
@@ -467,8 +481,7 @@
                 </div>
             </div>
 
-            <div
-                class="col-start-2 md:col-end-6 lg:col-end-6 xs:flex-col xs:flex sm:flex-col sm:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
+            <div class="col-start-2 md:col-end-6 lg:col-end-6 xs:flex-col xs:flex sm:flex-col sm:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center m-3 mb-5 mt-8 pl-4 ">
                     <h2 class="text-2xl font-black">Factor Analysis <br>
                         <span class="font-bold text-lg">TaxGhost can help identify similar stocks & ETFs so you can tax loss harvest effectively</span>
@@ -697,14 +710,10 @@
         <div class="grid grid-cols-1 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center m-2">
             <div class="col-start-1 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center w-full border-b-2 border-gray-300 mb-2 mt-6">
-                    @php
-                        use App\Models\StockTicker;$SC_old = StockTicker::where('ticker', $this->ticker)->first();
-                        $company =$SC_old['ticker_company']
-                    @endphp
                     @if($etfs)
-                        <h2 class="text-xl font-black">Comparable ETFs to [{{$company}}]</h2>
+                        <h2 class="text-xl font-black">Comparable ETFs to [{{$companyname}}]</h2>
                     @else
-                        <h2 class="text-xl font-black">Comparable Stocks to [{{$company}}]</h2>
+                        <h2 class="text-xl font-black">Comparable Stocks to [{{$companyname}}]</h2>
                     @endif
                     <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 mb-2 bg-white border border-gray-300 mr-2 ml-2 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer" id="buttons">
                         @if($etfs)
@@ -749,7 +758,7 @@
                                                         @endif
                                                     </h5>
                                                     <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
-                                                        <a class=" cursor-pointer whitespace-normal">{{ $result->ticker2 }}</a>
+                                                        <a class=" cursor-pointer whitespace-normal">{{ strtoupper($result->ticker2) }}</a>
                                                     </h5>
                                                     <span class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
                                                 </div>
@@ -817,7 +826,7 @@
                                                                             </span>
                                                                         </div>
                                                                         <div class="inline-flex items-center text-sm text-black">
-                                                                            @if($stats!='')
+                                                                            @if($stats!='' && $stats['peRatio'] != 0)
                                                                                 {{ $stats['peRatio'] < 0 ? "(".number_format( abs($stats['peRatio']),2).")" : number_format( $stats['peRatio'],2) }}
                                                                             @else
                                                                                 N/A

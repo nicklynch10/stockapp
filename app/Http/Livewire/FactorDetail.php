@@ -37,15 +37,15 @@ class FactorDetail extends Component
     public function mount()
     {
         $this->ticker = $_GET['ticker'];
-        $stockdata = StockTicker::where('ticker',$this->ticker)->first();
-        if($stockdata == null)
-        {
-            $this->ticker = "TSLA";
-        }
-        else
-        {
-            $this->ticker = $_GET['ticker'];
-        }
+//        $stockdata = StockTicker::where('ticker',$this->ticker)->first();
+//        if($stockdata == null)
+//        {
+//            $this->ticker = "TSLA";
+//        }
+//        else
+//        {
+//            $this->ticker = $_GET['ticker'];
+//        }
     }
 
     public function render()
@@ -108,8 +108,9 @@ class FactorDetail extends Component
         }
 
         $relation = getTicker($this->ticker);
+
         if ($relation->info_data) {
-            if($relation->peer_data == null && count($relation->peer_data) == 0)
+            if($relation->peer_data == null)
             {
                 if (!$relation->IEXpeer_data) {
                     $relation->pullIEXPeers();

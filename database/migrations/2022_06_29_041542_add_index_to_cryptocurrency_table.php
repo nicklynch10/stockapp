@@ -14,6 +14,7 @@ class AddIndexToCryptocurrencyTable extends Migration
     public function up()
     {
         Schema::table('cryptocurrency', function (Blueprint $table) {
+            $table->string('crypto_name')->change();
             $table->index('id');
             $table->index('crypto_symbol');
             $table->index('crypto_name');

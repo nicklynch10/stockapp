@@ -14,6 +14,7 @@ class AddIndexToMutualfundsTable extends Migration
     public function up()
     {
         Schema::table('mutualfunds', function (Blueprint $table) {
+            $table->string('name')->change();
             $table->index('id');
             $table->index('symbol');
             $table->index('name');

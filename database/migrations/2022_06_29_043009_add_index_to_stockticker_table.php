@@ -14,6 +14,7 @@ class AddIndexToStocktickerTable extends Migration
     public function up()
     {
         Schema::table('stockticker', function (Blueprint $table) {
+            $table->string('ticker_company')->change();
             $table->index('id');
             $table->index('ticker');
             $table->index('ticker_company');

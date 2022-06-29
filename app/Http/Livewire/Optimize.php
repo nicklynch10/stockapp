@@ -22,19 +22,10 @@ class Optimize extends Component
     public $harvestableLosses = 0;
     public $potentialSavings = 0;
     public $sortBy;
-    public $perPage = 4;
-    protected $listeners = [
-        'load-more' => 'loadMore'
-    ];
 
     public function mount()
     {
         $this->sortBy = "";
-    }
-
-    public function loadMore()
-    {
-        $this->perPage = $this->perPage + 5;
     }
 
     public function render()
@@ -56,46 +47,32 @@ class Optimize extends Component
         if ($this->sortBy) {
             $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->where('account_id',$this->sortBy)->get();
         }else{
-            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->paginate($this->perPage);
+            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->get();
         }
 
         foreach ($stock as $st)
         {
             $sto = [];
             $et = [];
-            $data = getTicker($st->stock_ticker);
-            if($data['peer_data'] == null)
+            if($st->type == 0)
             {
-                if (!$data['IEXpeer_data']) {
-                    $data->pullIEXPeers();
-                } else {
-                    $data->addRelatedPeers();
-                }
-
-                $data->addExistingPeers();
-                $data->addRandomPeers(100);
-                $this->data = $data->getPeerData();
-            }
-            else
-            {
-                $this->data = $data->getPeerData();
-            }
-            foreach ($this->data as $p) {
-                if(count($et) < 4 || count($sto) < 4)
+                $data = SecInfo::where('ticker',$st->stock_ticker)->latest()->first();
+                if(isset($data) && $data->peer_data != null)
                 {
-                    $SC = $data->compareToTicker($p);
-                    if(isset($SC))
-                    {
-                        if ($SC->correlation > 0) {
-                            if (getTicker($p)->type != "ETF") {
-                                if(count($sto)<4)
+                    foreach (json_decode($data->peer_data) as $p) {
+                        if(count($et) > 3 || count($sto) > 3)
+                        {
+                            break;
+                        }
+                        $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->latest()->first();
+                        if(isset($SC))
+                        {
+                            if ($SC->correlation > 0) {
+                                if (getTicker($p)->type != "ETF")
                                 {
                                     array_push($sto, $SC->ticker2);
                                 }
-                            }
-                            elseif (getTicker($p)->type == "ETF")
-                            {
-                                if(count($et)<4)
+                                elseif (getTicker($p)->type == "ETF")
                                 {
                                     array_push($et, $SC->ticker2);
                                 }
@@ -103,12 +80,7 @@ class Optimize extends Component
                         }
                     }
                 }
-                else
-                {
-                    break;
-                }
             }
-
             $totalPbuy = $st->current_share_price;
             $totalPSell = $st->ave_cost;
             $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
@@ -127,6 +99,8 @@ class Optimize extends Component
                     "ticker_logo" => $st->ticker_logo,
                     "account" => $st->account_name,
                     "share_number" => $st->share_number,
+                    "security_name" => $st->security_name,
+                    "issuetype" => $st->issuetype,
                     "compare_stock" => json_encode($sto),
                     "compare_eft" => json_encode($et)
                 ]);

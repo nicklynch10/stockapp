@@ -24,7 +24,7 @@ class UpdateStockPrice extends Command
      *
      * @var string
      */
-    protected $description = 'Update Stock Price';
+    protected $description = 'Send notification';
 
     /**
      * Create a new command instance.

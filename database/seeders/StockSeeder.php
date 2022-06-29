@@ -23,10 +23,10 @@ class StockSeeder extends Seeder
     public function run()
     {
         $user=User::create([
-            'name' => 'Pal',
-            'first_name' => 'Pal',
-            'last_name' => 'Priti',
-            'email' => "pal@gmail.com",
+            'name' => 'Ajay Radadiya',
+            'first_name' => 'Ajay',
+            'last_name' => 'Radadiya',
+            'email' => "ajayradadiya6333@gmail.com",
             'password'=>Hash::make('z'),
         ]);
 

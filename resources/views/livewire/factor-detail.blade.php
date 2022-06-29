@@ -355,8 +355,9 @@
                                 @if($company != null)
                                     <span class="lg:text-4xl xs:text-lg xl:text-xl sm:text-xl font-bold">
                                         {{strtoupper($this->ticker)}} <br>
-                                    <span
-                                        class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-5"> {{ $company['companyName'] }}</span>
+                                    <span class="text-blue-500 font-bold lg:text-2xl xs:text-lg sm:text-xl sm:ml-5">
+                                        {{ $company['companyName'] }}
+                                    </span>
                                 </span>
                                 @endif
                             </div>
@@ -454,8 +455,8 @@
 
                         @if($stats != null)
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
-{{--                                <span class="font-bold xs:m-3 my-3">1 Year % Change:</span>--}}
-                                <span class="xs:m-3 mb-3 pt-3 {{ $stats['year1ChangePercent'] > 0 ? "text-green-500" : "text-red-600" }}">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2)."%" : "(".abs(number_format($stats['year1ChangePercent']*100, 2)) ."%)"  }}</span>
+                                <span class="font-bold xs:m-3 my-3">1 Year % Change:</span>
+                                <span class="xs:m-3 mb-3 {{ $stats['year1ChangePercent'] > 0 ? "text-green-500" : "text-red-600" }}">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2)."%" : "(".abs(number_format($stats['year1ChangePercent']*100, 2)) ."%)"  }}</span>
                             </div>
                         @endif
                         <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">
@@ -760,7 +761,16 @@
                                                     <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                         <a class=" cursor-pointer whitespace-normal">{{ strtoupper($result->ticker2) }}</a>
                                                     </h5>
-                                                    <span class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{$result->SI2->company_name}}</span>
+                                                    @php
+                                                        $companyName = explode('-', $result->SI2->security_name);
+                                                    @endphp
+                                                    <span class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">
+                                                        @if($result->SI2->security_name != null && $result->SI2->type == "ETF")
+                                                            {{ isset($companyName[1]) ? $companyName[1] : $companyName[0] }}
+                                                        @else
+                                                            {{ $result->SI2->company_name }}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                                 <div class="flex flex-col justify-between leading-normal xs:w-full md:pl-3 xl:pl-15 md:w-3/5 xl:w-3/5">
                                                     <div class="flow-root">
@@ -811,7 +821,6 @@
                                                                 $url = ($endpoint . 'stable/stock/'.$result->ticker2.'/quote?token=' . $token);
                                                                 $data = Http::get($url);
                                                                 $stats = $data->json()
-
                                                             @endphp
                                                             @if($stats!='')
                                                                 <li class="py-1 sm:py-4">

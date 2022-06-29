@@ -47,7 +47,7 @@
                                 @foreach($stocks as $s)
                                     @if(round($s->share_number,2)!=0 && round($s->share_number,2)!=0.00)
                                         @php
-                                            $companyname=explode('-',$s->security_name)
+                                            $companyname=explode('-',$s->security_name);
                                         @endphp
                                         <div class="m-2 text-center relative">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 flex flex-col justify-between" style="min-width: 100px; ">
@@ -117,7 +117,11 @@
                                                             {{ strtoupper($s->stock_ticker) }}
                                                         </a>
                                                         <p class="pb-2 text-sm font-sans break-words font-light text-grey-dark italic sm:text-xs">
-                                                            {{ $s->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$s->company_name }}
+                                                            @if($s->security_name != null && convertType($s->issuetype) == "ETF")
+                                                                {{ isset($companyname[1]) ? $companyname[1] : $companyname[0]}}
+                                                            @else
+                                                                {{ $s->company_name }}
+                                                            @endif
                                                         </p>
                                                         <p class="pb-2 text-sm font-sans break-words font-light text-grey-dark italic sm:text-xs">
                                                             {{ convertType($s->issuetype) }}

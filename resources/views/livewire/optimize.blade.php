@@ -131,7 +131,7 @@
                                                                     @php
                                                                         $count= strlen($tl["ticker"])
                                                                     @endphp
-                                                                    <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                                                    <div class="{{ $count > 7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
                                                                         <span class="break-all">{{ strtoupper($tl["ticker"])}}</span>
                                                                     </div>
                                                                 @endif
@@ -139,8 +139,16 @@
                                                             <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
                                                                 <a class="whitespace-normal" >{{ strtoupper($tl["ticker"]) }}</a>
                                                             </h5>
-                                                            <p class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">{{ $tl["company_name"] }}</p>
-                                                            {{--                                                            <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ \Carbon\Carbon::createFromTimestamp(strtotime($tl["dateofpurchase"]))->format('F jS, Y') }}</p>--}}
+                                                            @php
+                                                                $companyname=explode('-',$tl['security_name']);
+                                                            @endphp
+                                                            <p class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">
+                                                                @if($tl['security_name'] != null && convertType($tl['issuetype']) == "ETF")
+                                                                    {{ isset($companyname[1]) ? $companyname[1] : $companyname[0] }}
+                                                                @else
+                                                                    {{ $tl['company_name'] }}
+                                                                @endif
+                                                            </p>
                                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $tl["long_term_gain"] }}</p>
                                                             <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ $tl["account"] }}	</p>
                                                         </div>
@@ -224,12 +232,4 @@
     </div>
     {{--  Company Detail  --}}
     @livewire('company-detail-modal')
-    {{-- End Company detail  --}}
-    <script type="text/javascript">
-        window.onscroll = function(ev) {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                window.livewire.emit('load-more');
-            }
-        };
-    </script>
 </main>

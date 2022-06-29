@@ -22,7 +22,7 @@ class updatelatestprice extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Update stock latest price';
 
     /**
      * Create a new command instance.

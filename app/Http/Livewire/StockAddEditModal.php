@@ -106,8 +106,9 @@ class StockAddEditModal extends Component
             }
 
             if ($this->data) {
-                $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
+                $symbol = Http::get($endpoint . 'stable/stock/FILL/company?token=' . $token);
                 $company = $symbol->json();
+                dd($company);
                 $this->company_name = $company['companyName'];
                 $this->stock_ticker = $company['symbol'];
                 $this->description = $company ? $company['description'] : null;
@@ -185,6 +186,7 @@ class StockAddEditModal extends Component
         $this->currentStep = 1;
         $this->note = '';
         $this->tickerLogo = '';
+        $this->type = '';
         $this->date_of_purchase = Carbon::now()->format('Y-m-d');
         $default = Account::where(['user_id'=>Auth::user()->id,'set_default'=>1])->first();
         $this->account_type = $default ? $default->id : '';
@@ -211,6 +213,7 @@ class StockAddEditModal extends Component
             'current_share_price' => $this->current_share_price,
             'issuetype' => $this->issuetype,
             'tags' => $this->tags,
+            'type' => $this->type,
             'ave_cost' => $this->average_cost,
             'share_number' => $this->share_number,
             'date_of_purchase' => $this->date_of_purchase,
@@ -278,6 +281,7 @@ class StockAddEditModal extends Component
         $this->openmodalval=0;
         $this->avepricereadonly=0;
         $this->currentStep=1;
+        $this->type = $stock->type;
         $this->market_cap = $price ? round(($price['marketCap']/1000), 0) : ($stock->market_cap ? round(($stock->market_cap/1000), 0) : 0);
         $this->average_cost = $stock->ave_cost;
         $this->share_number = $stock->share_number;
@@ -288,7 +292,6 @@ class StockAddEditModal extends Component
         $logo = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/logo?token=' . $token);
         $logo_url = $logo->json();
         $this->tickerLogo = $logo_url ? $logo_url['url'] : $stock->ticker_logo;
-//        $this->tickerLogo = '';
         $this->emit('AveClose',0);
         $this->openModal();
     }

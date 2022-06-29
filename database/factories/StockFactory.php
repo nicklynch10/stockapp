@@ -35,19 +35,6 @@ class StockFactory extends Factory
         $company = $symbol->json();
         $description = $company ? $company['description'] : '';
         $sector = $company ? $company['sector'] : '';
-
-        if (isset($company['issueType'])) {
-            if ($company['issueType']=='et') {
-                $issuetype="ETF";
-            } elseif ($company['issueType']=='ad') {
-                $issuetype="ADR";
-            } elseif ($company['issueType']=='cs') {
-                $issuetype="Common Stock";
-            } else {
-                $issuetype=$company['issueType'];
-            }
-        }
-
         $tags = $company ? json_encode($company['tags']) : '';
         $security_name = $company ? $company['securityName'] : '';
 
@@ -55,7 +42,7 @@ class StockFactory extends Factory
         $price = $current_price->json();
 
         $current_share_price = $price ? $price['latestPrice'] : '';
-        $market_cap = $price ? round(($price['marketCap']/1000000), 2) : '';
+        $market_cap = $price ? round(($price['marketCap']/1000), 2) : '';
         $start = strtotime('2020-01-01');
         $end = strtotime(date('Y-m-d'));
         $timestamp = mt_rand($start, $end);
@@ -77,8 +64,9 @@ class StockFactory extends Factory
             'security_name' => $security_name,
             'market_cap' => $market_cap,
             'current_share_price' => $current_share_price,
-            'issuetype' => $issuetype,
+            'issuetype' => $company['issueType'],
             'tags' => $tags,
+            'type' => 0,
             'ave_cost' => $ave_cost,
             'share_number' => $share_number,
             'date_of_purchase' => $r,

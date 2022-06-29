@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col-start-2 sm:col-start-2 col-span-1 mx-1 text-sm text-center py-1 truncate">
-                    {{ $trad->type==0?'Buy':'Sell' }}
+                    {{ $trad->type == 0 ?'Buy':'Sell' }}
                 </div>
 
                 <div class="col-start-3 sm:col-start-3 col-span-2 sm:col-span-2 mx-1 text-sm text-center py-1 break-words">
@@ -45,7 +45,13 @@
 
                 <div class="col-start-5 sm:col-start-5 col-span-3 sm:col-span-2 mx-1 text-sm text-center py-1 break-words">
                     <a class="cursor-pointer whitespace-normal" wire:click="company({{ $trad->stock_id }})">
-                        <p class="whitespace-normal text-blue-600">{{$trad->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$trad->company_name}}</p>
+                        <p class="whitespace-normal text-blue-600">
+                            @if($trad->security_name != null && convertType($trad->issuetype) == "ETF")
+                                {{ isset($companyname[1]) ? $companyname[1] : $companyname[0] }}
+                            @else
+                                {{ $trad->company_name }}
+                            @endif
+                        </p>
                     </a>
                 </div>
 
@@ -111,7 +117,13 @@
 
                     <td class="text-blue-600 text-left truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
                         <a class="cursor-pointer whitespace-normal" wire:click="company({{ $trad->stock_id }})">
-                            <p class="whitespace-normal">{{$trad->issuetype=="ETF"?isset($companyname[1])? isset($companyname[2])?$companyname[1]."-".$companyname[2]:$companyname[1]:$companyname[1]:$trad->company_name}}</p>
+                            <p class="whitespace-normal">
+                                @if($trad->security_name != null && convertType($trad->issuetype) == "ETF")
+                                    {{ isset($companyname[1]) ? $companyname[1] : $companyname[0] }}
+                                @else
+                                    {{ $trad->company_name }}
+                                @endif
+                            </p>
                         </a>
                     </td>
                 </tr>

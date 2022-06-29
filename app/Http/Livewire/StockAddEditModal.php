@@ -106,9 +106,8 @@ class StockAddEditModal extends Component
             }
 
             if ($this->data) {
-                $symbol = Http::get($endpoint . 'stable/stock/FILL/company?token=' . $token);
+                $symbol = Http::get($endpoint . 'stable/stock/'.$this->data.'/company?token=' . $token);
                 $company = $symbol->json();
-                dd($company);
                 $this->company_name = $company['companyName'];
                 $this->stock_ticker = $company['symbol'];
                 $this->description = $company ? $company['description'] : null;

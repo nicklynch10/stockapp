@@ -15,7 +15,7 @@ class AddIndexToCryptocurrencyTable extends Migration
     {
         Schema::table('cryptocurrency', function (Blueprint $table) {
             $table->string('crypto_name')->change();
-            $table->index('id');
+//            $table->index('id');
             $table->index('crypto_symbol');
             $table->index('crypto_name');
         });
@@ -29,7 +29,7 @@ class AddIndexToCryptocurrencyTable extends Migration
     public function down()
     {
         Schema::table('cryptocurrency', function (Blueprint $table) {
-            $table->dropIndex(['id','crypto_symbol','crypto_name']);
+            $table->dropIndex(['crypto_symbol','crypto_name']);
         });
     }
 }

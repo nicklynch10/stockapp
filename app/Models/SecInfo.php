@@ -119,20 +119,6 @@ class SecInfo extends Model
         // calculates the Standard Deviation
         $this->date_updated = Carbon::today()->format("Y-m-d");
 
-        $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/peers?token=' . $this->token;
-        $data = Http::get($url);
-        $peers = $data->json();
-        if (!isset($peers)) {
-            return "peers query failed";
-        }
-
-        $peers = collect($data->json());
-
-
-        $this->IEXpeer_data = json_encode($peers);
-        $this->peer_data = json_encode($peers);
-
-
         //$this->std = $this->Standard_Deviation($this->getChangeData());
         if ($this->getChangeData()->count()>0) {
             $this->std = StandardDeviation::population($this->getChangeData()->toArray());
@@ -214,10 +200,7 @@ class SecInfo extends Model
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
-            } elseif(empty($SI1->getChangeData()->toArray()) || empty($this->getChangeData()->toArray()))
-            {
-               $p = 0;
-            }else{
+            } else{
                 if ($debug) {
                     echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
                 }

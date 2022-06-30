@@ -14,7 +14,10 @@ if (!function_exists('getTicker')) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
         }
-        $SI1->getIEXData();
+        else
+        {
+            $SI1->getIEXData();
+        }
         //$SI1->save();
         return $SI1;
     }

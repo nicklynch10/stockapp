@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\SecInfo;
 use App\Models\Stock;
 use App\Models\StockTicker;
 use Capsule\Request;
@@ -109,7 +108,6 @@ class FactorDetail extends Component
         }
 
         $relation = getTicker($this->ticker);
-
         if ($relation->info_data) {
             if($relation->peer_data == null)
             {
@@ -139,12 +137,11 @@ class FactorDetail extends Component
                 $SI1 = $SC->SI2;
                 if ($SC->correlation>0) {
                     // adds to the list only if they find correlation data
-                    $checktype = SecInfo::where('ticker', $p)->first();
-                    if ($this->etfs && $checktype['type'] == "ETF") {
+                    if ($this->etfs && getTicker($p)->type == "ETF") {
                         // if etf toggle is true and type is etf, then adds to list
                         $stocks->push($SI1);
                         $cors->push($SC);
-                    } elseif (!$this->etfs && $checktype['type'] != "ETF") {
+                    } elseif (!$this->etfs && getTicker($p)->type != "ETF") {
                         // if etf toggle is false and type is not etf, then adds to list
                         $stocks->push($SI1);
                         $cors->push($SC);

@@ -28,7 +28,9 @@ class AddIndexToFactorsTable extends Migration
     public function down()
     {
         Schema::table('factors', function (Blueprint $table) {
-            $table->dropIndex(['id','ticker1','ticker2']);
+            $table->dropIndex('id');
+            $table->dropIndex('ticker1');
+            $table->dropIndex('ticker2');
         });
     }
 }

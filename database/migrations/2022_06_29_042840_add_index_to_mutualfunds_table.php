@@ -29,7 +29,9 @@ class AddIndexToMutualfundsTable extends Migration
     public function down()
     {
         Schema::table('mutualfunds', function (Blueprint $table) {
-            $table->dropIndex(['id','symbol','name']);
+            $table->dropIndex('id');
+            $table->dropIndex('symbol');
+            $table->dropIndex('name');
         });
     }
 }

@@ -32,7 +32,13 @@ class AddIndexToStockTable extends Migration
     public function down()
     {
         Schema::table('stock', function (Blueprint $table) {
-            $table->dropIndex(['id','user_id','stock_ticker','company_name','security_id','ave_cost','share_number']);
+            $table->dropIndex('id');
+            $table->dropIndex('user_id');
+            $table->dropIndex('stock_ticker');
+            $table->dropIndex('company_name');
+            $table->dropIndex('security_id');
+            $table->dropIndex('ave_cost');
+            $table->dropIndex('share_number');
         });
     }
 }

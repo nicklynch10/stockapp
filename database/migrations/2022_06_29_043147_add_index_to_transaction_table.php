@@ -30,7 +30,11 @@ class AddIndexToTransactionTable extends Migration
     public function down()
     {
         Schema::table('transaction', function (Blueprint $table) {
-            $table->dropIndex(['id','stock_id','type','user_id','plaid_investment_transaction_id']);
+            $table->dropIndex('id');
+            $table->dropIndex('stock_id');
+            $table->dropIndex('type');
+            $table->dropIndex('user_id');
+            $table->dropIndex('plaid_investment_transaction_id');
         });
     }
 }

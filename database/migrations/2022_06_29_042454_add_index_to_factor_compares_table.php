@@ -28,7 +28,9 @@ class AddIndexToFactorComparesTable extends Migration
     public function down()
     {
         Schema::table('factor_compares', function (Blueprint $table) {
-            $table->dropIndex(['id','factor_id','ticker']);
+            $table->dropIndex('id');
+            $table->dropIndex('factor_id');
+            $table->dropIndex('ticker');
         });
     }
 }

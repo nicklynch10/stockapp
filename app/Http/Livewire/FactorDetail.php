@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\SecInfo;
 use App\Models\Stock;
 use App\Models\StockTicker;
 use Capsule\Request;

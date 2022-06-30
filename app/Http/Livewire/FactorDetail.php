@@ -138,11 +138,12 @@ class FactorDetail extends Component
                 $SI1 = $SC->SI2;
                 if ($SC->correlation>0) {
                     // adds to the list only if they find correlation data
-                    if ($this->etfs && getTicker($p)->type == "ETF") {
+                    $checktype = SecInfo::where('ticker', $p)->first();
+                    if ($this->etfs && $checktype['type'] == "ETF") {
                         // if etf toggle is true and type is etf, then adds to list
                         $stocks->push($SI1);
                         $cors->push($SC);
-                    } elseif (!$this->etfs && getTicker($p)->type != "ETF") {
+                    } elseif (!$this->etfs && $checktype['type'] != "ETF") {
                         // if etf toggle is false and type is not etf, then adds to list
                         $stocks->push($SI1);
                         $cors->push($SC);

@@ -485,7 +485,7 @@
             <div class="col-start-2 md:col-end-6 lg:col-end-6 xs:flex-col xs:flex sm:flex-col sm:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center m-3 mb-5 mt-8 pl-4 ">
                     <h2 class="text-2xl font-black">Factor Analysis <br>
-                        <span class="font-bold text-lg">TaxGhost can help identify similar stocks & ETFs so you can tax loss harvest effectively</span>
+                        <span class="font-bold text-lg">{{ appName() }} can help identify similar stocks & ETFs so you can tax loss harvest effectively</span>
                     </h2>
                 </div>
                 <div wire:init="init"
@@ -733,7 +733,7 @@
                 @if ($loadData)
                     @if($ticker != "" & count($correlation)>0)
                     <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
-                        @foreach($correlation->sortByDesc("correlation") as $result)
+                        @foreach($correlation->sortByDesc("correlation")->unique() as $result)
                             @if($result && isset($result->ticker2))
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">

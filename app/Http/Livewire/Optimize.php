@@ -60,7 +60,7 @@ class Optimize extends Component
                 if(isset($data) && $data->peer_data != null)
                 {
                     foreach (json_decode($data->peer_data) as $p) {
-                        if(count($et) > 3 || count($sto) > 3)
+                        if(count($et) > 3 && count($sto) > 3)
                         {
                             break;
                         }
@@ -70,11 +70,15 @@ class Optimize extends Component
                             if ($SC->correlation > 0) {
                                 if (getTicker($p)->type != "ETF")
                                 {
-                                    array_push($sto, $SC->ticker2);
+                                    if(count($sto)<4) {
+                                        array_push($sto, $SC->ticker2);
+                                    }
                                 }
                                 elseif (getTicker($p)->type == "ETF")
                                 {
-                                    array_push($et, $SC->ticker2);
+                                    if(count($et)<4) {
+                                        array_push($et, $SC->ticker2);
+                                    }
                                 }
                             }
                         }

@@ -97,17 +97,17 @@ class FactorDetail extends Component
 
     public function updatedTicker()
     {
-        $stock = getTicker($this->ticker);
+        $relation = getTicker($this->ticker);
         $this->correlations = collect([]);
         foreach ($this->factors as $f) {
-            $FC = $stock->compareToFactor($f);
+            $FC = $relation->compareToFactor($f);
             if ($FC !== null) {
                 //                dd($this->correlations->push($FC));
                 $this->correlations->push($FC);
             }
         }
 
-        $relation = getTicker($this->ticker);
+
         if ($relation->info_data) {
             if($relation->peer_data == null)
             {
@@ -133,6 +133,10 @@ class FactorDetail extends Component
             $cors = collect([]);
 
             foreach ($this->comps as $p) {
+                if(count($cors) > 29)
+                {
+                    break;
+                }
                 $SC = $relation->compareToTicker($p);
                 $SI1 = $SC->SI2;
                 if ($SC->correlation>0) {

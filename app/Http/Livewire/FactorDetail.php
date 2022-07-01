@@ -109,8 +109,8 @@ class FactorDetail extends Component
 
 
         if ($relation->info_data) {
-//            if($relation->peer_data == null)
-//            {
+            if($relation->peer_data == null || count(json_decode($relation->peer_data)) == 0)
+            {
                 if (!$relation->IEXpeer_data) {
                     $relation->pullIEXPeers();
                 } else {
@@ -122,16 +122,15 @@ class FactorDetail extends Component
                 // echo "<br> Done with existing peers";
                 // print_r($stock->getPeerData());
                 $this->comps = $relation->getPeerData();
-//            }
-//            else
-//            {
-//                $this->comps = $relation->getPeerData();
-//            }
+            }
+            else
+            {
+                $this->comps = $relation->getPeerData();
+            }
 
             //dd($this->comps);
             $stocks = collect([]);
             $cors = collect([]);
-
             foreach ($this->comps as $p) {
                 if(count($cors) > 29)
                 {

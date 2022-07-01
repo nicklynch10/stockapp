@@ -62,7 +62,7 @@
                         <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                     @else
                         @php
-                            $count= strlen($this->stock_ticker);
+                            $count= strlen($this->stock_ticker)
                         @endphp
                         <div class="{{ $count>7 ? "text-sm w-24 h-24" : "text-sm w-16 h-16" }} rounded-full text-center border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center flex-shrink-0 mx-auto">
                             <span class="break-all">{{$this->stock_ticker}}</span>
@@ -102,9 +102,9 @@
                     @endif
                 </div>
             </div>
+            @if(!empty($this->alltags))
             <div class="w-full text-center px-4 lg:px-8 my-2">
                 <div class="m-1"><b>Tags:</b></div>
-                @if(!empty($this->alltags))
                     @foreach($this->alltags as $t)
                         <div class="mr-2 my-2 inline-block">
                             <div class="inline-flex items-center px-4 py-2 bg-gray-100 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150">
@@ -112,8 +112,8 @@
                             </div>
                         </div>
                     @endforeach
-                @endif
             </div>
+            @endif
 
 {{--            <div class="mb-4">--}}
 {{--                <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Stock Ticker:</b></label>--}}

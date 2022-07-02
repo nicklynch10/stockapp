@@ -37,7 +37,8 @@ class Overview extends Component
         $this->date=Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->whereYear('date_of_transaction', '=', date('Y'))->groupBy('date_of_transaction')->orderBy('date_of_transaction','ASC')->get();
 
         //Box 2
-        $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();
+//        $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();
+        $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->where('transaction.type',1)->whereYear('transaction.date_of_transaction', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();
         $taxable=0;
         foreach($this->box2 as $b2)
         {

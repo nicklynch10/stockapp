@@ -781,7 +781,7 @@
                                                                         <span class="text-sm font-medium text-black-900 break-all dark:text-white">Correlation with {{$ticker}}:</span>
                                                                     </div>
                                                                     <div class="inline-flex items-center break-all text-sm">
-                                                                        <span class="break-all">~{{number_format($result->correlation*100,0).'%'}}</span>
+                                                                        <span class="break-all">{{number_format($result->correlation*100,0).'%'}}</span>
                                                                     </div>
                                                                 </div>
                                                             </li>

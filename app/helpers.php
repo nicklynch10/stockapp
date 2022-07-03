@@ -27,7 +27,7 @@ if (!function_exists('getFactor')) {
         //creates an Factor from a ticker
         // will not create if exists already
 
-        $f = Factor::where("ticker1",$ticker1)->where("ticker2",$ticker2)->orderBy('id','desc')->first();
+        $f = Factor::where("ticker1", $ticker1)->where("ticker2", $ticker2)->orderBy('id', 'desc')->first();
         if (!$f) {
             $f = new Factor();
             $f->create($ticker1, $ticker2);
@@ -91,8 +91,9 @@ if (!function_exists('convertType')) {
 
 
 // Match the tage in Analyze & compare page
-if(!function_exists('sorted')){
-    function sorted($s) {
+if (!function_exists('sorted')) {
+    function sorted($s)
+    {
         $a = str_split($s);
         sort($a);
         return implode($a);
@@ -113,4 +114,38 @@ function appName($default = false, $user = null)
 function appFavicon($default = false, $user = null)
 {
     return "/images/ghost.png";
+}
+
+// background update of check-for-comps portion
+//only uses existing data
+if (!function_exists('quick_sec_update')) {
+    function quick_sec_update($ticker)
+    {
+        $relation = getTicker($ticker);
+        if ($relation->info_data) {
+            $relation->addExistingPeers();
+            $relation->addRandomPeers(100);
+        }
+        return $relation;
+    }
+}
+
+
+// background update of check-for-comps portion
+// runs quick_sec_update
+// then does a new IEX pull (which takes longer)
+if (!function_exists('long_sec_update')) {
+    function long_sec_update($ticker)
+    {
+        $relation = quick_sec_update($ticker);
+        if ($relation->info_data) {
+            if (!$relation->IEXpeer_data) {
+                $relation->pullIEXPeers();
+            } else {
+                $relation->addRelatedPeers();
+            }
+        }
+
+        return $relation;
+    }
 }

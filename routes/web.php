@@ -94,8 +94,8 @@ Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
 //Route::get('factors', [FactorController::class, 'factors'])->name('factors');
 Route::get('analyze-compare', [AnalyzeCompareController::class, 'factors'])->name('analyze-compare');
-Route::get('analyze', [FactordetailController::class, 'view'])->name('analyze');
-Route::post('submitPlaidData',[SubmitPlaidDataController::class,'submitPlaidData'])->name('submitPlaidData');
+Route::get('analyze', [FactordetailController::class, 'view2'])->name('analyze');
+Route::post('submitPlaidData', [SubmitPlaidDataController::class,'submitPlaidData'])->name('submitPlaidData');
 
 
 // new home routes //
@@ -118,3 +118,5 @@ Route::get('/test2', function () {
 Route::get('/test-email', function () {
     Mail::to('nick@taxghost.com')->send(new TestEmail());
 });
+
+//Route::get('analyze2', [FactordetailController::class, 'view2'])->name('analyze2');

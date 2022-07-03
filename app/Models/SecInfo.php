@@ -200,7 +200,7 @@ class SecInfo extends Model
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
-            } else{
+            } else {
                 if ($debug) {
                     echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
                 }
@@ -279,16 +279,28 @@ class SecInfo extends Model
 
 
             $this->IEXpeer_data = json_encode($peers);
-            $this->peer_data = json_encode($peers);
+            $new = $this->getPeerData();  // starts with existing peer data and adds new ones
+
+            if (count($new) > 0) {
+                $new3 = collect([]);
+                foreach ($new as $t) {
+                    $new3->push($t);
+                }
+                $this->peer_data = json_encode($new3);
+            } else {
+                $this->peer_data = json_encode($peers);
+            }
         }
+        $this->sortPeers();
+        $this->save();
 
-        //$new = $this->getPeerData();
-        // foreach ($this->getIEXPeerData() as $p) {
-        //     if (!$new->contains($p)) {
-        //         $new->push($p);
-        //     }
-        // }
+        return $this->IEXpeer_data;
+    }
 
+    public function sortPeers()
+    {
+
+        //sorts by correlation
         // cleans the peer data for valid peers only
         $new = $this->getPeerData();  // starts with existing peer data and adds new ones
         $new2 = collect([]);
@@ -311,12 +323,14 @@ class SecInfo extends Model
 
         $this->peer_data = json_encode($new3->toArray());
         $this->save();
-        return $this->IEXpeer_data;
     }
 
 
     public function addRelatedPeers()
     {
+        if ($this->ticker == "AMZN") {
+            //dd($this);
+        }
         $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
@@ -333,7 +347,7 @@ class SecInfo extends Model
             }
         }
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers();
+        $this->sortPeers();
     }
 
 
@@ -348,7 +362,6 @@ class SecInfo extends Model
             }
         }
 
-
         $random = SecCompare::where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker)->get();
         //dd($random->first(), $random->random(), $random->last());
         foreach ($random as $SC) {
@@ -359,31 +372,25 @@ class SecInfo extends Model
 
 
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers();
+        $this->sortPeers();
     }
 
 
     public function addRandomPeers($n)
     {
         //adds random peers (of data that has been pulled already)
-
         $new = $this->getPeerData();
-        // filters through all data and chooses only ones that have been updated within [30] days
-        $random = SecInfo::where('ticker', "<>", $this->ticker)->get()->filter(function ($value, $key) use ($new) {
-            if ($value->updated_at < now()->addDays(-30)) {
-                return false;
-            }
-            return !$new->contains($value->ticker);
-        });
+        // filters through all data and chooses only ones that have been updated within [10] days
+        $random = SecInfo::where('ticker', "<>", $this->ticker)->where("updated_at", ">", now()->addDays(-10))->get();
 
-        //dd($random->random(5));
+        //dd($random->pluck('ticker'), $new);
 
         if (!$random) {
             return "No data found in random pull";
         }
 
         // gets the min of amount found and ones added
-        $amt = min($n, $random->count()-1);
+        $amt = min($n, $random->count());
 
         //adds them into the peer set
         foreach ($random->random($amt) as $SC) {
@@ -392,8 +399,9 @@ class SecInfo extends Model
             }
         }
 
+
         $this->peer_data = json_encode($new->toArray());
-        $this->pullIEXPeers();
+        $this->sortPeers();
     }
 
     public function getChangeData()

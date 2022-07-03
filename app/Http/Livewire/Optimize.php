@@ -10,7 +10,6 @@ use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-
 class Optimize extends Component
 {
     public $totalBuy = 0;
@@ -30,12 +29,10 @@ class Optimize extends Component
 
     public function render()
     {
-        $box3=Stock::join('view_stock_update','view_stock_update.stock_id','stock.id')->where('user_id',Auth::user()->id)->get();
+        $box3=Stock::join('view_stock_update', 'view_stock_update.stock_id', 'stock.id')->where('user_id', Auth::user()->id)->get();
         $nagative=0;
-        foreach($box3 as $b3)
-        {
-            if($b3->current_total_value-$b3->total_cost<0)
-            {
+        foreach ($box3 as $b3) {
+            if ($b3->current_total_value-$b3->total_cost<0) {
                 //Box4
                 $nagative+=abs($b3->current_total_value-$b3->total_cost);
             }
@@ -45,38 +42,47 @@ class Optimize extends Component
 
         $topLoss = [];
         if ($this->sortBy) {
-            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->where('account_id',$this->sortBy)->get();
-        }else{
-            $stock = Stock::select('stock.*','account.account_name')->join('account','account.id','stock.account_id')->where('current_share_price','<>',0)->where('ave_cost','<>',0)->where('stock.user_id', Auth::user()->id)->get();
+            $stock = Stock::select('stock.*', 'account.account_name')->join('account', 'account.id', 'stock.account_id')->where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->where('account_id', $this->sortBy)->get();
+        } else {
+            $stock = Stock::select('stock.*', 'account.account_name')->join('account', 'account.id', 'stock.account_id')->where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->get();
         }
 
-        foreach ($stock as $st)
-        {
+        foreach ($stock as $st) {
             $sto = [];
             $et = [];
-            if($st->type == 0)
-            {
-                $data = SecInfo::where('ticker',$st->stock_ticker)->latest()->first();
-                if(isset($data) && $data->peer_data != null)
-                {
+            if ($st->type == 0) {
+                $data = SecInfo::where('ticker', $st->stock_ticker)->latest()->first();
+
+                //checks if comps don't exist
+                // or checks if comps are empty
+                // if so, updates comps
+                if (!isset($data) ||
+                    (isset($data) && isset($data->peer_data)
+                        && collect(json_decode($data->peer_data))->isEmpty())
+                ) {
+
+                    // nl 7/3/2022
+                    //updates the comps for comparison
+                    $data = quick_sec_update($st->stock_ticker);
+                    //might increase load times.
+                }
+                // continues to check for existing comps
+
+                if (isset($data) && $data->peer_data != null) {
                     foreach (json_decode($data->peer_data) as $p) {
-                        if(count($et) > 3 && count($sto) > 3)
-                        {
+                        if (count($et) > 3 && count($sto) > 3) {
                             break;
                         }
                         $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->latest()->first();
-                        if(isset($SC))
-                        {
+
+                        if (isset($SC)) {
                             if ($SC->correlation > 0) {
-                                if (getTicker($p)->type != "ETF")
-                                {
-                                    if(count($sto)<4) {
+                                if (getTicker($p)->type != "ETF") {
+                                    if (count($sto)<4) {
                                         array_push($sto, $SC->ticker2);
                                     }
-                                }
-                                elseif (getTicker($p)->type == "ETF")
-                                {
-                                    if(count($et)<4) {
+                                } elseif (getTicker($p)->type == "ETF") {
+                                    if (count($et)<4) {
                                         array_push($et, $SC->ticker2);
                                     }
                                 }
@@ -90,7 +96,8 @@ class Optimize extends Component
             $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
             $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
             $potentialSavings = $dLosss*40/100;
-            array_push($topLoss,
+            array_push(
+                $topLoss,
                 [
                     "id" => $st->id,
                     "dloss" => $dLosss,
@@ -107,12 +114,13 @@ class Optimize extends Component
                     "issuetype" => $st->issuetype,
                     "compare_stock" => json_encode($sto),
                     "compare_eft" => json_encode($et)
-                ]);
+                ]
+            );
             $psaving = array_column($topLoss, 'potentialSavings');
             array_multisort($psaving, SORT_DESC, $topLoss);
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-        return view('livewire.optimize',['toploss' => $topLoss]);
+        return view('livewire.optimize', ['toploss' => $topLoss]);
     }
 }

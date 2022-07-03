@@ -221,7 +221,7 @@
                                         </div>
                                     @endforeach
                                 @else
-                                    <h2 class="text-lg text-black text-center"><i class="fa fa-chart-line"></i> Not fount any optimize stock data</h2>
+                                    <h2 class="text-lg text-black text-center"><i class="fa fa-chart-line"></i> Not found</h2>
                                 @endif
                             </div>
                         </div>

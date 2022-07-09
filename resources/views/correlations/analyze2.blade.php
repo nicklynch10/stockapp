@@ -11,7 +11,8 @@
         </x-slot>
 
         <div>
-            @livewire('factor-plot',['tickerData' => $ticker])
+           
+            @livewire('comps-list',['tickerData' => $ticker])
             <x-jet-section-border />
         </div>
     </x-app-layout>

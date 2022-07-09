@@ -39,9 +39,9 @@ class SecInfo extends Model
     public function getIEXData()
     {
         $debug = $this->debug;
-
+        //dd("h");
         // only requests data from IEX if it has not been requested yet today
-        if ($this->date_updated == Carbon::today()->format("Y-m-d")) {
+        if ($this->date_updated == Carbon::today()->format("Y-m-d") && isset($this->info_data)) {
             //echo "<br>found ".$this->ticker;
             return "no request needed";
         }
@@ -51,13 +51,14 @@ class SecInfo extends Model
         //dd($url);
         $data = Http::get($url);
 
+
         // extracts and saves data
         $stats = $data->json();
         if (!isset($stats)) {
             return "company info query failed";
         }
 
-        //dd($this->ticker);
+        //dd($stats);
 
         $this->beta = $stats['beta'];
         $this->div_yield = $stats['dividendYield'];
@@ -66,6 +67,9 @@ class SecInfo extends Model
         $this->year1ChangePercent = $stats['year1ChangePercent'];
         $this->marketcap = $stats['marketcap']/1000;
         $this->info_data = json_encode($data->json());
+        $this->week52Low = $stats["week52low"];
+        $this->week52High = $stats["week52high"];
+        //$this->iexClose = $stats["iexClose"];
 
 
 
@@ -328,9 +332,7 @@ class SecInfo extends Model
 
     public function addRelatedPeers()
     {
-        if ($this->ticker == "AMZN") {
-            //dd($this);
-        }
+        return; // this is disabled for now...
         $this->pullIEXPeers();
         $new = $this->getPeerData();
         // chooses one of the top 10 peers
@@ -432,6 +434,33 @@ class SecInfo extends Model
     public function getIEXPeerData()
     {
         return collect(json_decode($this->IEXpeer_data));
+    }
+
+    public function getLogo()
+    {
+        $token = $this->token;
+        $endpoint = $this->endpoint;
+        $logo = Http::get($endpoint . 'stable/stock/' . $this->ticker . '/logo?token=' . $token);
+        $logo_url = $logo->json();
+        $tickerLogo = $logo_url ? $logo_url['url'] : '';
+        $string = $tickerLogo;
+        if (strpos($string, "http") === 0) {
+            $logoUrl = $tickerLogo;
+        } else {
+            $logoUrl = 'https://ui-avatars.com/api/?name='.$this->ticker.'&color=7F9CF5&background=EBF4FF';
+        }
+        $this->logoUrl = $logoUrl;
+        $this->save();
+        return $logoUrl;
+    }
+
+    public function getCurrentSharePrice()
+    {
+        $token = $this->token;
+        $endpoint = $this->endpoint;
+        $url = ($endpoint . 'stable/stock/'.$result->ticker2.'/quote?token=' . $token);
+        $data = Http::get($url);
+        $stats = $data->json();
     }
 
 

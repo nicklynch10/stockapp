@@ -9,6 +9,7 @@ class FactordetailController extends Controller
 {
     public function view(Request $request)
     {
+        /// THIS IS NO LONGER USED!!!
         $data['ticker'] = $request['searchTicker'];
         return view('correlations.factors-detail', $data);
     }

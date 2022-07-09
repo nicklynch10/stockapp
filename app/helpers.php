@@ -10,7 +10,7 @@ if (!function_exists('getTicker')) {
         // will not create if exists already
 
         $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name', $ticker)->first();
-        if (!$SI1) {
+        if (!$SI1 || !$SI1->info_data) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
             $SI1->getIEXData();
@@ -147,5 +147,35 @@ if (!function_exists('long_sec_update')) {
         }
 
         return $relation;
+    }
+}
+
+if (!function_exists('dollar_format')) {
+    function acct_format($value)
+    {
+        if (!isset($value) || $value == 0) {
+            return "N/A";
+        }
+        return $value < 0 ? "(".number_format(abs($value), 2).")" : number_format($value, 2);
+    }
+}
+
+
+if (!function_exists('pct_format')) {
+    function pct_format($value)
+    {
+        if (!isset($value) || $value == 0) {
+            return "N/A";
+        }
+        return $value*100<0 ? "(".number_format(abs($value*100), 2)."%)" : number_format($value*100, 2)."%";
+    }
+}
+if (!function_exists('dollar_format')) {
+    function dollar_format($value)
+    {
+        if (!isset($value) || $value == 0) {
+            return "N/A";
+        }
+        return '$'.number_format(($value), 2, '.', ',');
     }
 }

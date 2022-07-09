@@ -10,7 +10,7 @@ use http\QueryString;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-
+/// THIS IS NO LONGER USED!!!
 class FactorDetail extends Component
 {
     public $correlations = [];
@@ -52,7 +52,7 @@ class FactorDetail extends Component
     {
         try {
             if ($this->loadData) {
-                 $this->factors = collect($this->factors);
+                $this->factors = collect($this->factors);
                 $this->correlations = collect($this->correlations);
 
                 $f = getFactor("VTV", "VUG", "-");
@@ -89,7 +89,7 @@ class FactorDetail extends Component
                 $this->dispatchBrowserEvent('contentChanged');
             }
             return view('livewire.factor-detail');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return view('livewire.factor-detail');
         }
     }
@@ -109,8 +109,7 @@ class FactorDetail extends Component
 
 
         if ($relation->info_data) {
-            if($relation->peer_data == null || count(json_decode($relation->peer_data)) == 0)
-            {
+            if ($relation->peer_data == null || count(json_decode($relation->peer_data)) == 0) {
                 if (!$relation->IEXpeer_data) {
                     $relation->pullIEXPeers();
                 } else {
@@ -122,9 +121,7 @@ class FactorDetail extends Component
                 // echo "<br> Done with existing peers";
                 // print_r($stock->getPeerData());
                 $this->comps = $relation->getPeerData();
-            }
-            else
-            {
+            } else {
                 $this->comps = $relation->getPeerData();
             }
 
@@ -132,8 +129,7 @@ class FactorDetail extends Component
             $stocks = collect([]);
             $cors = collect([]);
             foreach ($this->comps as $p) {
-                if(count($cors) > 29)
-                {
+                if (count($cors) > 29) {
                     break;
                 }
                 $SC = $relation->compareToTicker($p);
@@ -163,8 +159,7 @@ class FactorDetail extends Component
 
         if ($this->etfs) {
             $this->etfs = false;
-        }
-        else {
+        } else {
             $this->etfs = true;
         }
         $this->updatedTicker();

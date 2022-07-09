@@ -3,6 +3,7 @@
   'analyze-compare' => 'App\\Http\\Livewire\\AnalyzeCompare',
   'ave-cost-update' => 'App\\Http\\Livewire\\AveCostUpdate',
   'company-detail-modal' => 'App\\Http\\Livewire\\CompanyDetailModal',
+  'comps-list' => 'App\\Http\\Livewire\\CompsList',
   'cron-list' => 'App\\Http\\Livewire\\CronList',
   'current-holdings' => 'App\\Http\\Livewire\\CurrentHoldings',
   'factor-detail' => 'App\\Http\\Livewire\\FactorDetail',

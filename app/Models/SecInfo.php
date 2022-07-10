@@ -39,7 +39,7 @@ class SecInfo extends Model
     public function getIEXData()
     {
         $debug = $this->debug;
-        //dd("h");
+
         // only requests data from IEX if it has not been requested yet today
         if ($this->date_updated == Carbon::today()->format("Y-m-d") && isset($this->info_data)) {
             //echo "<br>found ".$this->ticker;
@@ -177,6 +177,10 @@ class SecInfo extends Model
         $debug = $this->debug;
         //checks if the comparison has already been made within [30] days
         $SC_old = SecCompare::where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
+        if (!$SC_old) {
+            $SC_old = SecCompare::where('ticker1', $this->ticker)->where('ticker2', $ticker)->first();
+        }
+
 
         //dd($ticker);
         if ($debug) {
@@ -188,6 +192,7 @@ class SecInfo extends Model
             }
             $p = $SC_old->correlation;
             $SI1 = $SC_old->SI1;
+            return $SC_old; //returns the existing correlation...
         } elseif ($ticker == $this->ticker) {
             if ($debug) {
                 echo "<br> same ticker using 1 for ".$this->ticker." and ".$ticker." at ".now();
@@ -332,16 +337,18 @@ class SecInfo extends Model
 
     public function addRelatedPeers()
     {
-        return; // this is disabled for now...
         $this->pullIEXPeers();
         $new = $this->getPeerData();
-        // chooses one of the top 10 peers
-        if ($this->getPeerData()->count() < 2) {
+
+        if ($this->getPeerData()->count() < 1) {
             return;
         }
-        foreach ($this->getPeerData()->slice(0, 10)->random(1) as $p) {
+
+        // chooses one of the top 5 peers
+        foreach ($this->getPeerData()->slice(0, 5)->random(1) as $p) {
             $SI = getTicker($p);
             $SI->pullIEXPeers();
+            //dd($SI);
 
             // adds new peers in
             foreach ($SI->getPeerData() as $pp) {

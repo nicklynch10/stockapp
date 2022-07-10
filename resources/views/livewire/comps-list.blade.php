@@ -10,9 +10,9 @@
             <div class="col-start-1 col-span-1 xs:flex-col xs:flex xs:text-center xs:justify-center bg-white shadow-2xl rounded">
                 <div class="flex justify-between items-center w-full border-b-2 border-gray-300 mb-2 mt-6">
                     @if($etfs)
-                        <h2 class="text-xl font-black">Comparable ETFs to [{{$companyname}}]</h2>
+                        <h2 class="text-xl font-black">Comparable ETFs to {{$companyname}}</h2>
                     @else
-                        <h2 class="text-xl font-black">Comparable Stocks to [{{$companyname}}]</h2>
+                        <h2 class="text-xl font-black">Comparable Stocks to {{$companyname}}</h2>
                     @endif
                     <a wire:click="showETFs" class="bg-green-300 inline-flex items-center px-4 py-2 mb-2 bg-white border border-gray-300 mr-2 ml-2 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition cursor-pointer" id="buttons">
                         @if($etfs)
@@ -31,13 +31,19 @@
 
 
                 @if ($loadData)
-                @php
-                //dd($ticker,$correlation);
-                @endphp
+                        @php
+                        //dd($correlation,$ticker,$correlation->sortByDesc("correlation")->unique());
+                        @endphp
+
                     @if($ticker != "" & count($correlation)>0)
                     <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                         @foreach($correlation->sortByDesc("correlation")->unique() as $result)
-                            @if($result && isset($result->ticker2))
+                        @php 
+                        $result = App\Models\SecCompare::find($result['id']);
+                        //dd($result);
+                        @endphp
+                            @if(isset($result) && isset($result->ticker2))
+                             
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                         <div class="mt-3 my-1">

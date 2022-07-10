@@ -8,14 +8,14 @@ if (!function_exists('getTicker')) {
     {
         //creates an SecInfo from a ticker
         // will not create if exists already
-
         $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name', $ticker)->first();
+        //  dd($SI1, $SI1->info_data);
         if (!$SI1 || !$SI1->info_data) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
             $SI1->getIEXData();
+            $SI1->save();
         }
-        //$SI1->save();
         return $SI1;
     }
 }
@@ -137,13 +137,19 @@ if (!function_exists('quick_sec_update')) {
 if (!function_exists('long_sec_update')) {
     function long_sec_update($ticker)
     {
-        $relation = quick_sec_update($ticker);
+        $relation = getTicker($ticker);
         if ($relation->info_data) {
             if (!$relation->IEXpeer_data) {
                 $relation->pullIEXPeers();
+            //dd($relation);
             } else {
                 $relation->addRelatedPeers();
             }
+        }
+
+        if ($relation->info_data) {
+            $relation->addExistingPeers();
+            $relation->addRandomPeers(100);
         }
 
         return $relation;
@@ -170,6 +176,7 @@ if (!function_exists('pct_format')) {
         return $value*100<0 ? "(".number_format(abs($value*100), 2)."%)" : number_format($value*100, 2)."%";
     }
 }
+
 if (!function_exists('dollar_format')) {
     function dollar_format($value)
     {
@@ -179,3 +186,6 @@ if (!function_exists('dollar_format')) {
         return '$'.number_format(($value), 2, '.', ',');
     }
 }
+
+  $GLOBALS['ttime'] = microtime(true); // Gets microseconds
+   //echo "<br> 3x Time Elapsed: ".(microtime(true) - $GLOBALS['ttime'])."s";

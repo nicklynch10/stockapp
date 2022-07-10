@@ -26,7 +26,8 @@ class CompsList extends Component
     public $ETFArray;
     public $stock_cors;
     public $etf_cors;
-    public $companyname = "TEST";
+    public $companyname = "";
+    public $time;
 
     public $SI;
 
@@ -40,12 +41,13 @@ class CompsList extends Component
     public function mount()
     {
         $this->ticker = $_GET['ticker'];
-        $this->SI = getTicker($this->ticker);
-        $this->updatedTicker();
-        $this->loadData = true;
         /// this was provided by the user. Please make sure this is secure...
         // run laravel security measures before using user input into our database
         // otherwise it is easy for the app to be hacked
+        $this->SI = getTicker($this->ticker);
+        $this->companyname = $this->SI->company_name;
+        $this->updatedTicker();
+        $this->loadData = true;
     }
 
     public function render()
@@ -73,6 +75,7 @@ class CompsList extends Component
                 if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
                     break;
                 }
+
                 $SC = $relation->compareToTicker($p);
                 $SI1 = $SC->SI2;
                 //dd($SC);
@@ -103,12 +106,14 @@ class CompsList extends Component
             $this->correlation = $this->stock_cors;
             $this->stocks = $this->StocksArray;
         }
-
+        //dd("2");
         //$this->dispatchBrowserEvent('contentChanged');
     }
 
     public function showETFs()
     { //toggles to show ETFs
+        //dd($this);
+        //dd("1");
         if ($this->etfs) {
             $this->etfs = false;
         } else {

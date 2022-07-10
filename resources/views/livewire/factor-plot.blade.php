@@ -630,6 +630,30 @@
                                 class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
                                 <div
                                     class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Cyclical </b></label></div>
+                                </div>
+                                <div
+                                    class=" col-start-3 col-span-8 text-center xs:text-center sm:mt-4 lg:my-4 md:my-4 xs:my-4">
+                                    <div
+                                        class="flex xs:justify-space-around sm:justify-space-around md:justify-space-around items-center w-full xl:hidden md:mb-0 lg:mb-0">
+                                        <span class="text-sm font-semibold ">Cyclical </span>
+                                        <span class="text-sm font-semibold ">Defensive </span>
+                                    </div>
+                                    <div class="wrapper mb-5">
+                                        <div class='blindsLow right' id="LowRight"></div>
+                                        <div class='blindsLow left' id="LowLeft"></div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="mt:flex mt:flex-col col-start-11 col-span-2 text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden md:hidden mt:hidden">
+                                    <div class="sm:flex-col col-start-2 my-5 sm:m-2"><label><b>Defensive </b></label></div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div
+                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
+                                <div
+                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center  xs:hidden sm:hidden  md:hidden mt:hidden">
                                     <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b>Fixed Income </b></label>
                                     </div>
                                 </div>

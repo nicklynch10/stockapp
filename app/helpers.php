@@ -187,5 +187,5 @@ if (!function_exists('dollar_format')) {
     }
 }
 
-  $GLOBALS['ttime'] = microtime(true); // Gets microseconds
+  //$GLOBALS['ttime'] = microtime(true); // Gets microseconds
    //echo "<br> 3x Time Elapsed: ".(microtime(true) - $GLOBALS['ttime'])."s";

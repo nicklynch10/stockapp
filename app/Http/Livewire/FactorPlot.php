@@ -75,10 +75,16 @@ class FactorPlot extends Component
             $f->save();
             $this->factors->push($f);
 
+            //////
+            $f = getFactor("VDC", "VCR", "-");
+            $f->name = "Cyclical => Defensive";
+            $f->save();
+            $this->factors->push($f);
+            //// New addition 7/10/2022
+
             $f = getFactor("VT", "BNDW", "-");
             $f->name = "Fixed Income => Equities";
             $f->save();
-
             $this->factors->push($f);
 
             $relation = getTicker($this->ticker);

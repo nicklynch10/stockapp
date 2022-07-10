@@ -230,6 +230,9 @@ class SecInfo extends Model
         $SC->amount = $this->getChangeData()->count();
         $SC->save();
 
+        $SC->compare_stats();
+        $SC->save();
+
         if ($ticker == "SPY") {
             //dd($SC, $this);
         }

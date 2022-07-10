@@ -492,34 +492,7 @@
                      class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
                     @if ($loadData)
                         @if($ticker != "" & count($correlations)>0)
-                            <div
-                                class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2  md:flex md:flex-col  xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center">
-                                <div
-                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center lg:hidden mt:hidden md:hidden">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b></b></label></div>
-                                </div>
-                                <div
-                                    class="mt:flex mt:flex-col col-start-3 col-span-8 text-center xs:text-center xl:items-center lg:text-center ">
-                                    <div id="bar-1" class="wrapper-ruler mb-5">
-                                        <div class="">
-                                            <div class="flex flex-col w-full items-center justify-center">
-                                                <div class="flex justify-between items-center w-full">
-                                                    <div class="text-sm font-semibold">-1</div>
-                                                    <div
-                                                        class="text-sm font-medium text-brand-grey-base text-center">
-                                                        0
-                                                    </div>
-                                                    <div class="text-sm font-semibold">1</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="mt:flex mt:flex-col col-start-1 col-span-2  text-center xs:text-center xl:items-center lg:text-center lg:hidden mt:hidden md:hidden">
-                                    <div class="sm:flex-col col-start-1 my-5 sm:m-2"><label><b></b></label></div>
-                                </div>
-                            </div>
+                            
                             <hr/>
                             <div
                                 class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">

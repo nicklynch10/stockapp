@@ -15,23 +15,13 @@ class FactorPlot extends Component
     public $type;
     public $tag;
     public $logo;
-
-    public $comps = [];
-    public $correlation = [];
-    public $etfs = false;
-    public $is_first_load = true;
     public bool $loadData = false;
-    public $stocks;
-    public $StocksArray;
-    public $ETFArray;
-    public $stock_cors;
-    public $etf_cors;
+
 
     public function init()
     {
         $this->loadData = true;
         $this->get_factors();
-        $this->updatedTicker();
         $this->dispatchBrowserEvent('contentChanged');
     }
 
@@ -102,63 +92,5 @@ class FactorPlot extends Component
                 }
             }
         }
-    }
-
-
-    public function updatedTicker()
-    {
-        $relation = long_sec_update($this->ticker);
-
-        if ($relation->info_data) {
-            $this->comps = $relation->getPeerData();
-            $this->StocksArray = collect([]);
-            $this->ETFArray = collect([]);
-            $this->stock_cors = collect([]);
-            $this->etf_cors = collect([]);
-            foreach ($this->comps as $p) {
-                if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
-                    break;
-                }
-                $SC = $relation->compareToTicker($p);
-                $SI1 = $SC->SI2;
-                if ($SC->correlation>0) {
-                    // adds to the list only if they find correlation data
-                    if (getTicker($p)->type == "ETF") {
-                        //adds to etf list
-                        $this->ETFArray->push($SI1);
-                        $this->etf_cors->push($SC);
-                    } elseif (getTicker($p)->type != "ETF") {
-                        // adds to stock list
-                        $this->StocksArray->push($SI1);
-                        $this->stock_cors->push($SC);
-                    }
-                }
-            }
-        }
-
-        $this->list_comps();
-    }
-
-    public function list_comps()
-    {
-        if ($this->etfs) {
-            $this->correlation = $this->etf_cors;
-            $this->stocks = $this->ETFArray;
-        } else {
-            $this->correlation = $this->stock_cors;
-            $this->stocks = $this->StocksArray;
-        }
-
-        $this->dispatchBrowserEvent('contentChanged');
-    }
-
-    public function showETFs()
-    { //toggles to show ETFs
-        if ($this->etfs) {
-            $this->etfs = false;
-        } else {
-            $this->etfs = true;
-        }
-        $this->list_comps();
     }
 }

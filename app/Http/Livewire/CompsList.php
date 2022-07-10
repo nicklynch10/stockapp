@@ -31,11 +31,12 @@ class CompsList extends Component
 
     public $SI;
 
-    public function init()
+    public function init2()
     {
         $this->loadData = true;
+        //dd("here");
         $this->updatedTicker();
-        $this->render();
+        $this->dispatchBrowserEvent('contentChanged');
     }
 
     public function mount()
@@ -62,39 +63,41 @@ class CompsList extends Component
 
     public function updatedTicker()
     {
-        $relation = long_sec_update($this->ticker);
-        //dd($relation);
-        if ($relation->info_data) {
-            $this->comps = $relation->getPeerData();
-            $this->StocksArray = collect([]);
-            $this->ETFArray = collect([]);
-            $this->stock_cors = collect([]);
-            $this->etf_cors = collect([]);
+        if ($this->loadData) {
+            $relation = long_sec_update($this->ticker);
+            //dd($relation);
+            if ($relation->info_data) {
+                $this->comps = $relation->getPeerData();
+                $this->StocksArray = collect([]);
+                $this->ETFArray = collect([]);
+                $this->stock_cors = collect([]);
+                $this->etf_cors = collect([]);
 
-            foreach ($this->comps as $p) {
-                if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
-                    break;
-                }
+                foreach ($this->comps as $p) {
+                    if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
+                        break;
+                    }
 
-                $SC = $relation->compareToTicker($p);
-                $SI1 = $SC->SI2;
-                //dd($SC);
-                if ($SC->correlation>0) {
-                    // adds to the list only if they find correlation data
-                    if (getTicker($p)->type == "ETF") {
-                        //adds to etf list
-                        $this->ETFArray->push($SI1);
-                        $this->etf_cors->push($SC);
-                    } elseif (getTicker($p)->type != "ETF") {
-                        // adds to stock list
-                        $this->StocksArray->push($SI1);
-                        $this->stock_cors->push($SC);
+                    $SC = $relation->compareToTicker($p);
+                    $SI1 = $SC->SI2;
+                    //dd($SC);
+                    if ($SC->correlation>0) {
+                        // adds to the list only if they find correlation data
+                        if (getTicker($p)->type == "ETF") {
+                            //adds to etf list
+                            $this->ETFArray->push($SI1);
+                            $this->etf_cors->push($SC);
+                        } elseif (getTicker($p)->type != "ETF") {
+                            // adds to stock list
+                            $this->StocksArray->push($SI1);
+                            $this->stock_cors->push($SC);
+                        }
                     }
                 }
             }
+            //dd($this->stock_cors);
+            $this->list_comps();
         }
-        //dd($this->stock_cors);
-        $this->list_comps();
     }
 
     public function list_comps()

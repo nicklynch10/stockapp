@@ -293,7 +293,9 @@ class SecInfo extends Model
             if (count($new) > 0) {
                 $new3 = collect([]);
                 foreach ($new as $t) {
-                    $new3->push($t);
+                    if ($t != $this->ticker) {
+                        $new3->push($t);
+                    }
                 }
                 $this->peer_data = json_encode($new3);
             } else {
@@ -311,14 +313,18 @@ class SecInfo extends Model
 
         //sorts by correlation
         // cleans the peer data for valid peers only
+        $this->filterPeerData();
         $new = $this->getPeerData();  // starts with existing peer data and adds new ones
+
         $new2 = collect([]);
         $SCs = collect([]);
         foreach ($new as $p) {
             $SC = $this->compareToTicker($p);
             if (isset($SC->correlation) && $SC->correlation != 0 && !$new2->contains($p) && $SC->ticker1 != $SC->ticker2) {
-                $new2->push($p);
-                $SCs->push($SC);
+                if ($p != $this->ticker) {
+                    $new2->push($p);
+                    $SCs->push($SC);
+                }
             }
         }
 
@@ -352,7 +358,9 @@ class SecInfo extends Model
 
             // adds new peers in
             foreach ($SI->getPeerData() as $pp) {
-                $new->push($pp);
+                if ($pp != $this->ticker) {
+                    $new->push($pp);
+                }
             }
         }
         $this->peer_data = json_encode($new->toArray());
@@ -374,7 +382,7 @@ class SecInfo extends Model
         $random = SecCompare::where('ticker1', $this->ticker)->where('ticker2', "<>", $this->ticker)->get();
         //dd($random->first(), $random->random(), $random->last());
         foreach ($random as $SC) {
-            if (!$new->contains($SC->ticker2)) {
+            if (!$new->contains($SC->ticker2) && $SC->ticker2 != $this->ticker) {
                 $new->push($SC->ticker2);
             }
         }
@@ -403,7 +411,7 @@ class SecInfo extends Model
 
         //adds them into the peer set
         foreach ($random->random($amt) as $SC) {
-            if (!$new->contains($SC->ticker)) {
+            if (!$new->contains($SC->ticker) && $SC->ticker != $this->ticker) {
                 $new->push($SC->ticker);
             }
         }
@@ -436,6 +444,18 @@ class SecInfo extends Model
     public function getPeerData()
     {
         return collect(json_decode($this->peer_data));
+    }
+
+    public function filterPeerData()
+    {
+        $new = $this->getPeerData();
+        $new2 = collect(json_decode("[]"));
+        foreach ($new as $t) {
+            if ($t != $this->ticker) {
+                $new2->push($t);
+            }
+        }
+        $this->peer_data = json_encode($new2->toArray());
     }
 
     public function getIEXPeerData()

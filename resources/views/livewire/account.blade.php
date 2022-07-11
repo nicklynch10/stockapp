@@ -414,7 +414,7 @@
 {{--    development--}}
     <script>
         linkHandler = Plaid.create({
-            env:"sandbox",
+            env:"development",
             token: '{{ $this->token }}',
             onSuccess: (public_token, metadata) => {
                 Livewire.emit('getAccessToken',public_token);

@@ -76,7 +76,7 @@ class Stocks extends Component
     public function render()
     {
         if ($this->sortBy) {
-            $this->stocks=Stock::where('user_id', Auth::user()->id)->where('account_id',$this->sortBy)->orderBy('account_id', 'DESC')->orderBy('created_at', 'DESC')->get();
+            $this->stocks=Stock::where('user_id', Auth::user()->id)->where('account_id',$this->sortBy)->orderBy('date_of_purchase', 'DESC')->orderBy('created_at', 'DESC')->get();
         }else{
             $this->stocks=Stock::where('user_id', Auth::user()->id)->orderBy('date_of_purchase', 'DESC')->orderBy('created_at', 'DESC')->get();
         }
@@ -85,7 +85,6 @@ class Stocks extends Component
         $this->emit('historicaldata');
 
         return view('livewire.stock');
-
     }
 
 

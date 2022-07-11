@@ -140,11 +140,12 @@
                                                                 <a class="whitespace-normal" >{{ strtoupper($tl["ticker"]) }}</a>
                                                             </h5>
                                                             @php
-                                                                $companyname=explode('-',$tl['security_name']);
+                                                                $companyname=explode('-',$tl['security_name'])
                                                             @endphp
                                                             <p class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">
                                                                 @if($tl['security_name'] != null && convertType($tl['issuetype']) == "ETF")
                                                                     {{ isset($companyname[1]) ? $companyname[1] : $companyname[0] }}
+
                                                                 @else
                                                                     {{ $tl['company_name'] }}
                                                                 @endif

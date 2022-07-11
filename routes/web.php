@@ -5,6 +5,7 @@ use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\FactordetailController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\SubmitPlaidDataController;
+use App\Http\Controllers\UserInvitesController;
 use App\Http\Livewire\Optimize;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -43,18 +44,18 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/addMutualFunds', [HomeCon
 Route::middleware(['auth:sanctum', 'verified'])->get('/addCryptoCurrency', [HomeController::class,'addCryptoCurrency'])->name('addcryptocurrency');// Add mutual funds in database
 
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
-
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 Route::get('help', function () {
     return view('support.help');
 })->name('help');
+
+
 Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('optimize', Optimize::class, )->middleware(['auth:sanctum', 'verified'])->name('optimize');
@@ -62,8 +63,11 @@ Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified']
 
 
 
-Route::get('notifications', [NotificationController::class,'show'])->middleware(['auth:sanctum', 'verified'])->name('notifications');
+Route::middleware(['auth:sanctum', 'verified'])->get('notifications', [NotificationController::class,'show'])->name('notifications');
 Route::get('cron', [DeveloperController::class, 'cron'])->name('cron');
+Route::middleware(['auth:sanctum', 'verified'])->post('submitPlaidData', [SubmitPlaidDataController::class,'submitPlaidData'])->name('submitPlaidData');
+Route::middleware(['auth:sanctum', 'verified'])->get('/user/manage-invites', [UserInvitesController::class,'manageInvites'])->name('user.manage-invites');
+Route::middleware(['auth:sanctum','verified'])->get('user/manage/users', [UserInvitesController::class, 'manage_users'])->name('user.manage.users');
 
 
 // ** Migration Routes ** //
@@ -94,8 +98,8 @@ Route::get('compare', [SecInfoController::class, 'launch'])->name('compare');
 Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correlation-check');
 //Route::get('factors', [FactorController::class, 'factors'])->name('factors');
 Route::get('analyze-compare', [AnalyzeCompareController::class, 'factors'])->name('analyze-compare');
-Route::get('analyze', [FactordetailController::class, 'view2'])->name('analyze');
-Route::post('submitPlaidData', [SubmitPlaidDataController::class,'submitPlaidData'])->name('submitPlaidData');
+Route::any('analyze', [FactordetailController::class, 'view2'])->name('analyze');
+
 
 
 // new home routes //

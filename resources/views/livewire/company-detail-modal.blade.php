@@ -70,8 +70,17 @@
                     @endif
                 </h5>
                 <div class="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                    @php
+                        $companyname=explode('-',$this->security_name);
+                    @endphp
                     <p class="font-bold">{{$this->stock_ticker}}</p>
-                    <p class="text-sm text-gray-700 mt-1 italic">{{$this->company_name}}</p>
+                    <p class="text-sm text-gray-700 mt-1 italic">
+                        @if($this->security_name != null && convertType($this->issuetype) == "ETF")
+                            {{ isset($companyname[1]) ? $companyname[1] : $companyname[0]}}
+                        @else
+                            {{ $this->company_name }}
+                        @endif
+                    </p>
 
                     @if($this->issuetype)
                         <p class="text-sm text-gray-700 mt-1 italic">{{convertType($this->issuetype)}}</p>
@@ -93,8 +102,9 @@
                         <p class="m-2"><b>Sector: </b> {{$this->sector}}</p>
                     @endif
 
+
                     @if($this->market_cap)
-                        <p class="m-2"><b>Market cap: </b> {{$this->market_cap}}</p>
+                        <p class="m-2"><b>Market cap: </b> ${{ number_format($this->market_cap, 2) }}M</p>
                     @endif
 
                     @if($this->description)
@@ -114,63 +124,6 @@
                     @endforeach
             </div>
             @endif
-
-{{--            <div class="mb-4">--}}
-{{--                <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Stock Ticker:</b></label>--}}
-{{--                <label>{{$this->stock_ticker}}</label>--}}
-{{--            </div>--}}
-{{--            <div class="mb-4">--}}
-{{--                <label for="companyname" class="block text-gray-700 font-bold mb-2"><b>Company Name:</b></label>--}}
-{{--                <label>{{$this->company_name}}</label>--}}
-{{--            </div>--}}
-{{--            @if($this->description)--}}
-{{--                <div class="mb-4">--}}
-{{--                    <label for="description" class="block text-gray-700 font-bold mb-2"><b>Description:</b></label>--}}
-{{--                    <label>{{$this->description}}</label>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--            @if($this->issuetype)--}}
-{{--                <div class="mb-4">--}}
-{{--                    <label for="issuetype" class="block text-gray-700 font-bold mb-2"><b>Issue Type:</b></label>--}}
-{{--                    <label>{{convertType($this->issuetype)}}</label>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--            @if($this->sector)--}}
-{{--                <div class="mb-4">--}}
-{{--                    <label for="sector" class="block text-gray-700 font-bold mb-2"><b>Sector:</b></label>--}}
-{{--                    <label>{{$this->sector}}</label>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--            @if($this->market_cap)--}}
-{{--                <div class="mb-4">--}}
-{{--                    <label for="marketcap" class="block text-gray-700 font-bold mb-2"><b>Market cap:</b></label>--}}
-{{--                    <label>{{$this->market_cap}}</label>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--            @if($this->alltags)--}}
-{{--                <div class="mb-4">--}}
-{{--                    <label for="tage" class="block text-gray-700 font-bold mb-2"><b>Tags:</b></label>--}}
-{{--                    @if(!empty($this->alltags))--}}
-{{--                        @foreach($this->alltags as $t)--}}
-{{--                            <label>{{$t}}</label><br>--}}
-{{--                        @endforeach--}}
-{{--                    @endif--}}
-{{--                </div>--}}
-{{--            @endif--}}
-{{--            <div class="mb-4">--}}
-{{--                <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Current Share Price:</b></label>--}}
-{{--                <label>${{$this->current_share_price}}</label>--}}
-{{--            </div>--}}
-{{--            <div class="mb-4">--}}
-{{--                <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Average Purchase Price:</b></label>--}}
-{{--                <label>${{$this->average_cost}}</label>--}}
-{{--            </div>--}}
-{{--            <div class="mb-4">--}}
-{{--                <label for="stockticker" class="block text-gray-700 font-bold mb-2"><b>Number of Shares:</b></label>--}}
-{{--                <label>{{$this->share_number}}</label>--}}
-{{--            </div>--}}
-{{--            <x-jet-button wire:click="sell({{ $this->stock_id }})" class="py-2 px-4">{{__('Sell')}}</x-jet-button>--}}
-{{--            <x-jet-button wire:click="buy({{ $this->stock_id }})" class="py-2 px-4">{{__('Buy')}}</x-jet-button>--}}
         </div>
     </x-slot>
 

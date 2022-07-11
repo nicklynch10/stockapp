@@ -1,9 +1,5 @@
 <div>
     <link rel="stylesheet" type="text/css" href="/css/animated.css"/>
-    @php
-        $logoUrl = $this->SI->getLogo();
-    @endphp
- 
     <div class="mt-8">
 
         <div class="grid grid-cols-1 gap-4 justify-center xs:flex-col xs:flex xs:text-center xs:justify-center m-2">
@@ -30,17 +26,16 @@
 
 
 
-                   
+
                     <div wire:init="init2" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                          @if($ticker != "" & count($correlation)>0)
                         @if ($loadData)
                             @foreach($correlation->sortByDesc("correlation")->unique() as $result)
-                            @php 
+                            @php
                             $result = App\Models\SecCompare::find($result['id']);
                             //dd($result);
                             @endphp
                             @if(isset($result) && isset($result->ticker2))
-                             
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                         <div class="mt-3 my-1">
@@ -121,30 +116,36 @@
                                                                     <div class="inline-flex items-center text-sm text-black">${{number_format($result->SI2->marketcap/1000,0).'M'}}</div>
                                                                 </div>
                                                             </li>
-                                                        
-    
-                                                                <li class="py-1 sm:py-4">
-                                                                    <div class="flex items-center space-x-4">
-                                                                        <div class="flex-1 min-w-0">
-                                                                            <span class="text-sm font-medium text-black-900 break-all dark:text-white">
-                                                                                @if($etfs)
-                                                                                    Expense Ratio:
-                                                                                @else
-                                                                                    PE Ratio:
-                                                                                @endif
-                                                                            </span>
-                                                                        </div>
-                                                                        <div class="inline-flex items-center text-sm text-black">
-                                                                            {{ acct_format($result->SI2->peRatio) }}
-                                                                        </div>
+                                                            <li class="py-1 sm:py-4">
+                                                                <div class="flex items-center space-x-4">
+                                                                    <div class="flex-1 min-w-0">
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">
+                                                                            @if($etfs)
+                                                                                Expense Ratio:
+                                                                            @else
+                                                                                PE Ratio:
+                                                                            @endif
+                                                                        </span>
                                                                     </div>
-                                                                </li>
+                                                                    <div class="inline-flex items-center text-sm text-black">
+                                                                        {{ acct_format($result->SI2->peRatio) }}
+                                                                    </div>
+                                                                </div>
+                                                            </li>
                                                             <li class="py-1 sm:py-4">
                                                                 <div class="flex items-center space-x-4">
                                                                     <div class="flex-1">
                                                                         <span class="text-sm font-medium text-black-900 break-all dark:text-white">1 Year % Change:</span>
                                                                     </div>
                                                                     <div class="inline-flex items-center text-sm text-right {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">{{pct_format($result->SI2->year1ChangePercent)}}</div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="py-1 sm:py-4">
+                                                                <div class="flex items-center space-x-4">
+                                                                    <div class="flex-1">
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Total Weight:</span>
+                                                                    </div>
+                                                                    <div class="inline-flex items-center text-sm text-right">{{acct_format($result->total_weights)}}</div>
                                                                 </div>
                                                             </li>
                                                         </ul>
@@ -161,8 +162,6 @@
                                                     @endphp
                                                     @if(isset($result->SI2['company_tags']))
                                                     @foreach(json_decode($result->SI2['company_tags']) as $g)
-
-                                                      
                                                         <div class="mr-1 mb-1 inline-block">
                                                             <div class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" style="background: {{ $inarr == true ? "#4fed4f47" : "#f3f4f6" }}">
                                                                 {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
@@ -250,265 +249,3 @@
     </div>
 
 
-
-   {{-- <img src="{{ $logoUrl }}" class="h-24 w-24 rounded-full object-contain hover:bg-gray-100 h-16">--}}
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
-
-        .blind.left-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            right: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-        }
-
-        .blind.right-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-            right: auto;
-        }
-
-        .blinds.right-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-            right: auto;
-        }
-
-        .blinds.left-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            right: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-        }
-
-
-        .blindsLow.left-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            right: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-        }
-
-        .blindsLow.right-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-            right: auto;
-        }
-
-        .blindsLagging.left-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            right: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-        }
-
-        .blindsLagging.right-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-            right: auto;
-        }
-
-        .blindsFixed.left-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            right: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-        }
-
-        .blindsFixed.right-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-            right: auto;
-        }
-
-
-        .blindsEmerging.left-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            right: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-        }
-
-        .blindsEmerging.right-demo:before {
-            content: "";
-            background-image: url({{ $logoUrl }});
-            background-size: 25px 25px;
-            background-repeat: no-repeat;
-            position: absolute;
-            left: -33px;
-            top: 0;
-            display: block;
-            min-width: 33px;
-            min-height: 33px;
-            right: auto;
-        }
-
-        .visually-hidden {
-            position: absolute !important;
-            width: 1px !important;
-            height: 1px !important;
-            padding: 0 !important;
-            margin: -1px !important;
-            overflow: hidden !important;
-            clip: rect(0, 0, 0, 0) !important;
-            white-space: nowrap !important;
-            border: 0 !important;
-        }
-
-        .spinner-border {
-            vertical-align: -0.125em;
-            border: 0.25em solid;
-            border-right-color: transparent;
-        }
-
-        .bar-main-container {
-            margin: 18px auto 0px auto;
-            width: 70%;
-            height: 50px;
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;
-            border-radius: 4px;
-            font-family: sans-serif;
-            font-weight: normal;
-            font-size: 0.8em;
-        }
-
-        .bar-container {
-            -webkit-border-radius: 12px;
-            -moz-border-radius: 12px;
-            border-radius: 12px;
-            height: 15px;
-            background: #da1919 50%;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .bar {
-            float: left;
-            background: #008000FF 50%;
-            height: 100%;
-            -webkit-border-radius: 10px 0px 0px 10px;
-            -moz-border-radius: 12px 0px 0px 12px;
-            border-radius: 12px 0px 0px 12px;
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-            filter: alpha(opacity=100);
-            -moz-opacity: 1;
-            -khtml-opacity: 1;
-            opacity: 1;
-        }
-
-        .to-brand-green-dark {
-            --tw-gradient-to: #33a34d;
-        }
-
-        .from-brand-tango {
-            --tw-gradient-from: #ed7b1c;
-            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(237 123 28/0));
-        }
-
-        .bg-gradient-to-r {
-            background-image: linear-gradient(to right, var(--tw-gradient-stops));
-        }
-
-        .bg-black {
-            --tw-bg-opacity: 1;
-            background-color: rgb(0 0 0/var(--tw-bg-opacity));
-        }
-
-        .transform {
-            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-        }
-
-        .rotate-45 {
-            --tw-rotate: 45deg;
-        }
-
-        .origin-bottom-left {
-            transform-origin: bottom left;
-        }
-
-        .w-2 {
-            width: 0.5rem;
-        }
-
-        .h-2 {
-            height: 0.5rem;
-        }
-
-    </style>

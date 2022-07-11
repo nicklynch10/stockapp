@@ -44,6 +44,7 @@ class CurrentHoldings extends Component
     public function render()
     {
         $this->currstock=Stock::where('user_id', Auth::user()->id)->get();
+
         foreach ($this->currstock as $st) {
             $diff=date_diff(date_create(Carbon::createFromTimestamp(strtotime($st->date_of_purchase))->format('Y-m-d')), date_create(date('Y-m-d')));
             $result = Stock::find($st->id);
@@ -51,7 +52,9 @@ class CurrentHoldings extends Component
                 'total_long_term_gains'=>$diff->format("%a")>366 ? "Long / " .$diff->days." day held" : "Short / ".$diff->days." day held",
             ]);
         }
+
         $this->account = Account::where('user_id', Auth::user()->id)->get();
+
         return view('livewire.current-holdings',['currentholding' => $this->fetchData()]);
     }
 
@@ -70,7 +73,8 @@ class CurrentHoldings extends Component
 
     public function fetchData()
     {
-        return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.issuetype','stock.security_name','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')->join('stock','stock.id','view_stock_update.stock_id')
+        return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.issuetype','stock.security_name','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
+            ->join('stock','stock.id','view_stock_update.stock_id')
             ->where('stock.user_id', Auth::user()->id)
             ->when($this->search, function ($q) {
                 $q->where('company_name', 'like', "$this->search%");

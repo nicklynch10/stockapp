@@ -21,7 +21,7 @@ class FactordetailController extends Controller
 
     public function view2(Request $request)
     {
-        $data['ticker'] = $request['searchTicker'];
+        $data['ticker'] = $request['ticker'];
         return view('correlations.analyze2', $data);
     }
 }

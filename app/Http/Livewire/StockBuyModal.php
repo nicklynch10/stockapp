@@ -37,17 +37,14 @@ class StockBuyModal extends Component
     }
     public function buyModal($id)
     {
-        $token = env('IEX_CLOUD_KEY', null);
-        $endpoint = env('IEX_CLOUD_ENDPOINT', null);
         $stock = Stock::findOrFail($id);
-        $current_price = Http::get($endpoint . 'stable/stock/' . $stock->stock_ticker . '/quote?token=' . $token);
-        $price = $current_price->json();
-        if(!$price)
+        $currentPrice = new Stock;
+        $price = $currentPrice->stockPriceData($stock->stock_ticker);
+        if($price == null)
         {
-            $current_price = Http::get($endpoint . 'stable/crypto/' . $stock->stock_ticker . '/quote?token=' . $token);
-            $cryprice=$current_price->json();
+            $price = $stock->cryptoPriceData($stock->stock_ticker);
         }
-        $this->current_share_price = $price ? $price['latestPrice'] : ($cryprice ? $cryprice['latestPrice'] : $stock->current_share_price);
+        $this->current_share_price = $price['latestPrice'];
         $this->stock_id = $id;
         $this->stock_ticker = $stock->stock_ticker;
         $this->company_name = $stock->company_name;
@@ -58,7 +55,7 @@ class StockBuyModal extends Component
         $this->average_cost = '';
         $this->share_number = '';
         $this->share_price = '';
-        $this->openmodalval=1;
+        $this->openmodalval = 1;
         $this->date_of_purchase = Carbon::now()->format('Y-m-d');
         $this->openBuyModal();
     }

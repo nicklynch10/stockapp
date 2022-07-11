@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\StockTicker;
 use Livewire\Component;
 
 class FactorPlot extends Component
@@ -25,9 +26,14 @@ class FactorPlot extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    public function mount()
+    public function mount($tickerData)
     {
-        $this->ticker = $_GET['ticker'];
+        if($tickerData != null){
+            $this->ticker = $tickerData;
+        }
+        else{
+            $this->ticker = "TSLA";
+        }
         /// this was provided by the user. Please make sure this is secure...
         // run laravel security measures before using user input into our database
         // otherwise it is easy for the app to be hacked

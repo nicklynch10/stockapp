@@ -132,6 +132,13 @@ class Account extends Component
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
+        if($data == null)
+        {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'error',
+                'message' => 'Please link account again..',
+            ]);
+        }
         foreach ($data->accounts as $ac)
         {
             if($ac->type == "investment")
@@ -139,22 +146,27 @@ class Account extends Component
                 $accountName = Accounts::where(['account_name' => $ac->name,'user_id' => Auth::user()->id])->first();
                 if(!isset($accountName))
                 {
+                    $beforeDate = date('Y-01-01', strtotime('-6 year'));
                     $account=Accounts::Create([
                         'user_id' => Auth::user()->id,
                         'account_type' => $ac->type,
                         'account_name' => $ac->name,
-                        'account_brokerage' => "Not assigned",
+                        'account_brokerage' => 'Not assigned',
+                        'access_token' => $token,
                         'commission' => $ac->balances->current,
                         'set_default' => 0,
                         'plaid_account_id' => $ac->account_id,
+                        'start_date' => $beforeDate,
                     ]);
                 }
                 else
                 {
                     $getData = Accounts::where(['account_name' => $ac->name , 'user_id' => Auth::user()->id])->first();
+                    $beforeDate = $getData['start_date'];
                     if(isset($getData)){
                         $getData->update([
                             'plaid_account_id' => $ac->account_id,
+                            'start_date' => date('Y-m-d'),
                         ]);
                     }
                 }
@@ -222,16 +234,16 @@ class Account extends Component
             }
         }
         $this->access_token = $token;
-        $this->getInvestment($this->access_token);
+        $this->getInvestment($this->access_token,$beforeDate);
     }
 
-    public function getInvestment($access_token)
+    public function getInvestment($access_token,$beforeDate)
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
         $plaid_url = env('PLAID_URL');
 
-        $beforeDate = date('Y-01-01', strtotime('-6 year'));
+//        $beforeDate = date('Y-01-01', strtotime('-6 year'));
         $url = "https://".$plaid_url."/investments/transactions/get";
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -498,6 +510,7 @@ class Account extends Component
     public $inputs = [];
     public function openPlaidDataModal($InsertedID)
     {
+        $inputs = [];
         foreach($InsertedID as $a)
         {
             $stock = Stock::where('id', $a)->first();

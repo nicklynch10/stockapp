@@ -5,14 +5,15 @@
             <x-slot name="description"></x-slot>
         </x-jet-section-title>
         <div class="flex justify-center overflow-auto">
-            <img src="/images/logo2.png" class="logo" style="height: 40px;">
+            <img src="{{ appLogo() }}" class="logo" style="height: 40px;">
         </div>
         <div class="flex justify-center mt-6 lg:text-lg">
             <span>Stock Analysis And Screening Tool</span>
         </div>
         <div class="flex justify-center mt-6 lg:text-lg overflow-auto">
             <div class="factor-width">
-                <form action="{{route('analyze')}}" method="get">
+                <form action="{{route('analyze')}}" method="post">
+                    @csrf
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
                     <div class="relative">
                         <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">

@@ -1,5 +1,6 @@
 <?php return array (
   'account' => 'App\\Http\\Livewire\\Account',
+  'add-user-by-email' => 'App\\Http\\Livewire\\AddUserByEmail',
   'analyze-compare' => 'App\\Http\\Livewire\\AnalyzeCompare',
   'ave-cost-update' => 'App\\Http\\Livewire\\AveCostUpdate',
   'company-detail-modal' => 'App\\Http\\Livewire\\CompanyDetailModal',
@@ -19,4 +20,5 @@
   'stock-sell-modal' => 'App\\Http\\Livewire\\StockSellModal',
   'stock-share-sell' => 'App\\Http\\Livewire\\StockShareSell',
   'stocks' => 'App\\Http\\Livewire\\Stocks',
+  'user-invites' => 'App\\Http\\Livewire\\UserInvites',
 );

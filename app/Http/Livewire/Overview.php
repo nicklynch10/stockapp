@@ -29,43 +29,46 @@ class Overview extends Component
     public function render()
     {
         //  Pie chart
-        $this->sto = Stock::select('stock_ticker',DB::raw("(sum(share_number)) as total_stock"))->where('user_id',Auth::user()->id)->whereNotNull('current_share_price')->groupBy('stock_ticker')->get();
-        $this->totalSavingsRealized=0;
+        $this->sto = Stock::selectRaw('stock_ticker, SUM(share_number) as total_stock')->where('user_id',Auth::user()->id)
+                            ->whereNotNull('current_share_price')->groupBy('stock_ticker')->get();
+        $this->totalSavingsRealized = 0;
 
         // Line chart
         $this->tran = Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->get();
-        $this->date=Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->whereYear('date_of_transaction', '=', date('Y'))->groupBy('date_of_transaction')->orderBy('date_of_transaction','ASC')->get();
+        $this->date = Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->whereYear('date_of_transaction', '=', date('Y'))->groupBy('date_of_transaction')->orderBy('date_of_transaction','ASC')->get();
 
-        //Box 2
-//        $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();
-        $this->box2=Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->where('transaction.type',1)->whereYear('transaction.date_of_transaction', '=', date('Y'))->orderBy('transaction.date_of_transaction','DESC')->get();
-        $taxable=0;
+        // Box 2
+        $this->box2 = Stock::where('stock.user_id',Auth::user()->id)->get();
+        $taxable = 0;
         foreach($this->box2 as $b2)
         {
-            $taxable+=($b2->share_price-$b2->ave_cost)*($b2->stock);
+            foreach ($b2->transaction()->where('type',1)
+                         ->whereYear('date_of_transaction', '=', date('Y'))
+                         ->orderBy('date_of_transaction','DESC')->get() as $t)
+            {
+                $taxable += ($t->share_price-$b2->ave_cost) * ($t->stock);
+            }
         }
         $this->totalTaxableGainLoss=$taxable;
 
         //Box 3
-        $box3=Stock::join('view_stock_update','view_stock_update.stock_id','stock.id')->where('user_id',Auth::user()->id)->get();
-        $nagative=0;
-        $positive=0;
+        $box3 = Stock::where('user_id', Auth::user()->id)->with('viewupdatestock')->get();
+        $nagative = 0;
+        $positive = 0;
         foreach($box3 as $b3)
         {
-            if($b3->current_total_value-$b3->total_cost<0)
-            {
-                //Box4
-                $nagative+=abs($b3->current_total_value-$b3->total_cost);
+            if($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost<0)
+            {   //Box4
+                $nagative += abs($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost);
             }
             else
-            {
-                //Box5
-                $positive+=abs($b3->current_total_value-$b3->total_cost);
+            {   //Box5
+                $positive += abs($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost);
             }
         }
-        $this->totalUnrealizedGainLoss=$positive-$nagative;
-        $this->harvestableLosses=$nagative;
-        $this->unrealizedGain=$positive;
+        $this->totalUnrealizedGainLoss = $positive - $nagative;
+        $this->harvestableLosses = $nagative;
+        $this->unrealizedGain = $positive;
 
         return view('livewire.overview');
     }

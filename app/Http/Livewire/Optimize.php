@@ -29,12 +29,13 @@ class Optimize extends Component
 
     public function render()
     {
-        $box3=Stock::join('view_stock_update', 'view_stock_update.stock_id', 'stock.id')->where('user_id', Auth::user()->id)->get();
-        $nagative=0;
-        foreach ($box3 as $b3) {
-            if ($b3->current_total_value-$b3->total_cost<0) {
-                //Box4
-                $nagative+=abs($b3->current_total_value-$b3->total_cost);
+        $box3 = Stock::where('user_id', Auth::user()->id)->with('viewupdatestock')->get();
+        $nagative = 0;
+        foreach($box3 as $b3)
+        {
+            if($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost<0)
+            {   //Box4
+                $nagative += abs($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost);
             }
         }
         $this->harvestableLosses=$nagative;
@@ -42,9 +43,9 @@ class Optimize extends Component
 
         $topLoss = [];
         if ($this->sortBy) {
-            $stock = Stock::select('stock.*', 'account.account_name')->join('account', 'account.id', 'stock.account_id')->where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->where('account_id', $this->sortBy)->get();
+            $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->where('account_id', $this->sortBy)->with('account')->get();
         } else {
-            $stock = Stock::select('stock.*', 'account.account_name')->join('account', 'account.id', 'stock.account_id')->where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->get();
+            $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->with('account')->get();
         }
 
         foreach ($stock as $st) {
@@ -53,20 +54,12 @@ class Optimize extends Component
             if ($st->type == 0) {
                 $data = SecInfo::where('ticker', $st->stock_ticker)->latest()->first();
 
-                //checks if comps don't exist
-                // or checks if comps are empty
-                // if so, updates comps
                 if (!isset($data) ||
                     (isset($data) && isset($data->peer_data)
                         && collect(json_decode($data->peer_data))->isEmpty())
                 ) {
-
-                    // nl 7/3/2022
-                    //updates the comps for comparison
                     $data = quick_sec_update($st->stock_ticker);
-                    //might increase load times.
                 }
-                // continues to check for existing comps
 
                 if (isset($data) && $data->peer_data != null) {
                     foreach (json_decode($data->peer_data) as $p) {
@@ -108,7 +101,7 @@ class Optimize extends Component
                     "dateofpurchase" => $st->date_of_purchase,
                     "long_term_gain" => $st->total_long_term_gains,
                     "ticker_logo" => $st->ticker_logo,
-                    "account" => $st->account_name,
+                    "account" => $st->account->account_name,
                     "share_number" => $st->share_number,
                     "security_name" => $st->security_name,
                     "issuetype" => $st->issuetype,

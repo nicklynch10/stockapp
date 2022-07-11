@@ -76,7 +76,8 @@ class UpdateStockPrice extends Command
             if(($totalpchange < 0 && $totalpchange >= -1) || ($totalpchange <= -4 && $totalpchange >= -6) || ($totalpchange <=-9 && $totalpchange >= -10))
             {
                 $details = [
-                    'body' => strtoupper($stock->stock_ticker).' Total % Change Is '.($totalpchange < 0 ? "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
+                    'body' => $stock->company_name.' ('.strtoupper($stock->stock_ticker).') is down '.($totalpchange < 0 ?
+                            "(".abs(round($totalpchange, 2))."%)" : abs(round($totalpchange, 2))."%"),
                     'logo' => $stock->ticker_logo,
                 ];
                 if(isset($details))

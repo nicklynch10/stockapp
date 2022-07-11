@@ -2452,8 +2452,13 @@ table a {
     background-color: rgba(107, 114, 128, var(--tw-bg-opacity))
 }
 
+.bg-green-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(26, 149, 72, var(--tw-bg-opacity))
+}
+
 .bg-green-800 {
-    background: #00c806;
+    background: #15803d;
 }
 
 .bg-gray-800 {
@@ -2491,6 +2496,11 @@ table a {
     background-color: rgba(248, 113, 113, var(--tw-bg-opacity))
 }
 
+.bg-red-500 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+}
+
 .bg-red-600 {
     --tw-bg-opacity: 1;
     background-color: rgba(220, 38, 38, var(--tw-bg-opacity))
@@ -2499,6 +2509,11 @@ table a {
 .bg-red-700 {
     --tw-bg-opacity: 1;
     background-color: rgba(185, 28, 28, var(--tw-bg-opacity))
+}
+
+.bg-red-800 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(237, 74, 74, var(--tw-bg-opacity))
 }
 
 .bg-yellow-200 {
@@ -10546,6 +10561,10 @@ table a {
         grid-template-columns:repeat(2, minmax(0, 1fr))
     }
 
+    .sm\:grid-cols-3 {
+        grid-template-columns:repeat(3, minmax(0, 1fr))
+    }
+
     .sm\:grid-cols-4 {
         grid-template-columns:repeat(4, minmax(0, 1fr))
     }
@@ -10737,6 +10756,7 @@ table a {
     .sm\:justify-space-around {
         justify-content: space-around
     }
+
 }
 
 @media (min-width: 768px) and (max-width: 1500px){
@@ -11921,6 +11941,10 @@ table a {
         gap: 1rem
     }
 
+    .xl\:gap-6{
+        gap: 1.5rem
+    }
+
     .xl\:pl-10 {
         padding-left: 5rem;
     }
@@ -12107,6 +12131,24 @@ table a {
     .xs\:mx-4 {
         margin-left: 1rem;
         margin-right: 1rem
+    }
+
+    .xs\:mb-4{
+        margin-bottom: 1rem;
+    }
+
+    .xs\:text-sm{
+        font-size: 0.875rem;
+    }
+
+
+    .xs\:w-44{
+        width: 11rem;
+    }
+
+
+    .xs\:justify-left{
+        justify-content: left;
     }
 
 

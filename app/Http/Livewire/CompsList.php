@@ -39,9 +39,14 @@ class CompsList extends Component
         $this->dispatchBrowserEvent('contentChanged');
     }
 
-    public function mount()
+    public function mount($tickerData)
     {
-        $this->ticker = $_GET['ticker'];
+        if($tickerData != null){
+            $this->ticker = $tickerData;
+        }
+        else{
+            $this->ticker = "TSLA";
+        }
         /// this was provided by the user. Please make sure this is secure...
         // run laravel security measures before using user input into our database
         // otherwise it is easy for the app to be hacked
@@ -72,7 +77,6 @@ class CompsList extends Component
                 $this->ETFArray = collect([]);
                 $this->stock_cors = collect([]);
                 $this->etf_cors = collect([]);
-
                 foreach ($this->comps as $p) {
                     if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
                         break;
@@ -80,7 +84,6 @@ class CompsList extends Component
 
                     $SC = $relation->compareToTicker($p);
                     $SI1 = $SC->SI2;
-                    //dd($SC);
                     if ($SC->correlation>0) {
                         // adds to the list only if they find correlation data
                         if (getTicker($p)->type == "ETF") {
@@ -94,9 +97,9 @@ class CompsList extends Component
                         }
                     }
                 }
+                $this->list_comps();
             }
             //dd($this->stock_cors);
-            $this->list_comps();
         }
     }
 

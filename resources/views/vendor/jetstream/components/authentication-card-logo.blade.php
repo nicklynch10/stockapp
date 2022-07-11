@@ -1,7 +1,7 @@
 <style type="text/css">
     @media screen and (min-width: 1000px){
         .logo{
-            height: 30px ;
+            height: 40px ;
             width: auto;
         }
     }

@@ -44,6 +44,34 @@
             right: auto;
         }
 
+
+        .blindsCyclical.left-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 25px 25px;
+            background-repeat: no-repeat;
+            position: absolute;
+            right: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+        }
+
+        .blindsCyclical.right-demo:before {
+            content: "";
+            background-image: url({{ $logoUrl }});
+            background-size: 25px 25px;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -33px;
+            top: 0;
+            display: block;
+            min-width: 33px;
+            min-height: 33px;
+            right: auto;
+        }
+
         .blinds.right-demo:before {
             content: "";
             background-image: url({{ $logoUrl }});
@@ -288,7 +316,8 @@
             </div>
             <div class="flex justify-center mt-6 lg:text-lg overflow-auto xs:mx-4">
                 <div class="factor-width">
-                    <form action="{{route('analyze')}}" method="get">
+                    <form action="{{route('analyze')}}" method="post">
+                        @csrf
                         <label for="default-search"
                                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
                         <div class="relative">
@@ -492,7 +521,7 @@
                      class="col-start-1 col-span-2 box-content h-auto p-4 border-2 ml-6 rounded-xl bg-white mt-12 mr-10 xs:ml-8 mb-5 progressbar ">
                     @if ($loadData)
                         @if($ticker != "" & count($correlations)>0)
-                            
+
                             <hr/>
                             <div
                                 class="grid grid-cols-12  xs:grid-cols-1 xl:grid-cols-6 lg:grid-cols-6 flex mt:border-2-solid-black mt:border-r-11 mt:mb-2 md:flex md:flex-col xs:flex xs:flex-col sm:flex sm:flex-col xs:justify-center xs:text-center md:mt-4">
@@ -640,8 +669,8 @@
                                         <span class="text-sm font-semibold ">Defensive </span>
                                     </div>
                                     <div class="wrapper mb-5">
-                                        <div class='blindsLow right' id="LowRight"></div>
-                                        <div class='blindsLow left' id="LowLeft"></div>
+                                        <div class='blindsCyclical right' id="CycRight"></div>
+                                        <div class='blindsCyclical left' id="CycLeft"></div>
                                     </div>
                                 </div>
                                 <div
@@ -710,7 +739,7 @@
                     @foreach($correlations->slice(0, 20) as $key => $result)
                     @if($result && isset($result->factor))
                         @php
-                               $getWord = strtok($result->factor->name, " "); 
+                               $getWord = strtok($result->factor->name, " ");
                         @endphp
                         <input type="hidden" value="{{$result->correlation}}" id="{{ $getWord }}" data-id="{{$key}}">
                     @endif
@@ -1394,6 +1423,113 @@
             // the following are just binding set ups for the buttons
             $(document).ready(function () {
                 animatesEmerging($('#Emerging').val());
+            });
+
+
+            // Emerging  and Developed  //
+
+
+            let currentPercentageStatesCyclical = 0;
+            let easingsCyclical = "cubic-bezier(0.5, 1, 0.89, 1)";
+            let durationsCyclical = 1000;
+            let easeReversalsCyclical = y => (1 - Math.sqrt((y - 1) / -1))
+
+
+            function animatesCyclical(percentagesCyclical) {
+                percentagesCyclical = parseFloat(percentagesCyclical);
+
+                // determine if we've crossed the 0 threshold, which would force us to do something else here
+                let thresholdsCyclical = currentPercentageStatesCyclical / percentagesCyclical < 0;
+                if (!thresholdsCyclical && percentagesCyclical != 0) {
+                    // determine which blind we're animating
+                    let blindsCyclical = percentagesCyclical < 0 ? "left" : "right";
+                    if (percentagesCyclical < 0) {
+                        $("#CycLeft").addClass("left-demo");
+                        $("#CycLeft").attr("title", parseFloat(percentagesCyclical).toFixed(2));
+                    } else {
+                        $("#CycRight").addClass("right-demo");
+                        $("#CycRight").attr("title", parseFloat(percentagesCyclical).toFixed(2));
+                    }
+                    $(`.blindsCyclical.${blindsCyclical}`)[0].animate(
+                        [
+                            {
+                                transform: `translateX(${currentPercentageStatesCyclical}%)`,
+                                easing: easingsCyclical
+                            },
+                            {
+                                transform: `translateX(${percentagesCyclical * 100}%)`
+                            }
+                        ],
+                        {
+                            fill: "forwards",
+                            duration: durationsCyclical
+                        },
+                    );
+                } else {
+                    // this happens when we cross the 0 boundry
+                    // we'll have to create two animations - one for moving the currently offset blind back to 0, and then another to move the second blind
+                    let firstBlinds = percentagesCyclical < 0 ? "right" : "left";
+                    let secondBlinds = percentagesCyclical < 0 ? "left" : "right";
+
+                    // get total travel distance
+                    let deltasCyclical = currentPercentageStatesCyclical - percentagesCyclical;
+                    // find the percentage of that travel that the first blind is responsible for
+                    let firstTravelsCyclical = currentPercentageStatesCyclical / deltasCyclical;
+                    let secondTravelsCyclical = 1 - firstTravelsCyclical;
+
+                    // animate the first blind.
+
+                    $(`.blindsCyclical.${firstBlinds}`)[0].animate(
+                        [
+                            {
+                                transform: `translateX(${currentPercentageStatesCyclical}%)`,
+                                easing: easingsCyclical
+                            },
+                            {
+                                // we go towards the target value instead of 0 since we'll cut the animation short
+                                transform: `translateX(${percentagesCyclical}%)`
+                            }
+                        ],
+                        {
+                            fill: "forwards",
+                            duration: durationsCyclical,
+                            // cut the animation short, this should run the animation to this x value of the easing function
+                            iterations: easeReversalsCyclical(firstTravelsCyclical)
+
+                        }
+                    );
+
+                    // animate the second blind
+                    $(`.blindsCyclical.${secondBlinds}`)[0].animate(
+                        [
+                            {
+                                transform: `translateX(${currentPercentageStatesCyclical}%)`,
+                                easing: easingsCyclical
+                            },
+                            {
+                                transform: `translateX(${percentagesCyclical}%)`
+                            }
+                        ],
+
+                        {
+                            fill: "forwards",
+                            duration: durationsCyclical,
+                            // start the iteration where the first should have left off. This should put up where the easing function left off
+                            iterationStart: easeReversalsCyclical(firstTravelsCyclical),
+                            // we only need to carry this aniamtion the rest of the way
+                            iterations: 1 - easeReversalsCyclical(firstTravelsCyclical),
+                            // delay this animation until the first "meets" it
+                            delay: duration * easeReversalsCyclical(firstTravelsCyclical)
+                        }
+                    );
+                }
+                // save the new value so that the next iteration has a proper from keyframe
+                currentPercentageStatesCyclical = percentagesCyclical;
+            }
+
+            // the following are just binding set ups for the buttons
+            $(document).ready(function () {
+                animatesCyclical($('#Cyclical').val());
             });
 
         });

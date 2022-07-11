@@ -11,6 +11,11 @@ class Account extends Model
     protected $table="account";
 
     protected $fillable = [
-        'user_id', 'account_type','account_name','account_brokerage','commission','plaid_account_id','set_default'
+        'user_id', 'account_type','account_name','account_brokerage','commission','access_token','plaid_account_id','start_date','set_default'
     ];
+
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
+    }
 }

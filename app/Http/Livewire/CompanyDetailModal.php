@@ -24,6 +24,7 @@ class CompanyDetailModal extends Component
     public $share_price;
     public $date_of_purchase;
     public $tickerLogo;
+    public $security_name;
     protected $listeners = ['company' => 'companyDetail','closeCompany' => 'closeCompanyModal'];
 
 
@@ -51,6 +52,11 @@ class CompanyDetailModal extends Component
     // Company Detail
     public function companyDetail($stockticker)
     {
+        $symbol = new Stock;
+        $company = $symbol->stockCompanyData($stockticker);
+        $price = $symbol->stockPriceData($stockticker);
+        $logo_url = $symbol->stockLogoData($stockticker);
+
         if((int) $stockticker)
         {
             $tickerdata = Stock::findOrFail($stockticker);
@@ -66,32 +72,26 @@ class CompanyDetailModal extends Component
             $this->share_number = $tickerdata->share_number;
             $this->issuetype = $tickerdata->issuetype;
             $this->share_price = '';
+            $this->security_name = $tickerdata->security_name;
             $this->tickerLogo = $tickerdata->ticker_logo;
             $this->date_of_purchase = Carbon::parse($tickerdata->date_of_purchase)->format('Y-m-d');
         }
         else
         {
-            $token = env('IEX_CLOUD_KEY', null);
-            $endpoint = env('IEX_CLOUD_ENDPOINT', null);
-            $symbol = Http::get($endpoint . 'stable/stock/'.$stockticker.'/company?token=' . $token);
-            $company = $symbol->json();
-            $this->stock_ticker = $company?$company['symbol']:'';
-            $this->company_name = $company?$company['companyName']:'';
+            $this->stock_ticker = $company ? $company['symbol'] : '';
+            $this->company_name = $company ? $company['companyName'] : '';
             $this->description = $company ? $company['description'] : null;
             $this->sector = $company ? $company['sector'] : null;
             $this->issuetype = $company ? $company['issueType'] : null;
-            $this->alltags = $company ? $company['tags'] : null;
+            $this->alltags = $company ? json_decode($company['tags']) : null;
             $this->security_name = $company ? $company['securityName'] : null;
-            $current_price = Http::get($endpoint . 'stable/stock/'.$stockticker.'/quote?token=' . $token);
-            $price = $current_price->json();
             $this->current_share_price = $price ? $price['latestPrice'] : '';
             $this->market_cap = $price ? round(($price['marketCap']/1000), 2) : '';
-            $logo = Http::get($endpoint . 'stable/stock/' . $stockticker . '/logo?token=' . $token);
-            $logo_url = $logo->json();
-            $this->tickerLogo = $logo_url ? $logo_url['url'] : '';
+            $this->tickerLogo = $logo_url;
         }
         $this->openCompanyModal();
     }
+
     public function openCompanyModal()
     {
         $this->isCompanyOpen = true;

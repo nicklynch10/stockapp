@@ -8,32 +8,32 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            <div class="flex justify-center my-2 text-xl font-bold">
+            <div class="flex justify-center my-2 mb-6 text-xl font-bold">
                 <x-jet-authentication-card-logo />
             </div>
             <div class="mt-4">
                 <label for="first_name" class="block font-medium text-gray-700">{{ __('First Name') }} <span class="text-red-700 font-bold">*</span></label>
-                <x-jet-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autocomplete="first-name" placeholder="Enter First Name"/>
+                <x-jet-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autocomplete="first-name" />
             </div>
 
             <div class="mt-4">
                 <label for="last_name" class="block font-medium text-gray-700">{{ __('Last Name') }} <span class="text-red-700 font-bold">*</span></label>
-                <x-jet-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="last-name" placeholder="Enter Last Name"/>
+                <x-jet-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="last-name" />
             </div>
 
             <div class="mt-4">
                 <label for="email" class="block font-medium text-gray-700">{{ __('Email') }} <span class="text-red-700 font-bold">*</span></label>
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required placeholder="Enter Email" />
+                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
             <div class="mt-4">
                 <label for="password" class="block font-medium text-gray-700">{{ __('Password') }} <span class="text-red-700 font-bold">*</span></label>
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="Enter Password"/>
+                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             </div>
 
             <div class="mt-4">
                 <label for="password_confirmation" class="block font-medium text-gray-700">{{ __('Confirm Password') }} <span class="text-red-700 font-bold">*</span></label>
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Enter Confirm Password"/>
+                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
@@ -53,13 +53,13 @@
                 </div>
             @endif
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex items-center justify-between mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
 
                 <x-jet-button class="ml-4">
-                    {{ __('Register') }}
+                    {{ __('Continue!') }}
                 </x-jet-button>
             </div>
         </form>

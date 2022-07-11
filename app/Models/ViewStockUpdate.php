@@ -13,4 +13,9 @@ class ViewStockUpdate extends Model
     protected $fillable = [
         'stock_id','stock_ticker','dchange','pchange','current_total_value','total_cost','total_gain_loss'
     ];
+
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class);
+    }
 }

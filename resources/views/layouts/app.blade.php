@@ -8,6 +8,8 @@
         <title>{{ appName() }} | Investment Tax Harvesting Platform</title>
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
         <link rel="icon" type="image/x-icon" href="/images/ghost.png">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">

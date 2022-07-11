@@ -37,15 +37,6 @@ class FactorDetail extends Component
     public function mount()
     {
         $this->ticker = $_GET['ticker'];
-//        $stockdata = StockTicker::where('ticker',$this->ticker)->first();
-//        if($stockdata == null)
-//        {
-//            $this->ticker = "TSLA";
-//        }
-//        else
-//        {
-//            $this->ticker = $_GET['ticker'];
-//        }
     }
 
     public function render()

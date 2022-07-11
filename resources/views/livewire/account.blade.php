@@ -24,7 +24,7 @@
                     <x-jet-button wire:click="create()" class="py-2 px-4 my-3" id="add">{{__('Add New Account') }}</x-jet-button>
 {{--                    <button >Link Your Bank Account</button>--}}
                     <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150 py-2 px-4 my-3" id="linkButton">
-                        Link accounts using Plaid
+                        Add new accounts using Plaid
                     </button>
 
 {{--                   <x-jet-button class="py-2 px-4 my-3" id="add">{{__('Auto refresh plaid transaction') }}</x-jet-button>--}}
@@ -39,6 +39,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Commission Rate per Share</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Date Created</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Action</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Refresh Account</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -52,6 +53,11 @@
                                     <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">
                                         <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">
+                                        @if($acc->access_token != null)
+                                            <a class="tooltip py-2 px-4" title="Refresh Account" wire:click="addHoldings('{{ $acc->access_token }}')"><i class="fa fa-rotate-right cursor-pointer"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
@@ -78,6 +84,15 @@
                                             <p class="mr-5">{{$acc->account_name}}</p>
                                         </td>
                                     </tr>
+
+                                    @if($acc->access_token != null)
+                                        <tr>
+                                            <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Refresh Account</td>
+                                            <td class="text-right text-sm">
+                                                <a class="tooltip py-2 px-4" title="Refresh Account" wire:click="addHoldings('{{ $acc->access_token }}')"><i class="fa fa-rotate-right cursor-pointer"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endif
 
                                     <tr>
                                         <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Set as Default</td>
@@ -113,8 +128,8 @@
                                         <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
                                             <p class="mr-5">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</p>
                                         </td>
-
                                     </tr>
+
                                     <tr>
                                         <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Action</td>
                                         <td class="text-right truncate mr" style="font-size: 0.750rem;line-height: 1.25rem;">
@@ -399,7 +414,7 @@
 {{--    development--}}
     <script>
         linkHandler = Plaid.create({
-            env:"development",
+            env:"sandbox",
             token: '{{ $this->token }}',
             onSuccess: (public_token, metadata) => {
                 Livewire.emit('getAccessToken',public_token);

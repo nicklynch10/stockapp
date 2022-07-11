@@ -6,12 +6,13 @@
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                         wire:click.debounce.debounce.4000ms="open">
                     @if($unreadCount > 0)
-                        <i class="mdl-badge fa fa-bell count_icon lg:text-lg text-red-700 text-red-600" data-badge="{{$unreadCount}}"></i>
-                        <span class="cart-basket d-flex align-items-center justify-content-center count-icon">
-                            {{$unreadCount}}
-                        </span>
+{{--                        <i class="mdl-badge fa fa-bell count_icon lg:text-lg text-red-700 text-red-600" data-badge="{{$unreadCount}}"></i>--}}
+                        <span class="mdl-badge material-icons count_icon text-red-500" data-badge="{{$unreadCount}} ">notifications_active</span>
+{{--                        <span class="cart-basket d-flex align-items-center justify-content-center count-icon">--}}
+{{--                            {{$unreadCount}}--}}
+{{--                        </span>--}}
                     @else
-                        <i class="mdl-badge fa fa-bell lg:text-lg no_notifications "></i>
+                        <span class="mdl-badge material-icons no_notifications">notifications_none</span>
                     @endif
                 </button>
             </div>

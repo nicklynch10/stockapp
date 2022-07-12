@@ -10,7 +10,7 @@ if (!function_exists('getTicker')) {
         // will not create if exists already
         $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name', $ticker)->first();
         //  dd($SI1, $SI1->info_data);
-        if (!$SI1 || !$SI1->info_data) {
+        if (!$SI1 && !$SI1->info_data) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
             $SI1->getIEXData();
@@ -30,10 +30,8 @@ if (!function_exists('getFactor')) {
         $f = Factor::where("ticker1", $ticker1)->where("ticker2", $ticker2)->orderBy('id', 'desc')->first();
         if (!$f) {
             $f = new Factor();
-            $f->ticker1 = $ticker1;
-            $f->ticker2 = $ticker2;
+            $f->create($ticker1, $ticker2);
             $f->refresh();
-            $f->save();
         }
         return $f;
     }

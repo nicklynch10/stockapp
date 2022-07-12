@@ -67,9 +67,14 @@ class SecInfo extends Model
         $this->year1ChangePercent = $stats['year1ChangePercent'];
         $this->marketcap = $stats['marketcap']/1000;
         $this->info_data = json_encode($data->json());
-        $this->week52Low = $stats["week52low"];
-        $this->week52High = $stats["week52high"];
-        //$this->iexClose = $stats["iexClose"];
+
+
+        $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $this->token);
+        $data = Http::get($url);
+        $response = $data->json();
+        $this->week52Low = $response["week52Low"];
+        $this->week52High = $response["week52High"];
+        $this->iexClose = $response["iexClose"];
 
 
 

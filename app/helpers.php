@@ -31,8 +31,8 @@ if (!function_exists('getFactor')) {
         if (!$f) {
             $f = new Factor();
             $f->create($ticker1, $ticker2);
-            $f->refresh();
         }
+        $f->refresh();
         return $f;
     }
 }

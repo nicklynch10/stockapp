@@ -365,7 +365,7 @@
                     $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $token);
                     $company = $symbol->json();
                     $tag = $company ? $company['tags'] : [];
-                    $companyname = $company ? $company['companyName'] : '';
+                    $companyname = $company ? $company['companyName'] : ''
                 @endphp
                 <div
                     class="col-start-1 col-span-2  sm:pl-0 md:pl-1 xl:pl-10 lg:pl-10 sm:flex-col  xs:flex-col xs:flex sm:text-center xs:text-center sm:flex sm:flex-wrap sm:justify-center xs:justify-center sm:ml-5 xs:ml-8 xs:px-3 lg:ml-24">
@@ -396,7 +396,7 @@
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                             $url = ($endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $token);
                             $data = Http::get($url);
-                            $stats = $data->json();
+                            $stats = $data->json()
                         @endphp
                         @if($stats != null)
                             <div class="float-right grid-rows-2 mr-10 ">
@@ -462,7 +462,7 @@
                             $token = env('IEX_CLOUD_KEY', null);
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);
                             $symbol = Http::get($endpoint . 'stable/stock/'.$this->ticker.'/stats?token=' . $token);
-                            $stats = $symbol->json();
+                            $stats = $symbol->json()
                         @endphp
 
                         @if($stats != null)
@@ -488,6 +488,15 @@
                                 <span class="xs:m-3 mb-3 {{ $stats['year1ChangePercent'] > 0 ? "text-green-500" : "text-red-600" }}">{{ $stats['year1ChangePercent'] > 0 ? number_format($stats['year1ChangePercent']*100, 2)."%" : "(".abs(number_format($stats['year1ChangePercent']*100, 2)) ."%)"  }}</span>
                             </div>
                         @endif
+
+
+                        @if($company != null)
+                            <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
+                                <span class="font-bold xs:m-3 my-3">Country:</span>
+                                <span class="xs:m-3 mb-3">{{ $company['country'] }}</span>
+                            </div>
+                        @endif
+
                         <div class="col-span-3 box-content border-1 sm:m-2 lg:mr-10 ">
                             @if(isset($tag))
                                 @foreach($tag as $t)
@@ -739,7 +748,7 @@
                     @foreach($correlations->slice(0, 20) as $key => $result)
                     @if($result && isset($result->factor))
                         @php
-                               $getWord = strtok($result->factor->name, " ");
+                               $getWord = strtok($result->factor->name, " ")
                         @endphp
                         <input type="hidden" value="{{$result->correlation}}" id="{{ $getWord }}" data-id="{{$key}}">
                     @endif

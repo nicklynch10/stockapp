@@ -32,7 +32,6 @@ class Factor extends Model
 
     public function refresh()
     {
-
          // get updated data from indices
         $SI1 = getTicker($this->ticker1);
         $SI2 = getTicker($this->ticker2);
@@ -57,32 +56,27 @@ class Factor extends Model
         // take the difference between each
         $prices = $prices1->map(function ($price, $key) use ($prices1, $mean1, $max1, $min1, $std1, $prices2, $mean2, $max2, $min2, $std2) {
             //normalizes the data for volitility and value
-            if(isset($prices2[$key]))
-            {
-                $pn1 = ($price - $mean1)/$std1;
-                $pn2 = ($prices2[$key] - $mean2)/$std2;
-                return $pn1 - $pn2;
-            }
+            $pn1 = ($price - $mean1)/$std1;
+            $pn2 = ($prices2[$key] - $mean2)/$std2;
+            return $pn1 - $pn2;
         });
 
-        if(count($prices) > 0)
-        {
-            //assigns and saves data
-            $this->SI1()->associate($SI1);
-            $this->SI2()->associate($SI2);
-            $this->change_data1 = json_encode($prices1);
-            $this->change_data2 = json_encode($prices2);
-            $this->date_data1 = json_encode($SI1->getDateData());
-            $this->date_data2 = json_encode($SI2->getDateData());
+        //assigns and saves data
+        $this->SI1()->associate($SI1);
+        $this->SI2()->associate($SI2);
+        $this->change_data1 = json_encode($prices1);
+        $this->change_data2 = json_encode($prices2);
+        $this->date_data1 = json_encode($SI1->getDateData());
+        $this->date_data2 = json_encode($SI2->getDateData());
 
-            $this->operation = "-";
-            $this->change_data = json_encode($prices);
-            $this->date_data = json_encode($SI1->getDateData());
-            $this->amount = $prices1->count();
-            $this->range = $SI1->range;
-            $this->date_updated = $SI1->date_updated;
-            $this->save();
-        }
+        $this->operation = "-";
+        $this->change_data = json_encode($prices);
+        $this->date_data = json_encode($SI1->getDateData());
+        $this->amount = $prices1->count();
+        $this->range = $SI1->range;
+        $this->date_updated = $SI1->date_updated;
+
+        $this->save();
     }
 
 

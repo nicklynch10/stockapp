@@ -30,9 +30,11 @@ if (!function_exists('getFactor')) {
         $f = Factor::where("ticker1", $ticker1)->where("ticker2", $ticker2)->orderBy('id', 'desc')->first();
         if (!$f) {
             $f = new Factor();
-            $f->create($ticker1, $ticker2);
+            $f->ticker1 = $ticker1;
+            $f->ticker2 = $ticker2;
+            $f->refresh();
+            $f->save();
         }
-        $f->refresh();
         return $f;
     }
 }

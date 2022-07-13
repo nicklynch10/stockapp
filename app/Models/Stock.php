@@ -39,6 +39,7 @@ class Stock extends Model
         'total_cost',
         'total_gain_loss',
         'total_long_term_gains',
+        'ignore_stock',
     ];
 
     public $stockCompany;

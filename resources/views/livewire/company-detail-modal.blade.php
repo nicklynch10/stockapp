@@ -64,16 +64,16 @@
                         @php
                             $count= strlen($this->stock_ticker)
                         @endphp
-                        <div class="{{ $count>7 ? "text-sm w-24 h-24" : "text-sm w-16 h-16" }} rounded-full text-center border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center flex-shrink-0 mx-auto">
-                            <span class="break-all">{{$this->stock_ticker}}</span>
+                        <div class="{{ $count > 7 ? "text-sm w-24 h-24" : "text-sm w-16 h-16" }} rounded-full text-center border-gray-300 bg-blue-50 flex items-center font-bold text-blue-500 justify-center flex-shrink-0 mx-auto">
+                            <span class="break-all">{{ strtoupper($this->stock_ticker) }}</span>
                         </div>
                     @endif
                 </h5>
                 <div class="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
                     @php
-                        $companyname=explode('-',$this->security_name);
+                        $companyname = explode('-',$this->security_name)
                     @endphp
-                    <p class="font-bold">{{$this->stock_ticker}}</p>
+                    <p class="font-bold">{{ strtoupper($this->stock_ticker) }}</p>
                     <p class="text-sm text-gray-700 mt-1 italic">
                         @if($this->security_name != null && convertType($this->issuetype) == "ETF")
                             {{ isset($companyname[1]) ? $companyname[1] : $companyname[0]}}
@@ -83,23 +83,23 @@
                     </p>
 
                     @if($this->issuetype)
-                        <p class="text-sm text-gray-700 mt-1 italic">{{convertType($this->issuetype)}}</p>
+                        <p class="text-sm text-gray-700 mt-1 italic">{{ convertType($this->issuetype) }}</p>
                     @endif
 
                     @if($this->share_number)
-                        <p class="text-sm text-gray-700 mt-1">{{round($this->share_number, 2)  }} @if($this->share_number == 1) Share @else Shares @endif</p>
+                        <p class="text-sm text-gray-700 mt-1">{{ round($this->share_number, 2)  }} @if($this->share_number == 1) Share @else Shares @endif</p>
                     @endif
 
                     @if($this->current_share_price)
-                        <p class="m-2"><b>Current Share Price: </b> ${{$this->current_share_price}}</p>
+                        <p class="m-2"><b>Current Share Price: </b> ${{ $this->current_share_price }}</p>
                     @endif
 
                     @if($this->average_cost)
-                        <p class="m-2"><b>Average Purchase Price: </b> ${{$this->average_cost}}</p>
+                        <p class="m-2"><b>Average Purchase Price: </b> ${{ $this->average_cost }}</p>
                     @endif
 
                     @if($this->sector)
-                        <p class="m-2"><b>Sector: </b> {{$this->sector}}</p>
+                        <p class="m-2"><b>Sector: </b> {{ $this->sector }}</p>
                     @endif
 
 
@@ -108,7 +108,7 @@
                     @endif
 
                     @if($this->description)
-                        <p class="text-gray-700 mt-1">{{$this->description}}</p>
+                        <p class="text-gray-700 mt-1">{{ $this->description }}</p>
                     @endif
                 </div>
             </div>

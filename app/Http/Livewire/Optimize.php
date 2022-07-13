@@ -21,6 +21,7 @@ class Optimize extends Component
     public $harvestableLosses = 0;
     public $potentialSavings = 0;
     public $sortBy;
+    protected $listeners = ['reloadIgnore' => 'render'];
 
     public function mount()
     {
@@ -42,10 +43,11 @@ class Optimize extends Component
 
 
         $topLoss = [];
+        $completeIgnore = [];
         if ($this->sortBy) {
             $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->where('account_id', $this->sortBy)->with('account')->get();
         } else {
-            $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->with('account')->get();
+            $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->with('account')->paginate(10);
         }
 
         foreach ($stock as $st) {
@@ -89,31 +91,66 @@ class Optimize extends Component
             $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
             $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
             $potentialSavings = $dLosss*40/100;
-            array_push(
-                $topLoss,
-                [
-                    "id" => $st->id,
-                    "dloss" => $dLosss,
-                    "ploss" => $pLoss,
-                    "potentialSavings" => $potentialSavings,
-                    "ticker" => $st->stock_ticker,
-                    "company_name" => $st->company_name,
-                    "dateofpurchase" => $st->date_of_purchase,
-                    "long_term_gain" => $st->total_long_term_gains,
-                    "ticker_logo" => $st->ticker_logo,
-                    "account" => $st->account->account_name,
-                    "share_number" => $st->share_number,
-                    "security_name" => $st->security_name,
-                    "issuetype" => $st->issuetype,
-                    "compare_stock" => json_encode($sto),
-                    "compare_eft" => json_encode($et)
-                ]
-            );
+            if($st->ignore_stock == 0)
+            {
+                array_push(
+                    $topLoss,
+                    [
+                        "id" => $st->id,
+                        "dloss" => $dLosss,
+                        "ploss" => $pLoss,
+                        "potentialSavings" => $potentialSavings,
+                        "ticker" => $st->stock_ticker,
+                        "company_name" => $st->company_name,
+                        "dateofpurchase" => $st->date_of_purchase,
+                        "long_term_gain" => $st->total_long_term_gains,
+                        "ticker_logo" => $st->ticker_logo,
+                        "account" => $st->account->account_name,
+                        "share_number" => $st->share_number,
+                        "security_name" => $st->security_name,
+                        "issuetype" => $st->issuetype,
+                        "compare_stock" => json_encode($sto),
+                        "compare_eft" => json_encode($et)
+                    ]
+                );
+            }
+            elseif ($st->ignore_stock == 1)
+            {
+                array_push(
+                    $completeIgnore,
+                    [
+                        "id" => $st->id,
+                        "dloss" => $dLosss,
+                        "ploss" => $pLoss,
+                        "potentialSavings" => $potentialSavings,
+                        "ticker" => $st->stock_ticker,
+                        "company_name" => $st->company_name,
+                        "dateofpurchase" => $st->date_of_purchase,
+                        "long_term_gain" => $st->total_long_term_gains,
+                        "ticker_logo" => $st->ticker_logo,
+                        "account" => $st->account->account_name,
+                        "share_number" => $st->share_number,
+                        "security_name" => $st->security_name,
+                        "issuetype" => $st->issuetype,
+                        "compare_stock" => json_encode($sto),
+                        "compare_eft" => json_encode($et)
+                    ]
+                );
+            }
             $psaving = array_column($topLoss, 'potentialSavings');
             array_multisort($psaving, SORT_DESC, $topLoss);
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-        return view('livewire.optimize', ['toploss' => $topLoss]);
+        return view('livewire.optimize', ['toploss' => $topLoss, 'stockLink' => $stock, 'completeIgnore' => $completeIgnore]);
+    }
+
+    public function addignoresection($ignoreStockId)
+    {
+        $findStock = Stock::find($ignoreStockId);
+        $findStock->update([
+           'ignore_stock' => 1,
+        ]);
+        $this->emit('reloadIgnore');
     }
 }

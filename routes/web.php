@@ -99,7 +99,7 @@ Route::get('check-for-comps', [SecInfoController::class, 'view'])->name('correla
 //Route::get('factors', [FactorController::class, 'factors'])->name('factors');
 Route::get('analyze-compare', [AnalyzeCompareController::class, 'factors'])->name('analyze-compare');
 Route::any('analyze', [FactordetailController::class, 'view2'])->name('analyze');
-
+Route::any('analyzeticker/{ticker}', [FactordetailController::class, 'analyzeticker'])->name('analyzeticker');
 
 
 // new home routes //

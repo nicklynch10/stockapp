@@ -9,7 +9,7 @@
         <div class="col-span-6 lg:col-span-4">
             <div class="mb-4">
                 <label for="stockticker" class="block text-gray-700 text-sm font-bold mb-2"><b>Stock Ticker:</b></label>
-                <label>{{$this->stock_ticker}}</label>
+                <label>{{ strtoupper($this->stock_ticker) }}</label>
                 <input type="text" hidden readonly class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ticker"  placeholder="Enter Stock Ticker" wire:model="stock_ticker">
                 @error('stock_ticker') <span class="text-red-500">{{ $message }}</span>@enderror
             </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="mb-4">
                 <label for="share_number" class="block text-gray-700 text-sm font-bold mb-2"><b>Current Number of {{ $this->share_number == 1 ? "Share" : "Shares" }}:</b></label>
-                <label>{{round($this->share_number,2)}}</label>
+                <label>{{ round($this->share_number,2) }}</label>
             </div>
             <div class="mb-4">
                 <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Sale Price (Per Share):</b></label>

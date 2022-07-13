@@ -24,13 +24,9 @@ class AddUserByEmail extends Component
     public function addNewUser()
     {
         $this->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
             'email' => 'required',
         ],
-        ['first_name.required' => 'First name is required',
-         'last_name.required' => 'Last name is required',
-         'email.required' => 'Email is required' ]);
+        ['email.required' => 'Email is required' ]);
 
         if(UserInvitation::where('email', $this->email)->first())
         {
@@ -44,7 +40,6 @@ class AddUserByEmail extends Component
             $userInvitation->first_name = $this->first_name;
             $userInvitation->last_name = $this->last_name;
             $userInvitation->email = $this->email;
-            $userInvitation->title = $this->title;
             $userInvitation->sender_id = Auth::user()->id;
             $userInvitation->link = '/register/';
             $userInvitation->save();

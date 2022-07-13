@@ -241,9 +241,9 @@ class StockAddEditModal extends Component
     {
         $stock = Stock::findOrFail($id);
         $this->stock_id = $id;
-        $this->tickerorcompany=$stock->stock_ticker;
-        $this->stock_ticker = $stock->stock_ticker;
-        $this->companyname = $stock->stock_ticker;
+        $this->tickerorcompany = strtoupper($stock->stock_ticker);
+        $this->stock_ticker = strtoupper($stock->stock_ticker);
+        $this->companyname = strtoupper($stock->stock_ticker);
         $this->company_name = $stock->company_name;
         $this->security_name = $stock->security_name;
         $this->description = $stock->description;

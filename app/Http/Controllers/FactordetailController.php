@@ -13,15 +13,21 @@ class FactordetailController extends Controller
         $data['ticker'] = $request['searchTicker'];
         return view('correlations.factors-detail', $data);
     }
+
     public function factors()
     {
         return view('correlations.analyze-compare');
     }
 
-
     public function view2(Request $request)
     {
         $data['ticker'] = $request['ticker'];
+        return view('correlations.analyze2', $data);
+    }
+
+    public function analyzeticker($ticker)
+    {
+        $data['ticker'] = $ticker;
         return view('correlations.analyze2', $data);
     }
 }

@@ -33,10 +33,12 @@ class CurrentHoldings extends Component
     public $result;
     public $accountId;
     public $accountFilter;
+    public $sorting = 'desc';
     protected $listeners = ['currentHolings' => 'render'];
     protected $queryString = [
         'search' => ['except' => ''],
         'accountFilter' => ['except' => ''],
+        'sorting' => ['except' => ''],
     ];
     public bool $loadData = false;
 
@@ -62,11 +64,11 @@ class CurrentHoldings extends Component
     public function sort($column)
     {
         if($column != 0){
-            $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
+//            $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
             $this->sortColumn = $column;
         }
         else{
-            $this->sortColumn = 'stock_ticker';
+            $this->sortColumn = 'current_total_value';
         }
         return $this->fetchData();
     }
@@ -82,9 +84,7 @@ class CurrentHoldings extends Component
             ->when($this->accountFilter, function ($q) {
                 $q->where('account_id', $this->accountFilter);
             })
-            ->when($this->sortColumn && $this->sortDirection, function ($q) {
-                $q->orderBy($this->sortColumn, $this->sortDirection);
-            })
+            ->orderBy($this->sortColumn, $this->sorting)
             ->get();
     }
 

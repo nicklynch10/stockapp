@@ -490,7 +490,7 @@
                         @endif
 
 
-                        @if($company != null)
+                        @if($company != null && $company['country']!=null)
                             <div class="col-span-1 box-content border-1 bg-gray-100 flex flex-col items-center">
                                 <span class="font-bold xs:m-3 my-3">Country:</span>
                                 <span class="xs:m-3 mb-3">{{ $company['country'] }}</span>

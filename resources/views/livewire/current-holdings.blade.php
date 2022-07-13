@@ -3,6 +3,13 @@
         <div class="flex justify-between">
             <h2 class="text-xl font-black">Current Holdings</h2>
             <div class="xl:flex sm:flex md:flex space-x-3 items-center">
+                <label class="block font-medium text-sm text-gray-700">
+                    <select wire:model="sorting" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm xs:ml-1 ml-3 my-1 w-40 sm:w-38 md:w-28 lg:w-44">
+                        <option value="asc"> Ascending </option>
+                        <option value="desc"> Descending </option>
+                    </select>
+                </label>
+
                 <label class="block font-medium text-sm text-gray-700 xs:ml-2 webkit-stroke-thick">
                     <select wire:change="sort($event.target.value)" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ml-3 my-1 w-40 sm:w-38 md:w-28 lg:w-44">
                         <option value="0">Sort By</option>
@@ -24,12 +31,6 @@
                     <select wire:model="accountFilter" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm xs:ml-1 ml-3 my-1 w-40 sm:w-38 md:w-28 lg:w-44">
                         <option value="">Filter By Account</option>
                         @foreach($this->account as $account)
-                            <button
-                                class='inline-flex items-center justify-center px-3 py-2 bg-blue-300 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 disabled:opacity-25 mx-auto mt-5 focus:outline-none'
-                                style="max-width: 230px; width: 100%;"
-                                wire:click="teamButtonClick({{ $account->id }})">
-                                {{$account->account_name}}
-                            </button>
                             <option value="{{ $account->id }}">{{ $account->account_name }}</option>
                         @endforeach
                     </select>

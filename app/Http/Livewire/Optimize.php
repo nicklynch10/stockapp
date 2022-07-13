@@ -91,7 +91,7 @@ class Optimize extends Component
             $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
             $pLoss = abs((($totalPSell/$totalPbuy)-1)*100);
             $potentialSavings = $dLosss*40/100;
-            if($st->ignore_stock == 0)
+            if($st->ignore_stock == 0 && $pLoss > 3)
             {
                 array_push(
                     $topLoss,

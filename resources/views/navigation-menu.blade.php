@@ -32,7 +32,7 @@
         }
     </style>
     @php
-        use App\Models\Stock;use Illuminate\Support\Facades\Auth;$optimizecount = Stock::where('user_id', Auth::user()->id)->get()
+        use App\Models\Stock;use Illuminate\Support\Facades\Auth;$optimizecount = Stock::where(['user_id' => Auth::user()->id, 'type' => 0])->get()
     @endphp
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

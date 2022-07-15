@@ -22,6 +22,10 @@ class Optimize extends Component
     public $potentialSavings = 0;
     public $sortBy;
     protected $listeners = ['reloadIgnore' => 'render'];
+    public $stock;
+    public $confirmIgnoreSection = false;
+    public $confirmCompleteSection = false;
+    public $confirmSection = false;
 
     public function mount()
     {
@@ -44,6 +48,7 @@ class Optimize extends Component
 
         $topLoss = [];
         $completeIgnore = [];
+        $ignore = [];
         if ($this->sortBy) {
             $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->where('account_id', $this->sortBy)->with('account')->paginate(10);
         } else {
@@ -51,9 +56,6 @@ class Optimize extends Component
         }
 
         foreach ($stock as $st) {
-//            $totalPbuy = $st->current_share_price;
-//            $totalPSell = $st->ave_cost;
-//            $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
             $dLosss = ($st->current_share_price * $st->share_number) - ($st->ave_cost * $st->share_number);
             $pLoss = abs((($st->ave_cost / $st->current_share_price)-1)*100);
             $potentialSavings = $dLosss * 40 / 100;
@@ -140,21 +142,122 @@ class Optimize extends Component
                         ]
                     );
                 }
+                elseif ($st->ignore_stock == 2)
+                {
+                    array_push(
+                        $ignore,
+                        [
+                            "id" => $st->id,
+                            "dloss" => $dLosss,
+                            "ploss" => $pLoss,
+                            "potentialSavings" => $potentialSavings,
+                            "ticker" => $st->stock_ticker,
+                            "company_name" => $st->company_name,
+                            "dateofpurchase" => $st->date_of_purchase,
+                            "long_term_gain" => $st->total_long_term_gains,
+                            "ticker_logo" => $st->ticker_logo,
+                            "account" => $st->account->account_name,
+                            "share_number" => $st->share_number,
+                            "security_name" => $st->security_name,
+                            "issuetype" => $st->issuetype,
+                            "compare_stock" => json_encode($sto),
+                            "compare_eft" => json_encode($et)
+                        ]
+                    );
+                }
             }
             $psaving = array_column($topLoss, 'potentialSavings');
             array_multisort($psaving, SORT_DESC, $topLoss);
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-        return view('livewire.optimize', ['toploss' => $topLoss, 'stockLink' => $stock, 'completeIgnore' => $completeIgnore]);
+        return view('livewire.optimize', ['toploss' => $topLoss, 'stockLink' => $stock, 'completeIgnore' => $completeIgnore, 'ignore' => $ignore]);
     }
 
-    public function addignoresection($ignoreStockId)
+    public function confirmIgnoreSection($stockId)
     {
-        $findStock = Stock::find($ignoreStockId);
-        $findStock->update([
-           'ignore_stock' => 1,
-        ]);
-        $this->emit('reloadIgnore');
+        $this->stock = Stock::find($stockId);
+        if ($this->stock) {
+            $this->confirmIgnoreSection = true;
+        } else {
+            $this->reset('stock');
+        }
+    }
+
+    public function cancelIgnoreSection()
+    {
+        $this->confirmIgnoreSection = false;
+    }
+
+    public function ignoreSection()
+    {
+        if ($this->confirmIgnoreSection) {
+            $this->stock->update([
+                'ignore_stock' => 2,
+            ]);
+            $this->reset(['stock', 'confirmIgnoreSection']);
+            $this->dispatchBrowserEvent('notify', [
+                'style' => 'danger',
+                'message' => 'Ignore Section',
+            ]);
+        }
+    }
+
+    public function confirmCompleteSection($stockId)
+    {
+        $this->stock = Stock::find($stockId);
+        if ($this->stock) {
+            $this->confirmCompleteSection = true;
+        } else {
+            $this->reset('stock');
+        }
+    }
+
+    public function cancelCompleteSection()
+    {
+        $this->confirmCompleteSection = false;
+    }
+
+    public function completeSection()
+    {
+        if ($this->confirmCompleteSection) {
+            $this->stock->update([
+                'ignore_stock' => 1,
+            ]);
+            $this->reset(['stock', 'confirmCompleteSection']);
+            $this->dispatchBrowserEvent('notify', [
+                'style' => 'success',
+                'message' => 'Complete Section',
+            ]);
+        }
+    }
+
+    public function confirmSection($stockId)
+    {
+        $this->stock = Stock::find($stockId);
+        if ($this->stock) {
+            $this->confirmSection = true;
+        } else {
+            $this->reset('stock');
+        }
+    }
+
+    public function cancelSection()
+    {
+        $this->confirmSection = false;
+    }
+
+    public function section()
+    {
+        if ($this->confirmSection) {
+            $this->stock->update([
+                'ignore_stock' => 0,
+            ]);
+            $this->reset(['stock', 'confirmSection']);
+            $this->dispatchBrowserEvent('notify', [
+                'style' => 'success',
+                'message' => 'Section Succesfullay',
+            ]);
+        }
     }
 }

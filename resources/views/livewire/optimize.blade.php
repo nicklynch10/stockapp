@@ -200,27 +200,27 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)
-                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
-                                                                    <p class="border-dash w-60"></p>
-                                                                    @if(count(json_decode($tl['compare_stock']))>0)
-                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>
-                                                                        <div class="flex-row w-60 text-center">
-                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)
-                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                    @if(count(json_decode($tl['compare_eft']))>0)
-                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>
-                                                                        <div class="flex-row w-60 text-center">
-                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)
-                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
+{{--                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)--}}
+{{--                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">--}}
+{{--                                                                    <p class="border-dash w-60"></p>--}}
+{{--                                                                    @if(count(json_decode($tl['compare_stock']))>0)--}}
+{{--                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>--}}
+{{--                                                                        <div class="flex-row w-60 text-center">--}}
+{{--                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)--}}
+{{--                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </div>--}}
+{{--                                                                    @endif--}}
+{{--                                                                    @if(count(json_decode($tl['compare_eft']))>0)--}}
+{{--                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>--}}
+{{--                                                                        <div class="flex-row w-60 text-center">--}}
+{{--                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)--}}
+{{--                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </div>--}}
+{{--                                                                    @endif--}}
+{{--                                                                </div>--}}
+{{--                                                            @endif--}}
                                                             <div class="flex flex-col justify-between leading-normal align items-center" style="width: 255px">
                                                                 <a href="{{ route('analyzeticker', ['ticker' => strtoupper($tl["ticker"])]) }}" class="mb-1 cursor-pointer break-words break-all py-1 text-center underline text-sm font-sans font-light text-gray-900">View More Info</a>
                                                             </div>
@@ -366,27 +366,27 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)
-                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
-                                                                    <p class="border-dash w-60"></p>
-                                                                    @if(count(json_decode($tl['compare_stock']))>0)
-                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>
-                                                                        <div class="flex-row w-60 text-center">
-                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)
-                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                    @if(count(json_decode($tl['compare_eft']))>0)
-                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>
-                                                                        <div class="flex-row w-60 text-center">
-                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)
-                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
+{{--                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)--}}
+{{--                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">--}}
+{{--                                                                    <p class="border-dash w-60"></p>--}}
+{{--                                                                    @if(count(json_decode($tl['compare_stock']))>0)--}}
+{{--                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>--}}
+{{--                                                                        <div class="flex-row w-60 text-center">--}}
+{{--                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)--}}
+{{--                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </div>--}}
+{{--                                                                    @endif--}}
+{{--                                                                    @if(count(json_decode($tl['compare_eft']))>0)--}}
+{{--                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>--}}
+{{--                                                                        <div class="flex-row w-60 text-center">--}}
+{{--                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)--}}
+{{--                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </div>--}}
+{{--                                                                    @endif--}}
+{{--                                                                </div>--}}
+{{--                                                            @endif--}}
                                                             <div class="flex flex-col justify-between leading-normal align items-center" style="width: 255px">
                                                                 <a href="{{ route('analyzeticker', ['ticker' => strtoupper($tl["ticker"])]) }}" class="mb-1 cursor-pointer break-words break-all py-1 text-center underline text-sm font-sans font-light text-gray-900">View More Info</a>
                                                             </div>
@@ -524,27 +524,27 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)
-                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">
-                                                                    <p class="border-dash w-60"></p>
-                                                                    @if(count(json_decode($tl['compare_stock']))>0)
-                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>
-                                                                        <div class="flex-row w-60 text-center">
-                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)
-                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                    @if(count(json_decode($tl['compare_eft']))>0)
-                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>
-                                                                        <div class="flex-row w-60 text-center">
-                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)
-                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
+{{--                                                            @if(count(json_decode($tl['compare_stock']))>0 || count(json_decode($tl['compare_eft']))>0)--}}
+{{--                                                                <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 255px">--}}
+{{--                                                                    <p class="border-dash w-60"></p>--}}
+{{--                                                                    @if(count(json_decode($tl['compare_stock']))>0)--}}
+{{--                                                                        <p class="mb-1 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable Stocks</p>--}}
+{{--                                                                        <div class="flex-row w-60 text-center">--}}
+{{--                                                                            @foreach(json_decode($tl['compare_stock']) as $cs)--}}
+{{--                                                                                <button wire:click="$emit('company', '{{ $cs }}')"><span class="custome-border">{{ $cs }}</span></button>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </div>--}}
+{{--                                                                    @endif--}}
+{{--                                                                    @if(count(json_decode($tl['compare_eft']))>0)--}}
+{{--                                                                        <p class="my-2 break-words break-all py-1 text-center text-lg font-sans font-light text-gray-900">Comparable ETFs</p>--}}
+{{--                                                                        <div class="flex-row w-60 text-center">--}}
+{{--                                                                            @foreach(json_decode($tl['compare_eft']) as $ce)--}}
+{{--                                                                                <button wire:click="$emit('company', '{{ $ce }}')"><span class="custome-border">{{ $ce }}</span></button>--}}
+{{--                                                                            @endforeach--}}
+{{--                                                                        </div>--}}
+{{--                                                                    @endif--}}
+{{--                                                                </div>--}}
+{{--                                                            @endif--}}
                                                             <div class="flex flex-col justify-between leading-normal align items-center" style="width: 255px">
                                                                 <a href="{{ route('analyzeticker', ['ticker' => strtoupper($tl["ticker"])]) }}" class="mb-1 cursor-pointer break-words break-all py-1 text-center underline text-sm font-sans font-light text-gray-900">View More Info</a>
                                                             </div>

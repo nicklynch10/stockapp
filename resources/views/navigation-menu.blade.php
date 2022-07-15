@@ -37,7 +37,7 @@
         $optimizecount = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->get();
         $finalCount = 0;
         foreach ($optimizecount as $op){
-            if(abs((($op->ave_cost/$op->current_share_price)-1)*100) > 3){
+            if(($op->current_share_price * $op->share_number) - ($op->ave_cost * $op->share_number) < 0 && abs((($op->ave_cost/$op->current_share_price)-1)*100) > 3){
                 $finalCount ++;
             }
         }

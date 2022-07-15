@@ -33,7 +33,7 @@ class CurrentHoldings extends Component
     public $result;
     public $accountId;
     public $accountFilter;
-    public $sorting = 'desc';
+    public $sorting;
     protected $listeners = ['currentHolings' => 'render'];
     protected $queryString = [
         'search' => ['except' => ''],
@@ -75,10 +75,10 @@ class CurrentHoldings extends Component
 
     public function fetchData()
     {
-        if($this->sorting !== 'asc' || $this->sorting !== 'desc')
-        {
-            $this->sorting = 'desc';
-        }
+//        if($this->sorting !== 'asc' || $this->sorting !== 'desc')
+//        {
+//            $this->sorting = 'desc';
+//        }
         return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.issuetype','stock.security_name','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
             ->join('stock','stock.id','view_stock_update.stock_id')
             ->where('stock.user_id', Auth::user()->id)
@@ -88,7 +88,7 @@ class CurrentHoldings extends Component
             ->when($this->accountFilter, function ($q) {
                 $q->where('account_id', $this->accountFilter);
             })
-            ->orderBy($this->sortColumn, $this->sorting)
+            ->orderBy($this->sortColumn, $this->sorting === 'desc' ? 'asc' : 'desc')
             ->get();
     }
 

@@ -32,7 +32,15 @@
         }
     </style>
     @php
-        use App\Models\Stock;use Illuminate\Support\Facades\Auth;$optimizecount = Stock::where(['user_id' => Auth::user()->id, 'type' => 0])->get()
+        use App\Models\Stock;
+        use Illuminate\Support\Facades\Auth;
+        $optimizecount = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->get();
+        $finalCount = 0;
+        foreach ($optimizecount as $op){
+            if(abs((($op->ave_cost/$op->current_share_price)-1)*100) > 3){
+                $finalCount ++;
+            }
+        }
     @endphp
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,14 +63,8 @@
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                         {{ __('Optimize') }}
-                        <span class="badge">{{ count($optimizecount) }}</span>
+                        @if($finalCount != 0) <span class="badge">{{ $finalCount }}</span> @endif
                     </x-jet-nav-link>
-                    {{--                    <x-jet-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
-                    {{--                        {{ __('Factors') }}--}}
-                    {{--                    </x-jet-nav-link>--}}
-                    {{--                    <x-jet-nav-link href="{{ route('correlation-check') }}" :active="request()->routeIs('correlation-check')">--}}
-                    {{--                        {{ __('Stocks Compare') }}--}}
-                    {{--                    </x-jet-nav-link>--}}
                     <x-jet-nav-link href="{{ route('analyze-compare') }}" :active="request()->routeIs('analyze-compare')">
                         {{ __('Analyze & Compare') }}
                     </x-jet-nav-link>
@@ -264,7 +266,7 @@
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('optimize') }}" :active="request()->routeIs('optimize')">
                 {{ __('Optimize') }}
-                <span class="badge">{{ count($optimizecount) }}</span>
+                @if($finalCount != 0) <span class="badge">{{ $finalCount }}</span> @endif
             </x-jet-responsive-nav-link>
             {{--            <x-jet-responsive-nav-link href="{{ route('factors') }}" :active="request()->routeIs('factors')">--}}
             {{--                {{ __('Factors') }}--}}

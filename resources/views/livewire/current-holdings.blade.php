@@ -118,7 +118,7 @@
                                                                 Market Value
                                                             </p>
                                                         </div>
-                                                        <div class="inline-flex items-center text-sm">
+                                                        <div class="inline-flex items-center text-green-500 text-sm">
                                                             {{ $curr->current_total_value<0?"($".number_format(abs($curr->current_total_value),2).")":"$".number_format(abs($curr->current_total_value),2) }}
                                                         </div>
                                                     </div>

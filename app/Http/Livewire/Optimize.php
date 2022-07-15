@@ -54,10 +54,10 @@ class Optimize extends Component
 //            $totalPbuy = $st->current_share_price;
 //            $totalPSell = $st->ave_cost;
 //            $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
-            $dLosss = abs(($st->current_share_price * $st->share_number) - ($st->ave_cost * $st->share_number));
+            $dLosss = ($st->current_share_price * $st->share_number) - ($st->ave_cost * $st->share_number);
             $pLoss = abs((($st->ave_cost / $st->current_share_price)-1)*100);
             $potentialSavings = $dLosss*40/100;
-            if($pLoss > 3)
+            if($dLosss < 0 && $pLoss > 3)
             {
                 $sto = [];
                 $et = [];

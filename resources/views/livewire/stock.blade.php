@@ -28,7 +28,7 @@
                                     @foreach($stocks as $s)
                                         @if(round($s->share_number,2)!=0 && round($s->share_number,2)!=0.00)
                                             @php
-                                                $companyname=explode('-',$s->security_name);
+                                                $companyname=explode('-',$s->security_name)
                                             @endphp
                                             <div class="m-2 text-center relative">
                                                 <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 flex flex-col justify-between" style="min-width: 100px; ">
@@ -112,7 +112,7 @@
                                                                 {{--                                                            ${{ number_format((int)$s->ave_cost,2) * round((int)$s->share_number, 2) }}--}}
                                                             </p>
                                                             <p class="text-sm font-sans break-words font-light text-grey-dark">
-                                                                {{round($s->share_number, 2)  }} @if($s->share_number == 1) Share @else Shares @endif
+                                                                {{ number_format(round($s->share_number, 2))  }} @if($s->share_number == 1) Share @else Shares @endif
                                                             </p>
                                                         </div>
                                                     </div>
@@ -130,7 +130,7 @@
                                     @foreach($stocks as $s)
                                         @if(round($s->share_number,2)!=0 && round($s->share_number,2)!=0.00)
                                             @php
-                                                $companyname=explode('-',$s->security_name);
+                                                $companyname=explode('-',$s->security_name)
                                             @endphp
                                             <div class="col-span-2 col-start-1">
                                                 <div class="float-left">
@@ -173,7 +173,7 @@
                                                     {{--                                                            ${{ number_format((int)$s->ave_cost,2) * round((int)$s->share_number, 2) }}--}}
                                                 </p>
                                                 <p class="text-sm font-sans break-words font-light text-grey-dark float-right">
-                                                    {{round($s->share_number, 2)  }} @if($s->share_number == 1) <br> Share @else <br>Shares @endif
+                                                    {{ number_format(round($s->share_number, 2)) }} @if($s->share_number == 1) <br> Share @else <br>Shares @endif
                                                 </p>
                                             </div>
                                             <div class="col-span-2 col-start-12 justify-center">

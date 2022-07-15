@@ -47,7 +47,7 @@ class Optimize extends Component
         if ($this->sortBy) {
             $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->where('account_id', $this->sortBy)->with('account')->paginate(10);
         } else {
-            $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->with('account')->paginate(10);
+            $stock = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('stock.user_id', Auth::user()->id)->with('account')->get();
         }
 
         foreach ($stock as $st) {
@@ -56,7 +56,7 @@ class Optimize extends Component
 //            $dLosss = abs($st->current_share_price - $st->ave_cost)*$st->share_number;
             $dLosss = ($st->current_share_price * $st->share_number) - ($st->ave_cost * $st->share_number);
             $pLoss = abs((($st->ave_cost / $st->current_share_price)-1)*100);
-            $potentialSavings = $dLosss*40/100;
+            $potentialSavings = $dLosss * 40 / 100;
             if($dLosss < 0 && $pLoss > 3)
             {
                 $sto = [];

@@ -87,7 +87,7 @@
                     @endif
 
                     @if($this->share_number)
-                        <p class="text-sm text-gray-700 mt-1">{{ round($this->share_number, 2)  }} @if($this->share_number == 1) Share @else Shares @endif</p>
+                        <p class="text-sm text-gray-700 mt-1">{{ number_format(round($this->share_number, 2)) }} @if($this->share_number == 1) Share @else Shares @endif</p>
                     @endif
 
                     @if($this->current_share_price)

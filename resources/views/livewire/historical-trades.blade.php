@@ -59,7 +59,9 @@
                 </div>
 
                 <div class="col-start-8 sm:col-start-7 col-span-3 sm:col-span-2  mx-1 text-sm text-center  py-1 break-words" >
-                    <p class="whitespace-normal">{!! $trad->type==0?'Purchased '.round($trad->stock, 2).' '.($trad->stock == 1 ? "Share" : "Shares" ).' of '.strtoupper($stock->stock_ticker).' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share':'Sold '.$trad->stock.' shares of '.strtoupper($stock->stock_ticker).' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share'  !!}</p>
+                    <p class="whitespace-normal">{!! $trad->type == 0 ?
+                        'Purchased '.number_format(round($trad->stock, 2)).' '.($trad->stock == 1 ? "Share" : "Shares" ).' of '.strtoupper($stock->stock_ticker).' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share':
+                        'Sold '.$trad->stock.' shares of '.number_format(strtoupper($stock->stock_ticker)).' on '.\Carbon\Carbon::createFromTimestamp(strtotime($trad->date_of_transaction))->format('F jS, Y').' for $'.number_format($trad->share_price,2).' per share'  !!}</p>
                 </div>
 
                 <div class="col-start-11 sm:col-start-9 col-span-1 sm:col-span-2 mx-1 text-sm text-center  py-1">

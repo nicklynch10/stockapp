@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SecCompare;
 use App\Models\SecInfo;
 use App\Models\Factor;
 
@@ -141,7 +142,7 @@ if (!function_exists('long_sec_update')) {
         if ($relation->info_data) {
             if (!$relation->IEXpeer_data) {
                 $relation->pullIEXPeers();
-            //dd($relation);
+                //dd($relation);
             } else {
                 $relation->addRelatedPeers();
             }
@@ -187,5 +188,52 @@ if (!function_exists('dollar_format')) {
     }
 }
 
-  //$GLOBALS['ttime'] = microtime(true); // Gets microseconds
-   //echo "<br> 3x Time Elapsed: ".(microtime(true) - $GLOBALS['ttime'])."s";
+if (!function_exists('getRelated_stock_etf')) {
+    function getRelated_stock_etf($ticker)
+    {
+        $sto = [];
+        $et = [];
+
+        $data = SecInfo::where('ticker', $ticker)->latest()->first();
+
+        if (!isset($data) ||
+            (isset($data) && isset($data->peer_data)
+                && collect(json_decode($data->peer_data))->isEmpty())
+        ) {
+            $data = quick_sec_update($ticker);
+        }
+
+        if (isset($data) && $data->peer_data != null) {
+            foreach (json_decode($data->peer_data) as $p) {
+                if (count($et) > 3 && count($sto) > 3) {
+                    break;
+                }
+                $SC = SecCompare::where(['ticker1' => $ticker , 'ticker2' => $p])->latest()->first();
+
+                if (isset($SC)) {
+                    if ($SC->correlation > 0) {
+                        if (getTicker($p)->type != "ETF") {
+                            if (count($sto)<4) {
+                                array_push($sto, $SC->ticker2);
+                            }
+                        } elseif (getTicker($p)->type == "ETF") {
+                            if (count($et)<4) {
+                                array_push($et, $SC->ticker2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        $compare['stock'] = count($sto) > 0 ? $sto : [];
+        $compare['etf'] = count($et) > 0 ? $et : [];
+
+        return $compare;
+    }
+}
+
+
+
+
+//$GLOBALS['ttime'] = microtime(true); // Gets microseconds
+//echo "<br> 3x Time Elapsed: ".(microtime(true) - $GLOBALS['ttime'])."s";

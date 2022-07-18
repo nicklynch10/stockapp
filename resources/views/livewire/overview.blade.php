@@ -51,6 +51,7 @@
                             {{ __('Estimated Tax Savings') }}
                         </h3>
                         <h2 class="pt-2 text-2xl">{{$this->totalSavingsRealized<0?"($".(number_format(abs($this->totalSavingsRealized),2)).")":"$".number_format($this->totalSavingsRealized,2)}}</h2>
+                        <p>(Assuming a 40% tax rate)</p>
                     </div>
                 </div>
             </div>

@@ -57,45 +57,13 @@ class Optimize extends Component
 
         foreach ($stock as $st) {
             $dLosss = ($st->current_share_price * $st->share_number) - ($st->ave_cost * $st->share_number);
-            $pLoss = abs((($st->ave_cost / $st->current_share_price)-1)*100);
+            $pLoss = abs((($st->current_share_price / $st->ave_cost)-1)*100);
             $potentialSavings = $dLosss * 40 / 100;
             if($dLosss < 0 && $pLoss > 3)
             {
-//                $sto = [];
-//                $et = [];
-//                if ($st->type == 0) {
-//                    $data = SecInfo::where('ticker', $st->stock_ticker)->latest()->first();
-//
-//                    if (!isset($data) ||
-//                        (isset($data) && isset($data->peer_data)
-//                            && collect(json_decode($data->peer_data))->isEmpty())
-//                    ) {
-//                        $data = quick_sec_update($st->stock_ticker);
-//                    }
-//
-//                    if (isset($data) && $data->peer_data != null) {
-//                        foreach (json_decode($data->peer_data) as $p) {
-//                            if (count($et) > 3 && count($sto) > 3) {
-//                                break;
-//                            }
-//                            $SC = SecCompare::where(['ticker1' => $st->stock_ticker , 'ticker2' => $p])->latest()->first();
-//
-//                            if (isset($SC)) {
-//                                if ($SC->correlation > 0) {
-//                                    if (getTicker($p)->type != "ETF") {
-//                                        if (count($sto)<4) {
-//                                            array_push($sto, $SC->ticker2);
-//                                        }
-//                                    } elseif (getTicker($p)->type == "ETF") {
-//                                        if (count($et)<4) {
-//                                            array_push($et, $SC->ticker2);
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+                if ($st->type == 0) {
+                    $getCompareData = getRelated_stock_etf($st->stock_ticker);
+                }
                 if($st->ignore_stock == 0)
                 {
                     array_push(
@@ -114,8 +82,8 @@ class Optimize extends Component
                             "share_number" => $st->share_number,
                             "security_name" => $st->security_name,
                             "issuetype" => $st->issuetype,
-//                            "compare_stock" => json_encode($sto),
-//                            "compare_eft" => json_encode($et)
+                            "compare_stock" => json_encode($getCompareData['stock']),
+                            "compare_eft" => json_encode($getCompareData['etf'])
                         ]
                     );
                 }
@@ -137,8 +105,8 @@ class Optimize extends Component
                             "share_number" => $st->share_number,
                             "security_name" => $st->security_name,
                             "issuetype" => $st->issuetype,
-//                            "compare_stock" => json_encode($sto),
-//                            "compare_eft" => json_encode($et)
+                            "compare_stock" => json_encode($getCompareData['stock']),
+                            "compare_eft" => json_encode($getCompareData['etf'])
                         ]
                     );
                 }
@@ -160,8 +128,8 @@ class Optimize extends Component
                             "share_number" => $st->share_number,
                             "security_name" => $st->security_name,
                             "issuetype" => $st->issuetype,
-//                            "compare_stock" => json_encode($sto),
-//                            "compare_eft" => json_encode($et)
+                            "compare_stock" => json_encode($getCompareData['stock']),
+                            "compare_eft" => json_encode($getCompareData['etf'])
                         ]
                     );
                 }

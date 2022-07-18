@@ -153,7 +153,7 @@ class Account extends Component
                         'account_name' => $ac->name,
                         'account_brokerage' => 'Not assigned',
                         'access_token' => $token,
-                        'commission' => $ac->balances->current,
+//                        'commission' => $ac->balances->current,
                         'set_default' => 0,
                         'plaid_account_id' => $ac->account_id,
                         'start_date' => $beforeDate,
@@ -430,7 +430,7 @@ class Account extends Component
             'account_type' => $this->account_type,
             'account_name' => $this->account_name,
             'account_brokerage' => $this->account_brokerage,
-            'commission' => $this->commission,
+//            'commission' => $this->commission,
         ]);
 
         $this->dispatchBrowserEvent('alert', [
@@ -448,7 +448,7 @@ class Account extends Component
         $this->account_type = $stock->account_type;
         $this->account_name = $stock->account_name;
         $this->account_brokerage = $stock->account_brokerage;
-        $this->commission = $stock->commission;
+//        $this->commission = $stock->commission;
         $this->openModal();
     }
 

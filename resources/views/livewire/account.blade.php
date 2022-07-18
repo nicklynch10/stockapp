@@ -36,7 +36,7 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Account Name</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Account Type</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Account Brokerage</th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Commission Rate per Share</th>
+{{--                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Commission Rate per Share</th>--}}
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Date Created</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Action</th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-bold">Refresh Account</th>
@@ -49,7 +49,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 ">{{$acc->account_name}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 ">{{$acc->account_type}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{$acc->account_brokerage}}</td>
-                                    <td  class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>
+{{--                                    <td  class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">${{number_format($acc->commission,2)}}</td>--}}
                                     <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">{{ \Carbon\Carbon::createFromTimestamp(strtotime($acc->created_at))->format('F jS, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">
                                         <a class="tooltip py-2 px-4" title="Edit Account" wire:click="edit({{ $acc->id }})"><i class="fa fa-edit cursor-pointer"></i></a>
@@ -116,12 +116,12 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Commission Rate per Share</td>
-                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">
-                                            <p class="mr-5">${{number_format($acc->commission,2)}}</p>
-                                        </td>
-                                    </tr>
+{{--                                    <tr>--}}
+{{--                                        <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Commission Rate per Share</td>--}}
+{{--                                        <td class="text-right truncate" style="font-size: 0.750rem;line-height: 1.25rem;">--}}
+{{--                                            <p class="mr-5">${{number_format($acc->commission,2)}}</p>--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
 
                                     <tr>
                                         <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Date Created</td>
@@ -191,11 +191,11 @@
                     <input type="text" id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Account Brokerage" wire:model="account_brokerage">
                     @error('account_brokerage') <span class="text-red-500">{{ $message }}</span>@enderror
                 </div>
-                <div class="mb-4">
-                    <label for="commission" class="block text-gray-700 text-sm font-bold mb-2"><b>Commission  :</b></label>
-                    <input type="text" id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Commission" wire:model="commission">
-                    @error('commission') <span class="text-red-500">{{ $message }}</span>@enderror
-                </div>
+{{--                <div class="mb-4">--}}
+{{--                    <label for="commission" class="block text-gray-700 text-sm font-bold mb-2"><b>Commission  :</b></label>--}}
+{{--                    <input type="text" id="sector" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Commission" wire:model="commission">--}}
+{{--                    @error('commission') <span class="text-red-500">{{ $message }}</span>@enderror--}}
+{{--                </div>--}}
             </div>
         </x-slot>
 

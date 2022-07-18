@@ -24,6 +24,7 @@ class Overview extends Component
     public $taxable;
     public $gain;
     public $nagative;
+    public $saving = 0;
     public $positive;
 
     public function render()
@@ -31,14 +32,30 @@ class Overview extends Component
         //  Pie chart
         $this->sto = Stock::selectRaw('stock_ticker, SUM(share_number) as total_stock')->where('user_id',Auth::user()->id)
                             ->whereNotNull('current_share_price')->groupBy('stock_ticker')->get();
-        $this->totalSavingsRealized = 0;
 
         // Line chart
         $this->tran = Stock::join('transaction','transaction.stock_id','stock.id')->where('stock.user_id',Auth::user()->id)->whereYear('stock.date_of_purchase', '=', date('Y'))->get();
         $this->date = Transaction::select('date_of_transaction')->where('user_id',Auth::user()->id)->whereYear('date_of_transaction', '=', date('Y'))->groupBy('date_of_transaction')->orderBy('date_of_transaction','ASC')->get();
 
-        // Box 2
         $this->box2 = Stock::where('stock.user_id',Auth::user()->id)->get();
+        // Box 1
+
+        $saving = 0;
+        foreach ($this->box2 as $bx2)
+        {
+            foreach ($bx2->transaction()->where('type',1)->get() as $t)
+            {
+                if($bx2->ave_cost > $t->share_price)
+                {
+                    $diffrence = $bx2->ave_cost - $t->share_price;
+                    $saving += $diffrence * 40 /100;
+                }
+            }
+        }
+        $this->totalSavingsRealized = $saving;
+
+
+        // Box 2
         $taxable = 0;
         foreach($this->box2 as $b2)
         {

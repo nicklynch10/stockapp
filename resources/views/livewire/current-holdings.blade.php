@@ -81,8 +81,8 @@
                                             @endif
                                         </p>
                                         <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">{{ number_format($curr->share_number, 2) }} @if($curr->share_number == 1) Share @else Shares @endif</p>
-                                        <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis: ${{ number_format($curr->ave_cost,2) }}</p>
-                                        <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price: ${{ number_format($curr->current_share_price,2) }}</p>
+                                        <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Cost Basis: ${{ number_format($curr->ave_cost,2) == 0 ? number_format($curr->ave_cost,2): number_format($curr->ave_cost,2)}}</p>
+                                        <p class="mb-1 break-words break-all text-center text-sm font-sans font-light text-grey-dark">Share Price: ${{ number_format($curr->ave_cost,2) == 0 ? number_format($curr->ave_cost,2):number_format($curr->current_share_price,2) }}</p>
                                     </div>
                                     <div class="flex flex-col justify-between leading-normal">
                                         <div class="flow-root">
@@ -143,7 +143,7 @@
                                                             </p>
                                                         </div>
                                                         <div class="inline-flex items-center text-sm {{$curr->total_gain_loss<0?"text-red-600":"text-green-600"}}">
-                                                            {{ $curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2) }}
+                                                            {{number_format($curr->ave_cost,2) == 0 ? '$'. number_format($curr->ave_cost,2): ($curr->total_gain_loss<0?"($".number_format(abs($curr->total_gain_loss),2).")":"$".number_format(abs($curr->total_gain_loss),2)) }}
                                                         </div>
                                                     </div>
                                                 </li>

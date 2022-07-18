@@ -91,7 +91,7 @@
                     </div>
                     <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
-                            @if(isset($stockData) && count($stockData)>0)
+                            @if(isset($stockData) && count($stockData->where('ignore_stock',0))>0)
                                 <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                     @foreach($stockData->where('ignore_stock',0) as $tl)
                                         <livewire:optimize.stock :toploss="$tl"/>
@@ -126,9 +126,16 @@
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="w-full mb-5 overflow-hidden" style="height: 100%">
                                     <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
-                                        @foreach($stockData->where('ignore_stock',1) as $key => $tl)
+                                        @forelse($stockData->where('ignore_stock',1) as $key => $tl)
                                             <livewire:optimize.complete-ignore-stock :completeIgnore="$tl"/>
-                                        @endforeach
+                                        @empty
+                                            <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-1 lg:grid-cols-1 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
+                                                <div class="flex items-center justify-center text-gray-600 h-16 opacity-50 text-md">
+                                                    <span class="mr-3"><i class="fa fa-chart-line"></i></span>
+                                                    <span class="text-lg">No Stock Found ...</span>
+                                                </div>
+                                            </div>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>
@@ -151,9 +158,16 @@
                             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                 <div class="w-full mb-5 overflow-hidden" style="height: 100%">
                                     <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
-                                        @foreach($stockData->where('ignore_stock',2) as $key => $tl)
+                                        @forelse($stockData->where('ignore_stock',2) as $key => $tl)
                                             <livewire:optimize.complete-ignore-stock :completeIgnore="$tl"/>
-                                        @endforeach
+                                        @empty
+                                            <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-1 lg:grid-cols-1 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
+                                                <div class="flex items-center justify-center text-gray-600 h-16 opacity-50 text-md">
+                                                    <span class="mr-3"><i class="fa fa-chart-line"></i></span>
+                                                    <span class="text-lg">No Stock Found ...</span>
+                                                </div>
+                                            </div>
+                                        @endforelse
                                     </div>
                                 </div>
                             </div>

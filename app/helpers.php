@@ -9,20 +9,20 @@ if (!function_exists('getTicker')) {
     {
         //creates an SecInfo from a ticker
         // will not create if exists already
-        $SI1 = SecInfo::where("ticker", $ticker)->orWhere('company_name', $ticker)->first();
-        //  dd($SI1, $SI1->info_data);
+        $SI1 = SecInfo::where("ticker", $ticker)->first();
         if (!$SI1) {
             $SI1 = new SecInfo();
             $SI1->ticker = $ticker;
             $SI1->getIEXData();
             $SI1->save();
         }
-        elseif (!$SI1->info_data)
-        {
-            $SI1->ticker = $ticker;
-            $SI1->getIEXData();
-            $SI1->save();
-        }
+//        elseif ($SI1 && !$SI1->info_data)
+//        {
+//            $SI1 = new SecInfo();
+//            $SI1->ticker = $ticker;
+//            $SI1->save();
+//            $SI1->getIEXData();
+//        }
         return $SI1;
     }
 }

@@ -54,111 +54,111 @@ class SecInfo extends Model
 
         // extracts and saves data
         $stats = $data->json();
-        if (!isset($stats)) {
-            return "company info query failed";
-        }
-
-        //dd($stats);
-
-        $this->beta = $stats['beta'];
-        $this->div_yield = $stats['dividendYield'];
-        $this->company_name = $stats['companyName'];
-        $this->peRatio = $stats['peRatio'];
-        $this->year1ChangePercent = $stats['year1ChangePercent'];
-        $this->marketcap = $stats['marketcap']/1000;
-        $this->info_data = json_encode($data->json());
-
-
-        $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $this->token);
-        $data = Http::get($url);
-        $response = $data->json();
-        $this->week52Low = $response["week52Low"];
-        $this->week52High = $response["week52High"];
-        $this->iexClose = $response["iexClose"];
-
-
-
-        //sends a get request to IEX for more company info
-        $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $this->token);
-        $data = Http::get($url);
-
-        // extracts and saves data
-        $stats = $data->json();
-        if (!isset($stats)) {
-            return "more company info query failed";
-        }
-
-
-        $this->type = convertType($stats["issueType"], false);
-        $this->security_name = $stats["securityName"];
-        $this->industry = $stats["industry"];
-        $this->sector = $stats["sector"];
-        $this->company_tags = json_encode($stats["tags"]);
-        $this->company_data = json_encode($stats);
-
-
-        //sends a get request to IEX for historical data
-        if ($debug) {
-            echo "<br>pulling ".$this->ticker;
-        }
-
-        $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
-
-        $data = Http::get($url);
-        $stats = $data->json();
-        if (!isset($stats)) {
-            return "historical query failed";
-        }
-
-        $historical_data = collect($data->json());
-        if ($debug) {
-            echo "<br>got data ";
-        }//.json_encode($stats);
-
-        //stores all of the data in a json text string.
-        $this->historical_data = json_encode($historical_data);
-        $this->change_data = json_encode($historical_data->pluck("changePercent")->map(function ($item) {
-            return $item*100; // multiplies by 100
-        })->toArray());
-        $this->price_data = json_encode($historical_data->pluck("close")->toArray());
-        $this->date_data = json_encode($historical_data->pluck("date")->toArray());
-        $this->volume_data = json_encode($historical_data->pluck("volume")->toArray());
-        // use the pluck function to extract a single datapoint
-        //echo "<br>here1";
-        // calculates the Standard Deviation
-        $this->date_updated = Carbon::today()->format("Y-m-d");
-
-        //$this->std = $this->Standard_Deviation($this->getChangeData());
-        if ($this->getChangeData()->count()>0) {
-            $this->std = StandardDeviation::population($this->getChangeData()->toArray());
-            if ($debug) {
-                echo "<br> Calculated STD for ".$this->ticker." = ".$this->std;
+        if($stats !== null){
+            if (!isset($stats)) {
+                return "company info query failed";
             }
-        } else {
-            $this->std = 0;
-            if ($debug) {
-                echo "<br> No data found. STD = 0";
+
+            $this->beta = $stats['beta'];
+            $this->div_yield = $stats['dividendYield'];
+            $this->company_name = $stats['companyName'];
+            $this->peRatio = $stats['peRatio'];
+            $this->year1ChangePercent = $stats['year1ChangePercent'];
+            $this->marketcap = $stats['marketcap']/1000;
+            $this->info_data = json_encode($data->json());
+
+
+            $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/quote?token=' . $this->token);
+            $data = Http::get($url);
+            $response = $data->json();
+            $this->week52Low = $response["week52Low"];
+            $this->week52High = $response["week52High"];
+            $this->iexClose = $response["iexClose"];
+
+
+
+            //sends a get request to IEX for more company info
+            $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/company?token=' . $this->token);
+            $data = Http::get($url);
+
+            // extracts and saves data
+            $stats = $data->json();
+            if (!isset($stats)) {
+                return "more company info query failed";
             }
+
+
+            $this->type = convertType($stats["issueType"], false);
+            $this->security_name = $stats["securityName"];
+            $this->industry = $stats["industry"];
+            $this->sector = $stats["sector"];
+            $this->company_tags = json_encode($stats["tags"]);
+            $this->company_data = json_encode($stats);
+
+
+            //sends a get request to IEX for historical data
+            if ($debug) {
+                echo "<br>pulling ".$this->ticker;
+            }
+
+            $url = $this->endpoint . 'stable/stock/'.$this->ticker.'/chart/'.$this->range.'?token=' . $this->token;
+
+            $data = Http::get($url);
+            $stats = $data->json();
+            if (!isset($stats)) {
+                return "historical query failed";
+            }
+
+            $historical_data = collect($data->json());
+            if ($debug) {
+                echo "<br>got data ";
+            }//.json_encode($stats);
+
+            //stores all of the data in a json text string.
+            $this->historical_data = json_encode($historical_data);
+            $this->change_data = json_encode($historical_data->pluck("changePercent")->map(function ($item) {
+                return $item*100; // multiplies by 100
+            })->toArray());
+            $this->price_data = json_encode($historical_data->pluck("close")->toArray());
+            $this->date_data = json_encode($historical_data->pluck("date")->toArray());
+            $this->volume_data = json_encode($historical_data->pluck("volume")->toArray());
+            // use the pluck function to extract a single datapoint
+            //echo "<br>here1";
+            // calculates the Standard Deviation
+            $this->date_updated = Carbon::today()->format("Y-m-d");
+
+            //$this->std = $this->Standard_Deviation($this->getChangeData());
+            if ($this->getChangeData()->count()>0) {
+                $this->std = StandardDeviation::population($this->getChangeData()->toArray());
+                if ($debug) {
+                    echo "<br> Calculated STD for ".$this->ticker." = ".$this->std;
+                }
+            } else {
+                $this->std = 0;
+                if ($debug) {
+                    echo "<br> No data found. STD = 0";
+                }
+            }
+            if ($this->ticker == $this->index) {
+                if ($debug) {
+                    echo "<br> Ticker = index - calced_beta = 1";
+                }
+                $this->calced_beta = 1;
+            } else {
+                if ($debug) {
+                    echo "<br> calculating Beta";
+                }
+                $this->calced_beta = $this->calcBeta();
+                if ($debug) {
+                    echo "<br> calculating Beta for ".$this->ticker." as ".$this->calced_beta;
+                }
+            }
+            if ($debug) {
+                echo "<br>Done with the pull - saving down";
+            }
+            // saves for future use
+            $this->save();
         }
-        if ($this->ticker == $this->index) {
-            if ($debug) {
-                echo "<br> Ticker = index - calced_beta = 1";
-            }
-            $this->calced_beta = 1;
-        } else {
-            if ($debug) {
-                echo "<br> calculating Beta";
-            }
-            $this->calced_beta = $this->calcBeta();
-            if ($debug) {
-                echo "<br> calculating Beta for ".$this->ticker." as ".$this->calced_beta;
-            }
-        }
-        if ($debug) {
-            echo "<br>Done with the pull - saving down";
-        }
-        // saves for future use
-        $this->save();
     }
 
 
@@ -256,27 +256,30 @@ class SecInfo extends Model
         }
         $this->getIEXData();
 
-        $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
+        if(count($factor->getChangeData()->toArray()) == count($this->getChangeData()->toArray())){
+            $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
 
-        $multiplier = 1/3; // adjusts so it is closer to bounds.
-        $cor = $p;
-        if ($p>0) {
-            $cor = $cor**($multiplier);
-        } else {
-            $cor = -1*((-1*$cor)**($multiplier));
+            $multiplier = 1/3; // adjusts so it is closer to bounds.
+            $cor = $p;
+            if ($p>0) {
+                $cor = $cor**($multiplier);
+            } else {
+                $cor = -1*((-1*$cor)**($multiplier));
+            }
+
+            $SC = new FactorCompare();
+            $SC->SI()->associate($this);
+            $SC->factor()->associate($factor);
+            $SC->ticker = $this->ticker;
+            $SC->factor_name = $factor->name;
+            $SC->correlation = $cor;
+            $SC->range = $this->range;
+            $SC->amount = $this->getChangeData()->count();
+            $SC->save();
+
+            return $SC;
         }
 
-        $SC = new FactorCompare();
-        $SC->SI()->associate($this);
-        $SC->factor()->associate($factor);
-        $SC->ticker = $this->ticker;
-        $SC->factor_name = $factor->name;
-        $SC->correlation = $cor;
-        $SC->range = $this->range;
-        $SC->amount = $this->getChangeData()->count();
-        $SC->save();
-
-        return $SC;
     }
 
 

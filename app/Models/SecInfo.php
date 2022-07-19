@@ -214,7 +214,10 @@ class SecInfo extends Model
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
-            } else {
+            } elseif($SI1->getChangeData()->count() == 0 && $this->getChangeData()->count() == 0) {
+                $p = 0;
+            }
+                else {
                 if ($debug) {
                     echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
                 }

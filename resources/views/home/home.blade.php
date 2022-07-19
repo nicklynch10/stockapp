@@ -5,7 +5,7 @@
 <meta property="og:description" content="Tax Harvesting Platform ">
 <meta name="description" content="Tax Harvesting Platform">
 
-    @include('home.home-top')
+{{--    @include('home.home-top')--}}
 
     <div class="home">
         <section class="ps-home-1405" aria-label="{{ appName(true) }} lets you easily say thank you, congrats, farewell, great job, and much more to your team.">
@@ -37,7 +37,7 @@
 
 
 
-                                <div class="bhrForm bhrForm--inline2 js-bhrForm mt-20" id="js-homepage-signup"
+                                <div class="bhrForm bhrForm--inline2 js-bhrForm mt-8" id="js-homepage-signup"
                               aria-label="Try {{ appName() }} free form" __bizdiag="96619420"
                               __biza="WJ__">
                             <div class="bhrForm__left">
@@ -59,7 +59,7 @@
 
                                 <div class="ps-home-1405MobileCTA">
 
-                                    <div class="ps-home-1405MobileCTA__btnContainer">
+                                    <div class="ps-home-1405MobileCTA__btnContainer mt-6">
                                         <a class="ps-home-1405MobileCTA__btn Button Button--form js-open-modal"
                                            href="{{ url('/register') }}">
                                             Try it Free!
@@ -67,11 +67,19 @@
                                     </div>
 
                                     <div class="ps-home-1405MobileCTA__btnContainer">
-                                        <a class="ps-home-1405MobileCTA__btn Button Button--form js-open-modal"
-                                           href="/login"
-                                           style="background: #9CA3AF;">
-                                            Log In
-                                        </a>
+                                        @if(Auth::check())
+                                            <a class="ps-home-1405MobileCTA__btn Button Button--form js-open-modal"
+                                               href="/overview"
+                                               style="background: #9CA3AF;">
+                                               Go!
+                                            </a>
+                                        @else
+                                            <a class="ps-home-1405MobileCTA__btn Button Button--form js-open-modal"
+                                               href="/login"
+                                               style="background: #9CA3AF;">
+                                                Log In
+                                            </a>
+                                        @endif
                                     </div>
 
                                 </div>
@@ -369,6 +377,7 @@ Take advantage of tax optimization suggestions not typically provided by robo-ad
 
             @include('home.trial-bottom')
         </div>
+    </div>
     </div>
 
     <!-- ///////////////////////// Nick Css -->

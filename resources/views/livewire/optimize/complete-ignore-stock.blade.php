@@ -14,27 +14,6 @@
     <div class="m-2">
             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                 <div class="mt-3 my-1">
-                    <div class="flex flex-col float-left xs:flex-col xl:flex-col md:flex-col pl-3">
-
-                        @if($completeIgnore['share_number'] == 0)
-                            @php
-                                $todaydate = \Carbon\Carbon::now()->format('Y-m-d');
-                                $beforeDate = date('Y-m-d', strtotime('-31 day'));
-                                $selldate = App\Models\Transaction::where(['stock_id' => $completeIgnore['id'], 'type' => 1])->first();
-                            @endphp
-                            @if($selldate != null)
-                                @if(($selldate['date_of_transaction'] <= $todaydate) && ($selldate['date_of_transaction'] >= $beforeDate))
-                                    <div class="circleBase circle2 tooltip">
-                                        <span class="tooltiptext">You sold this security within 30 days. Purchasing it again would likely trigger a wash sale</span>
-                                    </div>
-                                @endif
-                            @endif
-                        @else
-                            <div class="circleBase circle1 tooltip">
-                                <span class="tooltiptext">You currently own shares of this security</span>
-                            </div>
-                        @endif
-                    </div>
                     <div class="float-right xs:flex-col xl:flex-col md:flex-col pr-3">
                         <a wire:click="confirmSection( {{ $completeIgnore['id'] }} )" class="tooltip cursor-pointer " title="Add Section"><span class="font-bold"><i class="fa fa-plus"></i></span></a>
                     </div>

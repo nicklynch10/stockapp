@@ -177,7 +177,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                {!! $links !!}
+                                {{$links}}
                             @else
                                 <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-1 lg:grid-cols-1 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                     <div class="flex items-center justify-center text-gray-600 h-16 opacity-50 text-md">

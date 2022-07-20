@@ -21,7 +21,7 @@ class CompletedSection extends Component
                 $query->where('pchange','<','-3')
                     ->where('total_gain_loss','<',0);
             })
-            ->paginate(10);
+            ->paginate(10, ['*'], 'complete');
         $links = $stockData->links();
         $this->stockData = collect($stockData->items());
 

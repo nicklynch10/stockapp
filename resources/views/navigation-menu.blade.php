@@ -34,13 +34,11 @@
     @php
         use App\Models\Stock;
         use Illuminate\Support\Facades\Auth;
-        $optimizecount = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('stock.user_id', Auth::user()->id)->get();
-        $finalCount = 0;
-        foreach ($optimizecount as $op){
-            //if(($op->current_share_price * $op->share_number) - ($op->ave_cost * $op->share_number) < 0 && abs((($op->ave_cost/$op->current_share_price)-1)*100) > 3){
-                $finalCount ++;
-           // }
-        }
+        $finalCount = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('stock.user_id', Auth::user()->id)
+            ->whereHas('viewupdatestock', function ($query) {
+                $query->where('pchange','>','3')
+                    ->where('total_gain_loss','<',0);
+            })->count();
     @endphp
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

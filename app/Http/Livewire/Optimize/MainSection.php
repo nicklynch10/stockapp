@@ -2,26 +2,48 @@
 
 namespace App\Http\Livewire\Optimize;
 
+use App\Models\Account;
+use App\Models\Stock;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class Stock extends Component
+class MainSection extends Component
 {
-    public $toploss;
+    public $stockData;
+    public $sortBy;
+    public $accounts;
     public $stock;
     public $confirmIgnoreSection = false;
     public $confirmCompleteSection = false;
     public $confirmSection = false;
 
-    public function mount($toploss)
-    {
-        $this->toploss=$toploss;
-//        dd($toploss);
-    }
-
     public function render()
     {
-        return view('livewire.optimize.stock');
+        $this->accounts = Account::where('user_id', Auth::user()->id)->get();
+
+        if ($this->sortBy) {
+            $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('user_id', Auth::user()->id)->where('account_id', $this->sortBy)
+                ->whereHas('viewupdatestock', function ($query) {
+                    $query->where('pchange','>','3')
+                        ->where('total_gain_loss','<',0);
+                })
+                ->with('account','viewupdatestock')->paginate(10);
+
+        } else {
+            $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('stock.user_id', Auth::user()->id)
+            ->whereHas('viewupdatestock', function ($query) {
+                $query->where('pchange','>','3')
+                    ->where('total_gain_loss','<',0);
+            })
+            ->with('account','viewupdatestock')
+            ->paginate(10);
+        }
+        $links = $stockData->links();
+        $this->stockData = collect($stockData->items());
+
+        return view('livewire.optimize.main-section',['links'=>$links]);
     }
+
     public function confirmIgnoreSection($stockId)
     {
         $this->stock = \App\Models\Stock::find($stockId);

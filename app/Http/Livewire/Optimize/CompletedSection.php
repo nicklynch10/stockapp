@@ -2,24 +2,30 @@
 
 namespace App\Http\Livewire\Optimize;
 
+use App\Models\Account;
 use App\Models\Stock;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class CompleteIgnoreStock extends Component
+class CompletedSection extends Component
 {
-    public $completeIgnore;
-    public $status;
+    public $stockData;
     public $stock;
     public $confirmSection = false;
 
-    public function mount($completeIgnore)
-    {
-        $this->completeIgnore = $completeIgnore;
-    }
-
     public function render()
     {
-        return view('livewire.optimize.complete-ignore-stock');
+        $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',1)->where('stock.user_id', Auth::user()->id)->with('account','viewupdatestock')
+//                ->where('viewupdatestock.pchange','>',3)->where('viewupdatestock.total_gain_loss','<',0)
+            ->whereHas('viewupdatestock', function ($query) {
+                $query->where('pchange','>','3')
+                    ->where('total_gain_loss','<',0);
+            })
+            ->paginate(10);
+        $links = $stockData->links();
+        $this->stockData = collect($stockData->items());
+
+        return view('livewire.optimize.completed-section',['links'=>$links]);
     }
     public function confirmSection($stockId)
     {
@@ -50,5 +56,4 @@ class CompleteIgnoreStock extends Component
             $this->redirectRoute('optimize');
         }
     }
-
 }

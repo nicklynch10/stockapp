@@ -18,7 +18,7 @@ class IgnoreSection extends Component
         $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',2)->where('stock.user_id', Auth::user()->id)->with('account','viewupdatestock')
 //                ->where('viewupdatestock.pchange','>',3)->where('viewupdatestock.total_gain_loss','<',0)
             ->whereHas('viewupdatestock', function ($query) {
-                $query->where('pchange','>','3')
+                $query->where('pchange','<','-3')
                     ->where('total_gain_loss','<',0);
             })
             ->paginate(10);

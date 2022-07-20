@@ -24,7 +24,7 @@ class MainSection extends Component
         if ($this->sortBy) {
             $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('user_id', Auth::user()->id)->where('account_id', $this->sortBy)
                 ->whereHas('viewupdatestock', function ($query) {
-                    $query->where('pchange','>','3')
+                    $query->where('pchange','<','-3')
                         ->where('total_gain_loss','<',0);
                 })
                 ->with('account','viewupdatestock')->paginate(10);
@@ -32,7 +32,7 @@ class MainSection extends Component
         } else {
             $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('stock.user_id', Auth::user()->id)
             ->whereHas('viewupdatestock', function ($query) {
-                $query->where('pchange','>','3')
+                $query->where('pchange','<','-3')
                     ->where('total_gain_loss','<',0);
             })
             ->with('account','viewupdatestock')
@@ -46,7 +46,7 @@ class MainSection extends Component
 
     public function confirmIgnoreSection($stockId)
     {
-        $this->stock = \App\Models\Stock::find($stockId);
+        $this->stock = Stock::find($stockId);
         if ($this->stock) {
             $this->confirmIgnoreSection = true;
         } else {
@@ -78,7 +78,7 @@ class MainSection extends Component
 
     public function confirmCompleteSection($stockId)
     {
-        $this->stock = \App\Models\Stock::find($stockId);
+        $this->stock = Stock::find($stockId);
         if ($this->stock) {
             $this->confirmCompleteSection = true;
         } else {

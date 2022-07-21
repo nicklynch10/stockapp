@@ -6,6 +6,7 @@ use App\Http\Controllers\FactordetailController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\SubmitPlaidDataController;
 use App\Http\Controllers\UserInvitesController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Livewire\Optimize;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -60,7 +61,7 @@ Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('optimize', Optimize::class, )->middleware(['auth:sanctum', 'verified'])->name('optimize');
 Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
-
+Route::get('register',[RegisterController::class, 'register'])->name('register');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('notifications', [NotificationController::class,'show'])->name('notifications');

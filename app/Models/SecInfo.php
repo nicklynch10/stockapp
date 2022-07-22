@@ -59,6 +59,9 @@ class SecInfo extends Model
                 return "company info query failed";
             }
 
+            if (!isset($stats['companyName'])) {
+                return "failed...";
+            }
             $this->beta = $stats['beta'];
             $this->div_yield = $stats['dividendYield'];
             $this->company_name = $stats['companyName'];
@@ -502,6 +505,18 @@ class SecInfo extends Model
         $stats = $data->json();
     }
 
+    public function containsTag($tag)
+    {
+        if (!$this->company_tags || !json_decode($this->company_tags)) {
+            return false;
+        }
+        foreach (json_decode($this->company_tags) as $t) {
+            if (str_match($tag, $t)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /////////////// stats functions /////////
 

@@ -48,7 +48,7 @@ class CompsList extends Component
         /// this was provided by the user. Please make sure this is secure...
         // run laravel security measures before using user input into our database
         // otherwise it is easy for the app to be hacked
-//        $this->SI = getTicker($this->ticker);
+        $this->SI = getTicker($this->ticker);
 //        $this->companyname = $this->SI->company_name;
 //        $this->updatedTicker();
 //        $this->loadData = true;

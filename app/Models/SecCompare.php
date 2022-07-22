@@ -24,12 +24,12 @@ class SecCompare extends Model
     {
         $w = 0;
         $w = $w + $this->matching_tags*10;
-        $w = $w + $this->matching_sector*100;
-        $w = $w + $this->matching_industry*1000;
-        $w = $w + $this->matching_primarySicCode*10000;
-        $w = $w + $this->matching_PE*100000;
-        $w = $w + $this->matching_marketcap*1000000;
-        $w = $w + $this->matching_beta*10000000;
+        $w = $w + $this->matching_sector*10;
+        $w = $w + $this->matching_industry*10;
+        $w = $w + $this->matching_primarySicCode*10;
+        $w = $w + $this->matching_PE;
+        $w = $w + $this->matching_marketcap;
+        $w = $w + $this->matching_beta;
         $this->total_weights = $w;
     }
 
@@ -152,10 +152,10 @@ class SecCompare extends Model
     {
         $SI1 = $this->SI1;
         $SI2 = $this->SI2;
-        $SI1_crit = $SI1->marketcap;
-        $SI2_crit = $SI2->marketcap;
+        $SI1_crit = $SI1->marketcap/1000;
+        $SI2_crit = $SI2->marketcap/1000;
 
-        $band = 10000000000;
+        $band = 10000000;
         $runs = 0;
 
         if (!$SI1_crit || !$SI2_crit) {
@@ -165,7 +165,7 @@ class SecCompare extends Model
         } else {
             while (abs($SI1_crit - $SI2_crit)<$band) {
                 $runs++;
-                $band = $band/2;
+                $band = $band/1.5;
                 if ($runs > 1000) {
                     $band = 0;
                 }

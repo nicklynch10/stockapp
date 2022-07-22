@@ -34,7 +34,7 @@
                             @foreach($correlation->sortByDesc("correlation")->unique() as $result)
 
                             @php $result = App\Models\SecCompare::find($result['id']); @endphp
-                            
+
                             @if(isset($result) && isset($result->ticker2) && $result->ticker2 != $ticker)
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
@@ -143,7 +143,7 @@
                                                             <li class="py-1 sm:py-4">
                                                                 <div class="flex items-center space-x-4">
                                                                     <div class="flex-1">
-                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Total Weight:</span>
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Fundamental Weight:</span>
                                                                     </div>
                                                                     <div class="inline-flex items-center text-sm text-right">{{acct_format($result->total_weights)}}</div>
                                                                 </div>
@@ -158,12 +158,11 @@
                                                 <div class="items-center break-words text-center text-sm">
                                                     @php
                                                         $data = $tag;
-                                                        $inarr = false;
                                                     @endphp
                                                     @if(isset($result->SI2['company_tags']))
                                                     @foreach(json_decode($result->SI2['company_tags']) as $g)
                                                         <div class="mr-1 mb-1 inline-block">
-                                                            <div class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" style="background: {{ $inarr == true ? "#4fed4f47" : "#f3f4f6" }}">
+                                                            <div class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" style="background: {{ $SI->containsTag($g) ? "#4fed4f47" : "#f3f4f6" }}">
                                                                 {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
                                                             </div>
                                                         </div>

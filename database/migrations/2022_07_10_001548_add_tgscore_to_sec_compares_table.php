@@ -31,36 +31,8 @@ class AddTgscoreToSecComparesTable extends Migration
             $table->integer('matching_primarySicCode')->default(0);
 
             $table->integer('matching_PE')->default(0);
-
-            //bands for matching PE:
-            // <= 0
-            // 0-10
-            // 10-20
-            // 20-30
-            // 30-40
-            // 40-50
-            // 50-100
-            // >100
-
             $table->integer('matching_marketcap')->default(0);
-            // bands for marketcap (note: this is in millions $)
-            //0 - 500M
-            // 500 - 2,000
-            // 2,000 - 50,000
-            // 50,000 - 150,000
-            // 150,000 - 500,000
-            // 500,000 - 1,000,000
-            // >1,000,000
-
             $table->integer('matching_beta')->default(0);
-            // <0 - .3
-            // .3 - .7
-            // .7 - .9
-            // .9 - 1.1
-            // 1.1 - 1.3
-            // 1.3 - 1.7
-            // 1.7 - 2.5
-            // >2.5
         });
     }
 

@@ -20,6 +20,19 @@ class SecCompare extends Model
         return $this->belongsTo(SecInfo::class, 'SI2_id');
     }
 
+    public function calc_weight()
+    {
+        $w = 0;
+        $w = $w + $this->matching_tags*10;
+        $w = $w + $this->matching_sector*100;
+        $w = $w + $this->matching_industry*1000;
+        $w = $w + $this->matching_primarySicCode*10000;
+        $w = $w + $this->matching_PE*100000;
+        $w = $w + $this->matching_marketcap*1000000;
+        $w = $w + $this->matching_beta*10000000;
+        $this->total_weights = $w;
+    }
+
     public function compare_stats()
     {
         //ajay include logic here
@@ -27,11 +40,158 @@ class SecCompare extends Model
         $SI1 = $this->SI1;
         $SI2 = $this->SI2;
         // continue code here
+        $this->compare_tags();
+        $this->compare_sectors();
+        $this->compare_industries();
+        $this->compare_SicCode();
+        $this->compare_country();
+        $this->compare_PE();
+        $this->compare_marketcap();
+        $this->compare_beta();
 
-        // returns back this SecCompare at the end
-        $this->total_weights = 0; // CHANGE this to the total of all the matches
-        //$this->save(); //saves to DB before returning
+
+        $this->calc_weight();
+        $this->save(); //saves to DB before returning
+        //dd($this);
 
         return $this;
+    }
+
+    public function compare_tags()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        $SI1_tags = json_decode($SI1->company_tags);
+        $SI2_tags = json_decode($SI2->company_tags);
+        $this->matching_tags = match_count($SI1_tags, $SI2_tags);
+        $this->save();
+        return $this->matching_tags;
+    }
+
+    public function compare_sectors()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        $SI1_arr1 = json_decode($SI1->sector);
+        $SI2_arr2 = json_decode($SI2->sector);
+        $this->matching_sector = match_count($SI1_arr1, $SI2_arr2);
+        $this->save();
+        return $this->matching_sector;
+    }
+
+    public function compare_industries()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        $SI1_arr1 = json_decode($SI1->industry);
+        $SI2_arr2 = json_decode($SI2->industry);
+        $this->matching_industry = match_count($SI1_arr1, $SI2_arr2);
+        $this->save();
+        return $this->matching_industry;
+    }
+
+    public function compare_SicCode()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        if (!json_decode($SI1->company_data) || !json_decode($SI2->company_data)) {
+            return 0;
+        }
+        $SI1_arr1 = collect(strval(json_decode($SI1->company_data)->primarySicCode));
+        $SI2_arr2 = collect(strval(json_decode($SI2->company_data)->primarySicCode));
+        $this->matching_primarySicCode = match_count($SI1_arr1, $SI2_arr2);
+        $this->save();
+        return $this->matching_primarySicCode;
+    }
+
+    public function compare_country()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        if (!json_decode($SI1->company_data) || !json_decode($SI2->company_data)) {
+            return 0;
+        }
+        $SI1_arr1 = collect(strval(json_decode($SI1->company_data)->country));
+        $SI2_arr2 = collect(strval(json_decode($SI2->company_data)->country));
+        $this->matching_country = match_count($SI1_arr1, $SI2_arr2);
+        $this->save();
+        return $this->matching_country;
+    }
+
+
+    public function compare_PE()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        $SI1_crit = $SI1->peRatio;
+        $SI2_crit = $SI2->peRatio;
+
+        $band = 100;
+        $runs = 0;
+
+        if (!$SI1_crit || !$SI2_crit) {
+            $runs = 0;
+        } elseif ($SI1_crit == $SI2_crit) {
+            $runs = $band;
+        } else {
+            while (abs($SI1_crit - $SI2_crit)<$band) {
+                $runs++;
+                $band = $band/2;
+            }
+        }
+        $this->matching_PE = $runs;
+        $this->save();
+        return $this->matching_PE;
+    }
+
+
+    public function compare_marketcap()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        $SI1_crit = $SI1->marketcap;
+        $SI2_crit = $SI2->marketcap;
+
+        $band = 10000000000;
+        $runs = 0;
+
+        if (!$SI1_crit || !$SI2_crit) {
+            $runs = 0;
+        } elseif ($SI1_crit == $SI2_crit) {
+            $runs = $band;
+        } else {
+            while (abs($SI1_crit - $SI2_crit)<$band) {
+                $runs++;
+                $band = $band/2;
+            }
+        }
+        $this->matching_marketcap = $runs;
+        $this->save();
+        return $this->matching_marketcap;
+    }
+
+    public function compare_beta()
+    {
+        $SI1 = $this->SI1;
+        $SI2 = $this->SI2;
+        $SI1_crit = $SI1->beta;
+        $SI2_crit = $SI2->beta;
+
+        $band = 5;
+        $runs = 0;
+
+        if (!$SI1_crit || !$SI2_crit) {
+            $runs = 0;
+        } elseif ($SI1_crit == $SI2_crit) {
+            $runs = $band;
+        } else {
+            while (abs($SI1_crit - $SI2_crit)<$band) {
+                $runs++;
+                $band = $band/2;
+            }
+        }
+        $this->matching_beta = $runs;
+        $this->save();
+        return $this->matching_beta;
     }
 }

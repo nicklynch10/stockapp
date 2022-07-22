@@ -34,17 +34,15 @@ class CompsList extends Component
     public function init2()
     {
         $this->loadData = true;
-        //dd("here");
         $this->updatedTicker();
         $this->dispatchBrowserEvent('contentChanged');
     }
 
     public function mount($tickerData)
     {
-        if($tickerData != null){
+        if ($tickerData != null) {
             $this->ticker = $tickerData;
-        }
-        else{
+        } else {
             $this->ticker = "TSLA";
         }
         /// this was provided by the user. Please make sure this is secure...
@@ -113,18 +111,20 @@ class CompsList extends Component
             $this->stocks = $this->StocksArray;
         }
         //dd("2");
+        //dd($this);
         //$this->dispatchBrowserEvent('contentChanged');
     }
 
     public function showETFs()
     { //toggles to show ETFs
-        //dd($this);
+
         //dd("1");
         if ($this->etfs) {
             $this->etfs = false;
         } else {
             $this->etfs = true;
         }
+
         $this->list_comps();
     }
 }

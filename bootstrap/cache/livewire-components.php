@@ -12,6 +12,9 @@
   'historical-trades' => 'App\\Http\\Livewire\\HistoricalTrades',
   'mark-notification' => 'App\\Http\\Livewire\\MarkNotification',
   'optimize' => 'App\\Http\\Livewire\\Optimize',
+  'optimize.completed-section' => 'App\\Http\\Livewire\\Optimize\\CompletedSection',
+  'optimize.ignore-section' => 'App\\Http\\Livewire\\Optimize\\IgnoreSection',
+  'optimize.main-section' => 'App\\Http\\Livewire\\Optimize\\MainSection',
   'overview' => 'App\\Http\\Livewire\\Overview',
   'portfolio' => 'App\\Http\\Livewire\\Portfolio',
   'stock-add-edit-modal' => 'App\\Http\\Livewire\\StockAddEditModal',
@@ -20,5 +23,6 @@
   'stock-sell-modal' => 'App\\Http\\Livewire\\StockSellModal',
   'stock-share-sell' => 'App\\Http\\Livewire\\StockShareSell',
   'stocks' => 'App\\Http\\Livewire\\Stocks',
+  'try-it-for-free' => 'App\\Http\\Livewire\\TryItForFree',
   'user-invites' => 'App\\Http\\Livewire\\UserInvites',
 );

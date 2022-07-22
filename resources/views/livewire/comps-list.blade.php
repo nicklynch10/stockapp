@@ -28,19 +28,14 @@
 
 
                     <div wire:init="init2" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 lg:grid-cols-3 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
+
                         @if($ticker != "" & count($correlation)>0)
                         @if ($loadData)
-                            @php $tickerData = array(); @endphp
                             @foreach($correlation->sortByDesc("correlation")->unique() as $result)
-                            @php
-                                if ( in_array($result->ticker2, $tickerData) ) {
-                                    continue;
-                                }
-                                $tickerData[] = $result->ticker2;
-                                $result = App\Models\SecCompare::find($result['id']);
-                                //dd($result);
-                            @endphp
-                            @if(isset($result) && isset($result->ticker2))
+
+                            @php $result = App\Models\SecCompare::find($result['id']); @endphp
+                            
+                            @if(isset($result) && isset($result->ticker2) && $result->ticker2 != $ticker)
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                         <div class="mt-3 my-1">

@@ -54,7 +54,7 @@ class SecInfo extends Model
 
         // extracts and saves data
         $stats = $data->json();
-        if($stats !== null){
+        if ($stats !== null) {
             if (!isset($stats)) {
                 return "company info query failed";
             }
@@ -214,10 +214,9 @@ class SecInfo extends Model
                 $p = 0;
             } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
                 $p = 0;
-            } elseif($SI1->getChangeData()->count() == 0 && $this->getChangeData()->count() == 0) {
+            } elseif ($SI1->getChangeData()->count() == 0 && $this->getChangeData()->count() == 0) {
                 $p = 0;
-            }
-                else {
+            } else {
                 if ($debug) {
                     echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
                 }
@@ -259,7 +258,7 @@ class SecInfo extends Model
         }
         $this->getIEXData();
 
-        if(count($factor->getChangeData()->toArray()) == count($this->getChangeData()->toArray())){
+        if (count($factor->getChangeData()->toArray()) == count($this->getChangeData()->toArray())) {
             $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
 
             $multiplier = 1/3; // adjusts so it is closer to bounds.
@@ -282,7 +281,6 @@ class SecInfo extends Model
 
             return $SC;
         }
-
     }
 
 

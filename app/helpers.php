@@ -148,7 +148,7 @@ if (!function_exists('long_sec_update')) {
         if ($relation->info_data) {
             if (!$relation->IEXpeer_data) {
                 $relation->pullIEXPeers();
-                //dd($relation);
+            //dd($relation);
             } else {
                 $relation->addRelatedPeers();
             }
@@ -237,6 +237,52 @@ if (!function_exists('getRelated_stock_etf')) {
         return $compare;
     }
 }
+
+// checks if two strings are equal
+// even if scrambled
+if (!function_exists('str_match')) {
+    function str_match($t1, $t2)
+    {
+        //creates two arrays of the input chars and sorts them in alphabetical order
+        // allows for scrambled words
+        $arr2 = str_split($t1);
+        sort($arr2);
+        $text2Sorted = implode('', $arr2);
+
+        $arr1 = str_split($t2);
+        sort($arr1);
+        $text1Sorted = implode('', $arr1);
+
+        if ($text1Sorted == $text2Sorted) {
+            return true;
+        }
+        return false;
+    }
+}
+
+// checks if two strings are equal
+// even if scrambled
+if (!function_exists('match_count')) {
+    function match_count($a1, $a2)
+    {
+        $matches = 0;
+        //returns matches
+        if (!$a1 || !$a2) {
+            return 0;
+        }
+        foreach ($a1 as $t1) {
+            foreach ($a2 as $t2) {
+                if (str_match($t1, $t2)) {
+                    $matches++;
+                }
+            }
+        }
+        return $matches;
+    }
+}
+
+
+
 
 
 

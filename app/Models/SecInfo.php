@@ -194,7 +194,7 @@ class SecInfo extends Model
         if ($debug) {
             echo "<br>checking if correlation already exists between ".$this->ticker." and ".$ticker." at ".now();
         }
-        if ($SC_old && $SC_old->updated_at > now()->addDays(-30) && $SC_old->correlation != 0) {
+        if ($SC_old && $SC_old->updated_at > now()->addDays(-30) && $SC_old->correlation != 0 && $SC_old->TG_score) {
             if ($debug) {
                 echo "<br>Found p. using p from ".$this->ticker." and ".$ticker." at ".now();
             }

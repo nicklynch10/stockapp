@@ -137,6 +137,9 @@ class SecCompare extends Model
             while (abs($SI1_crit - $SI2_crit)<$band) {
                 $runs++;
                 $band = $band/2;
+                if ($runs > 1000) {
+                    $band = 0;
+                }
             }
         }
         $this->matching_PE = $runs;
@@ -163,6 +166,9 @@ class SecCompare extends Model
             while (abs($SI1_crit - $SI2_crit)<$band) {
                 $runs++;
                 $band = $band/2;
+                if ($runs > 1000) {
+                    $band = 0;
+                }
             }
         }
         $this->matching_marketcap = $runs;
@@ -188,6 +194,9 @@ class SecCompare extends Model
             while (abs($SI1_crit - $SI2_crit)<$band) {
                 $runs++;
                 $band = $band/2;
+                if ($runs > 1000) {
+                    $band = 0;
+                }
             }
         }
         $this->matching_beta = $runs;

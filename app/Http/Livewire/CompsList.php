@@ -49,7 +49,7 @@ class CompsList extends Component
         // run laravel security measures before using user input into our database
         // otherwise it is easy for the app to be hacked
         $this->SI = getTicker($this->ticker);
-//        $this->companyname = $this->SI->company_name;
+        $this->companyname = $this->SI->company_name;
 //        $this->updatedTicker();
 //        $this->loadData = true;
     }

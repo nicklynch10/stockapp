@@ -31,7 +31,7 @@
 
                         @if($ticker != "" & count($correlation)>0)
                         @if ($loadData)
-                            @foreach($correlation->sortByDesc("correlation")->unique() as $result)
+                            @foreach($correlation->sortByDesc("TG_score")->unique() as $result)
 
                             @php $result = App\Models\SecCompare::find($result['id']); @endphp
 
@@ -148,6 +148,14 @@
                                                                     <div class="inline-flex items-center text-sm text-right">{{acct_format($result->total_weights)}}</div>
                                                                 </div>
                                                             </li>
+                                                              <li class="py-1 sm:py-4">
+                                                                <div class="flex items-center space-x-4">
+                                                                    <div class="flex-1">
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Prelim TG Score:</span>
+                                                                    </div>
+                                                                    <div class="inline-flex items-center text-sm text-right">{{acct_format($result->TG_score)}}</div>
+                                                                </div>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -163,7 +171,7 @@
                                                     @foreach(json_decode($result->SI2['company_tags']) as $g)
                                                         <div class="mr-1 mb-1 inline-block">
                                                             <div class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" style="background: {{ $SI->containsTag($g) ? "#4fed4f47" : "#f3f4f6" }}">
-                                                                {!! $inarr == true ? "<b>".$g."</b>" : "".$g."" !!}
+                                                                {{ $g }}
                                                             </div>
                                                         </div>
                                                     @endforeach

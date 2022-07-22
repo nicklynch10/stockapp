@@ -2,20 +2,20 @@
     'appLogo' => $appLogo ?? null,
     'appName' => $appName ?? null,
 ])
-    # Hello!
+# Hello!
 
-    {{$sender}} has invited you to join {{ $appName }}.
+{{$sender}} has invited you to join {{ $appName }}.
 
-    {{ $appName }} enables users to easily tax loss harvest within all accounts
+{{ $appName }} enables users to easily tax loss harvest within all accounts
 
-    @component('mail::button', ['url' => route('register')])
-        Sign up!
-    @endcomponent
+@component('mail::button', ['url' => route('register')])
+Sign up!
+@endcomponent
 
-    Thank you for using {{ $appName }}.
+Thank you for using {{ $appName }}.
 
-    Regards,<br>
-    {{ $appName }} Team
+Regards,<br>
+{{ $appName }} Team
 
 
 @endcomponent

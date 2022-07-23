@@ -19,12 +19,11 @@
     @media screen and (max-width: 700px){
         .logo{
             height: 1rem ;
-            
+
         }
     }
 
 </style>
 
-<image src="{{ appLogo($defaultLogo) }}" style="width: 100%;
-    height: 100%;" />
+<image src="{{ appLogo($defaultLogo) }}" class="logo"  />
 

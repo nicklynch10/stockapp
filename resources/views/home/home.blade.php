@@ -21,13 +21,14 @@
                             <div class="ps-home-1405__container">
                                 <h1 class="ps-home-1405__title typ-hero-header bhrtyp-italic text-gray-800"
                                     style="font-size: 40px; line-height: 50px; font-family: Montserrat, Lato, Arial, Helvetica, sans-serif;">
-                                   Tax Harvesting Platform
+                                    Comprehensive Tax Harvesting Platform
                                 </h1>
 
                                 <div class="ps-home-1405__description typ-hero-subhead text-gray-800"
                                 style=" font-weight: 700;
                                 ">
-                                {{ appName(true) }} enables users to easily tax loss harvest within all accounts
+                                    Easily harvest tax losses and realize excess returns across all your portfolios.
+                                    What has historically been known as a premium investment strategy is now available to investors of any kind.
 
                                 </div>
 
@@ -93,15 +94,17 @@
                 <div class="bhrsection-padding homeOverview__overflow">
                     <div class="bhrsection-container-large pt-20 md:pt-10">
                         <div class="homeOverview__container js-in-viewport Animation--active">
-                            <h3 class="typ-section-header bhrtyp-italic bhrtyp-center bhrcolor-gray12">Comprehensive Tax Harvesting Platform</h3>
+                            <h3 class="typ bhrtyp-italic bhrtyp-center bhrcolor-gray12">Following a consistent Tax-Loss Harvesting strategy translates to a greater than 1.5% increase in returns annually over a long-term investment horizon, with as high as 7% in excess returns over the first year of a loss harvesting program</h3>
                             <div class="homeOverviewContent shadow-none">
                                 <div class="lg:w-1/2 xl:w-4/5 w-full text-center mr-10 p-0 m-0 mb-10 md:mb-16 lg:mb-0">
-                                <img class="m-auto w-full md:w-10/12 lg:w-full rounded-3xl" alt="{{ appName(true) }} Overview" src="/home images/21.png"
+                                <img class="m-auto w-full md:w-10/12 lg:w-full rounded-3xl" alt="{{ appName(true) }} Overview" src="/home images/29.jpg"
                                      data-src="/home images/3.png" style="border-radius: 20px;">
                                 </div>
                                 <!-- "/other/pink_sweater_v1.png" -->
                                 <div class="homeOverviewContent__left Animation__toRight text-center lg:text-left">
-                                    <p class="bhrcolor-gray9">Easily harvest tax losses and realize excess returns across all your portfolios. What has historically been known as a premium investment strategy is now available to investors of any kind.
+                                    <p class="bhrcolor-gray9">Tax-Loss Harvesting provides a way to transform investment losses directly into valuable tax-related savings.
+                                        By proactively selling a stock for a loss, you gain the ability to write off this loss against employment or investment based income on your next tax return.
+                                        Future tax bills are then lowered (or refunds are increased), providing additional savings and capital to invest back into the stock market.
                                     </p>
 {{--                                        <div class="w-full text-center lg:text-left my-2 mb-3">--}}
 {{--                                            <a class="Button" href="/register" >Sign Up!</a>--}}
@@ -123,27 +126,27 @@
                 <div class="bhrsection-container-large bhrsection-padding homeFeature__container relative top-20 z-50">
 
                     <div class="homeFeatureTitle homeFeatureTitle--hiring">
-                        <h2 class="typ bhrtyp-italic text-blue-900 text-lg">Following a consistent Tax-Loss Harvesting strategy translates to a greater than 1.5% increase in returns annually over a long-term investment horizon, with as high as 7% in excess returns over the first year of a loss harvesting program. </h2>
+                        <h2 class="typ bhrtyp-italic text-blue-900 text-lg">{{ appName(true) }} helps manage every step of the Tax-Loss Harvesting process. </h2>
                     </div>
 
                     <div class="homeFeatureContent flex">
                         <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-0 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
-                        <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12 rounded" alt="{{ appName(true) }} Overview" src="/home images/19.png"
+                        <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12 rounded" alt="{{ appName(true) }} Overview" src="/home images/30.jpg"
                              data-src="/home images/3.png">
                         </div>
                         <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left">
                             <p class="text-blue-800 homeFeatureContentRight__copy">
-                                Tax-Loss Harvesting provides a way to transform investment losses directly into valuable tax-related savings. By proactively selling a stock for a loss, you gain the ability to write off this loss against employment or investment based income on your next tax return.
+                                Using {{ appName(true) }}, you can view which of your Equity Stocks, ETFs, and Mutual Funds are trading at a loss and are recommended sells based on {{ appName(true) }}’s harvesting calculation methodology.
                                 <br><br>
-                                Future tax bills are then lowered (or refunds are increased), providing additional savings and capital to invest back into the stock market.
-.
-                            </p>
-                            <div class="homeFeatureContentRightLinks my-2">
+                                By leveraging Plaid’s investment brokerage integration, all of your real-time positions will be directly linked into the {{ appName(true) }} platform. {{ appName(true) }} then offers a proprietary {{ appName(true) }} Similarity Score to suggest replacement positions that will allow you to closely maintain your pre-trade portfolio allocation.
 
-                                            <a class="Button bg-pink-400 m-auto lg:m-0"
-                                            style="background: #1E3A8A;"
-                                            href="/rewards-process">Learn More</a>
-                            </div>
+                            </p>
+{{--                            <div class="homeFeatureContentRightLinks my-2">--}}
+
+{{--                                            <a class="Button bg-pink-400 m-auto lg:m-0"--}}
+{{--                                            style="background: #1E3A8A;"--}}
+{{--                                            href="/rewards-process">Learn More</a>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
 
@@ -170,11 +173,11 @@
              padding-bottom: 30px;">
                 <div class="bhrsection-container-large bhrsection-padding homeFeature__container relative top-14 md:top-20 xl:top-0">
                     <div class="homeFeatureTitle homeFeatureTitle--onboarding">
-                        <h2 class="typ-stats italic text-blue-500">Tax Efficient Rebalancing</h2>
+                        <h2 class="typ italic text-blue-500">Harvesting losses is a well-established mechanism for reducing tax liability. Doing so is a technically onerous task as it requires frequent monitoring, execution, and care to avoid washsale trades.</h2>
                     </div>
                     <div class="homeFeatureContent">
                         <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-3 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
-                            <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12" src="/home images/3.png" data-src="/home images/3.png"
+                            <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12" src="/home images/28.jpg" data-src="/home images/28.jpg"
                              style="">
 
 
@@ -182,13 +185,8 @@
 
                         <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left">
                             <p class="text-blue-700 homeFeatureContentRight__copy">
-                               Tax efficiently rebalance portfolios with as much customization as desired.
-<br><br>
-Take advantage of tax optimization suggestions not typically provided by robo-advisors (preferred dividends, optimal allocations, foreign withholdings, ect.).
+                                This is no longer the case with {{ appName(true) }}. Tax-Loss Harvesting has historically been a premium investment strategy, but these valuable benefits can now be recognized by investors of any size and experience level with minimal effort.
                                 <br>
-
-                                            <a class="Button bg-pink-400 m-auto lg:mx-0 mb-4 mt-2" target="__blank" href="/group-card-example">View Full Example</a> <br>
-                                <span class="font-semibold">{{ appName(true) }} will remind you of co-workers birthdays and work anniversaries in advance!</span>
                             </p>
                         </div>
                     </div>
@@ -212,187 +210,10 @@ Take advantage of tax optimization suggestions not typically provided by robo-ad
 
             <section class="homeQuote" aria-label="{{ appName(true) }} customer quote">
                 <div class="homeQuote__container bhrsection-padding">
-                    <p class="italic text-gray-900 font-semibold text-xl mb-2">[Proven >2% increase to after tax returns]</p>
+                    <p class="italic text-gray-900 font-semibold text-xl mb-2">We have simulated returns for 500 assets over 25 years to examine the benefits of loss harvesting for taxable portfolios, and found a huge advantage over the passive case. By rigorously realizing losses, the median portfolio would add about 27% compared to a pure buy and hold strategy in typical market conditions… It’s a reliable, predictable source of after-tax alpha.</p>
                     <p class="text-gray-900 italic text-sm mt-0"><a href="https://www.gallup.com/workplace/236441/employee-recognition-low-cost-high-impact.aspx" target="_blank">According to [Authors on academic journal]</a></p>
                 </div>
             </section>
-            <div class="WaveTop bg-white">
-                <img class="WaveTop__image lazyloaded"
-                     src="/curves/product-top-gray.png">
-            </div>
-            <section class="homeFeature py-20 md:py-10" aria-label="TaxGhost helps manage every step of the Tax-Loss Harvesting process"
-                     style="    background: linear-gradient(180deg, #F3F4F6, #F3F4F6);">
-                <div class="bhrsection-container-large bhrsection-padding homeFeature__container">
-                    <div class="homeFeatureTitle homeFeatureTitle--culture">
-
-                        <h2 class="typ-stats bhrtyp-italic text-gray-600">{{ appName(true) }} helps manage every step of the Tax-Loss Harvesting process</h2>
-                    </div>
-
-                    <div class="homeFeatureContent flex">
-                        <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-0 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
-                            <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12" alt="{{ appName(true) }} Overview"  src="/home images/14.png"
-                                 data-src="/home images/14.png">
-                        </div>
-                        <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left">
-                            <p class=" homeFeatureContentRight__copy">
-                                Using {{ appName(true) }}, you can view which of your Equity Stocks, ETFs, and Mutual Funds are trading at a loss and are recommended sells based on {{ appName(true) }}’s harvesting calculation methodology.
-                                <br><br>
-                                By leveraging Plaid’s investment brokerage integration, all of your real-time positions will be directly linked into the {{ appName(true) }} platform. {{ appName(true) }} then offers a proprietary {{ appName(true) }} Similarity Score to suggest replacement positions that will allow you to closely maintain your pre-trade portfolio allocation.
-                            </p>
-                        </div>
-                    </div>
-
-
-                </div>
-            </section>
-
-            <div class="Wave WaveBottom" style="margin: auto;">
-                <img class="WaveBottom__image ls-is-cached lazyloaded" data-src="/curves/curve6-gray.png" src="/curves/curve2-gray-100.png">
-            </div>
-
-            <section class="homeQuote" aria-label="{{ appName(true) }} customer quote">
-                <div class="homeQuote__container bhrsection-padding">
-                    <p class="text-blue-900 italic text-md mt-0"><a href="https://www.gallup.com/workplace/236441/employee-recognition-low-cost-high-impact.aspx" target="_blank">We have simulated returns for 500 assets over 25 years to examine the benefits of loss harvesting for taxable portfolios, and found a huge advantage over the passive case. By rigorously realizing losses, the median portfolio would add about 27% compared to a pure buy and hold strategy in typical market conditions… It’s a reliable, predictable source of after-tax alpha.</a></p>
-                </div>
-            </section>
-
-
-
-
-  <div class="WaveTop">
-                <img class="WaveTop__image" data-src="/curves/curve3-pink.png" src="/curves/curve3-pink.png">
-            </div>
-
-
-
-
-
-    <section class="homeFeature homeFeature--hiring" aria-label="Collaborative Teams"
-                     style="background: linear-gradient(#e5ffe6,#e5ffe6, #f1fff8, #f1fff8);">
-                <div class="bhrsection-container-large bhrsection-padding homeFeature__container relative top-20 z-50">
-
-                    <div class="homeFeatureTitle homeFeatureTitle--hiring">
-                        <h2 class="typ-stats bhrtyp-italic text-green-600">Monitor Factor Exposure</h2>
-                    </div>
-
-                    <div class="homeFeatureContent flex">
-                        <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-0 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
-                        <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12" alt="{{ appName(true) }} Overview" src="/screenshots/factors1.png"
-                             data-src="/screenshots/factors1.png">
-                        </div>
-                        <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left">
-                            <p class="text-green-600 homeFeatureContentRight__copy">
-                                Finding the time to engage with coworkers can be challenging. {{ appName(true) }} can help!<br><br> With our opt-in seamless one-on-one scheduling system, employees will have the opportunity to grow existing connections and facilitate new ones.
-                            </p>
-                             <div class="homeFeatureContentRightLinks my-2">
-
-                                            <a class="Button bg-green-400 m-auto lg:m-0"
-                                            style="background:#22c55e;"
-
-                                            href="/">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="h-32"></div>
-            </section>
-
-
-
-
-
-
-
-             <div class="Wave WaveBottom WaveBottom--hiring">
-                <img class="WaveBottom__image" data-src="/curves/curve4-pink-100.png" alt="leaf"
-                     src="/curves/curve4-pink-100.png"
-                     style="margin-top:30px;">
-            </div>
-
-               <section class="homeQuote" style="padding: 5% 0 5%;">
-                <div class="homeQuote__container bhrsection-padding">
-                    <p class="italic text-gray-900 text-xl mb-2">[ quote about maintaining factor exposure improves returns</p>
-                    <p class="text-gray-900 italic text-sm mt-0">According to [TBD]</p>
-                </div>
-            </section>
-
-
-
-            <div class="WaveTop WaveTop--onboarding"
-            style="margin-top:2%;">
-          <!--       <img class="WaveTop__image" data-src="/curves/curve5-blue-50.png" alt="leaf"
-                     src="/curves/curve5-blue-100.png">
-            </div> -->
-
-
-
-
-            <section class="homeFeature homeFeature--compensation" aria-label="Collaborative Teams"
-            style="
-            background: #DBEAFE;
-             padding-top: 50px;
-             padding-bottom: 30px;">
-
-            <!--  background: linear-gradient(180deg, white, #DBEAFE); -->
-<!--                 <div class="bhrsection-container-large bhrsection-padding homeFeature__container">
-                    <div class="homeFeatureTitle homeFeatureTitle--compensation">
-
-                        <h2 class="typ-stats bhrtyp-italic text-blue-600 md:pt-10 lg:pt-20">Collaborative Teams</h2>
-                    </div>
-                    <div class="homeFeatureContent md:pb-10 lg:pb-20">
-                        <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-0 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
-                            <img class="lazyloaded -mt-12" src="/home images/3.png" data-src="/home images/3.png"
-                             style="">
-                        </div>
-                        <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2">
-                            <p class="text-blue-700 homeFeatureContentRight__copy  text-center lg:text-left">
-                                {{ appName(true) }} knows collaboration is a key driver of success and it takes a full team to make miracles happen. {{ appName(true) }} teams are a central part of the platform and building a team is simple. Anyone can do it. <br><br>Whether you are a leader, observer, idea generator, or just looking to follow along for the ride, {{ appName(true) }} teams are built to help you.
-
-                            </p>
-                            <div class="homeFeatureContentRightLinks">
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="h-52 top-space-create"></div> -->
-            </section>
-            <div class="WaveTop bg-white">
-                <img class="WaveTop__image lazyloaded"
-                      src="/curves/curve1-pink.png">
-            </div>
-            <section class="homeFeature py-20 md:py-10" aria-label="Create an Inclusive Culture"
-            style="    background: linear-gradient(rgba(251, 233, 241, 1), #fef2f2,#fef2f2);">
-                <div class="bhrsection-container-large bhrsection-padding homeFeature__container">
-                    <div class="homeFeatureTitle homeFeatureTitle--culture">
-
-                        <h2 class="typ bhrtyp-italic text-gray-600">Harvesting losses is a well-established mechanism for reducing tax liability.
-                            Doing so is a technically onerous task as it requires frequent monitoring, execution, and care to avoid washsale trades.</h2>
-                    </div>
-                    <div class="homeFeatureContent">
-
-                        <div class="">
-                            <p class="text-gray-600 m-auto sm:w-10/12 lg:w-1/2 text-center lg:-mt-12">
-                                This is no longer the case with TaxGhost.
-                                Tax-Loss Harvesting has historically been a premium investment strategy,
-                                but these valuable benefits can now be recognized by investors of any size and experience level with minimal effort.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="text-center mt-16">
-                        <img class="m-auto home-end-person" alt="{{ appName(true) }} Overview" src="/home images/5.jpg"
-                             data-src="/home images/3.png" defer>
-                    </div>
-
-                </div>
-            </section>
-
-            <div class="Wave WaveBottom" style="margin: auto;">
-                <img class="WaveBottom__image ls-is-cached lazyloaded" data-src="/curves/curve3-flipped-pink-v.png" src="/curves/home-curve2-pink-nl.png">
-            </div>
-
 
             @include('home.trial-bottom')
         </div>

@@ -45,7 +45,7 @@
             width: auto;">
                 <div class="NavbarMain__tabContainer">
                     <div class="ps_nav_tab_wrap ps_nav_open_drop_push">
-                        <div class="NavbarMain__tab">Our Platform</div>
+                        <div class="NavbarMain__tab">How It Works</div>
                         <ul class="bg-gray-100 custom-nav-bg-gray NavbarDrop NavbarDrop--2 js-nav-drop-block">
                             <div
                                 class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--2 NavbarDrop2--default ps-nav-drop2495-block-def-two">
@@ -108,7 +108,7 @@
 
 
                     <div class="ps_nav_tab_wrap ps_nav_open_drop_push" >
-                        <div class="NavbarMain__tab">Tax Optimization</div>
+                        <div class="NavbarMain__tab">Learn More</div>
                         <ul class="bg-gray-100 custom-nav-bg-gray NavbarDrop NavbarDrop--2 js-nav-drop-block">
                             <div
                                 class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--2 NavbarDrop2--default ps-nav-drop2495-block-def-two">
@@ -165,6 +165,9 @@
 {{--                    </div> --}}
                     <div class="ps_nav_tab_wrap ps_nav_open_drop_push">
                         <a class="NavbarMain__tab" href="/analyze-compare">Analyze & Compare</a>
+                    </div>
+                    <div class="ps_nav_tab_wrap ps_nav_open_drop_push">
+                        <a class="NavbarMain__tab" href="/">Pricing</a>
                     </div>
 
 
@@ -238,7 +241,7 @@
     <div class="NavbarMobile__wrapper">
         <ul class="NavbarMobile__container">
             <li class="NavbarMobile__linkWrap js-nav-level-1">
-                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener">Our Platform</a>
+                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener">How It Works</a>
             </li>
             <div class="NavbarMobile__extend js-nav-level-2">
                 <ul class="NavbarMobile__links">

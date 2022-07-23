@@ -22,15 +22,33 @@ class SecCompare extends Model
 
     public function calc_weight()
     {
+        $this->compare_tags();
+        $this->compare_sectors();
+        $this->compare_industries();
+        $this->compare_SicCode();
+        $this->compare_country();
+
         $w = 0;
         $w = $w + $this->matching_tags*10;
         $w = $w + $this->matching_sector*10;
         $w = $w + $this->matching_industry*10;
         $w = $w + $this->matching_primarySicCode*10;
+
+        $this->total_weights = intval(round(($w+1)/2));
+    }
+
+    public function calc_stats_score()
+    {
+        $this->compare_PE();
+        $this->compare_marketcap();
+        $this->compare_beta();
+
+        $w = 0;
         $w = $w + $this->matching_PE;
         $w = $w + $this->matching_marketcap;
         $w = $w + $this->matching_beta;
-        $this->total_weights = $w;
+
+        $this->stats_score = intval(round(($w+1)));
     }
 
     public function compare_stats()
@@ -40,21 +58,22 @@ class SecCompare extends Model
         $SI1 = $this->SI1;
         $SI2 = $this->SI2;
         // continue code here
-        $this->compare_tags();
-        $this->compare_sectors();
-        $this->compare_industries();
-        $this->compare_SicCode();
-        $this->compare_country();
-        $this->compare_PE();
-        $this->compare_marketcap();
-        $this->compare_beta();
+
+
+        $this->compare_factors();
 
 
         $this->calc_weight();
-        $this->save(); //saves to DB before returning
-        //dd($this);
+        $this->calc_stats_score();
 
-        $this->TG_score = intval(round($this->correlation*100) + $this->total_weights + 1);
+        $this->TG_score = intval(round($this->correlation*100));
+        if ($SI1->type != "ETF" && $SI2->type != "ETF") {
+            $this->TG_score =  $this->TG_score + $this->total_weights;
+            $this->TG_score =  $this->TG_score + $this->stats_score;
+        }
+
+        $this->TG_score =  $this->TG_score + intval(round($this->quant_score)) + 1;
+        $this->save();
 
         return $this;
     }
@@ -204,5 +223,32 @@ class SecCompare extends Model
         $this->matching_beta = $runs;
         $this->save();
         return $this->matching_beta;
+    }
+
+    public function compare_factors()
+    {
+        $stock1 = $this->SI1;
+        $stock2 = $this->SI2;
+
+        $factors = Factor::all();
+        $n = 0;
+        $d = 0;
+
+        foreach ($factors as $f) {
+            $FC1 = $stock1->compareToFactor($f);
+            $FC2 = $stock2->compareToFactor($f);
+            if ($FC1->correlation && $FC2->correlation) {
+                $d = $d + pow($FC1->correlation - $FC2->correlation, 2);
+                $n = $n + 1;
+            }
+            if ($n == 0 || $d == 0) {
+                $MSE = 0;
+            } else {
+                $MSE = 1/($d/$n);
+            }
+
+            $this->quant_score = 2*intval(round($MSE));
+            $this->save();
+        }
     }
 }

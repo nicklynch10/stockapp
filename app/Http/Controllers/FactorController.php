@@ -50,4 +50,31 @@ class FactorController extends Controller
         $SC = $SI1->compareTo("SPY");
         dd($SC);
     }
+
+
+    public function factor_compare()
+    {
+        $ticker1 = "GM";
+        $ticker2 = "TM";
+        $stock1 = getTicker($ticker1);
+        $stock2 = getTicker($ticker2);
+
+        $factors = Factor::all();
+        $n = 0;
+        $d = 0;
+
+        foreach ($factors as $f) {
+            $FC1 = $stock1->compareToFactor($f);
+            $FC2 = $stock2->compareToFactor($f);
+            if ($FC1->correlation && $FC2->correlation) {
+                $d = $d + pow($FC1->correlation - $FC2->correlation, 2);
+                $n = $n + 1;
+            }
+            if ($n == 0) {
+                return 0;
+            }
+            $MSE = $d/$n;
+            return $MSE;
+        }
+    }
 }

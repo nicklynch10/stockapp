@@ -76,7 +76,7 @@ class CompsList extends Component
                 $this->stock_cors = collect([]);
                 $this->etf_cors = collect([]);
                 foreach ($this->comps as $p) {
-                    if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
+                    if (count($this->stock_cors) > 1000 || count($this->etf_cors) > 1000) {
                         break;
                     }
                     $SC = $relation->compareToTicker($p);

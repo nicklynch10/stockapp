@@ -192,11 +192,15 @@ class SecInfo extends Model
             $SC_old = SecCompare::where('ticker1', $this->ticker)->where('ticker2', $ticker)->orderBy('updated_at', 'desc')->first();
         }
 
-        // if ($ticker == "LNAK") {
-        //     //dd(SecCompare::where('ticker2', "LNAK")->where('ticker1', "TSLA")->orderBy('updated_at', 'desc')->first());
+        // if ($ticker == "MORN") {
+        //     dd(
+        //         SecCompare::where('ticker2', "MORN")->where('ticker1', "FDS")->orderBy('updated_at', 'desc')->first(),
+        //         SecCompare::where('ticker2', "FDS")->where('ticker1', "MORN")->orderBy('updated_at', 'desc')->first(),
+        //         getTicker("MORN")
+        //     );
         // }
 
-        if ($SC_old && $SC_old->updated_at > now()->addDays(-5) && $SC_old->TG_score) {
+        if ($SC_old && $SC_old->updated_at > now()->addDays(-3) && $SC_old->TG_score) {
             $p = $SC_old->correlation;
             $SI1 = $SC_old->SI1;
             return $SC_old; //returns the existing correlation...
@@ -247,35 +251,37 @@ class SecInfo extends Model
         $factor = Factor::find($factor["id"]);
 
         //checks if the comparison has already been made within [30] days
-        $SC_old = FactorCompare::where('ticker', $this->ticker)->where('factor_id', $factor->id)->first();
-        if ($SC_old && $SC_old->updated_at > now()->addDays(-30)) {
+        $SC_old = FactorCompare::where('ticker', $this->ticker)->where('factor_id', $factor->id)->orderBy('updated_at', 'desc')->first();
+        if ($SC_old && $SC_old->updated_at > now()->addDays(-5)) {
             return $SC_old;
         }
         $this->getIEXData();
-
+        $p = 0;
         if (count($factor->getChangeData()->toArray()) == count($this->getChangeData()->toArray())) {
             $p = Correlation::pearson($factor->getChangeData()->toArray(), $this->getChangeData()->toArray());
-
-            $multiplier = 1/3; // adjusts so it is closer to bounds.
-            $cor = $p;
-            if ($p>0) {
-                $cor = $cor**($multiplier);
-            } else {
-                $cor = -1*((-1*$cor)**($multiplier));
-            }
-
-            $SC = new FactorCompare();
-            $SC->SI()->associate($this);
-            $SC->factor()->associate($factor);
-            $SC->ticker = $this->ticker;
-            $SC->factor_name = $factor->name;
-            $SC->correlation = $cor;
-            $SC->range = $this->range;
-            $SC->amount = $this->getChangeData()->count();
-            $SC->save();
-
-            return $SC;
+        } else {
+            $p = $this->calc_correlation($factor);
         }
+
+        $multiplier = 1/3; // adjusts so it is closer to bounds.
+        $cor = $p;
+        if ($p>0) {
+            $cor = $cor**($multiplier);
+        } else {
+            $cor = -1*((-1*$cor)**($multiplier));
+        }
+
+        $SC = new FactorCompare();
+        $SC->SI()->associate($this);
+        $SC->factor()->associate($factor);
+        $SC->ticker = $this->ticker;
+        $SC->factor_name = $factor->name;
+        $SC->correlation = $cor;
+        $SC->range = $this->range;
+        $SC->amount = $this->getChangeData()->count();
+        $SC->save();
+
+        return $SC;
     }
 
 
@@ -317,12 +323,12 @@ class SecInfo extends Model
 
     public function sortPeers()
     {
-
         //sorts by correlation
+
         // cleans the peer data for valid peers only
         $this->filterPeerData();
         $new = $this->getPeerData();  // starts with existing peer data and adds new ones
-
+        //dd("here2", $new);
         $new2 = collect([]);
         $SCs = collect([]);
         foreach ($new as $p) {
@@ -338,7 +344,11 @@ class SecInfo extends Model
         // sorts by correlation
         $new3 = collect([]);
         foreach ($SCs->sortByDesc("correlation") as $p) {
-            $new3->push($p->ticker2);
+            if ($p->ticker2 == $this->ticker) {
+                $new3->push($p->ticker1);
+            } else {
+                $new3->push($p->ticker2);
+            }
         }
 
 
@@ -380,6 +390,7 @@ class SecInfo extends Model
         $new = $this->getPeerData();
         $random = SecCompare::where('ticker2', $this->ticker)->where('ticker1', "<>", $this->ticker)->get();
         //dd($random->first(), $random->random(), $random->last());
+        //dd($random->pluck("ticker1"));
         foreach ($random as $SC) {
             if (!$new->contains($SC->ticker1)) {
                 $new->push($SC->ticker1);
@@ -394,9 +405,10 @@ class SecInfo extends Model
             }
         }
 
-
         $this->peer_data = json_encode($new->toArray());
+        $this->save();
         $this->sortPeers();
+        //dd($this, $this->peer_data);
     }
 
 

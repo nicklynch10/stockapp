@@ -61,7 +61,7 @@ Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');
 Route::get('optimize', Optimize::class, )->middleware(['auth:sanctum', 'verified'])->name('optimize');
 Route::get('account', Account::class, )->middleware(['auth:sanctum', 'verified'])->name('account');
-Route::get('register',[RegisterController::class, 'register'])->name('register');
+Route::get('register', [RegisterController::class, 'register'])->name('register');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('notifications', [NotificationController::class,'show'])->name('notifications');
@@ -115,9 +115,7 @@ Route::get('/home', function () {
 });
 
 
-Route::get('/test2', function () {
-    return view('home.test');
-});
+Route::any('test2', [FactorController::class, 'factor_compare'])->name('factor_compare');
 
 
 Route::get('/test-email', function () {

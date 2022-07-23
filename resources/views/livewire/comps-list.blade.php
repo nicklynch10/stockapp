@@ -31,20 +31,25 @@
 
                         @if($ticker != "" & count($correlation)>0)
                         @if ($loadData)
+                        @php //dd($correlation->sortByDesc("TG_score")->unique()->pluck("ticker1")) @endphp
                             @foreach($correlation->sortByDesc("TG_score")->unique() as $result)
 
-                            @php $result = App\Models\SecCompare::find($result['id']); @endphp
+                            @php 
+                                 $result = App\Models\SecCompare::find($result['id']);
+                                 $SIR = $result->SI1;
+                                 if($SIR->ticker == $ticker) $SIR = $result->SI2;
+                             @endphp
 
-                            @if(isset($result) && isset($result->ticker2) && $result->ticker2 != $ticker)
+                            @if(isset($SIR) && isset($SIR->ticker))
                                 <div class="m-2">
                                     <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between" style="min-width: 100px; ">
                                         <div class="mt-3 my-1">
                                             <div class="flex flex-row items-center xs:flex-col">
-                                                <div wire:click="$emit('company', '{{ $result->ticker2 }}')" class="flex flex-col cursor-pointer justify-between p-4 leading-normal align items-center xs:w-full md:w-2/5 xl:w-2/5" style="background: #f3f4f6">
+                                                <div wire:click="$emit('company', '{{ $SIR->ticker }}')" class="flex flex-col cursor-pointer justify-between p-4 leading-normal align items-center xs:w-full md:w-2/5 xl:w-2/5" style="background: #f3f4f6">
                                                     @php
-                                                        $string = $result->ticker2;
+                                                        $string = $SIR->ticker;
                                                         if (strpos($string, "http") === 0) {
-                                                            $logoUrl = $result->ticker2;
+                                                            $logoUrl = $SIR->ticker;
                                                         }
                                                     @endphp
                                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -52,24 +57,24 @@
                                                             <img src="{{ $logoUrl }}" class="h-16 w-16 rounded-full object-contain hover:bg-gray-100 h-16">
                                                         @else
                                                             @php
-                                                                $count= strlen($result->ticker2)
+                                                                $count= strlen($SIR->ticker)
                                                             @endphp
                                                             <div class="{{ $count>7 ? "text-xs" : "text-sm" }} rounded-full border-gray-300 bg-white flex items-center font-bold text-blue-500 justify-center w-16 h-16 flex-shrink-0 mx-auto">
-                                                                <span class="break-all">{{strtoupper($result->ticker2)}}</span>
+                                                                <span class="break-all">{{strtoupper($SIR->ticker)}}</span>
                                                             </div>
                                                         @endif
                                                     </h5>
                                                     <h5 class="mx-2 mb-2 text-center text-2xl break-all font-bold tracking-tight text-gray-900 dark:text-white">
-                                                        <a class=" cursor-pointer whitespace-normal">{{ strtoupper($result->ticker2) }}</a>
+                                                        <a class=" cursor-pointer whitespace-normal">{{ strtoupper($SIR->ticker) }}</a>
                                                     </h5>
                                                     @php
-                                                        $companyName = explode('-', $result->SI2->security_name);
+                                                        $companyName = explode('-', $SIR->security_name);
                                                     @endphp
                                                     <span class="mb-1 break-words text-sm text-center font-sans font-light text-grey-dark italic sm:text-xs">
-                                                        @if($result->SI2->security_name != null && $result->SI2->type == "ETF")
+                                                        @if($SIR->security_name != null && $SIR->type == "ETF")
                                                             {{ isset($companyName[1]) ? $companyName[1] : $companyName[0] }}
                                                         @else
-                                                            {{ $result->SI2->company_name }}
+                                                            {{ $SIR->company_name }}
                                                         @endif
                                                     </span>
                                                 </div>
@@ -91,7 +96,7 @@
                                                                     <div class="flex-1 min-w-0">
                                                                         <span class="text-sm font-medium text-black-900 break-all dark:text-white">Beta:</span>
                                                                     </div>
-                                                                    <div class="inline-flex items-center text-sm">{{acct_format($result->SI2->beta)}}</div>
+                                                                    <div class="inline-flex items-center text-sm">{{acct_format($SIR->beta)}}</div>
                                                                 </div>
                                                             </li>
                                                             <li class="py-1 sm:py-4">
@@ -99,7 +104,7 @@
                                                                     <div class="flex-1 min-w-0">
                                                                         <span class="text-sm font-medium text-black-900 break-all dark:text-white">Dividend Yield:</span>
                                                                     </div>
-                                                                    <div class="inline-flex items-center text-sm">{{number_format($result->SI2->div_yield*100,2).'%'}}</div>
+                                                                    <div class="inline-flex items-center text-sm">{{number_format($SIR->div_yield*100,2).'%'}}</div>
                                                                 </div>
                                                             </li>
                                                             <li class="py-1 sm:py-4">
@@ -113,7 +118,7 @@
                                                                             @endif
                                                                         </span>
                                                                     </div>
-                                                                    <div class="inline-flex items-center text-sm text-black">${{number_format($result->SI2->marketcap/1000,0).'M'}}</div>
+                                                                    <div class="inline-flex items-center text-sm text-black">${{number_format($SIR->marketcap/1000,0).'M'}}</div>
                                                                 </div>
                                                             </li>
                                                             <li class="py-1 sm:py-4">
@@ -128,7 +133,7 @@
                                                                         </span>
                                                                     </div>
                                                                     <div class="inline-flex items-center text-sm text-black">
-                                                                        {{ acct_format($result->SI2->peRatio) }}
+                                                                        {{ acct_format($SIR->peRatio) }}
                                                                     </div>
                                                                 </div>
                                                             </li>
@@ -137,21 +142,37 @@
                                                                     <div class="flex-1">
                                                                         <span class="text-sm font-medium text-black-900 break-all dark:text-white">1 Year % Change:</span>
                                                                     </div>
-                                                                    <div class="inline-flex items-center text-sm text-right {{$result->SI2->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">{{pct_format($result->SI2->year1ChangePercent)}}</div>
+                                                                    <div class="inline-flex items-center text-sm text-right {{$SIR->year1ChangePercent*100<0? "text-red-600":"text-green-600"}}">{{pct_format($SIR->year1ChangePercent)}}</div>
                                                                 </div>
                                                             </li>
                                                             <li class="py-1 sm:py-4">
                                                                 <div class="flex items-center space-x-4">
                                                                     <div class="flex-1">
-                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Fundamental Weight:</span>
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Tag Weight:</span>
                                                                     </div>
                                                                     <div class="inline-flex items-center text-sm text-right">{{acct_format($result->total_weights)}}</div>
+                                                                </div>
+                                                            </li>
+                                                             <li class="py-1 sm:py-4">
+                                                                <div class="flex items-center space-x-4">
+                                                                    <div class="flex-1">
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Fin Stat Weight:</span>
+                                                                    </div>
+                                                                    <div class="inline-flex items-center text-sm text-right">{{acct_format($result->stats_score)}}</div>
                                                                 </div>
                                                             </li>
                                                               <li class="py-1 sm:py-4">
                                                                 <div class="flex items-center space-x-4">
                                                                     <div class="flex-1">
-                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Prelim TG Score:</span>
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">Factor Weight:</span>
+                                                                    </div>
+                                                                    <div class="inline-flex items-center text-sm text-right">{{acct_format($result->quant_score)}}</div>
+                                                                </div>
+                                                            </li>
+                                                              <li class="py-1 sm:py-4">
+                                                                <div class="flex items-center space-x-4">
+                                                                    <div class="flex-1">
+                                                                        <span class="text-sm font-medium text-black-900 break-all dark:text-white">TG Score:</span>
                                                                     </div>
                                                                     <div class="inline-flex items-center text-sm text-right">{{acct_format($result->TG_score)}}</div>
                                                                 </div>
@@ -167,8 +188,8 @@
                                                     @php
                                                         $data = $tag;
                                                     @endphp
-                                                    @if(isset($result->SI2['company_tags']))
-                                                    @foreach(json_decode($result->SI2['company_tags']) as $g)
+                                                    @if(isset($SIR['company_tags']))
+                                                    @foreach(json_decode($SIR['company_tags']) as $g)
                                                         <div class="mr-1 mb-1 inline-block">
                                                             <div class="inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-sm text-gray-800 tracking-widest focus:outline-none focus:border-gray-300 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" style="background: {{ $SI->containsTag($g) ? "#4fed4f47" : "#f3f4f6" }}">
                                                                 {{ $g }}
@@ -185,32 +206,32 @@
                                                     <div class="">
                                                         <div class="flex flex-col w-full items-center justify-center">
                                                             <div class="flex justify-between items-center w-full">
-                                                                <div class="text-sm font-semibold">{{dollar_format($result->SI2->week52Low)}}</div>
+                                                                <div class="text-sm font-semibold">{{dollar_format($SIR->week52Low)}}</div>
                                                                 <div class="text-sm font-medium text-brand-grey-base text-center mx-2">52-Week Price Range</div>
-                                                                <div class="text-sm font-semibold">{{dollar_format($result->SI2->week52High)}}</div>
+                                                                <div class="text-sm font-semibold">{{dollar_format($SIR->week52High)}}</div>
                                                             </div>
                                                             <div class="flex w-full h-1 bg-gradient-to-r from-brand-tango to-brand-green-dark rounded-lg"></div>
                                                             <div class="w-full relative">
                                                                 @php
-                                                                    $val = ceil((int)$result->SI2->iexClose);
+                                                                    $val = ceil((int)$SIR->iexClose);
                                                                     if($val > 700)
                                                                     {
                                                                        if($val > 1000)
                                                                        {
-                                                                           $left = (int)$result->SI2->iexClose/1000;
+                                                                           $left = (int)$SIR->iexClose/1000;
                                                                        }
                                                                        else
                                                                        {
-                                                                           $left = (int)$result->SI2->iexClose/100;
+                                                                           $left = (int)$SIR->iexClose/100;
                                                                        }
                                                                     }
                                                                     elseif($val >100)
                                                                     {
-                                                                        $left = (int)$result->SI2->iexClose/10;
+                                                                        $left = (int)$SIR->iexClose/10;
                                                                     }
                                                                     else
                                                                     {
-                                                                        $left = (int)$result->SI2->iexClose;
+                                                                        $left = (int)$SIR->iexClose;
                                                                     }
                                                                 @endphp
                                                                 <div class="w-4 overflow-hidden absolute" style="left:{{$left}}%">

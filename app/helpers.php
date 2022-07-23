@@ -196,6 +196,7 @@ if (!function_exists('dollar_format')) {
 if (!function_exists('getRelated_stock_etf')) {
     function getRelated_stock_etf($ticker)
     {
+        return null;
         $sto = [];
         $et = [];
 

@@ -196,12 +196,10 @@ if (!function_exists('dollar_format')) {
 if (!function_exists('getRelated_stock_etf')) {
     function getRelated_stock_etf($ticker)
     {
-        return null;
         $sto = [];
         $et = [];
 
         $data = SecInfo::where('ticker', $ticker)->latest()->first();
-
         if (!isset($data) ||
             (isset($data) && isset($data->peer_data)
                 && collect(json_decode($data->peer_data))->isEmpty())
@@ -217,7 +215,7 @@ if (!function_exists('getRelated_stock_etf')) {
                 $SC = SecCompare::where(['ticker1' => $ticker , 'ticker2' => $p])->latest()->first();
 
                 if (isset($SC)) {
-                    if ($SC->correlation > 0) {
+                    if ($SC->correlation > 0 && $ticker != $p) {
                         if (getTicker($p)->type != "ETF") {
                             if (count($sto)<4) {
                                 array_push($sto, $SC->ticker2);

@@ -16,32 +16,32 @@ class MainSection extends Component
     public $confirmIgnoreSection = false;
     public $confirmCompleteSection = false;
     public $confirmSection = false;
+    public $comparable_data = [];
 
     public function render()
     {
         $account=['Roth IRA','Traditional IRA','401K','Sep IRA','Health Savings Account','529 Account','Other Non-Taxable Account'];
         $this->accounts = Account::where('user_id', Auth::user()->id)->whereNotIn('account_name', $account)->get();
         if ($this->sortBy) {
-            $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('current_share_price','<','ave_cost')->where('user_id', Auth::user()->id)->where('account_id', $this->sortBy)
+            $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock', 0)->where('current_share_price', '<', 'ave_cost')->where('user_id', Auth::user()->id)->where('account_id', $this->sortBy)
                 ->whereHas('viewupdatestock', function ($query) {
-                    $query->where('pchange','<','-3')
-                        ->where('total_gain_loss','<',0);
+                    $query->where('pchange', '<', '-3')
+                        ->where('total_gain_loss', '<', 0);
                 })
-                ->with('account','viewupdatestock')->paginate(10);
-
+                ->with('account', 'viewupdatestock')->paginate(10);
         } else {
-            $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('current_share_price','<','ave_cost')->where('stock.user_id', Auth::user()->id)
+            $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock', 0)->where('current_share_price', '<', 'ave_cost')->where('stock.user_id', Auth::user()->id)
             ->whereHas('viewupdatestock', function ($query) {
-                $query->where('pchange','<','-3')
-                    ->where('total_gain_loss','<',0);
+                $query->where('pchange', '<', '-3')
+                    ->where('total_gain_loss', '<', 0);
             })
-            ->with('account','viewupdatestock')
+            ->with('account', 'viewupdatestock')
             ->paginate(10);
         }
         $links = $stockData->links();
         $this->stockData = collect($stockData->items());
 
-        return view('livewire.optimize.main-section',['links'=>$links]);
+        return view('livewire.optimize.main-section', ['links'=>$links]);
     }
 
     public function confirmIgnoreSection($stockId)
@@ -104,5 +104,10 @@ class MainSection extends Component
             ]);
         }
         $this->redirectRoute('optimize');
+    }
+
+    public function init()
+    {
+        //dd("loaded");
     }
 }

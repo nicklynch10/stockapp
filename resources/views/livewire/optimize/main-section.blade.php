@@ -17,7 +17,7 @@
                         <div class="w-full mb-5 overflow-hidden" style="height: 100%">
 {{--                            {{dd($stockData)}}--}}
                             @if(isset($stockData) && $stockData->count() > 0)
-                                <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
+                                <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                     @foreach($stockData as $tl)
                                         <div class="m-2">
                                             <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between"
@@ -110,7 +110,8 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            @if($tl['type'] == 0)
+
+                                                            @if($tl['type'] == 0 || true)
                                                                 @php
                                                                     $getCompareData = getRelated_stock_etf($tl['stock_ticker'])
                                                                 @endphp
@@ -166,7 +167,7 @@
                                                                 @endif
                                                             @endif
                                                             <div class="flex flex-col justify-between leading-normal align items-center" style="width: 255px">
-                                                                <a href="{{ route('analyzeticker', ['ticker' => $tl["stock_ticker"]]) }}"
+                                                                <a target="_blank" href="{{ route('analyzeticker', ['ticker' => $tl["stock_ticker"]]) }}"
                                                                    class="mb-1 cursor-pointer break-words break-all py-1 text-center underline text-sm font-sans font-light text-gray-900">View
                                                                     More Info</a>
                                                             </div>

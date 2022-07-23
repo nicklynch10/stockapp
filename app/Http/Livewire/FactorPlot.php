@@ -28,10 +28,9 @@ class FactorPlot extends Component
 
     public function mount($tickerData)
     {
-        if($tickerData != null){
+        if ($tickerData != null) {
             $this->ticker = $tickerData;
-        }
-        else{
+        } else {
             $this->ticker = "TSLA";
         }
         /// this was provided by the user. Please make sure this is secure...

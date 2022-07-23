@@ -46,12 +46,13 @@ class SecInfo extends Model
             return "no request needed";
         }
 
+
         //sends a get request to IEX for company info
         $url = ($this->endpoint . 'stable/stock/'.$this->ticker.'/stats?token=' . $this->token);
         //dd($url);
         $data = Http::get($url);
 
-
+        //dd($this);
         // extracts and saves data
         $stats = $data->json();
         if ($stats !== null) {
@@ -182,49 +183,36 @@ class SecInfo extends Model
 
     public function compareToTicker($ticker)
     {
+        $tte = false;
         $debug = $this->debug;
+        $p = 0;
         //checks if the comparison has already been made within [30] days
-        $SC_old = SecCompare::where('ticker2', $this->ticker)->where('ticker1', $ticker)->first();
+        $SC_old = SecCompare::where('ticker2', $this->ticker)->where('ticker1', $ticker)->orderBy('updated_at', 'desc')->first();
         if (!$SC_old) {
-            $SC_old = SecCompare::where('ticker1', $this->ticker)->where('ticker2', $ticker)->first();
+            $SC_old = SecCompare::where('ticker1', $this->ticker)->where('ticker2', $ticker)->orderBy('updated_at', 'desc')->first();
         }
 
+        // if ($ticker == "LNAK") {
+        //     //dd(SecCompare::where('ticker2', "LNAK")->where('ticker1', "TSLA")->orderBy('updated_at', 'desc')->first());
+        // }
 
-        //dd($ticker);
-        if ($debug) {
-            echo "<br>checking if correlation already exists between ".$this->ticker." and ".$ticker." at ".now();
-        }
-        if ($SC_old && $SC_old->updated_at > now()->addDays(-30) && $SC_old->correlation != 0 && $SC_old->TG_score) {
-            if ($debug) {
-                echo "<br>Found p. using p from ".$this->ticker." and ".$ticker." at ".now();
-            }
+        if ($SC_old && $SC_old->updated_at > now()->addDays(-5) && $SC_old->TG_score) {
             $p = $SC_old->correlation;
             $SI1 = $SC_old->SI1;
             return $SC_old; //returns the existing correlation...
         } elseif ($ticker == $this->ticker) {
-            if ($debug) {
-                echo "<br> same ticker using 1 for ".$this->ticker." and ".$ticker." at ".now();
-            }
             $p = 1;
             $SI1 = $this;
         } else {
-            //initialize a SecInfo model
-
             $SI1 = getTicker($ticker);
             //dd($SI1);
-            if ($SI1->getDateData()->first() != $this->getDateData()->first()) {
-                //dd("Sec dates did not match");
+            $p = 0;
+            if ($this->price_data && $SI1->price_data && json_decode($this->price_data) && json_decode($SI1->price_data)) {
                 $p = 0;
-            } elseif ($SI1->getChangeData()->count() != $this->getChangeData()->count()) {
-                $p = 0;
-            } elseif ($SI1->getChangeData()->count() == 0 && $this->getChangeData()->count() == 0) {
-                $p = 0;
-            } else {
-                if ($debug) {
-                    echo "<br>no p found. Creating new p for ".$this->ticker." and ".$ticker." at ".now();
-                }
-                $p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
+                $p = $this->calc_correlation($SI1);
             }
+            //$tte = 1;
+            //$p = Correlation::pearson($SI1->getChangeData()->toArray(), $this->getChangeData()->toArray());
         }
         $this->save();
 
@@ -242,6 +230,10 @@ class SecInfo extends Model
 
         $SC->compare_stats();
         $SC->save();
+
+        if ($tte) {
+            dd($SC, $ticker, $SI1);
+        }
 
         if ($ticker == "SPY") {
             //dd($SC, $this);
@@ -591,5 +583,34 @@ class SecInfo extends Model
         }
 
         return (float)sqrt($variance/($num_of_elements-1));
+    }
+
+
+    public function calc_correlation($SI)
+    {
+        if (!$this->date_data || !$this->change_data || !$SI->change_data || !$SI->date_data) {
+            //dd($this, $SI, "33");
+            return 0;
+        }
+        $change1 = collect(json_decode($this->change_data));
+        $change2 = collect(json_decode($SI->change_data));
+        $dates1  = collect(json_decode($this->date_data));
+        $dates2  = collect(json_decode($SI->date_data));
+        $new1 = collect([]);
+        $new2 = collect([]);
+
+        foreach ($dates1 as $key => $day) {
+            $day2 = $dates2->search($day);
+            if ($day2) {
+                $new1->push($change1[$key]);
+                $new2->push($change2[$day2]);
+            }
+        }
+        if ($new1->count()<60) {
+            return 0;
+        }
+        $p = Correlation::pearson($new1->toArray(), $new2->toArray());
+        return $p;
+        //dd($SI, $this, $new1, $new2, $change1, $change2, $dates1, $dates2);
     }
 }

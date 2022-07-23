@@ -54,7 +54,7 @@ class SecCompare extends Model
         $this->save(); //saves to DB before returning
         //dd($this);
 
-        $this->TG_score = $this->correlation*$this->total_weights;
+        $this->TG_score = intval(round($this->correlation*100) + $this->total_weights + 1);
 
         return $this;
     }

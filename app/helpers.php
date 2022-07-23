@@ -148,7 +148,6 @@ if (!function_exists('long_sec_update')) {
         if ($relation->info_data) {
             if (!$relation->IEXpeer_data) {
                 $relation->pullIEXPeers();
-            //dd($relation);
             } else {
                 $relation->addRelatedPeers();
             }
@@ -287,5 +286,5 @@ if (!function_exists('match_count')) {
 
 
 
-//$GLOBALS['ttime'] = microtime(true); // Gets microseconds
+$GLOBALS['ttime'] = microtime(true); // Gets microseconds
 //echo "<br> 3x Time Elapsed: ".(microtime(true) - $GLOBALS['ttime'])."s";

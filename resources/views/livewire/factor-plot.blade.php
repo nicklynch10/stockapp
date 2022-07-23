@@ -1546,7 +1546,7 @@
 
     </script>
     <script class="scriptid">
-        window.addEventListener('contentChanged', event => {
+        window.addEventListener('contentChanged2', event => {
             $(document).on('click', '#buttons', function () {
                 $('#spinner').show();
                 $(this).hide();

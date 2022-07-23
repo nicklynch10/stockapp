@@ -20,7 +20,7 @@ class CompsList extends Component
     public $correlation = [];
     public $etfs = false;
     public $is_first_load = true;
-    public bool $loadData = false;
+    public bool $loadData = true;
     public $stocks;
     public $StocksArray;
     public $ETFArray;
@@ -35,7 +35,7 @@ class CompsList extends Component
     {
         $this->loadData = true;
         $this->updatedTicker();
-        $this->dispatchBrowserEvent('contentChanged');
+        $this->dispatchBrowserEvent('contentChanged2');
     }
 
     public function mount($tickerData)
@@ -79,7 +79,6 @@ class CompsList extends Component
                     if (count($this->stock_cors) > 100 || count($this->etf_cors) > 100) {
                         break;
                     }
-
                     $SC = $relation->compareToTicker($p);
                     $SI1 = $SC->SI2;
                     if ($SC->correlation>0) {

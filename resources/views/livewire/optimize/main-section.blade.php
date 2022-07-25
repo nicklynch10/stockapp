@@ -104,7 +104,7 @@
                                                                             </div>
                                                                             <div class="inline-flex items-center text-sm">
                                                                                 <p class="break-all text-green-700">
-                                                                                    ${{ number_format(abs($tl["viewupdatestock"]['total_gain_loss']* 40 / 100),2) }}</p>
+                                                                                    {{ dollar_format(abs($tl["viewupdatestock"]['total_gain_loss']* 40 / 100)) }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </li>

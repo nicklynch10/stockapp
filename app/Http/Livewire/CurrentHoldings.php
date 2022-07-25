@@ -56,18 +56,16 @@ class CurrentHoldings extends Component
         }
 
         $this->account = Account::where('user_id', Auth::user()->id)->get();
-
         return view('livewire.current-holdings',['currentholding' => $this->fetchData()]);
     }
 
 
     public function sort($column)
     {
-        if($column != 0){
-//            $this->sortDirection = $column === $this->sortColumn ? ($this->sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
+        if($column != 0) {
             $this->sortColumn = $column;
         }
-        else{
+        else {
             $this->sortColumn = 'current_total_value';
         }
         return $this->fetchData();
@@ -75,10 +73,6 @@ class CurrentHoldings extends Component
 
     public function fetchData()
     {
-//        if($this->sorting !== 'asc' || $this->sorting !== 'desc')
-//        {
-//            $this->sorting = 'desc';
-//        }
         return ViewStockUpdate::select('view_stock_update.*','stock.account_id','stock.issuetype','stock.security_name','stock.company_name','stock.share_number','stock.ave_cost','stock.current_share_price','stock.total_long_term_gains','stock.ticker_logo')
             ->join('stock','stock.id','view_stock_update.stock_id')
             ->where('stock.user_id', Auth::user()->id)
@@ -88,7 +82,7 @@ class CurrentHoldings extends Component
             ->when($this->accountFilter, function ($q) {
                 $q->where('account_id', $this->accountFilter);
             })
-            ->orderBy($this->sortColumn, $this->sorting === 'desc' ? 'asc' : 'desc')
+            ->orderBy($this->sortColumn, $this->sorting === 'desc' ? 'desc' : 'asc')
             ->get();
     }
 

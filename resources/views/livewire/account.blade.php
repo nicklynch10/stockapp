@@ -56,7 +56,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap xs:text-right xs:block xs:text-xs">
                                         @if($acc->access_token != null)
-                                            <a class="tooltip py-2 px-4" title="Refresh Account" wire:click="addHoldings('{{ $acc->access_token }}')"><i class="fa fa-rotate-right cursor-pointer"></i></a>
+                                            <a class="tooltip py-2 px-4" title="Refresh Account" wire:click="getInvestment('{{ $acc->access_token }}')"><i class="fa fa-rotate-right cursor-pointer"></i></a>
                                         @endif
                                     </td>
                                 </tr>
@@ -89,7 +89,7 @@
                                         <tr>
                                             <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Refresh Account</td>
                                             <td class="text-right text-sm">
-                                                <a class="tooltip py-2 px-4" title="Refresh Account" wire:click="addHoldings('{{ $acc->access_token }}')"><i class="fa fa-rotate-right cursor-pointer"></i></a>
+                                                <a class="tooltip py-2 px-4" title="Refresh Account" wire:click="getInvestment('{{ $acc->access_token }}')"><i class="fa fa-rotate-right cursor-pointer"></i></a>
                                             </td>
                                         </tr>
                                     @endif

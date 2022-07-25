@@ -104,8 +104,11 @@ Route::any('analyzeticker/{ticker}', [FactordetailController::class, 'analyzetic
 
 
 // new home routes //
-Route::get('/rewards-process', function () {
-    return view('home.rewards-process');
+Route::get('/learn-more', function () {
+    return view('home.learn-more');
+});
+Route::get('/how-it-works', function () {
+    return view('home.how-it-works');
 });
 // Route::get('/analytics', function () {
 //     return view('home.analytics');

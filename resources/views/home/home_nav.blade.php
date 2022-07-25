@@ -43,9 +43,60 @@
             style="padding-right: 5px;
             margin-right: 5px;
             width: auto;">
+                    <div class="ps_nav_tab_wrap ps_nav_open_drop_push" >
+                        <a class="NavbarMain__tab" href="/learn-more">Learn More</a>
+{{--                        <div class="NavbarMain__tab">Learn More</div>--}}
+{{--                        <ul class="bg-gray-100 custom-nav-bg-gray NavbarDrop NavbarDrop--2 js-nav-drop-block">--}}
+{{--                            <div--}}
+{{--                                class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--2 NavbarDrop2--default ps-nav-drop2495-block-def-two">--}}
+{{--                                <div--}}
+{{--                                    class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--default ps-nav-4945-info-5iti-block-def-three">--}}
+{{--                                    <h4 class="text-gray-900 NavbarDrop2__infoHeading">Tax Optimization</h4>--}}
+{{--                                    <p class="text-gray-900 NavbarDrop2__info">A few good reasons to choose {{ appName(true) }} for tax optimizing your portfolio.</p>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <li class="bg-white NavbarDrop__linkWrap NavbarDrop__linkWrap--2 js-nav-drop2-block-opener">--}}
+{{--                                <a class="text-gray-500 NavbarDrop__link NavbarDrop__link--first NavbarDrop__link--noArrow"--}}
+{{--                                   href="{{url('appreciation')}}">Tax-Loss Harvesting</a>--}}
+{{--                                <div--}}
+{{--                                    class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--small js-nav-drop2-block">--}}
+{{--                                    <div class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--small js-nav-info-block">--}}
+{{--                                        <h4 class="text-gray-900 NavbarDrop2__infoHeading">Show--}}
+{{--                                            Appreciation</h4>--}}
+{{--                                        <p class="text-gray-900 NavbarDrop2__info">Tax-loss harvesting is a proven way to increase after-tax returns by over 2% annually</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+
+{{--                            <li class="bg-white NavbarDrop__linkWrap NavbarDrop__linkWrap--2 js-nav-drop2-block-opener">--}}
+{{--                                <a class="text-gray-500 NavbarDrop__link NavbarDrop__link--noArrow"--}}
+{{--                                   href="{{url('inclusion')}}">Efficient Rebalancing</a>--}}
+{{--                                <div--}}
+{{--                                    class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--small js-nav-drop2-block">--}}
+{{--                                    <div class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--small js-nav-info-block">--}}
+{{--                                        <h4 class="text-gray-900 NavbarDrop2__infoHeading">Tax Efficient Portfolio Rebalancing</h4>--}}
+{{--                                        <p class="text-gray-900 NavbarDrop2__info">The {{ appName(true) }} platform enables you to understand the impacts of portfolio rebalancing on your taxes  </p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                           <li class="bg-white NavbarDrop__linkWrap NavbarDrop__linkWrap--2 js-nav-drop2-block-opener rounded-b-xl" style="padding-bottom:90px;">--}}
+{{--                                <a class="text-gray-500 NavbarDrop__link NavbarDrop__link--noArrow"--}}
+{{--                                   href="{{url('reduce-turnover')}}">Monitor Taxable Gains / (Losses)</a>--}}
+{{--                                <div--}}
+{{--                                    class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--small js-nav-drop2-block" style="padding-bottom:100px;">--}}
+{{--                                    <div class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--small js-nav-info-block ">--}}
+{{--                                        <h4 class="text-gray-900 NavbarDrop2__infoHeading">Monitor Taxable Gains / (Losses)</h4>--}}
+{{--                                        <p class="text-gray-900 NavbarDrop2__info">Offset investment gains to limit your year-end tax bill.</p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+
+
+{{--                        </ul>--}}
+                    </div>
                 <div class="NavbarMain__tabContainer">
                     <div class="ps_nav_tab_wrap ps_nav_open_drop_push">
-                        <div class="NavbarMain__tab">How It Works</div>
+                        <a class="NavbarMain__tab" href="/how-it-works">How It Works</a>
 {{--                        <ul class="bg-gray-100 custom-nav-bg-gray NavbarDrop NavbarDrop--2 js-nav-drop-block">--}}
 {{--                            <div--}}
 {{--                                class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--2 NavbarDrop2--default ps-nav-drop2495-block-def-two">--}}
@@ -107,56 +158,6 @@
                     </div>
 
 
-                    <div class="ps_nav_tab_wrap ps_nav_open_drop_push" >
-                        <div class="NavbarMain__tab">Learn More</div>
-{{--                        <ul class="bg-gray-100 custom-nav-bg-gray NavbarDrop NavbarDrop--2 js-nav-drop-block">--}}
-{{--                            <div--}}
-{{--                                class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--2 NavbarDrop2--default ps-nav-drop2495-block-def-two">--}}
-{{--                                <div--}}
-{{--                                    class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--default ps-nav-4945-info-5iti-block-def-three">--}}
-{{--                                    <h4 class="text-gray-900 NavbarDrop2__infoHeading">Tax Optimization</h4>--}}
-{{--                                    <p class="text-gray-900 NavbarDrop2__info">A few good reasons to choose {{ appName(true) }} for tax optimizing your portfolio.</p>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <li class="bg-white NavbarDrop__linkWrap NavbarDrop__linkWrap--2 js-nav-drop2-block-opener">--}}
-{{--                                <a class="text-gray-500 NavbarDrop__link NavbarDrop__link--first NavbarDrop__link--noArrow"--}}
-{{--                                   href="{{url('appreciation')}}">Tax-Loss Harvesting</a>--}}
-{{--                                <div--}}
-{{--                                    class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--small js-nav-drop2-block">--}}
-{{--                                    <div class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--small js-nav-info-block">--}}
-{{--                                        <h4 class="text-gray-900 NavbarDrop2__infoHeading">Show--}}
-{{--                                            Appreciation</h4>--}}
-{{--                                        <p class="text-gray-900 NavbarDrop2__info">Tax-loss harvesting is a proven way to increase after-tax returns by over 2% annually</p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
-
-{{--                            <li class="bg-white NavbarDrop__linkWrap NavbarDrop__linkWrap--2 js-nav-drop2-block-opener">--}}
-{{--                                <a class="text-gray-500 NavbarDrop__link NavbarDrop__link--noArrow"--}}
-{{--                                   href="{{url('inclusion')}}">Efficient Rebalancing</a>--}}
-{{--                                <div--}}
-{{--                                    class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--small js-nav-drop2-block">--}}
-{{--                                    <div class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--small js-nav-info-block">--}}
-{{--                                        <h4 class="text-gray-900 NavbarDrop2__infoHeading">Tax Efficient Portfolio Rebalancing</h4>--}}
-{{--                                        <p class="text-gray-900 NavbarDrop2__info">The {{ appName(true) }} platform enables you to understand the impacts of portfolio rebalancing on your taxes  </p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
-{{--                           <li class="bg-white NavbarDrop__linkWrap NavbarDrop__linkWrap--2 js-nav-drop2-block-opener rounded-b-xl" style="padding-bottom:90px;">--}}
-{{--                                <a class="text-gray-500 NavbarDrop__link NavbarDrop__link--noArrow"--}}
-{{--                                   href="{{url('reduce-turnover')}}">Monitor Taxable Gains / (Losses)</a>--}}
-{{--                                <div--}}
-{{--                                    class="bg-gray-100 custom-nav-bg-gray NavbarDrop2 NavbarDrop2--small js-nav-drop2-block" style="padding-bottom:100px;">--}}
-{{--                                    <div class="NavbarDrop2__infoWrap NavbarDrop2__infoWrap--small js-nav-info-block ">--}}
-{{--                                        <h4 class="text-gray-900 NavbarDrop2__infoHeading">Monitor Taxable Gains / (Losses)</h4>--}}
-{{--                                        <p class="text-gray-900 NavbarDrop2__info">Offset investment gains to limit your year-end tax bill.</p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
-
-
-{{--                        </ul>--}}
-                    </div>
 {{--                    <div class="ps_nav_tab_wrap ps_nav_open_drop_push">--}}
 {{--                        <a class="NavbarMain__tab" href="/check-for-comps">Find Similar Stocks</a>--}}
 {{--                    </div>--}}
@@ -240,9 +241,7 @@
     </div>
     <div class="NavbarMobile__wrapper">
         <ul class="NavbarMobile__container">
-            <li class="NavbarMobile__linkWrap js-nav-level-1">
-                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener">How It Works</a>
-            </li>
+
 {{--            <div class="NavbarMobile__extend js-nav-level-2">--}}
 {{--                <ul class="NavbarMobile__links">--}}
 {{--                    <li class="NavbarMobile__linkWrap js-nav-hide-on-level-3">--}}
@@ -267,7 +266,11 @@
 {{--                </ul>--}}
 {{--            </div>--}}
             <li class="NavbarMobile__linkWrap js-nav-level-1">
-                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener">Learn More</a>
+                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener" >Learn More</a>
+            </li>
+
+            <li class="NavbarMobile__linkWrap js-nav-level-1">
+                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener">How It Works</a>
             </li>
 
             <li class="NavbarMobile__linkWrap js-nav-level-1">

@@ -10,13 +10,8 @@
         }
 
         .Button--stroke {
-            background-color: #F472B6;
-            color: white;
-            border: 2px solid #F472B6;
-        }
 
-        .homeFeaturedLogos__img {
-            width: 80%;
+
         }
 
         .NavbarMain__tabWrap:hover {

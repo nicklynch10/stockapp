@@ -4,7 +4,7 @@
        <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <div class="home top-fade mt-32 lg:mt-1" >
+    <div class="home top-fade lg:mt-1" >
        <div class="w-full" style="backdrop-filter: blur(4px); background: rgba(255,255,255,.5);">
             @if(isset($section1) || isset($largeSection))
             <section class="ps-home-1405 theme-section-1 " aria-label="" style="">
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="ps-hps-home-1405__extra large-section-extra">
-                    <img class="js-banner-blank" src="./public_files/blank-hero.png">
+                    <img class="js-banner-blank" src="./images/blank-hero.png">
                 </div>
                 @else
                 <div class="ps-home-1405__bgContainer js-parallax -mt-32 lg:-mt-32 xl:-mt-48" style="transform: translate3d(0px, 0px, 0px);">
@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="ps-hps-home-1405__extra">
-                    <img class="js-banner-blank" src="./public_files/blank-hero.png">
+                    <img class="js-banner-blank" src="./images/blank-hero.png">
                 </div>
                 @endif
             </section>
@@ -51,7 +51,7 @@
             @if(isset($section2))
             <section class="homeFeaturedLogos theme-section-2" arial-label="">
                 <div class="homeFeaturedLogos__curveContainer">
-                    <img class="homeFeaturedLogos__curve" src="./public_files/product-top-pink-nl.png"
+                    <img class="homeFeaturedLogos__curve" src="curves/curve3-flipped-pink.png"
                          alt="">
                 </div>
  <!--                <div class="homeFeaturedLogos__bottom h-20">
@@ -74,8 +74,8 @@
                 @if(isset($section2))
                 <section class="homeOverview" aria-label="What can <?php appName() ?> do for you?">
                     <div class="homeOverview__curveContainer">
-                        <img class="homeOverview__curve lazyloaded" data-src="/./public_files/home-curve2-pink-nl.png"
-                             alt="overview curve shape" src="./public_files/home-curve2-pink-nl.png">
+                        <img class="homeOverview__curve lazyloaded" data-src="curves/home-curve2-pink-nl.png"
+                             alt="overview curve shape" src="curves/home-curve2-pink-nl.png">
                     </div>
                     <div class="bhrsection-padding homeOverview__overflow">
                         <div class="bhrsection-container-large">
@@ -128,10 +128,53 @@
                 </section>
                 @endif
 
+
+            </div>
+
+            <div class="homeRelative bhrcolor-white-background theme-section-3">
+                @if(isset($header5))
+                    <section class="homeFeature homeFeature--people" aria-label="">
+                        <div class="bhrsection-container-large bhrsection-padding homeFeature__container">
+                            @if(isset($header5)) {{$header5}} @endif
+
+                            <div class="homeFeatureContent relative z-10">
+                                <!-- <div class="lg:w-1/2 w-full  text-center mr-10 p-0 m-0"> -->
+
+                                @if(isset($section5)) {{$section5}} @endif
+                            </div>
+                        </div>
+                    </section>
+                @endif
+            </div>
+
+                <div class="homeRelative bhrcolor-white-background theme-section-3">
+                    @if(isset($section6))
+                        <section aria-label="What can <?php appName() ?> do for you?" style="background-color: #e5ffe6">
+                            <div class="WaveTop--onboarding bg-white">
+                                <img class="WaveTop__image lazyloaded" data-src="/curves/curve5-blue-50.png" src="/curves/curve3-pink.png">
+                            </div>
+
+                            <div class="bhrsection-padding homeOverview__overflow">
+                                <div class="bhrsection-container-large">
+                                    <div class="homeOverview__container js-in-viewport Animation--active">
+                                        @if(isset($header6)) {{$header6}} @endif
+
+                                        @if(isset($section6)) {{$section6}} @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="Wave WaveBottom WaveBottom--onboarding">
+                                <img class="WaveBottom__image ls-is-cached lazyloaded" data-src="/curves/curve6-white.png" alt="bottom leaf" src="/curves/curve6-white.png">
+                            </div>
+                        </section>
+                    @endif
+
+
+                </div>
                 @if(!isset($hide_bottom))
                     @include('home.trial-bottom')
                 @endif
-            </div>
         </div>
     </div>
 

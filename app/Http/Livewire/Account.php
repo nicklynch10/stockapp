@@ -37,6 +37,7 @@ class Account extends Component
     public $message;
     public $accounts;
     public $InsertedID = [];
+    public $NoMissingData = [];
     protected $listeners = ['getToken' => 'render', 'getAccessToken' => 'getAccessToken'];
 
     public function render()
@@ -213,6 +214,9 @@ class Account extends Component
                             if($sec->ticker_symbol == null || $inv->price == null || $inv->quantity == null || $currebtPrice == null || $companyname == null || $sec->type == null) {
                                 array_push($this->InsertedID, $lastInsertedID);
                             }
+                            else {
+                                array_push($this->NoMissingData, $lastInsertedID);
+                            }
 
                             Transaction::Create([
                                 'stock_id' => $lastInsertedID,
@@ -271,8 +275,13 @@ class Account extends Component
             $this->isloading();
             $this->openPlaidDataModal($this->InsertedID);
         }
-        else
-        {
+        elseif (count($this->NoMissingData)>0) {
+            $this->dispatchBrowserEvent('alert', [
+                'type' => 'success',
+                'message' => 'Added all the transaction in the selected account',
+            ]);
+        }
+        else {
             $this->dispatchBrowserEvent('alert', [
                 'type' => 'error',
                 'message' => 'No more holdings found in selected account',

@@ -266,11 +266,11 @@
 {{--                </ul>--}}
 {{--            </div>--}}
             <li class="NavbarMobile__linkWrap js-nav-level-1">
-                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener" >Learn More</a>
+                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener" href="/learn-more">Learn More</a>
             </li>
 
             <li class="NavbarMobile__linkWrap js-nav-level-1">
-                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener">How It Works</a>
+                <a class="NavbarMobile__link NavbarMobile__link--expandArrow js-nav-level-2-opener" href="/how-it-works">How It Works</a>
             </li>
 
             <li class="NavbarMobile__linkWrap js-nav-level-1">

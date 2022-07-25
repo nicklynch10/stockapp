@@ -26,7 +26,7 @@
 
             <div class="homeOverviewContent  shadow-none flex flex-wrap">
                 <div class="md:w-1/2 w-full text-center p-0 m-0 mb-10 md:mb-16 lg:mb-0">
-                    <img class="w-auto m-auto shadow-xl rounded " alt="{{ appName(true) }} Overview" src="/other/how-it-works.PNG"
+                    <img class="w-auto m-auto shadow-xl rounded " alt="{{ appName(true) }} Overview" src="/other/how-it-works.png"
                          data-src="/other/how-it-works.png"
                          style="">
                 </div>

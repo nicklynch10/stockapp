@@ -13,7 +13,7 @@
                  style="height: 641.91px; transform: translate3d(0px, 0px, 0px);">
 {{--                <div class="ps-home-1405__bg ps-home-1405__bg--mobile ps_color1_background"></div>--}}
                 <div class="ps-home-1405__bg home_setup_desktop_4040 "
-                     style="background-image: url('/home images/30.jpg')"></div>
+                     style="background-image: url('/home images/30.jpg'); opacity: 0.5;"></div>
 
                 <div class="ps-home-1405__content">
                     <div class="bhrsection-padding pt-5 md:pt-20">

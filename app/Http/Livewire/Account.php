@@ -108,18 +108,18 @@ class Account extends Component
         $this->getInvestment($this->access);
     }
 
-    public function getInvestment($access_token) // Fix issue start date and before date
+    public function getInvestment($access_token)
     {
         $client_id = env('PLAID_CLIENT_ID');
         $secret = env('PLAID_SECRET');
         $plaid_url = env('PLAID_URL');
 
-        $account = Accounts::where('access_token', $access_token)->first();
-//        if(isset($account)) {
-//            $beforeDate = $account['start_date'];
-//        } else {
-            $beforeDate = date('Y-01-01', strtotime('-6 year'));
-//        }
+        $account = Accounts::where(['access_token' => $access_token, 'user_id' => Auth::user()->id])->first();
+        if(isset($account)) {
+            $beforeDate = $account['start_date'];
+        } else {
+            $beforeDate = date('Y-01-01', strtotime('-1 year'));
+        }
 
         $url = "https://".$plaid_url."/investments/transactions/get";
         $curl = curl_init($url);
@@ -134,14 +134,13 @@ class Account extends Component
             "client_id": "'.$client_id.'",
             "secret": "'.$secret.'",
             "access_token": "'.$access_token.'",
-            "start_date": "'.$beforeDate.'",
+            "start_date": "2021-01-01",
             "end_date":"'.date('Y-m-d').'"}';
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
-        dd($data);
         $this->addInvestments($data, $access_token);
     }
 
@@ -152,7 +151,7 @@ class Account extends Component
         {
             if($ac->type == "investment") {
                 $accountName = Accounts::where(['account_name' => $ac->name,'user_id' => Auth::user()->id])->first();
-                $beforeDate = date('Y-01-01', strtotime('-6 year'));
+                $beforeDate = date('Y-01-01', strtotime('-1 year'));
                 if(!isset($accountName)) {
                     Accounts::Create([
                         'user_id' => Auth::user()->id,
@@ -202,14 +201,14 @@ class Account extends Component
                             $insertid = Stock::Create([
                                 'user_id' => Auth::user()->id,
                                 'stock_ticker' => $sec->ticker_symbol,
-                                'ave_cost' => $inv->price != null ? $inv->price/$inv->quantity : 0,
+                                'ave_cost' => $inv->price != null ? $inv->price : 0,
                                 'share_number' => $inv->quantity,
                                 'date_of_purchase' => $inv->date,
                                 'account_id' => $getAccountId->id,
                                 'security_id' => $inv->security_id,
                                 'current_share_price' => $currebtPrice ? $currebtPrice : 0,
                                 'company_name' => $companyname ? $companyname : null,
-                                'issuetype' => $sec->type == 'equity' ? 'et' : null,
+                                'issuetype' => $sec->type == 'etf' ? 'et' : null,
                             ]);
                             $lastInsertedID = $insertid->id;
                             if($sec->ticker_symbol == null || $inv->price == null || $inv->quantity == null || $currebtPrice == null || $companyname == null || $sec->type == null) {
@@ -224,7 +223,7 @@ class Account extends Component
                                 'type' => 0,
                                 'ticker_name' => $sec->ticker_symbol,
                                 'stock' => $inv->quantity,
-                                'share_price' => $inv->price != null ? $inv->price/$inv->quantity : 0,
+                                'share_price' => $inv->price != null ? $inv->price : 0,
                                 'user_id' => Auth::user()->id,
                                 'date_of_transaction' => $inv->date,
                                 'plaid_investment_transaction_id' => $inv->security_id,
@@ -253,7 +252,7 @@ class Account extends Component
                                     'type' => 1,
                                     'ticker_name' => $stockCheck->stock_ticker,
                                     'stock' => abs($inv->quantity),
-                                    'share_price' => $inv->price!=null ? $inv->price/$inv->quantity : 0,
+                                    'share_price' => $inv->price!=null ? $inv->price : 0,
                                     'user_id' => Auth::user()->id,
                                     'date_of_transaction' => $inv->date,
                                     'plaid_investment_transaction_id' => $inv->security_id,

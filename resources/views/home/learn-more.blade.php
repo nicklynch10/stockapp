@@ -149,7 +149,7 @@
                         However, in addition to this $3,000 net loss (that can be used against employment income), all investment gains can also be offset.
                         This allows for an even greater impact of Tax-Loss Harvesting. By following an optimal harvesting strategy, all taxes due from investment gains in a given year can be eliminated.
                     </p>
-                    <p style="color: #000000" class="font-bold">
+                    <p class="text-gray-700">
                         Taking our example one step further, let’s now look at a situation where an investor offsets their existing gains by harvesting, and view the impact this will have on their returns over the entire holding period:
                     </p>
                     <p class="text-gray-700 ">
@@ -159,7 +159,7 @@
                         and adding the income tax savings that can be applied to the additional $3,000 in losses (assuming a 35% marginal tax rate).
                     </p>
 
-                    <h4 style="color: #000000" class="font-bold">
+                    <h4 class="text-gray-700">
                         (12,000 x  25%) + ($3,000 * 35%) = $4,800
                     </h4>
                     <p class="text-gray-700 ">

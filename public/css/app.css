@@ -10176,6 +10176,10 @@ table a {
         margin-top: .5rem
     }
 
+    .xs\:mt-32 {
+        margin-top: 8rem
+    }
+
     .xs\:ml-1 {
         margin-left: .25rem
     }
@@ -10894,6 +10898,10 @@ table a {
 
     .md\:mt-16 {
         margin-top: 4rem
+    }
+
+    .md\:mt-32 {
+        margin-top: 8rem
     }
 
     .md\:mr-2 {

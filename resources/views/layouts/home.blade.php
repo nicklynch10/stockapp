@@ -1,10 +1,10 @@
 <x-guest-layout>
 
-@include('home.home-top')
+{{--@include('home.home-top')--}}
 <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <div class="home top-fade lg:mt-1" >
+    <div class="home top-fade lg:mt-1 xs:mt-32 md:mt-32" >
         <div class="w-full" style="backdrop-filter: blur(4px); background: rgba(255,255,255,.5);">
             @if(isset($section1) || isset($largeSection))
                 <section class="ps-home-1405 theme-section-1 " aria-label="" style="">

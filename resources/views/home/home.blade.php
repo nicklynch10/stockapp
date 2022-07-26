@@ -94,7 +94,9 @@
                 <div class="bhrsection-padding homeOverview__overflow">
                     <div class="bhrsection-container-large pt-20 md:pt-10">
                         <div class="homeOverview__container js-in-viewport Animation--active">
-                            <h3 class="typ bhrtyp-italic bhrtyp-center bhrcolor-gray12">Following a consistent Tax-Loss Harvesting strategy translates to a greater than 1.5% increase in returns annually over a long-term investment horizon, with as high as 7% in excess returns over the first year of a loss harvesting program</h3>
+                            <h3 class="typ bhrtyp-italic bhrtyp-center bhrcolor-gray12">
+                                Following a consistent Tax-Loss Harvesting strategy translates to greater than 1.5% in annual excess returns over a long-term investment horizon. This increased return can be as high as 7% in the first year of a loss harvesting program.
+                            </h3>
                             <div class="homeOverviewContent shadow-none">
                                 <div class="lg:w-1/2 xl:w-4/5 w-full text-center mr-10 p-0 m-0 mb-10 md:mb-16 lg:mb-0">
                                 <img class="m-auto w-full md:w-10/12 lg:w-full rounded-3xl" alt="{{ appName(true) }} Overview" src="/home images/29.jpg"
@@ -102,7 +104,7 @@
                                 </div>
                                 <!-- "/other/pink_sweater_v1.png" -->
                                 <div class="homeOverviewContent__left Animation__toRight text-center lg:text-left">
-                                    <p class="bhrcolor-gray9">Tax-Loss Harvesting provides a way to transform investment losses directly into valuable tax-related savings.
+                                    <p class="bhrcolor-gray9" style="font-size: 20px;">Tax-Loss Harvesting provides a way to transform investment losses directly into valuable tax-related savings.
                                         By proactively selling a stock for a loss, you gain the ability to write off this loss against employment or investment based income on your next tax return.
                                         Future tax bills are then lowered (or refunds are increased), providing additional savings and capital to invest back into the stock market.
                                     </p>
@@ -126,7 +128,7 @@
                 <div class="bhrsection-container-large bhrsection-padding homeFeature__container relative top-20 z-50">
 
                     <div class="homeFeatureTitle homeFeatureTitle--hiring">
-                        <h2 class="typ bhrtyp-italic text-blue-900 text-lg">{{ appName(true) }} helps manage every step of the Tax-Loss Harvesting process. </h2>
+                        <h2 class="typ bhrtyp-italic bhrcolor-gray12 text-lg">{{ appName(true) }} helps manage every step of the Tax-Loss Harvesting process. </h2>
                     </div>
 
                     <div class="homeFeatureContent flex">
@@ -134,8 +136,8 @@
                         <img class="w-full md:w-10/12 lg:w-full m-auto -mt-12 rounded" alt="{{ appName(true) }} Overview" src="/home images/30.jpg"
                              data-src="/home images/3.png">
                         </div>
-                        <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left">
-                            <p class="text-blue-800 homeFeatureContentRight__copy">
+                        <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left" >
+                            <p class="bhrcolor-gray12 homeFeatureContentRight__copy " style="font-size: 20px;">
                                 Using {{ appName(true) }}, you can view which of your Equity Stocks, ETFs, and Mutual Funds are trading at a loss and are recommended sells based on {{ appName(true) }}’s harvesting calculation methodology.
                                 <br><br>
                                 By leveraging Plaid’s investment brokerage integration, all of your real-time positions will be directly linked into the {{ appName(true) }} platform. {{ appName(true) }} then offers a proprietary {{ appName(true) }} Similarity Score to suggest replacement positions that will allow you to closely maintain your pre-trade portfolio allocation.
@@ -173,7 +175,7 @@
              padding-bottom: 30px;">
                 <div class="bhrsection-container-large bhrsection-padding homeFeature__container relative top-14 md:top-20 xl:top-0">
                     <div class="homeFeatureTitle homeFeatureTitle--onboarding">
-                        <h2 class="typ italic text-blue-500">Harvesting losses is a well-established mechanism for reducing tax liability. Doing so is a technically onerous task as it requires frequent monitoring, execution, and care to avoid washsale trades.</h2>
+                        <h2 class="typ italic bhrcolor-gray12">“Harvesting losses is a well-established mechanism for reducing tax liability. Doing so is a technically onerous task as it requires frequent monitoring, execution, and care to avoid washsale trades.”</h2>
                     </div>
                     <div class="homeFeatureContent">
                         <div class="w-full lg:w-1/2 xl:w-4/5 text-center lg:mr-10 p-0 m-3 mb-10 md:mb-16 lg:mb-0 mt-6 lg:mt-0">
@@ -184,7 +186,7 @@
                         </div>
 
                         <div class="homeFeatureContentRight w-full md:w-10/12 lg:w-1/2  text-center lg:text-left">
-                            <p class="text-blue-700 homeFeatureContentRight__copy">
+                            <p class="bhrcolor-gray12 homeFeatureContentRight__copy" style="font-size: 20px;">
                                 This is no longer the case with {{ appName(true) }}. Tax-Loss Harvesting has historically been a premium investment strategy, but these valuable benefits can now be recognized by investors of any size and experience level with minimal effort.
                                 <br>
                             </p>
@@ -210,8 +212,7 @@
 
             <section class="homeQuote" aria-label="{{ appName(true) }} customer quote">
                 <div class="homeQuote__container bhrsection-padding">
-                    <p class="italic text-gray-900 font-semibold text-xl mb-2">We have simulated returns for 500 assets over 25 years to examine the benefits of loss harvesting for taxable portfolios, and found a huge advantage over the passive case. By rigorously realizing losses, the median portfolio would add about 27% compared to a pure buy and hold strategy in typical market conditions… It’s a reliable, predictable source of after-tax alpha.</p>
-                    <p class="text-gray-900 italic text-sm mt-0"><a href="https://www.gallup.com/workplace/236441/employee-recognition-low-cost-high-impact.aspx" target="_blank">According to [Authors on academic journal]</a></p>
+                    <p class="italic text-gray-900 font-semibold text-2xl mb-2">“We have simulated returns for 500 assets over 25 years to examine the benefits of loss harvesting for taxable portfolios, and found a huge advantage over the passive case. By rigorously realizing losses, the median portfolio would add about 27% compared to a pure buy and hold strategy in typical market conditions… It’s a reliable, predictable source of after-tax alpha.”</p>
                 </div>
             </section>
 

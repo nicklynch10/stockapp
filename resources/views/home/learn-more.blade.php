@@ -36,7 +36,7 @@
 {{--                </div>--}}
 
                 <!-- "/other/pink_sweater_v1.png" -->
-                <div class="md:w-1/2  Animation__toRight p-2 px-4 lg:ml-24">
+                <div class="Animation__toRight p-2 px-4 lg:ml-24">
                     <p class="text-gray-700">
                         Tax-Loss Harvesting provides a way to transform investment losses directly into valuable tax-related savings.
                         By proactively selling a stock for a loss, you gain the ability to write off this loss against employment or investment-based income on your next tax return.
@@ -67,7 +67,7 @@
 
             <div class="homeFeatureContent flex pb-16">
 
-                <div class="w-full md:w-10/12 lg:w-1/2">
+                <div class="w-full ">
                     <p class="text-gray-800 homeFeatureContentRight__copy">
                         By using Plaid to securely integrate your real-time holdings from the world’s largest brokers and investment platforms (such as Robinhood, Fidelity, Schwab, Vanguard, and more), positions are tracked automatically within {{appName(true)}} and no manual intervention is needed from the user.
                         Realizing savings from {{appName(true)}} is as easy as creating a login, selecting your investment accounts, and following {{appName(true)}}’s automated guidance to determine which positions should be sold and replaced.
@@ -101,7 +101,7 @@
 
             <div class="homeFeatureContent flex">
 
-                <div class=" w-full md:w-10/12 lg:w-1/2 lg:-mt-20">
+                <div class=" w-full">
                     <p class="text-gray-700 homeFeatureContentRight__copy">
                     {{appName(true)}} helps manage every step of the Tax-Loss Harvesting process. Once your holdings are integrated,{{appName(true)}} will analyze your portfolio, review unrecognized gains and losses, and determine which positions should be sold to allow for maximum potential tax savings.
                     {{appName(true)}} also relies on industry-leading financial data providers and investment professionals to help create a distinct profile for each Stock, ETF, and Mutual Fund.
@@ -125,39 +125,14 @@
         <x-slot name="header5">
 
             <div class="homeFeatureTitle homeFeatureTitle--hiring">
-                <h2 class="typ-stats bhrtyp-italic text-gray-600 pt-20">Why should I trust {{appName(true)}}?</h2>
+                <h2 class="typ-stats bhrtyp-italic text-gray-600 pt-20">How much will it save me?</h2>
             </div>
         </x-slot>
 
         <x-slot name="section5">
 
             <div class="homeFeatureContent flex">
-
-                <div class=" w-full md:w-10/12 lg:w-1/2 lg:-mt-20">
-                    <p class="text-gray-700 homeFeatureContentRight__copy">
-                        The {{appName(true)}} executive team has 50+ years of industry experience across hedge funds, investment banking, private equity, tax accounting, financial data, and wealth management.
-                        Tax management and optimizing investment returns are at the core of everything they do, and they are excited to present investors everywhere with the opportunity to improve their Tax-Loss Harvesting process.
-                    </p>
-                </div>
-            </div>
-
-
-        </x-slot>
-
-
-        <x-slot name="header6">
-
-            <div class="homeFeatureTitle homeFeatureTitle--hiring pt-32">
-                <h2 class="typ-stats bhrtyp-italic  pt-20" style="color: #70a13c">How much will it save me?</h2>
-            </div>
-        </x-slot>
-
-
-        <x-slot name="section6">
-
-            <div class="homeFeatureContent flex">
-
-                <div class=" w-full md:w-10/12 lg:w-1/2 lg:-mt-20">
+                <div class=" w-full">
                     <p class="text-gray-700 homeFeatureContentRight__copy">
                         Exact dollars savings from Tax-Loss Harvesting will vary depending on existing holdings, past transactions, and marginal tax brackets, but institutional investors and academics agree the strategy provides undeniable short- and long-term benefits to all individuals.
                     </p>
@@ -174,7 +149,7 @@
                         However, in addition to this $3,000 net loss (that can be used against employment income), all investment gains can also be offset.
                         This allows for an even greater impact of Tax-Loss Harvesting. By following an optimal harvesting strategy, all taxes due from investment gains in a given year can be eliminated.
                     </p>
-                    <p style="color: #70a13c">
+                    <p style="color: #000000" class="font-bold">
                         Taking our example one step further, let’s now look at a situation where an investor offsets their existing gains by harvesting, and view the impact this will have on their returns over the entire holding period:
                     </p>
                     <p class="text-gray-700 ">
@@ -184,7 +159,7 @@
                         and adding the income tax savings that can be applied to the additional $3,000 in losses (assuming a 35% marginal tax rate).
                     </p>
 
-                    <h4 style="color: #70a13c">
+                    <h4 style="color: #000000" class="font-bold">
                         (12,000 x  25%) + ($3,000 * 35%) = $4,800
                     </h4>
                     <p class="text-gray-700 ">
@@ -197,6 +172,31 @@
                         This amounts to 51% in excess returns over the 30 year holding period (1.7% annualized), all accomplished from just one year of Tax-Loss Harvesting.
                     </p>
 
+                </div>
+
+            </div>
+
+
+        </x-slot>
+
+
+        <x-slot name="header6">
+
+            <div class="homeFeatureTitle homeFeatureTitle--hiring pt-32">
+                <h2 class="typ-stats bhrtyp-italic  pt-20" style="color: #70a13c">Why should I trust {{appName(true)}}?</h2>
+            </div>
+        </x-slot>
+
+
+        <x-slot name="section6">
+
+            <div class="homeFeatureContent flex">
+
+                <div class=" w-full lg:-mt-20">
+                    <p class="text-gray-700 homeFeatureContentRight__copy">
+                        The {{appName(true)}} executive team has 50+ years of industry experience across hedge funds, investment banking, private equity, tax accounting, financial data, and wealth management.
+                        Tax management and optimizing investment returns are at the core of everything they do, and they are excited to present investors everywhere with the opportunity to improve their Tax-Loss Harvesting process.
+                    </p>
                 </div>
             </div>
 

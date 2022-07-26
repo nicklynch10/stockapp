@@ -74,13 +74,13 @@ class Overview extends Component
         $positive = 0;
         foreach($box3 as $b3)
         {
-            if($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost<0)
+            if($b3->viewupdatestock->total_gain_loss < 0)
             {   //Box4
-                $nagative += abs($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost);
+                $nagative += abs($b3->viewupdatestock->total_gain_loss);
             }
             else
             {   //Box5
-                $positive += abs($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost);
+                $positive += $b3->viewupdatestock->total_gain_loss;
             }
         }
         $this->totalUnrealizedGainLoss = $positive - $nagative;

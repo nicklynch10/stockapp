@@ -114,12 +114,12 @@ class Account extends Component
         $secret = env('PLAID_SECRET');
         $plaid_url = env('PLAID_URL');
 
-        $account = Accounts::where(['access_token' => $access_token, 'user_id' => Auth::user()->id])->first();
-        if(isset($account)) {
-            $beforeDate = $account['start_date'];
-        } else {
+//        $account = Accounts::where(['access_token' => $access_token, 'user_id' => Auth::user()->id])->first();
+//        if(isset($account)) {
+//            $beforeDate = $account['start_date'];
+//        } else {
             $beforeDate = date('Y-01-01', strtotime('-1 year'));
-        }
+//        }
 
         $url = "https://".$plaid_url."/investments/transactions/get";
         $curl = curl_init($url);
@@ -134,7 +134,7 @@ class Account extends Component
             "client_id": "'.$client_id.'",
             "secret": "'.$secret.'",
             "access_token": "'.$access_token.'",
-            "start_date": "2021-01-01",
+            "start_date": "'.$beforeDate.'",
             "end_date":"'.date('Y-m-d').'"}';
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);

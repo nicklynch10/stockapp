@@ -112,7 +112,7 @@
                                                                 {{--                                                            ${{ number_format((int)$s->ave_cost,2) * round((int)$s->share_number, 2) }}--}}
                                                             </p>
                                                             <p class="text-sm font-sans break-words font-light text-grey-dark">
-                                                                {{ number_format(round($s->share_number, 2))  }} @if($s->share_number == 1) Share @else Shares @endif
+                                                                {{ number_format($s->share_number, 2)  }} @if($s->share_number == 1) Share @else Shares @endif
                                                             </p>
                                                         </div>
                                                     </div>
@@ -173,7 +173,7 @@
                                                     {{--                                                            ${{ number_format((int)$s->ave_cost,2) * round((int)$s->share_number, 2) }}--}}
                                                 </p>
                                                 <p class="text-sm font-sans break-words font-light text-grey-dark float-right">
-                                                    {{ number_format(round($s->share_number, 2)) }} @if($s->share_number == 1) <br> Share @else <br>Shares @endif
+                                                    {{ number_format($s->share_number, 2) }} @if($s->share_number == 1) <br> Share @else <br>Shares @endif
                                                 </p>
                                             </div>
                                             <div class="col-span-2 col-start-12 justify-center">

@@ -92,7 +92,7 @@
         <x-slot name="header4">
 
             <div class="homeFeatureTitle homeFeatureTitle--hiring pt-32">
-                <h2 class="typ-stats bhrtyp-italic text-blue-700 pt-20">How does {{appName(true)}} help with this process?</h2>
+                <h2 class="typ-stats bhrtyp-italic text-gray-900 pt-20">How does {{appName(true)}} help with this process?</h2>
             </div>
         </x-slot>
 

@@ -183,7 +183,7 @@
         <x-slot name="header6">
 
             <div class="homeFeatureTitle homeFeatureTitle--hiring pt-32">
-                <h2 class="typ-stats bhrtyp-italic  pt-20" style="color: #70a13c">Why should I trust {{appName(true)}}?</h2>
+                <h2 class="typ-stats bhrtyp-italic   pt-20" >Why should I trust {{appName(true)}}?</h2>
             </div>
         </x-slot>
 

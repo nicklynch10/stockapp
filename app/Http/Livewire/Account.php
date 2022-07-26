@@ -115,11 +115,11 @@ class Account extends Component
         $plaid_url = env('PLAID_URL');
 
         $account = Accounts::where('access_token', $access_token)->first();
-        if(isset($account)) {
-            $beforeDate = $account['start_date'];
-        } else {
+//        if(isset($account)) {
+//            $beforeDate = $account['start_date'];
+//        } else {
             $beforeDate = date('Y-01-01', strtotime('-6 year'));
-        }
+//        }
 
         $url = "https://".$plaid_url."/investments/transactions/get";
         $curl = curl_init($url);
@@ -141,6 +141,7 @@ class Account extends Component
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         $resp = curl_exec($curl);
         $data = json_decode($resp);
+        dd($data);
         $this->addInvestments($data, $access_token);
     }
 
@@ -181,7 +182,7 @@ class Account extends Component
                     if($inv->security_id == $sec->security_id && $sec->ticker_symbol != null)
                     {
                         $getAccountId = Accounts::where(['plaid_account_id' => $inv->account_id, 'user_id' => Auth::user()->id])->first();
-                        $checkStock = Stock::where(['stock_ticker' => $sec->ticker_symbol , 'security_id' => $inv->security_id,'user_id' => Auth::user()->id])->first();
+                        $checkStock = Stock::where(['stock_ticker' => $sec->ticker_symbol , 'share_number' => $inv->quantity, 'security_id' => $inv->security_id, 'user_id' => Auth::user()->id])->first();
                         if(!isset($checkStock)) {
                             $key = env('IEX_CLOUD_KEY', null);
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);

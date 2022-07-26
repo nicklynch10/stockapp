@@ -172,16 +172,16 @@ class Account extends Component
             }
         }
 
-        foreach ($response->investment_transactions as $inv)
+        foreach ($response->securities as $sec)
         {
-            if($inv->type == 'buy')
+            foreach ($response->investment_transactions as $inv)
             {
-                foreach ($response->securities as $sec)
+                if($inv->type == 'buy')
                 {
                     if($inv->security_id == $sec->security_id && $sec->ticker_symbol != null)
                     {
                         $getAccountId = Accounts::where(['plaid_account_id' => $inv->account_id, 'user_id' => Auth::user()->id])->first();
-                        $checkStock = Stock::where(['stock_ticker' => $sec->ticker_symbol , 'share_number' => $inv->quantity, 'security_id' => $inv->security_id, 'user_id' => Auth::user()->id])->first();
+                        $checkStock = Stock::where(['stock_ticker' => $sec->ticker_symbol , 'share_number' => $inv->quantity, 'security_id' => $inv->security_id, 'date_of_purchase' => $inv->date,'user_id' => Auth::user()->id])->first();
                         if(!isset($checkStock)) {
                             $key = env('IEX_CLOUD_KEY', null);
                             $endpoint = env('IEX_CLOUD_ENDPOINT', null);

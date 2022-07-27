@@ -35,6 +35,12 @@ class Optimize extends Component
 
     public function render()
     {
+        $this->potentialSavings = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('ave_cost', '>', 'current_share_price')->where('stock.user_id', Auth::user()->id)->with('account','viewupdatestock')
+            ->whereHas('viewupdatestock', function ($query) {
+                $query->where('pchange','<','-3')
+                    ->where('total_gain_loss','<',0);
+            })
+            ->count();
         $box3 = Stock::where('user_id', Auth::user()->id)->where('ignore_stock',0)->with('viewupdatestock')->get();
         $nagative = 0;
         foreach($box3 as $b3)
@@ -44,7 +50,7 @@ class Optimize extends Component
                 $nagative += abs($b3->viewupdatestock->current_total_value - $b3->viewupdatestock->total_cost);
             }
         }
-        $this->harvestableLosses=$nagative;
+        $this->harvestableLosses = $nagative;
 
         return view('livewire.optimize');
     }

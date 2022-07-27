@@ -14,9 +14,7 @@ class IgnoreSection extends Component
 
     public function render()
     {
-
-        $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',2)->where('stock.user_id', Auth::user()->id)->with('account','viewupdatestock')
-//                ->where('viewupdatestock.pchange','>',3)->where('viewupdatestock.total_gain_loss','<',0)
+        $stockData = Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',2)->where('ave_cost', '>', 'current_share_price')->where('stock.user_id', Auth::user()->id)->with('account','viewupdatestock')
             ->whereHas('viewupdatestock', function ($query) {
                 $query->where('pchange','<','-3')
                     ->where('total_gain_loss','<',0);
@@ -25,7 +23,7 @@ class IgnoreSection extends Component
         $links = $stockData->links();
         $this->stockData = collect($stockData->items());
 
-        return view('livewire.optimize.ignore-section',['links'=>$links]);
+        return view('livewire.optimize.ignore-section', ['links'=>$links]);
     }
 
     public function confirmSection($stockId)

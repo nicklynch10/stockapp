@@ -135,8 +135,11 @@
                                                                                     Comparable Stocks</p>
                                                                                 <div class="flex-row w-60 text-center">
                                                                                     @foreach($getCompareData['stock'] as $cs)
-                                                                                        <button wire:click="$emit('company', '{{ $cs }}')"><span
-                                                                                                class="custome-border">{{ $cs }}</span></button>
+                                                                                        @php
+                                                                                            use App\Models\Stock;$check = Stock::where('stock_ticker', $cs)->where('user_id', Auth::user()->id)->where('share_number', '<>', 0)->first()
+                                                                                        @endphp
+                                                                                        <button wire:click="$emit('company', '{{ $cs }}')">
+                                                                                            <span class="custome-border {{ $check ? 'bg-yellow-200' : '' }}">{{ $cs }}</span></button>
                                                                                     @endforeach
                                                                                 </div>
                                                                             @endif
@@ -146,8 +149,11 @@
                                                                                     Comparable Stocks</p>
                                                                                 <div class="flex-row w-60 text-center">
                                                                                     @foreach($getCompareData['stock'] as $cs)
-                                                                                        <button wire:click="$emit('company', '{{ $cs }}')"><span
-                                                                                                class="custome-border">{{ $cs }}</span></button>
+                                                                                        @php
+                                                                                            use App\Models\Stock;$check = Stock::where('stock_ticker', $cs)->where('user_id', Auth::user()->id)->where('share_number', '<>', 0)->first()
+                                                                                        @endphp
+                                                                                        <button wire:click="$emit('company', '{{ $cs }}')">
+                                                                                            <span class="custome-border {{ $check ? 'bg-yellow-200' : '' }}">{{ $cs }}</span></button>
                                                                                     @endforeach
                                                                                 </div>
                                                                             @endif
@@ -162,7 +168,6 @@
                                                                                 </div>
                                                                             @endif
                                                                         @endif
-
                                                                     </div>
                                                                 @endif
                                                             @endif

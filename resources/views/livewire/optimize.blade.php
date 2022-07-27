@@ -53,11 +53,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Potential Trades') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{ \App\Models\Stock::where('current_share_price', '<>', 0)->where('ave_cost', '<>', 0)->where('ignore_stock',0)->where('stock.user_id', Auth::user()->id)
-                        ->whereHas('viewupdatestock', function ($query) {
-                $query->where('pchange','<','-3')
-                    ->where('total_gain_loss','<',0);
-            })->count()}}</h2>
+                        <h2 class="pt-2 text-2xl">{{ $this->potentialSavings }}</h2>
                     </div>
                 </div>
             </div>

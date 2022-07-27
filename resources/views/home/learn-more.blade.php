@@ -67,7 +67,7 @@
 
             <div class="homeFeatureContent flex pb-16">
 
-                <div class="w-full ">
+                <div class="w-full">
                     <p class="text-gray-800 homeFeatureContentRight__copy">
                         By using Plaid to securely integrate your real-time holdings from the world’s largest brokers and investment platforms (such as Robinhood, Fidelity, Schwab, Vanguard, and more), positions are tracked automatically within {{appName(true)}} and no manual intervention is needed from the user.
                         Realizing savings from {{appName(true)}} is as easy as creating a login, selecting your investment accounts, and following {{appName(true)}}’s automated guidance to determine which positions should be sold and replaced.
@@ -82,15 +82,8 @@
                     </p>
                 </div>
             </div>
-
-
         </x-slot>
-
-
-
-
         <x-slot name="header4">
-
             <div class="homeFeatureTitle homeFeatureTitle--hiring pt-32">
                 <h2 class="typ-stats bhrtyp-italic text-gray-900 pt-20">How does {{appName(true)}} help with this process?</h2>
             </div>
@@ -103,7 +96,7 @@
 
                 <div class=" w-full">
                     <p class="text-gray-700 homeFeatureContentRight__copy">
-                    {{appName(true)}} helps manage every step of the Tax-Loss Harvesting process. Once your holdings are integrated,{{appName(true)}} will analyze your portfolio, review unrecognized gains and losses, and determine which positions should be sold to allow for maximum potential tax savings.
+                    {{appName(true)}} helps manage every step of the Tax-Loss Harvesting process. Once your holdings are integrated, {{appName(true)}} will analyze your portfolio, review unrecognized gains and losses, and determine which positions should be sold to allow for maximum potential tax savings.
                     {{appName(true)}} also relies on industry-leading financial data providers and investment professionals to help create a distinct profile for each Stock, ETF, and Mutual Fund.
                         Using this information, we have created a proprietary {{appName(true)}} Similarity Model that measures the resemblance of each unique set of companies and funds.
                         This will tell you the most suitable replacement for the positions we advise you sell, allowing you to maintain a consistent profile across your portfolio.
@@ -159,16 +152,16 @@
                         and adding the income tax savings that can be applied to the additional $3,000 in losses (assuming a 35% marginal tax rate).
                     </p>
 
-                    <h4 class="text-gray-700">
-                        (12,000 x  25%) + ($3,000 * 35%) = $4,800
-                    </h4>
+                    <p class="text-gray-700">
+                        (12,000 x  25%) + ($3,000 x 35%) = $4,800
+                    </p>
                     <p class="text-gray-700 ">
                         By reinvesting this $4,800 over a 30-year holding period with market average equity returns (8% annually),
                         the result is nearly $50,000 of additional income from this sole year of Tax-Loss Harvesting.
                     </p>
                     <p class="text-gray-700 ">
                         Following this 30 year holding period, these positions will be sold and the deferred tax on the gains is now due at the long-term capital gains rate (15%).
-                        In the end, the result is $41,000 of post-tax capital after all positions are liquidated.
+                        In the end, the result is $41,000 of post-tax incremental earnings after all positions are liquidated.
                         This amounts to 51% in excess returns over the 30 year holding period (1.7% annualized), all accomplished from just one year of Tax-Loss Harvesting.
                     </p>
 
@@ -195,7 +188,7 @@
                 <div class=" w-full lg:-mt-20">
                     <p class="text-gray-700 homeFeatureContentRight__copy">
                         The {{appName(true)}} executive team has 50+ years of industry experience across hedge funds, investment banking, private equity, tax accounting, financial data, and wealth management.
-                        Tax management and optimizing investment returns are at the core of everything they do, and they are excited to present investors everywhere with the opportunity to improve their Tax-Loss Harvesting process.
+                        Tax management and optimizing investment returns are at the core of everything we do, and we are excited to present investors everywhere with the opportunity to improve their Tax-Loss Harvesting process.
                     </p>
                 </div>
             </div>

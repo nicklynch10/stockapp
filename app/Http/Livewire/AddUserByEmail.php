@@ -23,11 +23,10 @@ class AddUserByEmail extends Component
 
     public function addNewUser()
     {
-        $this->validate([
-            'email' => 'required',
-        ],
-        ['email.required' => 'Email is required' ]);
-
+        $this->validate(
+            [
+                'email' => ['required', 'email:filter', 'unique:users,email', 'string', 'max:255'],
+            ]);
         if(UserInvitation::where('email', $this->email)->first())
         {
             session()->flash('flash.banner','The given email already send invitation');

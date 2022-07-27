@@ -281,6 +281,34 @@
         </div>
 
         <!-- Responsive Settings Options -->
+        <div x-data="{show: false}" class="cursor-pointer">
+            <x-jet-responsive-nav-link
+                @click="show = !show"
+                class="flex items-center"
+                :active="request()->routeIs( 'user.manage-invites')"
+                activeClass="gray"
+            >
+                <svg class="mr-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                          clip-rule="evenodd"/>
+                </svg>
+
+                User Management
+            </x-jet-responsive-nav-link>
+
+            <div class="ml-6 w-60" x-show="show">
+
+
+                <x-jet-responsive-nav-link
+                    href="{{ route('user.manage-invites') }}"
+                    :active="request()->routeIs('user.manage-invites')">
+                    {{ __('User Invitations') }}
+                </x-jet-responsive-nav-link>
+
+            </div>
+        </div>
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())

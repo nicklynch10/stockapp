@@ -200,12 +200,12 @@ if (!function_exists('getRelated_stock_etf')) {
         $et = [];
 
         $data = SecInfo::where('ticker', $ticker)->latest()->first();
-        if (!isset($data) ||
-            (isset($data) && isset($data->peer_data)
-                && collect(json_decode($data->peer_data))->isEmpty())
-        ) {
-            $data = quick_sec_update($ticker);
-        }
+//        if (!isset($data) ||
+//            (isset($data) && isset($data->peer_data)
+//                && collect(json_decode($data->peer_data))->isEmpty())
+//        ) {
+//            $data = quick_sec_update($ticker);
+//        }
 
         if (isset($data) && $data->peer_data != null) {
             foreach (json_decode($data->peer_data) as $p) {

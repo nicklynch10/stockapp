@@ -53,7 +53,7 @@
                         <h2 class="font-semibold text-lg text-gray-800 leading-tight">
                             {{ __('Potential Trades') }}
                         </h2>
-                        <h2 class="pt-2 text-2xl">{{ $this->potentialSavings }}</h2>
+                        <h2 class="pt-2 text-2xl">{{ count($this->potentialSavings) }}</h2>
                     </div>
                 </div>
             </div>

@@ -216,12 +216,13 @@ if (!function_exists('getRelated_stock_etf')) {
 
                 if (isset($SC)) {
                     if ($SC->correlation > 0 && $ticker != $p) {
-                        if (getTicker($p)->type != "ETF") {
-                            if (count($sto)<4) {
+                        $checkType = getTicker($p);
+                        if ($checkType->type != "ETF") {
+                            if (count($sto) < 4) {
                                 array_push($sto, $SC->ticker2);
                             }
-                        } elseif (getTicker($p)->type == "ETF") {
-                            if (count($et)<4) {
+                        } elseif ($checkType->type == "ETF") {
+                            if (count($et) < 4) {
                                 array_push($et, $SC->ticker2);
                             }
                         }

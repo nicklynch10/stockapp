@@ -64,12 +64,12 @@
                         </div>
                         <div class="mb-4">
                             <label for="average_cost" class="block text-gray-700 text-sm font-bold mb-2"><b>Average Purchase Price (per Share) :</b></label>
-                            <input type="text" id="average_cost" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" @if($this->openmodalval==0) wire:click="$emit('AveModal')" @endif wire:model="average_cost">
+                            <input type="text" id="average_cost" step="0.01" class="removeCharacter shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter Average Cost Purchase Per Share" @if($this->openmodalval==0) wire:click="$emit('AveModal')" @endif wire:model="average_cost">
                             @error('average_cost') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
                             <label for="share_number" class="block text-gray-700 text-sm font-bold mb-2"><b>Number of Shares:</b></label>
-                            <input type="text" id="share_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter shares..." wire:model="share_number">
+                            <input type="text" id="share_number" class="removeCharacter shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter shares..." wire:model="share_number">
                             @error('share_number') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
@@ -179,6 +179,17 @@
             var salary = parseFloat($("#average_cost").val());
             $("#average_cost").val( salary.toFixed(2));
         }
+    });
+
+    $('.removeCharacter').bind('input', function() {
+        var c = this.selectionStart,
+            r = /[^0-9 .]/gi,
+            v = $(this).val();
+        if(r.test(v)) {
+            $(this).val(v.replace(r, ''));
+            c--;
+        }
+        this.setSelectionRange(c, c);
     });
 
     $("#share_number").on("input", function() {

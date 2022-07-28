@@ -18,9 +18,11 @@
                 Current Holdings
             </h2>
             <div class="ml-2 md:flex">
-                <select wire:model="sorting" class="width-select border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-full lg:w-44 mb-2">
-                    <option value="asc"> Ascending </option>
-                    <option value="desc"> Descending </option>
+                <select wire:model="accountFilter" class="border-gray-300 width-select focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-60 lg:w-44 mb-2">
+                    <option value="">Filter By Account</option>
+                    @foreach($this->account as $account)
+                        <option value="{{ $account->id }}">{{ $account->account_name }}</option>
+                    @endforeach
                 </select>
                 <select wire:change="sort($event.target.value)" class="width-select border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-full lg:w-44 mb-2">
                     <option value="0">Sort By</option>
@@ -36,11 +38,9 @@
                     <option value="total_gain_loss">Total Gain / (Loss)</option>
                     <option value="total_long_term_gains">Tax Classification</option>
                 </select>
-                <select wire:model="accountFilter" class="border-gray-300 width-select focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-60 lg:w-44 mb-2">
-                    <option value="">Filter By Account</option>
-                    @foreach($this->account as $account)
-                        <option value="{{ $account->id }}">{{ $account->account_name }}</option>
-                    @endforeach
+                <select wire:model="sorting" class="width-select border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-full lg:w-44 mb-2">
+                    <option value="asc"> Ascending </option>
+                    <option value="desc"> Descending </option>
                 </select>
             </div>
         </div>

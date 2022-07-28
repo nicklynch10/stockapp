@@ -78,7 +78,7 @@ class FactorDetail extends Component
                 $this->factors->push($f);
                 $this->updatedTicker();
                 $this->dispatchBrowserEvent('contentChanged');
-            }
+    }
             return view('livewire.factor-detail');
         } catch (Exception $e) {
             return view('livewire.factor-detail');

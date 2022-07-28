@@ -1,40 +1,47 @@
 <div>
-    <div class="border-b-2 border-gray-300">
-        <div class="flex justify-between">
-            <h2 class="text-xl font-black">Current Holdings</h2>
-            <div class="xl:flex sm:flex md:flex space-x-3 items-center">
-                <label class="block font-medium text-sm text-gray-700 xs:ml-2 webkit-stroke-thick">
-                    <select wire:change="sort($event.target.value)" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ml-3 my-1 w-60 sm:w-38 md:w-full lg:w-44">
-                        <option value="0">Sort By</option>
-                        <option value="stock_ticker">Stock Ticker</option>
-                        <option value="company_name">Company Name</option>
-                        <option value="share_number">Share Number</option>
-                        <option value="ave_cost">Cost Basis</option>
-                        <option value="current_share_price">Share Price</option>
-                        <option value="dchange">$ Change</option>
-                        <option value="pchange">% Change</option>
-                        <option value="current_total_value">Market Value</option>
-                        <option value="total_cost">Total Cost</option>
-                        <option value="total_gain_loss">Total Gain / (Loss)</option>
-                        <option value="total_long_term_gains">Tax Classification</option>
-                    </select>
-                </label>
+    <style>
+        @media only screen and (max-width:670px){
+            .width-select{
+                width: 100% !important;
+            }
+            .flex-div{
+                flex-direction:column;
 
-                <label class="block font-medium text-sm text-gray-700">
-                    <select wire:model="accountFilter" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm xs:ml-1 ml-3 my-1 w-60 sm:w-38 md:w-60 lg:w-44">
-                        <option value="">Filter By Account</option>
-                        @foreach($this->account as $account)
-                            <option value="{{ $account->id }}">{{ $account->account_name }}</option>
-                        @endforeach
-                    </select>
-                </label>
-
-                <label class="block font-medium text-sm text-gray-700">
-                    <select wire:model="sorting" class="border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm xs:ml-1 ml-3 my-1 w-60 sm:w-38 md:w-full lg:w-44">
-                        <option value="asc"> Ascending </option>
-                        <option value="desc"> Descending </option>
-                    </select>
-                </label>
+            }
+        }
+    </style>
+    <div
+        class="flex-1  bg-white  overflow-hidden"
+        style="height: 100%">
+        <div class=" w-full border-b-2 border-gray-300 xl:flex md:flex justify-between">
+            <h2 class="text-xl  font-black mb-2">
+                Current Holdings
+            </h2>
+            <div class="ml-2 md:flex">
+                <select wire:model="sorting" class="width-select border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-full lg:w-44 mb-2">
+                    <option value="asc"> Ascending </option>
+                    <option value="desc"> Descending </option>
+                </select>
+                <select wire:change="sort($event.target.value)" class="width-select border-gray-300 focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-full lg:w-44 mb-2">
+                    <option value="0">Sort By</option>
+                    <option value="stock_ticker">Stock Ticker</option>
+                    <option value="company_name">Company Name</option>
+                    <option value="share_number">Share Number</option>
+                    <option value="ave_cost">Cost Basis</option>
+                    <option value="current_share_price">Share Price</option>
+                    <option value="dchange">$ Change</option>
+                    <option value="pchange">% Change</option>
+                    <option value="current_total_value">Market Value</option>
+                    <option value="total_cost">Total Cost</option>
+                    <option value="total_gain_loss">Total Gain / (Loss)</option>
+                    <option value="total_long_term_gains">Tax Classification</option>
+                </select>
+                <select wire:model="accountFilter" class="border-gray-300 width-select focus:border-indigo-300 focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm my-1 w-60 sm:w-38 md:w-60 lg:w-44 mb-2">
+                    <option value="">Filter By Account</option>
+                    @foreach($this->account as $account)
+                        <option value="{{ $account->id }}">{{ $account->account_name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>
@@ -48,7 +55,7 @@
                     <div class="m-2">
                         <div class="w-full shadow-sm h-full rounded shadow overflow-hidden bg-white bg-gray-50 px-1 py-2 self-start flex flex-col justify-between px-4" style="min-width: 100px; ">
                             <div class="mt-3 my-1">
-                                <div class="flex flex-row items-center xs:flex-col lg:flex-col md:flex-col">
+                                <div class="flex flex-row items-center xs:flex-col lg:flex-col md:flex-col flex-div">
                                     <div class="flex flex-col justify-between p-4 leading-normal align items-center" style="width: 115px">
                                         <?php
                                         $string = $curr->ticker_logo;

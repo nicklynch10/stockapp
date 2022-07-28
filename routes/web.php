@@ -55,7 +55,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('help', function () {
     return view('support.help');
 })->name('help');
-
+Route::post('/logout', [\App\Http\Controllers\Auth\LogoutController::class, 'destroy'])
+    ->name('logout');
 
 Route::get('portfolio', Stocks::class, )->middleware(['auth:sanctum', 'verified'])->name('portfolio');
 Route::get('overview', Overview::class, )->middleware(['auth:sanctum', 'verified'])->name('overview');

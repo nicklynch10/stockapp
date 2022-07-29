@@ -146,7 +146,7 @@
                 <tr class="border border-gray-400">
                     <td class="w-1/3 p-2.5 text-left text-sm font-semibold">Transaction Proceeds (Cost)</td>
                     <td class="text-left truncate" style="font-size: 0.750rem;line-height: 1.25rem;
-                        {{$trad->type==0?'text-red-600':'text-green-600'}}">{{ $trad->type==0?'($'.number_format($trad->stock*$trad->share_price,2).")":'$'.number_format($trad->stock*$trad->share_price,2) }}
+                        {{$trad->type==0?'text-red-600':'text-green-600'}}">{{ $trad->type==0?'($'.number_format(abs($trad->stock*$trad->share_price),2).")":'$'.number_format(abs($trad->stock*$trad->share_price),2) }}
                     </td>
                 </tr>
                 </tbody>

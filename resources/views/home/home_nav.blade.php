@@ -195,7 +195,7 @@
         </div>
     </div>
     </div>
-    <div class="NavbarMobileBar js-nav-mobile-bar dynamic-nav-padding-bottom">
+    <div class="NavbarMobileBar js-nav-mobile-bar dynamic-nav-padding-bottom sm:mb-5">
         <div class="NavbarMobileBar__container">
 
 

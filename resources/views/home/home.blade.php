@@ -32,7 +32,7 @@
 
                                 </div>
 
-                               <div class="w-full text-center lg:text-left my-2 mb-3">
+                               <div class="w-full text-center lg:text-left my-2 mb-3 xs:hidden sm:hidden">
                                             <a class="Button" href="/register" >Get Started!</a>
                                 </div>
 

@@ -14,7 +14,7 @@ class IgnoreSection extends Component
     public $confirmSection = false;
     public $hasMorePagesIgnore;
     public $ignorePage = 1;
-    public $ignorePerPage = 4;
+    public $ignorePerPage = 8;
     public $loadingIgnorePages = false;
 
     public function mount()

@@ -21,7 +21,7 @@ class MainSection extends Component
     public $adminUsers;
     public $hasMorePages;
     public $page = 1;
-    public $perPage = 10;
+    public $perPage = 8;
     public $loadingPages = false;
     protected $queryString = [
         'sortBy'

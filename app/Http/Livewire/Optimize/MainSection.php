@@ -82,7 +82,9 @@ class MainSection extends Component
             ->get();
 //        dd($section);
 
-
+        if ($viaSearch) {
+            $this->companyUsers = new Collection();
+        }
 
         $this->stockData->push(...$section);
 
@@ -171,8 +173,8 @@ class MainSection extends Component
     }
 
     public function updateSortBy(){
-            $this->stockData = new Collection();
 
+        $this->stockData = new Collection();
         $this->loadSection(true);
     }
 }

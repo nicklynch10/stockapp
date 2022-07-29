@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="col-start-12 sm:col-start-11 col-span-1 sm:col-span-2 mx-1 text-sm text-center py-1">
-                    <p class="@if($trad->type == 0) text-red-600 @else text-green-600 @endif">{{ $trad->type==0?'($'.number_format($trad->stock*$trad->share_price,2).")":'$'.number_format($trad->stock*$trad->share_price,2) }}</p>
+                    <p class="@if($trad->type == 0) text-red-600 @else text-green-600 @endif">{{ $trad->type==0?'($'.number_format(abs($trad->stock*$trad->share_price),2).")":'$'.number_format(abs($trad->stock*$trad->share_price),2) }}</p>
 
                 </div>
                 <div class="col-start-1 col-span-12 border-b border-gray-300 mb-1"></div>

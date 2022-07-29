@@ -3,15 +3,14 @@
         @if(isset($stockData) && $stockData->count() > 0)
         <div class="mx-auto px-4 py-2 md:py-12">
             <div class="grid grid-cols-12 gap-2">
-                <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
-                    <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
-                        <div class="py-2 border-b-2 border-gray-300 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="flex flex-col  bg-white sm:rounded-lg col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
+                        <div class="py-4 border-b-2 border-gray-300 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                             <div class="inline-flex items-center space-x-2 float-left">
                                 <p class="text-xl font-bold">Ignore Section</p>
                             </div>
                         </div>
                         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="w-full mb-5 overflow-hidden" style="height: 100%">
+                            <div class="w-full mb-5 overflow-y-scroll" style="height: 500px;">
                                     <div class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                         @foreach($stockData as $tl)
                                             <div class="m-2">
@@ -134,11 +133,38 @@
 
                                             </div>
                                         @endforeach
+                                            @if($hasMorePagesIgnore)
+                                                <div class="text-center">
+                                                    <div wire:loading>
+                                                        <p>Loading...</p>
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    x-data="{
+                                    observe () {
+                                        let observer = new IntersectionObserver((entries) => {
+                                            entries.forEach(entry => {
+                                                if (entry.isIntersecting) {
+                                                    @this.call('loadMoreIgnore')
+                                                }
+                                            })
+                                        }, {
+                                            root: null
+                                        })
+
+                                        observer.observe(this.$el)
+                                    }
+                                }"
+                                                    x-init="observe"
+                                                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4"
+                                                >
+                                                </div>
+                                            @endif
                                     </div>
-                                    {!! $links !!}
+{{--                                    {!! $links !!}--}}
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

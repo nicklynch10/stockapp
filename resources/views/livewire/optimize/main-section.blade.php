@@ -1,20 +1,20 @@
 <div>
     <div class="mx-auto px-4 py-2 md:py-12">
         <div class="grid grid-cols-12 gap-2">
-            <div class="flex flex-col p-8 bg-white sm:rounded-lg px-4 py-4 col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
-                <div class="-my-2 sm:-mx-6 lg:-mx-8 example">
-                    <div class="py-2 border-b-2 border-gray-300 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="flex flex-col bg-white sm:rounded-lg col-start-1 col-span-12 sm:col-span-12 xs:col-span-12 xs:col-start-2 rounded-lg">
+                <div class="">
+                    <div class="py-4 border-b-2 border-gray-300 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                         <div class="inline-flex items-center space-x-2 float-right">
-                            <select  wire:model="sortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                <option value="">Filter By Account</option>
+                            <select  wire:model="sortBy" wire:change="updateSortBy" class="shadow appearance-none border w-60 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="0">Filter By Account</option>
                                 @foreach($accounts as $account)
                                     <option value="{{$account->id}}">{{$account->account_name}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                        <div class="w-full mb-5 overflow-hidden" style="height: 100%">
+                    <div class="">
+                        <div class="w-full mb-5 overflow-y-scroll" style="height: 500px;">
 {{--                            {{dd($stockData)}}--}}
                             @if(isset($stockData) && $stockData->count() > 0)
                                 <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
@@ -182,8 +182,37 @@
                                             </div>
                                         </div>
                                     @endforeach
+                                        @if($hasMorePages)
+                                            <div class="text-center">
+                                                <div wire:loading>
+                                                    <p>Loading...</p>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                x-data="{
+                                    observe () {
+                                        let observer = new IntersectionObserver((entries) => {
+                                            entries.forEach(entry => {
+                                                if (entry.isIntersecting) {
+                                                    @this.call('loadMore')
+                                                }
+                                            })
+                                        }, {
+                                            root: null
+                                        })
+
+                                        observer.observe(this.$el)
+                                    }
+                                }"
+                                                x-init="observe"
+                                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4"
+                                            >
+                                            </div>
+                                        @endif
                                 </div>
-                                {!! $links !!}
+{{--                                {!! $links !!}--}}
+{{--                                {{$links}}--}}
                             @else
                                 <div class="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-1 lg:grid-cols-1 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">
                                     <div class="flex items-center justify-center text-gray-600 h-16 opacity-50 text-md">

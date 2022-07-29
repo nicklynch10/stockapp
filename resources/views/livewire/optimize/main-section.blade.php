@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <div class="">
-                        <div class="w-full mb-5 overflow-y-scroll" style="height: 500px;">
+                        <div class="w-full mb-5 overflow-y-scroll" style="height: 605px;">
 {{--                            {{dd($stockData)}}--}}
                             @if(isset($stockData) && $stockData->count() > 0)
                                 <div wire:init="init" class="grid grid-cols-4 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4 lg:grid-cols-4 p-2 overflow-y-auto overflow-x-hidden  w-2/4w-full ">

@@ -16,7 +16,7 @@ class CompletedSection extends Component
     public $adminUsers;
     public $hasMoreCompletedPages;
     public $completedPage = 1;
-    public $completedPerPage = 2;
+    public $completedPerPage = 8;
     public $loadingCompletedPages = false;
 
     public function mount()
